@@ -1,0 +1,25 @@
+name: CI 
+
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  first_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ‘16.x’
+      - name: npm install
+        run: npm install
+      - name: lint
+        run: npm run eslint
+       # add running unit and end-to-end tests here
