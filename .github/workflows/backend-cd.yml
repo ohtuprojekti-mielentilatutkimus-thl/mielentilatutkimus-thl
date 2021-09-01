@@ -1,4 +1,4 @@
-name: CI 
+name: CI backend
 
 on:
   push:
@@ -11,6 +11,9 @@ on:
 jobs:
   first_pipeline:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - name: checkout
         uses: actions/checkout@v2
