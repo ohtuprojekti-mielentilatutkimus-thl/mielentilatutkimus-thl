@@ -17,3 +17,15 @@ Retrovastaava:
 ## Branchaus-käytännöt
 
 Pull request?
+
+
+## Definition of Done:
+
+Yksikkötestattu
+
+Integraatiotestattu
+
+Katselmoitu
+
+Integroitu staging-palvelimella
+
