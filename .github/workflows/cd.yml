@@ -27,7 +27,6 @@ jobs:
         run: npm run lint
        # add running tests 
 
-jobs:
   frontend:
     runs-on: ubuntu-latest
     defaults:
