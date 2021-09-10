@@ -1,8 +1,23 @@
 import React from 'react'
-const App = () => (
-    <div>
-        <p>Hello world :)</p>
-    </div>
-)
+import { useState, useEffect } from 'react'
+import service from './services/service'
+
+const App = () => {
+    const [content, setContent] = useState()
+
+    useEffect(() => {
+        service.getAll().then(response => {
+            setContent(response)
+        }, [])
+    })
+
+    return (
+        <div>
+            <p>Hello world :)</p>
+            {content}
+        </div>
+    )
+}
+
 
 export default App
