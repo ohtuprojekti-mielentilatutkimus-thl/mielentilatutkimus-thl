@@ -37,7 +37,6 @@ const Form = ({ createAddmission }) => {
     const [appealedDecision, setAppealedDecision] = useState('')
 
 
-    legalGuardianEmail
 
     const handleNameChange = (event) => {
         setName(event.target.value)
