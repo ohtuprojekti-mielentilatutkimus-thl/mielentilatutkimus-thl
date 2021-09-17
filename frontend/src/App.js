@@ -1,19 +1,20 @@
 import React from 'react'
-//import { useState, useEffect } from 'react'
-//import PersonService from './services/personService.js'
+import { useState, useEffect } from 'react'
+import addmissionService from './services/addmissionService.js'
 import AddmissionForm from './components/AddmissionForm'
 
 const App = () => {
 
-    // const [addmissions, setAddmissions] = useState([])
+    const [addmissions, setAddmissions] = useState([])
 
-    /*
+
     useEffect(() => {
-        AddmissionService.getAll().then(addmission =>
-            setAddmissions(addmission)
-        )
+        addmissionService
+            .getAll().then(response => {
+                setAddmissions(response.data)
+            })
     }, [])
-*/
+
     const addmissionForm = () => (
 
         <AddmissionForm createAddmission={addNewAddmission} />
@@ -22,7 +23,14 @@ const App = () => {
 
     const addNewAddmission = async (addmissionObject) => {
 
-        console.log(addmissionObject.name)
+        try {
+            const newAddmission = await addmissionService.create(addmissionObject)
+            setAddmissions(addmissions.concat(newAddmission))
+            console.log('Lisäys onnistui')
+        }
+        catch (exception){
+            console.log(exception)
+        }
     }
 
     return (
