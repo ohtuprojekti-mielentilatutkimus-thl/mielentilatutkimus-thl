@@ -4,12 +4,37 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
+const admissionsRouter = require('./controllers/admissions')
 
-app.get('/', (req, res) => {
-    res.send('<h1>Testi</h1>')
-})
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost:27017/mielentila')
 
-const PORT = 3001
+app.use(express.json())
+//app.use(express.urlencoded({ extended: true }))
+
+app.use('/', admissionsRouter)
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Running on port ${PORT}`)
 })
+
+/*
+const Form = require('./models/form.model.js')
+
+app.get('/', async (req, res) => {
+    
+    const data = await Form.find({})
+    res.json(data.map(data => data.toJSON()))
+})
+
+app.post('/', async (req, res) => {
+    const data = req.body
+    const form = new Form({
+        hello: data.hello
+    })
+    const savedForm = await form.save()
+    res.json(savedForm.toJSON())
+})
+*/
+
