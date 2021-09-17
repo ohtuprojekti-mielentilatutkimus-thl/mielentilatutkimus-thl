@@ -2,6 +2,7 @@
 const admissionsRouter = require('express').Router()
 const Form = require('../models/form.model.js')
 
+const Mailer = require('../services/mailer.js')
 
 admissionsRouter.get('/', async (req, res) => {
     
@@ -67,6 +68,7 @@ admissionsRouter.post('/', async (req, res) => {
     })
     const savedForm = await form.save()
     res.json(savedForm.toJSON())
+    Mailer.sendConfirmation(data.sendersEmail)
 })
 
 module.exports = admissionsRouter
