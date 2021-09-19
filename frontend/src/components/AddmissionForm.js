@@ -13,13 +13,13 @@ const Form = () => {
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhonenumber, setSendersPhonenumber] = useState('')
-    const [hazardAssessment, setHazardAssessment] = useState('')
+    const [hazardAssessment, setHazardAssessment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssessment, setDatePrescribedForPsychiatricAssessment] = useState('')
     const [nativeLanguage, setNativeLanguage] = useState('')
     const [desiredLanguageOfBusiness, setDesiredLanguageOfBusiness] = useState('')
     const [municipalityOfResidence, setMunicipalityOfResidence] = useState('')
-    const [prosecuted, setProsecuted] = useState('')
+    const [prosecuted, setProsecuted] = useState(false)
     const [deadlineForProsecution, setDeadlineForProsecution] = useState('')
     const [preTrialPoliceDepartment, setPreTrialPoliceDepartment] = useState('')
     const [emailFromTheDirectorOfInvestigation, setEmailFromTheDirectorOfInvestigation] = useState('')
@@ -183,16 +183,14 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        console.log('Seuraavaksi createAdmission muuttuja admissionform tiedostosta')
+        console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
         console.log(createAddmission)
-        console.log(createAddmission.name)
-
 
         addmissionService
             .create(createAddmission)
             .then(response => {
                 console.log(response.data)
-                console.log('Toimiiko pewkele')
+                console.log('Post pyyntö ok')
             })
 
 
@@ -208,7 +206,7 @@ const Form = () => {
         setAdmissionNoteSender('')
         setSendersEmail('')
         setSendersPhonenumber('')
-        setHazardAssessment('')
+        setHazardAssessment(false)
         setDiaariNumber('')
         setDatePrescribedForPsychiatricAssessment('')
         setNativeLanguage('')
@@ -290,8 +288,8 @@ const Form = () => {
                 <h2>Mielentilatutkimuslomake:</h2>
                 <p></p>
                 <div>
-                    Halutaanko lisäksi vaarallisuusarvio: (tähän pitäisi tulla raksi-ruutuun-toiminto)
-                    <input id='setHazardAssessment' value={hazardAssessment} onChange={handleHazardAssessmentChange} />
+                    Halutaanko lisäksi vaarallisuusarvio:
+                    <input id='setHazardAssessment' type="checkbox" hazardAssessment={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
                 </div>
                 <div>
                     Diaalinumero:
@@ -314,8 +312,8 @@ const Form = () => {
                     <input id='municipalityOfResidence' value={municipalityOfResidence} onChange={handleMunicipalityOfResidenceChange} />
                 </div>
                 <div>
-                    Onko syyte nostetty: (tähän pitäisi tulla raksi-ruutuun-toiminto)
-                    <input id='prosecuted' value={prosecuted} onChange={handleProsecutedChange} />
+                    Onko syyte nostettu:
+                    <input id='prosecuted' type="checkbox" prosecuted={prosecuted} onChange={handleProsecutedChange} /> Kyllä
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:
