@@ -16,7 +16,7 @@ const App = () => {
 
     return (
       <div>
-        <h2>THL heippa</h2>
+        <h2>Lomakkeet:</h2>
           {forms.map(form =>
             <AdmissionForm key={form.id}
               form={form}
