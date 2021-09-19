@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-
-const Form = ({ createAddmission }) => {
+import addmissionService from '../services/addmissionService'
+const Form = () => {
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
     const [identificationNumber, setIdentificationNumber] = useState('')
@@ -146,7 +146,7 @@ const Form = ({ createAddmission }) => {
     const addPerson = (event) => {
         event.preventDefault()
 
-        createAddmission({
+        const createAddmission = {
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -181,7 +181,20 @@ const Form = ({ createAddmission }) => {
             legalGuardianAddress: legalGuardianAddress,
             legalGuardianInstitute: legalGuardianInstitute,
             appealedDecision: appealedDecision,
-        })
+        }
+
+        console.log('Seuraavaksi createAdmission muuttuja admissionform tiedostosta')
+        console.log(createAddmission)
+        console.log(createAddmission.name)
+
+
+        addmissionService
+            .create(createAddmission)
+            .then(response => {
+                console.log(response.data)
+                console.log('Toimiiko pewkele')
+            })
+
 
         setName('')
         setLastname('')
@@ -267,62 +280,62 @@ const Form = ({ createAddmission }) => {
                 </div>
                 <div>
                     Tutkimuspyynnön lähettäjän sähköposti:
-                    <input id='setSendersEmail' value={setSendersEmail} onChange={handleSendersEmailChange} />
+                    <input id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} />
                 </div>
                 <div>
                     Tutkimuspyynnön lähettäjän puhelinnumero:
-                    <input id='setSendersPhonenumber' value={setSendersPhonenumber} onChange={handleSendersPhonenumberChange} />
+                    <input id='setSendersPhonenumber' value={sendersPhonenumber} onChange={handleSendersPhonenumberChange} />
                 </div>
 
                 <h2>Mielentilatutkimuslomake:</h2>
                 <p></p>
                 <div>
                     Halutaanko lisäksi vaarallisuusarvio: (tähän pitäisi tulla raksi-ruutuun-toiminto)
-                    <input id='setHazardAssessment' value={setHazardAssessment} onChange={handleHazardAssessmentChange} />
+                    <input id='setHazardAssessment' value={hazardAssessment} onChange={handleHazardAssessmentChange} />
                 </div>
                 <div>
                     Diaalinumero:
-                    <input id='diaariNumber' value={setDiaariNumber} onChange={handleDiaariNumberChange} />
+                    <input id='diaariNumber' value={diaariNumber} onChange={handleDiaariNumberChange} />
                 </div>
                 <div>
                     Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:
-                    <input id='datePrescribedForPsychiatricAssessment' value={setDatePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} />
+                    <input id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} />
                 </div>
                 <div>
                     Tutkittavan äidinkieli:
-                    <input id='nativeLanguage' value={setNativeLanguage} onChange={handleNativeLanguageChange} />
+                    <input id='nativeLanguage' value={nativeLanguage} onChange={handleNativeLanguageChange} />
                 </div>
                 <div>
                     Tutkittavan toivoma asiointikieli:
-                    <input id='desiredLanguageOfBusiness' value={setDesiredLanguageOfBusiness} onChange={handleDesiredLanguageOfBusinessChange} />
+                    <input id='desiredLanguageOfBusiness' value={desiredLanguageOfBusiness} onChange={handleDesiredLanguageOfBusinessChange} />
                 </div>
                 <div>
                     Tutkittavan kotikunta:
-                    <input id='municipalityOfResidence' value={setMunicipalityOfResidence} onChange={handleMunicipalityOfResidenceChange} />
+                    <input id='municipalityOfResidence' value={municipalityOfResidence} onChange={handleMunicipalityOfResidenceChange} />
                 </div>
                 <div>
                     Onko syyte nostetty: (tähän pitäisi tulla raksi-ruutuun-toiminto)
-                    <input id='prosecuted' value={setProsecuted} onChange={handleProsecutedChange} />
+                    <input id='prosecuted' value={prosecuted} onChange={handleProsecutedChange} />
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:
-                    <input id='deadlineForProsecution' value={setDeadlineForProsecution} onChange={handleDeadlineForProsecutionChange} />
+                    <input id='deadlineForProsecution' value={deadlineForProsecution} onChange={handleDeadlineForProsecutionChange} />
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:
-                    <input id='preTrialPoliceDepartment' value={setPreTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} />
+                    <input id='preTrialPoliceDepartment' value={preTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} />
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:
-                    <input id='emailFromTheDirectorOfInvestigation' value={setEmailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} />
+                    <input id='emailFromTheDirectorOfInvestigation' value={emailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} />
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:
-                    <input id='phonenumberFromTheDirectorOfInvestigation' value={setPhonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} />
+                    <input id='phonenumberFromTheDirectorOfInvestigation' value={phonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} />
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:
-                    <input id='addressFromTheDirectorOfInvestigation' value={setAddressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} />
+                    <input id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} />
                 </div>
                 <div>
                 Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):
@@ -362,7 +375,7 @@ const Form = ({ createAddmission }) => {
                 </div>
                 <div>
                 Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
-                    <input id='setAppealedDecision' value={setAppealedDecision} onChange={handleAppealedDecisionChange} />
+                    <input id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} />
                 </div>
 
 

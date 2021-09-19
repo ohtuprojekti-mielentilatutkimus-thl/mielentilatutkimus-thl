@@ -67,6 +67,7 @@ admissionsRouter.post('/', async (req, res) => {
     })
     const savedForm = await form.save()
     res.json(savedForm.toJSON())
+    console.log('Tallennettu')
 })
 
 module.exports = admissionsRouter

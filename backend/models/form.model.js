@@ -24,7 +24,7 @@ var schema = mongoose.Schema({
     nativeLanguage: { type: String },
     desiredLanguageOfBusiness: { type: String },
     municipalityOfResidence: { type: String },
-    prosecuted: { type: Boolean },
+    prosecuted: { type: String },
     deadlineForProsecution: { type: String },
     pretrialPoliceDepartment: { type: String },
     emailFromTheDirectorOfInvestigations: { type: String },
