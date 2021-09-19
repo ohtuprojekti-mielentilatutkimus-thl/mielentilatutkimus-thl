@@ -75,8 +75,8 @@ const Form = () => {
     const handleSendersPhonenumberChange = (event) => {
         setSendersPhonenumber(event.target.value)
     }
-    const handleHazardAssessmentChange = (event) => {
-        setHazardAssessment(event.target.value)
+    const handleHazardAssessmentChange = () => {
+        setHazardAssessment(!hazardAssessment)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
@@ -93,8 +93,8 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = (event) => {
-        setProsecuted(event.target.value)
+    const handleProsecutedChange = () => {
+        setProsecuted(!prosecuted)
     }
     const handleDeadlineForProsecutionChange = (event) => {
         setDeadlineForProsecution(event.target.value)
@@ -212,7 +212,7 @@ const Form = () => {
         setNativeLanguage('')
         setDesiredLanguageOfBusiness('')
         setMunicipalityOfResidence('')
-        setProsecuted('')
+        setProsecuted(false)
         setDeadlineForProsecution('')
         setPreTrialPoliceDepartment('')
         setEmailFromTheDirectorOfInvestigation('')
