@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 app.use(express.static('build'))
 const cors = require('cors')
+const morgan = require('morgan')
 
 app.use(cors())
 
@@ -15,7 +16,7 @@ mongoose.connect('mongodb://localhost:27017/mielentila')
 app.use(express.json())
 //app.use(express.urlencoded({ extended: true }))
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(morgan(':method :url :status :response-time ms :body'))
 
 app.use('/', admissionsRouter)
 
