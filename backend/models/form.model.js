@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 var schema = mongoose.Schema({
-    hello: { type: String },
     //basic information
     admissionNoteDate: { type: Date },
     name: { type: String },

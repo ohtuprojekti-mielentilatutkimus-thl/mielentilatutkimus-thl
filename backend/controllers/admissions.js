@@ -13,12 +13,11 @@ admissionsRouter.get('/', async (req, res) => {
 
 admissionsRouter.post('/', async (req, res) => {
     const data = req.body
-    console.log('req body: ')
-    console.log(data)
-    console.log('------')
+    //console.log('req body: ')
+    //console.log(data)
+    //console.log('------')
 
     const form = new Form({
-        hello: data.hello,
         //basic information
         admissionNoteDate: data.admissionNoteDate,
         name: data.name,
