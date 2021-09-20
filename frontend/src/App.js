@@ -1,23 +1,53 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import service from './services/service'
+import addmissionService from './services/addmissionService'
+import AddmissionForm from './components/AddmissionForm'
 
 const App = () => {
-    const [content, setContent] = useState()
+
+    const [addmissions, setAddmissions] = useState([])
+
 
     useEffect(() => {
-        service.getAll().then(response => {
-            setContent(response)
-        }, [])
-    })
+        addmissionService
+            .getAll().then(response => {
+                setAddmissions(response.data)
+            })
+    }, [])
+
+    const addmissionForm = () => (
+
+        <AddmissionForm createAddmission={addNewAddmission} />
+    )
+
+
+    const addNewAddmission = async (addmissionObject) => {
+
+        addmissionService
+            .create(addmissionObject)
+            .then(response => {
+                setAddmissions(addmissions.concat(response.data))
+                console.log('App filen addnewaddmission funktiossa')
+            })
+
+        /*try {
+        const newAddmission = await addmissionService.create(addmissionObject)
+        setAddmissions(addmissions.concat(newAddmission))
+        console.log('Lisäys onnistui')
+        /*}
+        catch (exception){
+            console.log('Virhe')
+        }*/
+    }
 
     return (
+
         <div>
-            <p>Hello world :)</p>
-            {content}
+            <h2>Lisää henkilö:</h2>
+            {addmissionForm()}
+            <p></p>
         </div>
     )
 }
-
 
 export default App
