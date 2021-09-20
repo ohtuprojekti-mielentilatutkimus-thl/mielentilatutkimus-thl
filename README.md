@@ -7,7 +7,7 @@ Linkit dokumentteihin:
 * [Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1p0x6vLt4iKnx1ox4t_BIjJfagC9palWiz4syX8-ceUE/edit#gid=0)
 * [Käyttöohje](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/kayttoohje.md)
 
-## Käyttöohje
+## Asennusohje
 
 ### Repositorion lataaminen
 
