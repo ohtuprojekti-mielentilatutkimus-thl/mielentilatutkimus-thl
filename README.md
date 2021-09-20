@@ -42,9 +42,25 @@ npm start
 ```
 
 #### Tuotantoversion buildaaminen
+
+Kopioidaan frontendistä tuotantokoodi backendille. Tämä tapahtuu seuraavasti:
+
+`frontend`-kansion juuressa suorita komento
 ```
-npm build
+npm run build
 ```
+Seuraavaksi kopioidaan frontendin tuotantokoodi backendin alle komennolla:
+
+```
+cp -r build ../backend
+```
+
+Siirry kansioon `backend` ja suorita komento
+
+```
+npm start
+```
+
 
 #### Frontedin testien ajaminen
 ```
