@@ -7,7 +7,7 @@ const getAll = () => {
 }
 
 const create = personObject => {
-    console.log('Servicesissä seuraavaksi axios.postilla lisätään lomake')
+    //console.log('Servicesissä seuraavaksi axios.postilla lisätään lomake')
 
     return axios.post(baseUrl, personObject)
 

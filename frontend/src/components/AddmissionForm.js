@@ -183,14 +183,14 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
-        console.log(createAddmission)
+        //console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
+        //console.log(createAddmission)
 
         addmissionService
             .create(createAddmission)
             .then(response => {
                 console.log(response.data)
-                console.log('Post pyyntö ok')
+                //console.log('Post pyyntö ok')
             })
 
 
