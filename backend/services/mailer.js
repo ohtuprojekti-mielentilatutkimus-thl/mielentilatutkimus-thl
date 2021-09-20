@@ -1,15 +1,16 @@
+const config = require('../utils/config')
 const nodemailer = require('nodemailer')
 
 const sendConfirmation = (email) => {
     let transporter = nodemailer.createTransport({
-        host: '127.0.0.1',
-        port: 25,
+        host: config.EMAIL_SMTP,
+        port: config.EMAIL_PORT,
         secure: false,
         tls: { rejectUnauthorized: false }
     })
 
     var mailOptions = {
-        from: 'noreply@thl.nonexistent',
+        from: config.EMAIL_FROM,
         to: email,
         subject: 'Vahvistus',
         text: 'Lomake lähetetty.'
