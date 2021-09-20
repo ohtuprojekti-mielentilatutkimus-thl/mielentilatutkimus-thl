@@ -2,6 +2,7 @@
 const admissionsRouter = require('express').Router()
 const Form = require('../models/form.model.js')
 
+//const Mailer = require('../services/mailer.js')
 
 admissionsRouter.get('/', async (req, res) => {
     
@@ -67,6 +68,30 @@ admissionsRouter.post('/', async (req, res) => {
     })
     const savedForm = await form.save()
     res.json(savedForm.toJSON())
+    
+    const nodemailer = require('nodemailer')
+
+    let transporter = nodemailer.createTransport({
+        host: '127.0.0.1',
+        port: 25,
+        secure: true
+    })
+
+    var mailOptions = {
+        from: 'noreply@thl.nonexistent',
+        to: data.sendersEmail,
+        subject: 'Vahvistus',
+        text: 'Lomake lähetetty.'
+    }
+
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.log(err)
+        }
+        if (info) {
+            this.console.log(info)
+        }
+    })
 })
 
 module.exports = admissionsRouter
