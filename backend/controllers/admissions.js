@@ -17,6 +17,8 @@ admissionsRouter.post('/', async (req, res) => {
     //console.log('------')
 
     const form = new Form({
+        //old id
+        oldId: data.oldId,
         //basic information
         admissionNoteDate: data.admissionNoteDate,
         name: data.name,
@@ -67,7 +69,7 @@ admissionsRouter.post('/', async (req, res) => {
     const savedForm = await form.save()
     res.json(savedForm.toJSON())
     
-    sendConfirmation(data.sendersEmail)
+    sendConfirmation(savedForm.sendersEmail, savedForm.id)
 
 })
 

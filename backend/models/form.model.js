@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 var schema = mongoose.Schema({
     //basic information
+    oldId: { type: String },
     admissionNoteDate: { type: Date },
     name: { type: String },
     lastName: { type: String },
@@ -47,8 +48,6 @@ var schema = mongoose.Schema({
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
     imprisonmentRequirementReady: { type: Boolean }
-
-
 })
 
 schema.set('toJSON', {
