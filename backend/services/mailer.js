@@ -1,7 +1,7 @@
 const config = require('../utils/config')
 const nodemailer = require('nodemailer')
 
-const sendConfirmation = (email) => {
+const sendConfirmation = (email, id) => {
     let transporter = nodemailer.createTransport({
         host: config.EMAIL_SMTP,
         port: config.EMAIL_PORT,
@@ -13,7 +13,7 @@ const sendConfirmation = (email) => {
         from: config.EMAIL_FROM,
         to: email,
         subject: 'Vahvistus',
-        text: 'Lomake lähetetty.'
+        text: 'Tiedot vastaanotettu.\n\nLähetä muutos: ' + config.FORM_FRONTEND_URI + '?change=true&old_id=' + id
     }
 
     transporter.sendMail(mailOptions, (err, info) => {
