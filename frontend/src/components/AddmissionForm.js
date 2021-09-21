@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import addmissionService from '../services/addmissionService'
 
-const queryParams = new URLSearchParams(window.location.search)
-const old_id = queryParams.get('old_id')
 
 
 // ---> testausta
 
-const Header = () => {
+const queryParams = new URLSearchParams(window.location.search)
+const old_id = queryParams.get('old_id')
+
+
+const EditingForm = () => {
 
     const [editingMode, setEditingMode] = useState(false)
     const [oldId, setOldId] = useState('')
@@ -22,11 +24,11 @@ const Header = () => {
 
     if (editingMode) {
         return (
-            <p>TÄMÄ ON LOMAKKEEN {oldId} MUOKKAUSTILA</p>
+            <p>TÄMÄ ON: lomakkeen {oldId} muokkaustila</p>
         )
     }
     return (
-        <p>ei muokkaustila</p>
+        <p>TÄMÄ ON: ei muokkaustila</p>
     )
 }
 
@@ -278,7 +280,7 @@ const Form = () => {
     return (
 
         <div>
-            <Header/>
+            <EditingForm/>
 
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
