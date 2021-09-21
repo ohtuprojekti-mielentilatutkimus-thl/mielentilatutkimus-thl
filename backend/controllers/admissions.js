@@ -1,7 +1,7 @@
+const sendConfirmation = require('../services/mailer.js')
 
 const admissionsRouter = require('express').Router()
 const Form = require('../models/form.model.js')
-
 
 admissionsRouter.get('/', async (req, res) => {
     
@@ -12,12 +12,11 @@ admissionsRouter.get('/', async (req, res) => {
 
 admissionsRouter.post('/', async (req, res) => {
     const data = req.body
-    console.log('req body: ')
-    console.log(data)
-    console.log('------')
+    //console.log('req body: ')
+    //console.log(data)
+    //console.log('------')
 
     const form = new Form({
-        hello: data.hello,
         //basic information
         admissionNoteDate: data.admissionNoteDate,
         name: data.name,
@@ -67,7 +66,9 @@ admissionsRouter.post('/', async (req, res) => {
     })
     const savedForm = await form.save()
     res.json(savedForm.toJSON())
-    console.log('Lomake tallennettu')
+    
+    sendConfirmation(data.sendersEmail)
+
 })
 
 module.exports = admissionsRouter
