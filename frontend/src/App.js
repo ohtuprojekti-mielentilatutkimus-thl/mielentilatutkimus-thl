@@ -13,9 +13,9 @@ const App = () => {
         const [forms, setForms] = useState([])
 
         useEffect(() => {
-        addmissionService.getAll().then(response => {
-            setForms(response.data)
-          })
+            addmissionService.getAll().then(response => {
+                setForms(response.data)
+            })
         })
 
         return (
@@ -64,15 +64,15 @@ const App = () => {
         catch (exception){
             console.log('Virhe')
         }*/
-      }
+        }
 
-      return (
-          <div>
-              <h2>Lisää henkilö:</h2>
-              {addmissionForm()}
-              <p></p>
-          </div>
-      )
+        return (
+            <div>
+                <h2>Lisää henkilö:</h2>
+                {addmissionForm()}
+                <p></p>
+            </div>
+        )
     }
 
 }
