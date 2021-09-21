@@ -75,8 +75,8 @@ const Form = () => {
     const handleSendersPhonenumberChange = (event) => {
         setSendersPhonenumber(event.target.value)
     }
-    const handleHazardAssessmentChange = () => {
-        setHazardAssessment(!hazardAssessment)
+    const handleHazardAssessmentChange = (event) => {
+        setHazardAssessment(event.target.hazardAssessment)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
@@ -93,8 +93,8 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = () => {
-        setProsecuted(!prosecuted)
+    const handleProsecutedChange = (event) => {
+        setProsecuted(event.target.prosecuted)
     }
     const handleDeadlineForProsecutionChange = (event) => {
         setDeadlineForProsecution(event.target.value)
@@ -183,14 +183,14 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
-        console.log(createAddmission)
+        //console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
+        //console.log(createAddmission)
 
         addmissionService
             .create(createAddmission)
             .then(response => {
                 console.log(response.data)
-                console.log('Post pyyntö ok')
+                //console.log('Post pyyntö ok')
             })
 
 
@@ -289,7 +289,7 @@ const Form = () => {
                 <p></p>
                 <div>
                     Halutaanko lisäksi vaarallisuusarvio:
-                    <input id='setHazardAssessment' type="checkbox" hazardAssessment={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
+                    <input id='setHazardAssessment' type="checkbox" value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
                 </div>
                 <div>
                     Diaalinumero:
@@ -313,7 +313,7 @@ const Form = () => {
                 </div>
                 <div>
                     Onko syyte nostettu:
-                    <input id='prosecuted' type="checkbox" prosecuted={prosecuted} onChange={handleProsecutedChange} /> Kyllä
+                    <input id='prosecuted' type="checkbox" value={prosecuted} onChange={handleProsecutedChange} /> Kyllä
                 </div>
                 <div>
                     Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:
