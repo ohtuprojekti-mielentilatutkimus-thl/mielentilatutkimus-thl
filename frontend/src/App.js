@@ -41,7 +41,6 @@ const App = () => {
     }
 
     return (
-
         <div>
             <h2>Lisää henkilö:</h2>
             {addmissionForm()}

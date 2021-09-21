@@ -1,6 +1,42 @@
 import React, { useState } from 'react'
 import addmissionService from '../services/addmissionService'
+
+const queryParams = new URLSearchParams(window.location.search)
+const old_id = queryParams.get('old_id')
+
+
+// ---> testausta
+
+const Header = () => {
+
+    const [editingMode, setEditingMode] = useState(false)
+    const [oldId, setOldId] = useState('')
+
+    const queryParams = new URLSearchParams(window.location.search)
+    const change = queryParams.get('change')
+
+    if (change) {
+        setEditingMode(true)
+        setOldId(old_id)
+    }
+
+    if (editingMode) {
+        return (
+            <p>TÄMÄ ON LOMAKKEEN {oldId} MUOKKAUSTILA</p>
+        )
+    }
+    return (
+        <p>ei muokkaustila</p>
+    )
+}
+
+// <-- tähän asti
+
+
+
+
 const Form = () => {
+
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
     const [identificationNumber, setIdentificationNumber] = useState('')
@@ -35,7 +71,6 @@ const Form = () => {
     const [legalGuardianAddress, setLegalGuardianAddress] = useState('')
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
-
 
 
     const handleNameChange = (event) => {
@@ -228,10 +263,23 @@ const Form = () => {
         setLegalGuardianAddress('')
         setLegalGuardianInstitute('')
         setAppealedDecision('')
+
+
     }
 
+
+
+
+
+
+
+
+
     return (
+
         <div>
+            <Header/>
+
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
 
@@ -336,43 +384,43 @@ const Form = () => {
                     <input id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} />
                 </div>
                 <div>
-                Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):
+                    Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):
                     <input id='crime' value={crime} onChange={handleCrimeChange} />
                 </div>
                 <div>
-                Muut kyseessä olevat teot, joista mielentilatutkimusta pyydetään:
+                    Muut kyseessä olevat teot, joista mielentilatutkimusta pyydetään:
                     <input id='crimes' value={crimes} onChange={handleCrimesChange} />
                 </div>
                 <div>
-                Tutkittavan avustajan sähköposti:
+                    Tutkittavan avustajan sähköposti:
                     <input id='assistantsEmail' value={assistantsEmail} onChange={handleAssistantsEmailChange} />
                 </div>
                 <div>
-                Tutkittavan avustajan puhelinnumero:
+                    Tutkittavan avustajan puhelinnumero:
                     <input id='assistantsPhonenumber' value={assistantsPhonenumber} onChange={handleAssistantsPhonenumberChange} />
                 </div>
                 <div>
-                Tutkittavan avustajan osoite:
+                    Tutkittavan avustajan osoite:
                     <input id='assistantsAddress' value={assistantsAddress} onChange={handleAssistantsAddressChange} />
                 </div>
                 <div>
-                Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:
+                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:
                     <input id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} />
                 </div>
                 <div>
-                Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:
+                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:
                     <input id='legalGuardianPhonenumber' value={legalGuardianPhonenumber} onChange={handleLegalGuardianPhonenumberChange} />
                 </div>
                 <div>
-                Alaikäisen tutkittavan huoltajan/sosiaalitoimen osoite:
+                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen osoite:
                     <input id='legalGuardianAddressnumber' value={legalGuardianAddress} onChange={handleLegalGuardianAddressChange} />
                 </div>
                 <div>
-                Alaikäisen tutkittavan huoltajan/sosiaalitoimen mahdollinen laitos:
+                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen mahdollinen laitos:
                     <input id='legalGuardianInstitute' value={legalGuardianInstitute} onChange={handleLegalGuardianInstituteChange} />
                 </div>
                 <div>
-                Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
+                    Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
                     <input id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} />
                 </div>
 
