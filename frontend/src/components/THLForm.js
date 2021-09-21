@@ -34,7 +34,7 @@ const THLForm = ({ form }) => {
                     {form.address}
                 </div>
                 <div>
-                    Sijainti:  
+                    Sijainti:
                     {form.location}
                 </div>
                 <div>
@@ -53,7 +53,7 @@ const THLForm = ({ form }) => {
                     Tutkimuspyynnön lähettävä taho:
                     {form.admissionNoteSendingOrganization}
                 </div>
-                <div> 
+                <div>
                     Tutkimuspyynnön lähettävä henkilö:
                     {form.admissionNoteSender}
                 </div>
