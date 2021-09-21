@@ -6,7 +6,6 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-
 const create = (props) => {
 
     const oldId = props.old_id
