@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import addmissionService from '../services/addmissionService'
+import { useParams } from 'react-router-dom'
+import BasicInformation from './BasicInformation'
 
 
 var old_id = ''
@@ -23,6 +25,16 @@ const EditingForm = () => {
 
 
 const Form = () => {
+
+    const basicInformationId = useParams().id
+    const testSender = {
+        admissionNoteSenderOrganization: 'org',
+        admissionNoteSender: 'senderName',
+        sendersEmail: 'email@',
+        sendersPhonenumber: '123'
+    }
+    console.log('basic information id: ', basicInformationId)
+    //get basic information (of the user) from db based on ^ id
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -256,6 +268,9 @@ const Form = () => {
     return (
 
         <div>
+            {(testSender &&
+            <BasicInformation sender={testSender} />)}
+
             <EditingForm/>
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>

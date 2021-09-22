@@ -54,7 +54,7 @@ const App = () => {
                         {basicInformationForm()}
                     </div>
                 </Route>
-                <Route path='/admission_form'>
+                <Route path='/admission_form_:id'>
                     {addmissionForm()}
                     <p></p>
                 </Route>
