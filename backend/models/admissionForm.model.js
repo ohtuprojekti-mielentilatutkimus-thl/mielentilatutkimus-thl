@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-var schema = mongoose.Schema({
+var admissionSchema = mongoose.Schema({
     //basic information
-    oldId: { type: String },
+    basicInformationId: { type: String },
     admissionNoteDate: { type: Date },
     name: { type: String },
     lastName: { type: String },
@@ -12,6 +12,7 @@ var schema = mongoose.Schema({
     processAddress: { type: String },
     trustee: { type: String },
     citizenship: { type: String },
+    //oldId: { type: String },
     admissionNoteSenderOrganization: { type: String },
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
@@ -50,7 +51,7 @@ var schema = mongoose.Schema({
     imprisonmentRequirementReady: { type: Boolean }
 })
 
-schema.set('toJSON', {
+admissionSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
@@ -58,4 +59,4 @@ schema.set('toJSON', {
     }
 })
 
-module.exports = mongoose.model('admissionForm', schema)
+module.exports = mongoose.model('admissionForm', admissionSchema)
