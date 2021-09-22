@@ -1,7 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import addmissionService from './services/addmissionService'
+//import basicInformationService from './services/basicInformationService'
 import AddmissionForm from './components/AddmissionForm'
+import basicInformationForm from './components/BasicInformationForm'
+
 import {
     Switch, Route, Redirect
 } from 'react-router-dom'
@@ -23,7 +26,6 @@ const App = () => {
 
         <AddmissionForm createAddmission={addNewAddmission} />
     )
-
 
     const addNewAddmission = async (addmissionObject) => {
 
@@ -49,7 +51,7 @@ const App = () => {
             <Switch>
                 <Route path='/basic_information_form'>
                     <div>
-                        <p>käyttäjän-tiedot-sivu</p>
+                        {basicInformationForm()}
                     </div>
                 </Route>
                 <Route path='/admission_form'>
