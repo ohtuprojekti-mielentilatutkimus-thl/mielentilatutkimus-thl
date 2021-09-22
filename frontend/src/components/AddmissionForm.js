@@ -1,43 +1,62 @@
-import React, { useState } from 'react'
+import React, { /*useEffect,*/ useState } from 'react'
 import addmissionService from '../services/addmissionService'
+//import { useParams } from 'react-router-dom'
+import BasicInformation from './BasicInformation'
+//import basicInformationService from '../services/basicInformationService'
 
 
-
-// ---> testausta
-
-const queryParams = new URLSearchParams(window.location.search)
-const old_id = queryParams.get('old_id')
-
+var old_id = ''
 
 const EditingForm = () => {
 
-    const [editingMode, setEditingMode] = useState(false)
-    const [oldId, setOldId] = useState('')
-
     const queryParams = new URLSearchParams(window.location.search)
-    const change = queryParams.get('change')
+    const change = Boolean(queryParams.get('id'))
+    // console.log('old id: ', { old_id } ,' ja change on: ', { change })
 
     if (change) {
-        setEditingMode(true)
-        setOldId(old_id)
-    }
+        old_id = queryParams.get('old_id')
 
-    if (editingMode) {
         return (
-            <p>TÄMÄ ON: lomakkeen {oldId} muokkaustila</p>
+            <h1>Lomakkeen {old_id} muokkaustila</h1>
         )
-    }
-    return (
-        <p>TÄMÄ ON: ei muokkaustila</p>
+    } return (
+        <h1>Syötä henkilön tiedot:</h1>
     )
 }
 
-// <-- tähän asti
-
-
-
 
 const Form = () => {
+
+    /*
+    const basicInformationId = useParams().id
+    console.log('id', basicInformationId)
+    const [senderInfo, setSenderInfo] = useState([])
+    useEffect(() => {
+        basicInformationService.get(basicInformationId).then(res => setSenderInfo(res))
+        console.log('senderInfo: ', senderInfo)
+    }, [])
+    */
+    //SEURAAVAT TESTAUKSESSA EI TOIMI VIELÄ
+    //const queryParams = new URLSearchParams(window.location.search)
+    //const id = queryParams.get('id')
+
+    //const sender = addmissionService.get_sender_data(id)
+    /*
+    const testSender = {
+        admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
+        admissionNoteSender: sender.admissionNoteSenderOrganization,
+        sendersEmail: sender.data.admissionNoteSenderOrganization,
+        sendersPhonenumber: sender.data.sendersPhonenumber
+    }*/
+
+
+    const testSender = {
+        admissionNoteSenderOrganization: 'org',
+        admissionNoteSender: 'senderName',
+        sendersEmail: 'email@',
+        sendersPhonenumber: '123'
+    }
+
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -184,6 +203,7 @@ const Form = () => {
         event.preventDefault()
 
         const createAddmission = {
+            oldId: old_id,
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -265,23 +285,18 @@ const Form = () => {
         setLegalGuardianAddress('')
         setLegalGuardianInstitute('')
         setAppealedDecision('')
-
-
     }
-
-
-
-
-
-
-
 
 
     return (
 
         <div>
-            <EditingForm/>
 
+            {(testSender &&
+                <BasicInformation sender={testSender} />)}
+
+
+            <EditingForm/>
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
 
