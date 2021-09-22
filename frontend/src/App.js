@@ -2,6 +2,10 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import addmissionService from './services/addmissionService'
 import AddmissionForm from './components/AddmissionForm'
+import {
+    Switch, Route, Redirect
+} from 'react-router-dom'
+
 
 const App = () => {
 
@@ -42,8 +46,20 @@ const App = () => {
 
     return (
         <div>
-            {addmissionForm()}
-            <p></p>
+            <Switch>
+                <Route path='/basic_information_form'>
+                    <div>
+                        <p>käyttäjän-tiedot-sivu</p>
+                    </div>
+                </Route>
+                <Route path='/admission_form'>
+                    {addmissionForm()}
+                    <p></p>
+                </Route>
+                <Route path='/'>
+                    <Redirect to="/basic_information_form" />
+                </Route>
+            </Switch>
         </div>
     )
 }
