@@ -3,13 +3,13 @@ import basicInformationService from '../services/basicInformationService'
 
 const BasicInformationForm = () => {
 
-    const [admissionNoteSendingOrganization, setAdmissionNoteSendingOrganization] = useState('')
+    const [admissionNoteSenderOrganization, setAdmissionNoteSenderOrganization] = useState('')
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhonenumber, setSendersPhonenumber] = useState('')
 
-    const handleAdmissionNoteSendingOrganizationChange = (event) => {
-        setAdmissionNoteSendingOrganization(event.target.value)
+    const handleAdmissionNoteSenderOrganizationChange = (event) => {
+        setAdmissionNoteSenderOrganization(event.target.value)
     }
     const handleAdmissionNoteSenderChange = (event) => {
         setAdmissionNoteSender(event.target.value)
@@ -25,7 +25,7 @@ const BasicInformationForm = () => {
         event.preventDefault()
 
         const basicInformations = {
-            admissionNoteSendingOrganization: admissionNoteSendingOrganization,
+            admissionNoteSenderOrganization: admissionNoteSenderOrganization,
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
             sendersPhonenumber: sendersPhonenumber,
@@ -37,7 +37,7 @@ const BasicInformationForm = () => {
             }
             )
 
-        setAdmissionNoteSendingOrganization('')
+        setAdmissionNoteSenderOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
         setSendersPhonenumber('')
@@ -56,7 +56,7 @@ const BasicInformationForm = () => {
                 </div>
                 <div>
                 Taho:
-                    <input id='admissionNoteSendingOrganization' value={admissionNoteSendingOrganization} onChange={handleAdmissionNoteSendingOrganizationChange} />
+                    <input id='admissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} />
                 </div>
                 <div>
                 Sähköposti:

@@ -16,14 +16,14 @@ const App = () => {
 
 
     useEffect(() => {
+        /* not in use atm
         addmissionService
             .getAll().then(response => {
                 setAddmissions(response.data)
-            })
+            })*/
     }, [])
 
     const addmissionForm = () => (
-
         <AddmissionForm createAddmission={addNewAddmission} />
     )
 
@@ -54,9 +54,8 @@ const App = () => {
                         {basicInformationForm()}
                     </div>
                 </Route>
-                <Route path='/admission_form_:id'>
+                <Route path='/admission_form/:id'>
                     {addmissionForm()}
-                    <p></p>
                 </Route>
                 <Route path='/'>
                     <Redirect to="/basic_information_form" />

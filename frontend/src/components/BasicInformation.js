@@ -2,7 +2,8 @@ import React from 'react'
 
 
 const BasicInformation = ( { sender } ) => {
-
+    //sender = sender[0]
+    console.log(sender)
     return (
         <div>
             <h4>Lähettäjän tiedot</h4>
