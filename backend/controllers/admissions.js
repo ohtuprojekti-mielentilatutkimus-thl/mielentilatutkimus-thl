@@ -1,25 +1,39 @@
-const sendConfirmation = require('../services/mailer.js')
+const Mailer = require('../services/mailer.js')
 
 const admissionsRouter = require('express').Router()
-const Form = require('../models/form.model.js')
 
-admissionsRouter.get('/', async (req, res) => {
-    
-    const data = await Form.find({})
-    res.json(data.map(data => data.toJSON()))
+const AdmissionForm = require('../models/admissionForm.model.js')
+const BasicInformationForm = require('../models/basicInformationForm.model.js')
+
+admissionsRouter.get('/basic_information/:id', async (req, res) => {
+    const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
+    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
-
-admissionsRouter.post('/', async (req, res) => {
+admissionsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
-    //console.log('req body: ')
-    //console.log(data)
-    //console.log('------')
 
-    const form = new Form({
-        //old id
-        oldId: data.oldId,
+    const basicInformationForm = new BasicInformationForm({
         //basic information
+        admissionNoteSenderOrganization: data.admissionNoteSenderOrganization,
+        admissionNoteSender: data.admissionNoteSender,
+        sendersEmail: data.sendersEmail,
+        sendersPhoneNumber: data.sendersPhoneNumber,
+        sendersAddress: data.sendersAddress 
+    })
+    const savedForm = await basicInformationForm.save()
+    res.json(savedForm.toJSON())
+    
+    Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
+
+})
+
+admissionsRouter.post('/admission_form', async (req, res) => {
+    const data = req.body
+
+    const admissionForm = new AdmissionForm({
+        //basicInformation id
+        basicInformationId: data.basicInformationId,
         admissionNoteDate: data.admissionNoteDate,
         name: data.name,
         lastName: data.lastName,
@@ -29,11 +43,6 @@ admissionsRouter.post('/', async (req, res) => {
         processAddress: data.processAddress,
         trustee: data.trustee,
         citizenship: data.citizenship,
-        admissionNoteSenderOrganization: data.admissionNoteSender,
-        admissionNoteSender: data.admissionNoteSender,
-        sendersEmail: data.sendersEmail,
-        sendersPhoneNumber: data.sendersPhoneNumber,
-        sendersAddress: data.sendersAddress,
         // THL more information
         hazardAssesment: data.hazardAssesment,
         diaariNumber: data.diaariNumber,
@@ -66,10 +75,10 @@ admissionsRouter.post('/', async (req, res) => {
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
         imprisonmentRequirementReady: data.imprisonmentRequirementReady 
     })
-    const savedForm = await form.save()
+    const savedForm = await admissionForm.save()
     res.json(savedForm.toJSON())
     
-    sendConfirmation(savedForm.sendersEmail, savedForm.id)
+    Mailer.sendConfirmation(data.sendersEmail, savedForm.diaariNumber, savedForm.id)
 
 })
 
