@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { Alert } from '@material-ui/lab'
 
 const BasicInformationForm = () => {
 
@@ -9,6 +10,8 @@ const BasicInformationForm = () => {
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
+    const [message, setMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const handleAdmissionNoteSenderOrganizationChange = (event) => {
         setAdmissionNoteSenderOrganization(event.target.value)
@@ -32,12 +35,24 @@ const BasicInformationForm = () => {
             sendersEmail: sendersEmail,
             sendersPhoneNumber: sendersPhoneNumber,
         }
+
         basicInformationService
             .create(basicInformations)
             .then(response => {
                 console.log(response.data)
-            }
-            )
+                setMessage('Perustietojen lähettäminen onnistui!')
+                setTimeout(() => {
+                    setMessage(null)
+                }, 1000*7)
+            })
+            .catch(error => {
+                console.log(error)
+                setErrorMessage('Perustietojen lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000*7)
+            })
+
         setAdmissionNoteSenderOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
@@ -71,6 +86,14 @@ const BasicInformationForm = () => {
             alignItems: 'center',
             justifyContent: 'center'
         }}>
+            {(message && <Alert severity="success">
+                {message} </Alert>
+            )}
+
+            {(errorMessage && <Alert severity="error">
+                {errorMessage}</Alert>
+            )}
+
             <h2>Lähettäjän perustiedot:</h2>
             <Paper
                 className={classes.form}

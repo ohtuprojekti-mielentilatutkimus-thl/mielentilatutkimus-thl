@@ -1,4 +1,5 @@
 const config = require('../utils/config')
+const logger = require('../utils/logger')
 const nodemailer = require('nodemailer')
 
 
@@ -14,14 +15,14 @@ const sendLinkToAdmissionForm = (email, id) => {
         from: config.EMAIL_FROM,
         to: email,
         subject: 'Vahvistus',
-        text: 'Lähettäjän tiedot tallennettu.\n\nLähetä mielentilatutkimuspyyntö: ' + config.FORM_FRONTEND_URI + 'admission_form/basic_information_id=' + id
+        text: 'Lähettäjän tiedot tallennettu.\n\nLähetä mielentilatutkimuspyyntö: ' + config.FORM_FRONTEND_URI + 'admission_form/' + id
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err)
+            logger.info(err)
         }
         if (info) {
-            this.console.log(info)
+            logger.info(info)
         }
     })
 }
@@ -36,10 +37,10 @@ const sendConfirmation = (email, diaari_nro, thl_id) => {
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err)
+            logger.info(err)
         }
         if (info) {
-            this.console.log(info)
+            logger.info(info)
         }
     })
 }
