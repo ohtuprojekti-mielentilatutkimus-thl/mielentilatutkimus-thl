@@ -4,7 +4,6 @@ import addmissionService from '../services/addmissionService'
 import BasicInformation from './BasicInformation'
 //import basicInformationService from '../services/basicInformationService'
 
-
 var old_id = ''
 
 const EditingForm = () => {
@@ -286,7 +285,6 @@ const Form = () => {
         setLegalGuardianInstitute('')
         setAppealedDecision('')
     }
-
 
     return (
 
