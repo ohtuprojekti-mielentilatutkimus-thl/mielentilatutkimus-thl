@@ -90,7 +90,6 @@ const BasicInformationForm = () => {
                 {errorMessage}</Alert>
             )}
 
-            <h2>Lähettäjän perustiedot:</h2>
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -104,6 +103,7 @@ const BasicInformationForm = () => {
                     align='center'
                     justify='center'
                 >
+                    <h2>Lähettäjän perustiedot:</h2>
                     <form onSubmit={addBasicInformations}>
                         <Grid
                             container rowSpacing={2}

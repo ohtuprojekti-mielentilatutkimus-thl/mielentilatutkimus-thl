@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
+import { Paper, Grid, Button, TextField } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 /* // toiminnallisuus myöhemmälle
 var old_id = ''
@@ -30,6 +32,24 @@ const Form = () => {
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
 
+    const useStyles = makeStyles({
+        form: {
+            display: 'center',
+            background: 'white',
+            padding: '10px',
+            borderWidth: '1px',
+            width: '50%',
+            height: '50%',
+            align: 'center',
+            justifyContent: 'center'
+        },
+        labelText: {
+            fontSize: '12px',
+            fontWeight: 'bold'
+        }
+    })
+
+    const classes = useStyles()
 
     useEffect(() => {
         basicInformationService.get(basicInformationId).then(res => {
@@ -280,153 +300,175 @@ const Form = () => {
             {(sender &&
                 <BasicInformation sender={sender} />)}
 
-            <h2>Yleiset tutkittavan henkilön tiedot:</h2>
-            <p></p>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <Paper
+                    className={classes.form}
+                    variant='outlined'
+                    elevation={3}
+                    square={false}
+                    align='center'
+                    justify='center'
+                >
+                    <h2>Yleiset tutkittavan henkilön tiedot:</h2>
+                    <p></p>
+                    <form onSubmit={addPerson}>
+                        <Grid
+                            container rowSpacing={2}
+                            columnSpacing={{ xs: 2 }}
+                        >
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Etunimet:</div>
+                                <TextField id='name' value={name} onChange={handleNameChange} label='Nimi' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Sukunimi:</div>
+                                <TextField id='lastname' value={lastname} onChange={handleLastnameChange} label='Sukunimi' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Henkilötunnus:</div>
+                                <TextField id='identificationNumber' value={identificationNumber} onChange={handleIdentificationNumberChange} label='Henkilötunnus' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Kotiosoite:</div>
+                                <TextField id='address' value={address} onChange={handleAddressChange} label='Kotiosoite' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Sijainti:</div>
+                                <TextField id='location' value={location} onChange={handleLocationChange} label='Sijainti' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Prosessiosoite:</div>
+                                <TextField id='processAddress' value={processAddress} onChange={handleProcessAddressChange} label='Prosessiosoite' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Edunvalvoja:</div>
+                                <TextField id='trustee' value={trustee} onChange={handleTrusteeChange} label='Edunvalvoja' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Kansalaisuus:</div>
+                                <TextField id='citizenship' value={citizenship} onChange={handleCitizenshipChange} label='Kansalaisuus' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkimuspyynnön lähettävä taho:</div>
+                                <TextField id='admissionNoteSendingOrganization' value={admissionNoteSendingOrganization} onChange={handleAdmissionNoteSendingOrganizationChange} label='Lähettävä taho' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkimuspyynnön lähettävä henkilö:</div>
+                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Lähettävä henkilö' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkimuspyynnön lähettäjän sähköposti:</div>
+                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Lähettäjän sähköposti' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
+                                <TextField id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Lähettäjän puhelinnumero' variant='outlined' margin='normal' />
+                            </Grid>
+                        </Grid>
 
-            <form onSubmit={addPerson}>
-                <div>
-                    Etunimet:
-                    <input id='name' value={name} onChange={handleNameChange} />
-                </div>
-                <div>
-                    Sukunimi:
-                    <input id='lastname' value={lastname} onChange={handleLastnameChange} />
-                </div>
-                <div>
-                    Henkilötunnus:
-                    <input id='identificationNumber' value={identificationNumber} onChange={handleIdentificationNumberChange} />
-                </div>
-                <div>
-                    Kotiosoite:
-                    <input id='address' value={address} onChange={handleAddressChange} />
-                </div>
-                <div>
-                    Sijainti:
-                    <input id='location' value={location} onChange={handleLocationChange} />
-                </div>
-                <div>
-                    Prosessiosoite:
-                    <input id='processAddress' value={processAddress} onChange={handleProcessAddressChange} />
-                </div>
-                <div>
-                    Edunvalvoja:
-                    <input id='trustee' value={trustee} onChange={handleTrusteeChange} />
-                </div>
-                <div>
-                    Kansalaisuus:
-                    <input id='citizenship' value={citizenship} onChange={handleCitizenshipChange} />
-                </div>
-                <div>
-                    Tutkimuspyynnön lähettävä taho:
-                    <input id='admissionNoteSendingOrganization' value={admissionNoteSendingOrganization} onChange={handleAdmissionNoteSendingOrganizationChange} />
-                </div>
-                <div>
-                    Tutkimuspyynnön lähettävä henkilö:
-                    <input id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} />
-                </div>
-                <div>
-                    Tutkimuspyynnön lähettäjän sähköposti:
-                    <input id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} />
-                </div>
-                <div>
-                    Tutkimuspyynnön lähettäjän puhelinnumero:
-                    <input id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} />
-                </div>
-
-                <h2>Mielentilatutkimuslomake:</h2>
-                <p></p>
-                <div>
-                    Halutaanko lisäksi vaarallisuusarvio:
-                    <input id='setHazardAssessment' type="checkbox" value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
-                </div>
-                <div>
-                    Diaarinumero:
-                    <input id='diaariNumber' value={diaariNumber} onChange={handleDiaariNumberChange} />
-                </div>
-                <div>
-                    Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:
-                    <input id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} />
-                </div>
-                <div>
-                    Tutkittavan äidinkieli:
-                    <input id='nativeLanguage' value={nativeLanguage} onChange={handleNativeLanguageChange} />
-                </div>
-                <div>
-                    Tutkittavan toivoma asiointikieli:
-                    <input id='desiredLanguageOfBusiness' value={desiredLanguageOfBusiness} onChange={handleDesiredLanguageOfBusinessChange} />
-                </div>
-                <div>
-                    Tutkittavan kotikunta:
-                    <input id='municipalityOfResidence' value={municipalityOfResidence} onChange={handleMunicipalityOfResidenceChange} />
-                </div>
-                <div>
-                    Onko syyte nostettu:
-                    <input id='prosecuted' type="checkbox" value={prosecuted} onChange={handleProsecutedChange} /> Kyllä
-                </div>
-                <div>
-                    Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:
-                    <input id='deadlineForProsecution' value={deadlineForProsecution} onChange={handleDeadlineForProsecutionChange} />
-                </div>
-                <div>
-                    Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:
-                    <input id='preTrialPoliceDepartment' value={preTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} />
-                </div>
-                <div>
-                    Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:
-                    <input id='emailFromTheDirectorOfInvestigation' value={emailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} />
-                </div>
-                <div>
-                    Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:
-                    <input id='phonenumberFromTheDirectorOfInvestigation' value={phonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} />
-                </div>
-                <div>
-                    Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:
-                    <input id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} />
-                </div>
-                <div>
-                    Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):
-                    <input id='crime' value={crime} onChange={handleCrimeChange} />
-                </div>
-                <div>
-                    Muut kyseessä olevat teot, joista mielentilatutkimusta pyydetään:
-                    <input id='crimes' value={crimes} onChange={handleCrimesChange} />
-                </div>
-                <div>
-                    Tutkittavan avustajan sähköposti:
-                    <input id='assistantsEmail' value={assistantsEmail} onChange={handleAssistantsEmailChange} />
-                </div>
-                <div>
-                    Tutkittavan avustajan puhelinnumero:
-                    <input id='assistantsPhonenumber' value={assistantsPhonenumber} onChange={handleAssistantsPhonenumberChange} />
-                </div>
-                <div>
-                    Tutkittavan avustajan osoite:
-                    <input id='assistantsAddress' value={assistantsAddress} onChange={handleAssistantsAddressChange} />
-                </div>
-                <div>
-                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:
-                    <input id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} />
-                </div>
-                <div>
-                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:
-                    <input id='legalGuardianPhonenumber' value={legalGuardianPhonenumber} onChange={handleLegalGuardianPhonenumberChange} />
-                </div>
-                <div>
-                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen osoite:
-                    <input id='legalGuardianAddressnumber' value={legalGuardianAddress} onChange={handleLegalGuardianAddressChange} />
-                </div>
-                <div>
-                    Alaikäisen tutkittavan huoltajan/sosiaalitoimen mahdollinen laitos:
-                    <input id='legalGuardianInstitute' value={legalGuardianInstitute} onChange={handleLegalGuardianInstituteChange} />
-                </div>
-                <div>
-                    Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
-                    <input id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} />
-                </div>
-
-
-                <button id='createPersonButton' type="submit">lisää</button>
-            </form>
+                        <h2>Mielentilatutkimuslomake:</h2>
+                        <p></p>
+                        <Grid
+                            container rowSpacing={2}
+                            columnSpacing={{ xs: 2 }}
+                        >
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
+                                <input id='setHazardAssessment' type='checkbox' value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Diaarinumero:</div>
+                                <TextField id='diaariNumber' value={diaariNumber} onChange={handleDiaariNumberChange} label='Diaarinumero' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
+                                <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan äidinkieli:</div>
+                                <TextField id='nativeLanguage' value={nativeLanguage} onChange={handleNativeLanguageChange} label='Tutkittavan äidinkieli' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan toivoma asiointikieli:</div>
+                                <TextField id='desiredLanguageOfBusiness' value={desiredLanguageOfBusiness} onChange={handleDesiredLanguageOfBusinessChange} label='Tutkittavan toivoma asiointikieli' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan kotikunta:</div>
+                                <TextField id='municipalityOfResidence' value={municipalityOfResidence} onChange={handleMunicipalityOfResidenceChange} label='Tutkittavan kotikunta' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Onko syyte nostettu:</div>
+                                <input id='prosecuted' type="checkbox" value={prosecuted} onChange={handleProsecutedChange} /> Kyllä
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
+                                <TextField fullWidth id='deadlineForProsecution' value={deadlineForProsecution} onChange={handleDeadlineForProsecutionChange} label='Syytteen nostamisen määräaika' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
+                                <TextField fullWidth id='preTrialPoliceDepartment' value={preTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} label='Esitutkinnan suorittava poliisilaitos' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:</div>
+                                <TextField fullWidth id='emailFromTheDirectorOfInvestigation' value={emailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan sähköposti' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:</div>
+                                <TextField fullWidth id='phonenumberFromTheDirectorOfInvestigation' value={phonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan puhelinnumero' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:</div>
+                                <TextField fullWidth id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan osoite' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):</div>
+                                <TextField fullWidth id='crime' value={crime} onChange={handleCrimeChange} label='Vakavin teko (päätös tai välituomio)' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Muut kyseessä olevat teot, joista mielentilatutkimusta pyydetään:</div>
+                                <TextField fullWidth id='crimes' value={crimes} onChange={handleCrimesChange} label='Muut kyseessä olevat teot' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan avustajan sähköposti:</div>
+                                <TextField id='assistantsEmail' value={assistantsEmail} onChange={handleAssistantsEmailChange} label='Avustajan sähköposti' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan avustajan puhelinnumero:</div>
+                                <TextField id='assistantsPhonenumber' value={assistantsPhonenumber} onChange={handleAssistantsPhonenumberChange} label='Avustajan puhelinnumero' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Tutkittavan avustajan osoite:</div>
+                                <TextField id='assistantsAddress' value={assistantsAddress} onChange={handleAssistantsAddressChange} label='Avustajan osoite' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:</div>
+                                <TextField fullWidth id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} label='Huoltajan/sosiaalitoimen sähköposti' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:</div>
+                                <TextField fullWidth id='legalGuardianPhonenumber' value={legalGuardianPhonenumber} onChange={handleLegalGuardianPhonenumberChange} label='Huoltajan/sosiaalitoimen puhelinnumero' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen osoite:</div>
+                                <TextField fullWidth id='legalGuardianAddressnumber' value={legalGuardianAddress} onChange={handleLegalGuardianAddressChange} label='Huoltajan/sosiaalitoimen osoite' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen mahdollinen laitos:</div>
+                                <TextField fullWidth id='legalGuardianInstitute' value={legalGuardianInstitute} onChange={handleLegalGuardianInstituteChange} label='Huoltajan/sosiaalitoimen mahdollinen laitos' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.labelText}>Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:</div>
+                                <TextField fullWidth id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} label='Mihin päätökseen haettu muutosta' variant='outlined' margin='normal' />
+                            </Grid>
+                        </Grid>
+                        <Button id='createPersonButton' type="submit">lisää</Button>
+                    </form>
+                </Paper>
+            </div>
         </div>
     )
 }
