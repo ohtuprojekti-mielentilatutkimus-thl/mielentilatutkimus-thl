@@ -21,10 +21,6 @@ const App = () => {
             })*/
     }, [])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 570ff91aa0906206af3f69bacd3abdd185e40b2c
     //const [addmissions, setAddmissions] = useState([])
 
     /*try {
