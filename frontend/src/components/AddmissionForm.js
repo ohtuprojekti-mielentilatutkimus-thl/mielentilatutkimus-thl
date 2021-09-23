@@ -1,9 +1,11 @@
 import React, { /*useEffect,*/ useState } from 'react'
 import addmissionService from '../services/addmissionService'
-//import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
-//import basicInformationService from '../services/basicInformationService'
+import basicInformationService from '../services/basicInformationService'
 
+/* // toiminnallisuus myöhemmälle
 var old_id = ''
 
 const EditingForm = () => {
@@ -21,41 +23,27 @@ const EditingForm = () => {
     } return (
         <h1>Syötä henkilön tiedot:</h1>
     )
-}
-
+} */
 
 const Form = () => {
 
-    /*
     const basicInformationId = useParams().id
-    console.log('id', basicInformationId)
     const [senderInfo, setSenderInfo] = useState([])
+
+
     useEffect(() => {
-        basicInformationService.get(basicInformationId).then(res => setSenderInfo(res))
+        basicInformationService.get(basicInformationId).then(res => {
+            console.log(res)
+            setSenderInfo(res[0]) })
         console.log('senderInfo: ', senderInfo)
     }, [])
-    */
-    //SEURAAVAT TESTAUKSESSA EI TOIMI VIELÄ
-    //const queryParams = new URLSearchParams(window.location.search)
-    //const id = queryParams.get('id')
 
-    //const sender = addmissionService.get_sender_data(id)
-    /*
-    const testSender = {
-        admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
-        admissionNoteSender: sender.admissionNoteSenderOrganization,
-        sendersEmail: sender.data.admissionNoteSenderOrganization,
-        sendersPhonenumber: sender.data.sendersPhonenumber
-    }*/
-
-
-    const testSender = {
-        admissionNoteSenderOrganization: 'org',
-        admissionNoteSender: 'senderName',
-        sendersEmail: 'email@',
-        sendersPhonenumber: '123'
+    const sender = {
+        admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
+        admissionNoteSender: senderInfo.admissionNoteSender,
+        sendersEmail: senderInfo.sendersEmail,
+        sendersPhoneNumber: senderInfo.sendersPhoneNumber
     }
-
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -68,7 +56,7 @@ const Form = () => {
     const [admissionNoteSendingOrganization, setAdmissionNoteSendingOrganization] = useState('')
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
-    const [sendersPhonenumber, setSendersPhonenumber] = useState('')
+    const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
     const [hazardAssessment, setHazardAssessment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssessment, setDatePrescribedForPsychiatricAssessment] = useState('')
@@ -127,8 +115,8 @@ const Form = () => {
     const handleSendersEmailChange = (event) => {
         setSendersEmail(event.target.value)
     }
-    const handleSendersPhonenumberChange = (event) => {
-        setSendersPhonenumber(event.target.value)
+    const handleSendersPhoneNumberChange = (event) => {
+        setSendersPhoneNumber(event.target.value)
     }
     const handleHazardAssessmentChange = (event) => {
         setHazardAssessment(event.target.hazardAssessment)
@@ -202,7 +190,7 @@ const Form = () => {
         event.preventDefault()
 
         const createAddmission = {
-            oldId: old_id,
+            //  oldId: old_id,
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -214,7 +202,7 @@ const Form = () => {
             admissionNoteSendingOrganization: admissionNoteSendingOrganization,
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
-            sendersPhonenumber: sendersPhonenumber,
+            sendersPhoneNumber: sendersPhoneNumber,
             setHazardAssessment: hazardAssessment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssessment: datePrescribedForPsychiatricAssessment,
@@ -261,7 +249,7 @@ const Form = () => {
         setAdmissionNoteSendingOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
-        setSendersPhonenumber('')
+        setSendersPhoneNumber('')
         setHazardAssessment(false)
         setDiaariNumber('')
         setDatePrescribedForPsychiatricAssessment('')
@@ -289,12 +277,9 @@ const Form = () => {
     return (
 
         <div>
+            {(sender &&
+                <BasicInformation sender={sender} />)}
 
-            {(testSender &&
-                <BasicInformation sender={testSender} />)}
-
-
-            <EditingForm/>
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
 
@@ -345,7 +330,7 @@ const Form = () => {
                 </div>
                 <div>
                     Tutkimuspyynnön lähettäjän puhelinnumero:
-                    <input id='setSendersPhonenumber' value={sendersPhonenumber} onChange={handleSendersPhonenumberChange} />
+                    <input id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} />
                 </div>
 
                 <h2>Mielentilatutkimuslomake:</h2>
@@ -355,7 +340,7 @@ const Form = () => {
                     <input id='setHazardAssessment' type="checkbox" value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
                 </div>
                 <div>
-                    Diaalinumero:
+                    Diaarinumero:
                     <input id='diaariNumber' value={diaariNumber} onChange={handleDiaariNumberChange} />
                 </div>
                 <div>

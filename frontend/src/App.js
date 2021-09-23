@@ -1,7 +1,7 @@
 import React from 'react'
+import { Component } from 'react'
 import { useEffect } from 'react'
-//import basicInformationService from './services/basicInformationService'
-import addmissionForm from './components/AddmissionForm'
+import AddmissionForm from './components/AddmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import './App.css'
 
@@ -14,7 +14,7 @@ const App = () => {
 
 
     useEffect(() => {
-        /* not in use atm
+        /*not in use atm
         addmissionService
             .getAll().then(response => {
                 setAddmissions(response.data)
@@ -41,16 +41,14 @@ const App = () => {
                         {basicInformationForm()}
                     </div>
                 </Route>
-                <Route path='/admission_form/:id'>
-                    {addmissionForm()}
+                <Route path='/admission_form/:id' component={AddmissionForm}>
                 </Route>
                 <Route path='/'>
                     <Redirect to="/basic_information_form" />
                 </Route>
             </Switch>
-
         </div>
     )
 }
 
-export default App
+export default App; Component
