@@ -81,11 +81,7 @@ const BasicInformationForm = () => {
 
     return (
 
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}>
+        <div>
             {(message && <Alert severity="success">
                 {message} </Alert>
             )}
@@ -95,39 +91,45 @@ const BasicInformationForm = () => {
             )}
 
             <h2>Lähettäjän perustiedot:</h2>
-            <Paper
-                className={classes.form}
-                variant='outlined'
-                elevation={3}
-                square={false}
-                align='center'
-                justify='center'
-            >
-                <form onSubmit={addBasicInformations}>
-                    <Grid
-                        container rowSpacing={2}
-                        columnSpacing={{ xs: 2 }}
-                    >
-                        <Grid item xs={6}>
-                            <div className={classes.labelText}>Nimi:</div>
-                            <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Nimi' variant='outlined' margin='normal'/>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <Paper
+                    className={classes.form}
+                    variant='outlined'
+                    elevation={3}
+                    square={false}
+                    align='center'
+                    justify='center'
+                >
+                    <form onSubmit={addBasicInformations}>
+                        <Grid
+                            container rowSpacing={2}
+                            columnSpacing={{ xs: 2 }}
+                        >
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Nimi:</div>
+                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Nimi' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Taho:</div>
+                                <TextField id='admissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Sähköposti:</div>
+                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Sähköposti' variant='outlined' margin='normal'/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className={classes.labelText}>Puhelinnumero:</div>
+                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.labelText}>Taho:</div>
-                            <TextField id='admissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.labelText}>Sähköposti:</div>
-                            <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Sähköposti' variant='outlined' margin='normal'/>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className={classes.labelText}>Puhelinnumero:</div>
-                            <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
-                        </Grid>
-                    </Grid>
-                    <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
-                </form>
-            </Paper>
+                        <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
+                    </form>
+                </Paper>
+            </div>
         </div>
     )
 }
