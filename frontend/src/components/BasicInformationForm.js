@@ -95,7 +95,7 @@ const BasicInformationForm = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.labelText}>Puhelinnumero:</div>
-                            <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhonenumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
+                            <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
                         </Grid>
                     </Grid>
                     <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
