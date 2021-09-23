@@ -101,30 +101,6 @@ const BasicInformationForm = () => {
                     <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
                 </form>
             </Paper>
-<<<<<<< HEAD
-=======
-            <p></p>
-
-            <form onSubmit={addBasicInformations}>
-                <div>
-                Nimi:
-                    <input id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} />
-                </div>
-                <div>
-                Taho:
-                    <input id='admissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} />
-                </div>
-                <div>
-                Sähköposti:
-                    <input id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} />
-                </div>
-                <div>
-                Puhelinnumero:
-                    <input id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} />
-                </div>
-                <button id='createBasicInformationsButton' type="submit">lisää</button>
-            </form>
->>>>>>> 570ff91aa0906206af3f69bacd3abdd185e40b2c
         </div>
     )
 }
