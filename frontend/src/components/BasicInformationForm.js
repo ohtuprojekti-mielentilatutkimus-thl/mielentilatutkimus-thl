@@ -66,7 +66,11 @@ const BasicInformationForm = () => {
 
     return (
 
-        <div>
+        <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
             <h2>Lähettäjän perustiedot:</h2>
             <Paper
                 className={classes.form}
