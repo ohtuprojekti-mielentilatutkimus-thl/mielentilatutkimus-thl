@@ -48,6 +48,7 @@ const App = () => {
                     <Redirect to="/basic_information_form" />
                 </Route>
             </Switch>
+
         </div>
     )
 }

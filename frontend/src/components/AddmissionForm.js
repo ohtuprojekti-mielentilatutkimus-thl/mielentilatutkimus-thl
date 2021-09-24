@@ -4,6 +4,7 @@ import addmissionService from '../services/addmissionService'
 import BasicInformation from './BasicInformation'
 //import basicInformationService from '../services/basicInformationService'
 
+
 var old_id = ''
 
 const EditingForm = () => {
@@ -25,6 +26,7 @@ const EditingForm = () => {
 
 
 const Form = () => {
+
     /*
     const basicInformationId = useParams().id
     console.log('id', basicInformationId)
@@ -40,6 +42,7 @@ const Form = () => {
         sendersEmail: 'email@',
         sendersPhonenumber: '123'
     }
+
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -272,7 +275,9 @@ const Form = () => {
 
 
     return (
+
         <div>
+
             {(testSender &&
                 <BasicInformation sender={testSender} />)}
 

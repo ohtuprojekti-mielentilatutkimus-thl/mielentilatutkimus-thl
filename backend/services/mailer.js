@@ -1,6 +1,7 @@
 const config = require('../utils/config')
 const nodemailer = require('nodemailer')
 
+
 let transporter = nodemailer.createTransport({
     host: config.EMAIL_SMTP,
     port: config.EMAIL_PORT,
@@ -31,8 +32,8 @@ const sendConfirmation = (email, diaari_nro, thl_id) => {
         to: email,
         subject: 'Vahvistus',
         text: 'Tutkimuspyyntö vastaanotettu.\n\nLähettäjän diaarinumero: ' + diaari_nro + '\nthl_id:' + thl_id
-    }
 
+    }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
             console.log(err)
@@ -42,5 +43,6 @@ const sendConfirmation = (email, diaari_nro, thl_id) => {
         }
     })
 }
+
 
 module.exports = { sendLinkToAdmissionForm, sendConfirmation }
