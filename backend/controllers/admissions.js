@@ -11,7 +11,7 @@ const BasicInformationForm = require('../models/basicInformationForm.model.js')
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({})
     res.json(admissionForms.map((admissionform) => admissionform.toJSON()))
-  })
+})
   
 admissionsRouter.get('/basic_information/:id', async (req, res) => {
     const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
