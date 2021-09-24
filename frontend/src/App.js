@@ -1,8 +1,7 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import addmissionService from './services/addmissionService'
+import { useEffect } from 'react'
 //import basicInformationService from './services/basicInformationService'
-import AddmissionForm from './components/AddmissionForm'
+import addmissionForm from './components/AddmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 
 import {
@@ -12,7 +11,7 @@ import {
 
 const App = () => {
 
-    const [addmissions, setAddmissions] = useState([])
+
 
 
     useEffect(() => {
@@ -23,20 +22,9 @@ const App = () => {
             })*/
     }, [])
 
-    const addmissionForm = () => (
-        <AddmissionForm createAddmission={addNewAddmission} />
-    )
 
-    const addNewAddmission = async (addmissionObject) => {
 
-        addmissionService
-            .create(addmissionObject)
-            .then(response => {
-                setAddmissions(addmissions.concat(response.data))
-                console.log('App filen addnewaddmission funktiossa')
-            })
-
-        /*try {
+    /*try {
         const newAddmission = await addmissionService.create(addmissionObject)
         setAddmissions(addmissions.concat(newAddmission))
         console.log('Lisäys onnistui')
@@ -44,7 +32,6 @@ const App = () => {
         catch (exception){
             console.log('Virhe')
         }*/
-    }
 
     return (
         <div>

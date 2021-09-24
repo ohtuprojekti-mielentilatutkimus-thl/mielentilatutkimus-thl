@@ -10,6 +10,7 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
+
 admissionsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
 
@@ -19,7 +20,7 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         admissionNoteSender: data.admissionNoteSender,
         sendersEmail: data.sendersEmail,
         sendersPhoneNumber: data.sendersPhoneNumber,
-        sendersAddress: data.sendersAddress 
+        //sendersAddress: data.sendersAddress 
     })
     const savedForm = await basicInformationForm.save()
     res.json(savedForm.toJSON())

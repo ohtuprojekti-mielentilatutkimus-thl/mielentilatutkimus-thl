@@ -1,8 +1,8 @@
 import axios from 'axios'
-const baseUrl = '/basic_information'
+const baseUrl = '/basic_information_form'
 
-const create = (basicInformationObject) => {
-    return axios.post(`${baseUrl}_form`, basicInformationObject)
+const create = basicInformationObject => {
+    return axios.post(baseUrl, basicInformationObject)
 }
 
 const get = async (  id  ) => {

@@ -33,6 +33,7 @@ const BasicInformationForm = () => {
         basicInformationService
             .create(basicInformations)
             .then(response => {
+                console.log('viety bäkille')
                 console.log(response.data)
             }
             )
