@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/'
+const baseUrl = '/admission_form'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
