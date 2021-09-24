@@ -1,12 +1,11 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import React from 'react'
+import {  BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
-    <App />,
-<<<<<<< HEAD
-      document.getElementById('root')
-=======
-  document.getElementById('root')
->>>>>>> a3292d60859567013bdafa1de2b71cd12dceb4a9
+    <Router basename='/mielentilatutkimus'>
+        <App/>
+    </Router>,
+    document.getElementById('root')
 )
