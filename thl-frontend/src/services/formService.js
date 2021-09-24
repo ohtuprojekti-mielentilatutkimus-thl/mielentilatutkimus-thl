@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/admissions'
+const baseUrl = process.env.PUBLIC_URL + '/api/admissions'
 
 
 const getAll = () => {
