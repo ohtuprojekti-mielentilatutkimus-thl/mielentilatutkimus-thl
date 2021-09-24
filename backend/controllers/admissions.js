@@ -31,6 +31,14 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
 
 })
 
+//testauksessa ei toimi vielä
+/*
+admissionsRouter.get('/admission_form/basic_information/:id', async (req, res) => {
+    const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
+    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
+})*/
+
+
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
