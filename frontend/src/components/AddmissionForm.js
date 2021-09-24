@@ -10,7 +10,7 @@ var old_id = ''
 const EditingForm = () => {
 
     const queryParams = new URLSearchParams(window.location.search)
-    const change = Boolean(queryParams.get('change'))
+    const change = Boolean(queryParams.get('id'))
     // console.log('old id: ', { old_id } ,' ja change on: ', { change })
 
     if (change) {
@@ -36,6 +36,20 @@ const Form = () => {
         console.log('senderInfo: ', senderInfo)
     }, [])
     */
+    //SEURAAVAT TESTAUKSESSA EI TOIMI VIELÄ
+    //const queryParams = new URLSearchParams(window.location.search)
+    //const id = queryParams.get('id')
+
+    //const sender = addmissionService.get_sender_data(id)
+    /*
+    const testSender = {
+        admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
+        admissionNoteSender: sender.admissionNoteSenderOrganization,
+        sendersEmail: sender.data.admissionNoteSenderOrganization,
+        sendersPhonenumber: sender.data.sendersPhonenumber
+    }*/
+
+
     const testSender = {
         admissionNoteSenderOrganization: 'org',
         admissionNoteSender: 'senderName',

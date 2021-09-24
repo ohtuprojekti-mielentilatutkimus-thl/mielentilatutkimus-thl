@@ -15,6 +15,11 @@ const create = (props) => {
     //console.log('Servicesissä seuraavaksi axios.postilla lisätään lomake')
     return axios.post(baseUrl, personObject, oldId)
 }
+//EI TOIMI VIELÄ
+const get_sender_data = async (  id  ) => {
+    const request = await axios.get(`${baseUrl}/${id}`)
+    return request.data
+}
 
 /*
 const update = (props) => {
@@ -26,4 +31,4 @@ const update = (props) => {
 } */
 
 
-export default { getAll, create }
+export default { getAll, create , get_sender_data }

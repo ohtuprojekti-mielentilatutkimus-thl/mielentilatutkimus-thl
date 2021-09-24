@@ -14,7 +14,7 @@ const sendLinkToAdmissionForm = (email, id) => {
         from: config.EMAIL_FROM,
         to: email,
         subject: 'Vahvistus',
-        text: 'Lähettäjän tiedot tallennettu.\n\nLähetä mielentilatutkimuspyyntö: ' + config.FORM_FRONTEND_URI + 'admission_form?basic_information_id=' + id
+        text: 'Lähettäjän tiedot tallennettu.\n\nLähetä mielentilatutkimuspyyntö: ' + config.FORM_FRONTEND_URI + 'admission_form/basic_information_id=' + id
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
