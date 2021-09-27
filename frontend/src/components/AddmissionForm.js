@@ -341,7 +341,7 @@ const Form = () => {
                     <input id='setHazardAssessment' type="checkbox" value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
                 </div>
                 <div>
-                    Diaalinumero:
+                    Diaarinumero:
                     <input id='diaariNumber' value={diaariNumber} onChange={handleDiaariNumberChange} />
                 </div>
                 <div>
