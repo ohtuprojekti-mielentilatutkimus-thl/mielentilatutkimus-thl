@@ -6,12 +6,14 @@ const BasicInformation = ( { sender } ) => {
     console.log(sender)
     return (
         <div>
-            <h4>Lähettäjän tiedot</h4>
+            <h4>Tutkimuspyynnön lähettäjän tiedot:</h4>
             <p>
-                {sender.admissionNoteSenderOrganization} {sender.admissionNoteSender} {sender.sendersEmail} {sender.sendersPhonenumber}
+                Nimi: {sender.admissionNoteSender}
+                Organisaatio: {sender.admissionNoteSenderOrganization}
+                Sähköpsoti: {sender.sendersEmail}
+                Puhelinnumero: {sender.sendersPhonenumber}
             </p>
         </div>
     )
 }
-
 export default BasicInformation

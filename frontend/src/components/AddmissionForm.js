@@ -1,10 +1,11 @@
 import React, { /*useEffect,*/ useState } from 'react'
 import addmissionService from '../services/addmissionService'
-//import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
-//import basicInformationService from '../services/basicInformationService'
+import basicInformationService from '../services/basicInformationService'
 
-
+/* // toiminnallisuus myöhemmälle
 var old_id = ''
 
 const EditingForm = () => {
@@ -22,41 +23,27 @@ const EditingForm = () => {
     } return (
         <h1>Syötä henkilön tiedot:</h1>
     )
-}
-
+} */
 
 const Form = () => {
 
-    /*
     const basicInformationId = useParams().id
-    console.log('id', basicInformationId)
     const [senderInfo, setSenderInfo] = useState([])
+
+    console.log('Täällä oikea id: ', basicInformationId )
+
     useEffect(() => {
         basicInformationService.get(basicInformationId).then(res => setSenderInfo(res))
         console.log('senderInfo: ', senderInfo)
     }, [])
-    */
-    //SEURAAVAT TESTAUKSESSA EI TOIMI VIELÄ
-    //const queryParams = new URLSearchParams(window.location.search)
-    //const id = queryParams.get('id')
 
-    //const sender = addmissionService.get_sender_data(id)
-    /*
+    // ei toimi, vaikka senderInfossa tiedot oikein
     const testSender = {
-        admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
-        admissionNoteSender: sender.admissionNoteSenderOrganization,
-        sendersEmail: sender.data.admissionNoteSenderOrganization,
-        sendersPhonenumber: sender.data.sendersPhonenumber
-    }*/
-
-
-    const testSender = {
-        admissionNoteSenderOrganization: 'org',
-        admissionNoteSender: 'senderName',
-        sendersEmail: 'email@',
-        sendersPhonenumber: '123'
+        admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
+        admissionNoteSender: senderInfo.admissionNoteSender,
+        sendersEmail: senderInfo.sendersEmail,
+        sendersPhonenumber: senderInfo.sendersPhonenumber
     }
-
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -203,7 +190,7 @@ const Form = () => {
         event.preventDefault()
 
         const createAddmission = {
-            oldId: old_id,
+            //  oldId: old_id,
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -291,12 +278,9 @@ const Form = () => {
     return (
 
         <div>
-
             {(testSender &&
                 <BasicInformation sender={testSender} />)}
 
-
-            <EditingForm/>
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
 

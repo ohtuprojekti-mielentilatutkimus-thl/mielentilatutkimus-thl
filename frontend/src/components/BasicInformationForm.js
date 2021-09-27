@@ -37,7 +37,6 @@ const BasicInformationForm = () => {
                 console.log(response.data)
             }
             )
-
         setAdmissionNoteSenderOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
