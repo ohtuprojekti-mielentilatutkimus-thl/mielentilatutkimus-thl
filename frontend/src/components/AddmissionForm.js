@@ -30,19 +30,19 @@ const Form = () => {
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
 
-    console.log('Täällä oikea id: ', basicInformationId )
 
     useEffect(() => {
-        basicInformationService.get(basicInformationId).then(res => setSenderInfo(res))
+        basicInformationService.get(basicInformationId).then(res => {
+            console.log(res)
+            setSenderInfo(res[0]) })
         console.log('senderInfo: ', senderInfo)
     }, [])
 
-    // ei toimi, vaikka senderInfossa tiedot oikein
-    const testSender = {
+    const sender = {
         admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
         admissionNoteSender: senderInfo.admissionNoteSender,
         sendersEmail: senderInfo.sendersEmail,
-        sendersPhonenumber: senderInfo.sendersPhonenumber
+        sendersPhoneNumber: senderInfo.sendersPhoneNumber
     }
 
     const [name, setName] = useState('')
@@ -56,7 +56,7 @@ const Form = () => {
     const [admissionNoteSendingOrganization, setAdmissionNoteSendingOrganization] = useState('')
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
-    const [sendersPhonenumber, setSendersPhonenumber] = useState('')
+    const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
     const [hazardAssessment, setHazardAssessment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssessment, setDatePrescribedForPsychiatricAssessment] = useState('')
@@ -115,8 +115,8 @@ const Form = () => {
     const handleSendersEmailChange = (event) => {
         setSendersEmail(event.target.value)
     }
-    const handleSendersPhonenumberChange = (event) => {
-        setSendersPhonenumber(event.target.value)
+    const handleSendersPhoneNumberChange = (event) => {
+        setSendersPhoneNumber(event.target.value)
     }
     const handleHazardAssessmentChange = (event) => {
         setHazardAssessment(event.target.hazardAssessment)
@@ -202,7 +202,7 @@ const Form = () => {
             admissionNoteSendingOrganization: admissionNoteSendingOrganization,
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
-            sendersPhonenumber: sendersPhonenumber,
+            sendersPhoneNumber: sendersPhoneNumber,
             setHazardAssessment: hazardAssessment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssessment: datePrescribedForPsychiatricAssessment,
@@ -249,7 +249,7 @@ const Form = () => {
         setAdmissionNoteSendingOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
-        setSendersPhonenumber('')
+        setSendersPhoneNumber('')
         setHazardAssessment(false)
         setDiaariNumber('')
         setDatePrescribedForPsychiatricAssessment('')
@@ -278,8 +278,8 @@ const Form = () => {
     return (
 
         <div>
-            {(testSender &&
-                <BasicInformation sender={testSender} />)}
+            {(sender &&
+                <BasicInformation sender={sender} />)}
 
             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
             <p></p>
@@ -331,7 +331,7 @@ const Form = () => {
                 </div>
                 <div>
                     Tutkimuspyynnön lähettäjän puhelinnumero:
-                    <input id='setSendersPhonenumber' value={sendersPhonenumber} onChange={handleSendersPhonenumberChange} />
+                    <input id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} />
                 </div>
 
                 <h2>Mielentilatutkimuslomake:</h2>
