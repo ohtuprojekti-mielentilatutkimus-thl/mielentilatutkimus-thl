@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { useEffect } from 'react'
 import AddmissionForm from './components/AddmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
+import './App.css'
 
 import {
     Switch, Route, Redirect
@@ -20,9 +21,19 @@ const App = () => {
             })*/
     }, [])
 
+    //const [addmissions, setAddmissions] = useState([])
+
+    /*try {
+        const newAddmission = await addmissionService.create(addmissionObject)
+        setAddmissions(addmissions.concat(newAddmission))
+        console.log('Lisäys onnistui')
+        /*}
+        catch (exception){
+            console.log('Virhe')
+        }*/
 
     return (
-        <div>
+        <div className='app'>
             <Switch>
                 <Route path='/basic_information_form'>
                     <div>
