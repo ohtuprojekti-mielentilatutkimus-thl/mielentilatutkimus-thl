@@ -80,6 +80,7 @@ const Form = () => {
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
 
+    const [selectedAttachment1, setSelectectedAttacment1] = useState('')
 
     const handleNameChange = (event) => {
         setName(event.target.value)
@@ -185,6 +186,9 @@ const Form = () => {
         setAppealedDecision(event.target.value)
     }
 
+    const attachment1OnChange = (event) => {
+        setSelectectedAttacment1(event.target.files[0])
+    }
 
     const addPerson = (event) => {
         event.preventDefault()
@@ -423,6 +427,12 @@ const Form = () => {
                 <div>
                     Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
                     <input id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} />
+                </div>
+
+                <div>
+                    Valitse liite 1:
+                    <p>{selectedAttachment1}</p>
+                    <input type="file" name="attachment1" onChange={attachment1OnChange} />
                 </div>
 
 
