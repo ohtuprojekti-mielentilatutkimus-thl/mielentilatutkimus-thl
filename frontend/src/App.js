@@ -44,7 +44,7 @@ const App = () => {
                 <Route path='/admission_form/:id'>
                     {addmissionForm()}
                 </Route>
-                <Route path='/'>
+                <Route path='/' exact>
                     <Redirect to="/basic_information_form" />
                 </Route>
             </Switch>

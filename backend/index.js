@@ -4,6 +4,9 @@ app.use(express.static('build'))
 const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./utils/config')
+const path = require('path')
+
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')))
 
 app.use(cors())
 
