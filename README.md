@@ -30,6 +30,10 @@ Ensimmäisellä kerralla asenna backendin riippuvuudet suorittamalla komento `np
 ```
 npm start
 ```
+#### Backendin testien ajaminen
+```
+npm test
+```
 ### Tietokanta
 
 Backend käyttää tietokantana paikallisesti pyörivää Mongodb:tä. Asennusohjeet [täällä](https://docs.mongodb.com/manual/administration/install-community/).

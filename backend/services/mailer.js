@@ -1,4 +1,5 @@
 const config = require('../utils/config')
+const logger = require('../utils/logger')
 const nodemailer = require('nodemailer')
 
 
@@ -18,10 +19,10 @@ const sendLinkToAdmissionForm = (email, id) => {
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err)
+            logger.info(err)
         }
         if (info) {
-            this.console.log(info)
+            logger.info(info)
         }
     })
 }
@@ -36,10 +37,10 @@ const sendConfirmation = (email, diaari_nro, thl_id) => {
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err)
+            logger.info(err)
         }
         if (info) {
-            this.console.log(info)
+            logger.info(info)
         }
     })
 }
