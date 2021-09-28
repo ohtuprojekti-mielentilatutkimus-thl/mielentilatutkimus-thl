@@ -6,7 +6,10 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+<<<<<<< HEAD
+=======
     "axios": "^0.21.4",
+>>>>>>> a3292d60859567013bdafa1de2b71cd12dceb4a9
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -16,8 +19,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+<<<<<<< HEAD
+    "eject": "react-scripts eject"
+=======
     "eject": "react-scripts eject",
     "lint": "eslint ."
+>>>>>>> a3292d60859567013bdafa1de2b71cd12dceb4a9
   },
   "eslintConfig": {
     "extends": [
@@ -36,8 +43,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+<<<<<<< HEAD
+=======
   },
   "devDependencies": {
     "eslint-plugin-jest": "^24.4.2"
+>>>>>>> a3292d60859567013bdafa1de2b71cd12dceb4a9
   }
 }

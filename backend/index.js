@@ -4,6 +4,7 @@ app.use(express.static('build'))
 const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./utils/config')
+const path = require('path')
 
 app.use(cors())
 
@@ -21,6 +22,9 @@ app.use(express.json())
 app.use(morgan(':method :url :status :response-time ms :body'))
 
 app.use('/', admissionsRouter)
+
+// Tämän täytyy (ehkä) olla kaikkien routereiden jälkeen
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')))
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001

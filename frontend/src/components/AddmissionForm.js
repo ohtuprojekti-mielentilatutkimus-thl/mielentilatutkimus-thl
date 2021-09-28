@@ -278,7 +278,6 @@ const Form = () => {
         setAppealedDecision('')
     }
 
-
     return (
 
         <div>
