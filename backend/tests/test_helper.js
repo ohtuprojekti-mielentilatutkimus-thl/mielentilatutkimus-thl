@@ -1,7 +1,7 @@
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
-const init_admissions = {
+const admission_form_input = {
     //basicInformation id
     basicInformationId: '',
     admissionNoteDate: '',
@@ -14,13 +14,13 @@ const init_admissions = {
     trustee: '',
     citizenship: '',
     // THL more information
-    hazardAssesment: '',
+    hazardAssesment: false,
     diaariNumber: '',
     datePrescribedForPsychiatricAssesment: '',
     nativeLanguage: '',
     desiredLanguageOfBusiness: '',
     municipalityOfResidence: '',
-    prosecuted: '',
+    prosecuted: false,
     deadlineForProsecution: '',
     pretrialPoliceDepartment: '',
     emailFromTheDirectorOfInvestigations: '',
@@ -37,23 +37,21 @@ const init_admissions = {
     legalGuardianInstitute: '',
     appealedDecision: '',
     // TBD: attachments: ,
-    conclusionIsReady: '',
-    proceedingIsReady: '',
-    applicationForASummonsIsReady: '',
-    transcriptOfCriminalRecordIsReady: '',
-    preliminaryInvestigationsAttachmentsAreReady: '',
-    decisionOnDetentionIsReady: '',
-    imprisonmentRequirementReady: ''
+    conclusionIsReady: false,
+    proceedingIsReady: false,
+    applicationForASummonsIsReady: false,
+    transcriptOfCriminalRecordIsReady: false,
+    preliminaryInvestigationsAttachmentsAreReady: false,
+    decisionOnDetentionIsReady: false,
+    imprisonmentRequirementReady: false
 }
 
-const init_basics = {
-    admissionNoteSenderOrganization: '',
-    admissionNoteSender: '',
-    sendersEmail: '',
-    sendersPhoneNumber: '',
-    id: 'testID'
+const basic_information_input = {
+    admissionNoteSenderOrganization: 'org',
+    admissionNoteSender: 'sender',
+    sendersEmail: 'smth@email.yes',
+    sendersPhoneNumber: '0351254536'
 }
-
 
 const admissionsInDb = async () => {
     const admis = await AdmissionForm.find({})
@@ -66,5 +64,5 @@ const basicsInDb = async () => {
 }
 
 module.exports = {
-    init_admissions, init_basics, admissionsInDb, basicsInDb
+    admission_form_input, basic_information_input, admissionsInDb, basicsInDb
 }
