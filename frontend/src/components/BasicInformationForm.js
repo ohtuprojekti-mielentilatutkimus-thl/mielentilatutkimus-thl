@@ -117,7 +117,7 @@ const BasicInformationForm = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Taho:</div>
-                                <TextField id='admissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
+                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
                             </Grid>
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Sähköposti:</div>
