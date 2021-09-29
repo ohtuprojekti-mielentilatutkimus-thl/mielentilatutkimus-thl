@@ -1,10 +1,12 @@
 const Mailer = require('../services/mailer.js')
+const Attachment = require('../services/attachment.js')
+
+const uploadFile = require('../utils/upload.js')
 
 const admissionsRouter = require('express').Router()
 
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
-
 
 admissionsRouter.get('/basic_information/:id', async (req, res) => {
     const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
@@ -20,9 +22,7 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         admissionNoteSender: data.admissionNoteSender,
         sendersEmail: data.sendersEmail,
         sendersPhoneNumber: data.sendersPhoneNumber,
-
-        //sendersAddress: data.sendersAddress 
-
+        attachments: []
     })
     const savedForm = await basicInformationForm.save()
     res.json(savedForm.toJSON())
@@ -78,6 +78,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         legalGuardianInstitute: data.legalGuardianInstitute,
         appealedDecision: data.appealedDecision,
         // TBD: attachments: ,
+        //attachments: data.attachments,
         conclusionIsReady: data.conclusionIsReady,
         proceedingIsReady: data.proceedingIsReady,
         applicationForASummonsIsReady: data.applicationForASummonsIsReady,
@@ -91,6 +92,22 @@ admissionsRouter.post('/admission_form', async (req, res) => {
     
     Mailer.sendConfirmation(data.sendersEmail, savedForm.diaariNumber, savedForm.id)
 
+})
+
+
+admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
+    //const data = req.body
+    try {
+        await uploadFile(req, res)
+        //const data = req.body
+        console.log(req.file, req.file.buffer)
+        Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer)
+        //res.json(savedForm.toJSON())
+        res.status(200).send({ message: 'ok' })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ message: err })
+    }
 })
 
 module.exports = admissionsRouter

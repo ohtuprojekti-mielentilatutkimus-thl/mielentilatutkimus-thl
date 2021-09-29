@@ -8,10 +8,12 @@ var basicInformationSchema = mongoose.Schema({
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
     sendersPhoneNumber: { type: String },
-
-    //sendersAddress: { type: String }
-
-
+    attachments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Attachment'
+        }
+    ],
 })
 
 basicInformationSchema.set('toJSON', {
