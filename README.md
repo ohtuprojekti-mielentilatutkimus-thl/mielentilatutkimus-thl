@@ -79,3 +79,9 @@ npm test
 ```
 npm lint
 ```
+
+#### EndToEnd -testaus  
+Käynnistä sekä front- että backend ja suorita komento  
+```
+npm run cypress:open
+```
