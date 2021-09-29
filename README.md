@@ -85,3 +85,6 @@ Käynnistä sekä front- että backend ja suorita frontendissä komento
 ```
 npm run cypress:open
 ```
+#### Sähköpostivahvistukset  
+Sovelluksen lähettämät sähköpostiviestit menevät `mailDev`:in kautta osoitteeseen `localhost:1080`.
+Lisää ohjeita täällä: https://maildev.github.io/maildev/
