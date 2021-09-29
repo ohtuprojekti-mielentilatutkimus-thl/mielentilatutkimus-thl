@@ -521,7 +521,7 @@ const Form = () => {
                             columnSpacing={{ xs: 1 }}
                         >
                             <Grid item xs={12}>
-                                <Button onClick={toggleVisibility} type="submit" style={{ color: '#228B22', bordercolor: '#228B22' }} >Luo uusi pyyntö</Button>
+                                <Button onClick={toggleVisibility} type="submit" style={{ color: '#228B22', bordercolor: '#228B22' }} >Lähetä uusi pyyntö</Button>
                             </Grid>
                         </Grid>
                     </Paper>
