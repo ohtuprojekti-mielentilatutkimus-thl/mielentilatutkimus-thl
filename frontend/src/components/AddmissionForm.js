@@ -6,6 +6,7 @@ import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { Alert } from '@material-ui/lab'
 
 /* // toiminnallisuus myöhemmälle
 var old_id = ''
@@ -29,6 +30,8 @@ const EditingForm = () => {
 
 const Form = () => {
 
+    const [message, setMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
 
@@ -254,8 +257,19 @@ const Form = () => {
             .create(createAddmission)
             .then(response => {
                 console.log(response.data)
-                //console.log('Post pyyntö ok')
+                setMessage('Mielentilatutkimuspyynnön lähettäminen onnistui!')
+                setTimeout(() => {
+                    setMessage(null)
+                }, 1000*7)
             })
+            .catch(error => {
+                console.log(error)
+                setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000*7)
+            })
+
 
 
         setName('')
@@ -465,7 +479,16 @@ const Form = () => {
                                 <TextField fullWidth id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} label='Mihin päätökseen haettu muutosta' variant='outlined' margin='normal' />
                             </Grid>
                         </Grid>
+                        {(message && <Alert severity="success">
+                            {message} </Alert>
+                        )}
+
+                        {(errorMessage && <Alert severity="error">
+                            {errorMessage}</Alert>
+                        )}
                         <Button id='createPersonButton' type="submit">lisää</Button>
+                        <p></p>
+                        <p></p>
                     </form>
                 </Paper>
             </div>
