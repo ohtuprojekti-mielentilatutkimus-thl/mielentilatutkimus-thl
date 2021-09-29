@@ -4,6 +4,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
 
+const baseUrl = '/api/admissions'
+
 const api = supertest(app)
 
 const AdmissionForm = require('../models/admissionForm.model.js')
@@ -21,7 +23,7 @@ describe('when db is initialized with data', () => {
     
     test('basic information is returned as json', async () => {
         await api
-            .get('/basic_information/anything')
+            .get(baseUrl+'/basic_information/anything')
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
@@ -51,7 +53,7 @@ describe('when db is empty', () => {
         const basicInfo = helper.basic_information_input
 
         await api
-            .post('/basic_information_form')
+            .post(baseUrl+'/basic_information_form')
             .send(basicInfo)        
       
         const basicsInDb = await helper.basicsInDb()
@@ -63,7 +65,7 @@ describe('when db is empty', () => {
         const admission_form = helper.admission_form_input
 
         await api
-            .post('/admission_form')
+            .post(baseUrl+'/admission_form')
             .send(admission_form)        
       
         const admissionsInDb = await helper.admissionsInDb()

@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/basic_information'
+
+const baseUrl = process.env.NODE_ENV === 'prod' ? '/mielentilatutkimus/api/admissions/basic_information' : '/api/admissions/basic_information'
 
 const create = basicInformationObject => {
 

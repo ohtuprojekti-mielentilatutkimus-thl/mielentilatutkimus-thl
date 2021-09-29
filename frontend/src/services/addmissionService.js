@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/admission_form'
+
+const baseUrl = process.env.NODE_ENV === 'prod' ? '/mielentilatutkimus/api/admissions' : '/api/admissions'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
@@ -11,7 +12,7 @@ const create = (props) => {
     const oldId = props.old_id
     const personObject = props.personObject
     //console.log('Servicesissä seuraavaksi axios.postilla lisätään lomake')
-    return axios.post(baseUrl, personObject, oldId)
+    return axios.post(baseUrl+'/admission_form', personObject, oldId)
 }
 
 /*
