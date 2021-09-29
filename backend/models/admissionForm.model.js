@@ -41,7 +41,6 @@ var admissionSchema = mongoose.Schema({
     legalGuardianAddress: { type: String },
     legalGuardianInstitute: { type: String },
     appealedDecision: { type: String },
-    // TBD: attachments: { type: String },
     conclusionIsReady: { type: Boolean },
     proceedingIsReady: { type: Boolean },
     applicationForASummonsIsReady: { type: Boolean },

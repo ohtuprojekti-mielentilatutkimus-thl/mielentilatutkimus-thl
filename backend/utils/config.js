@@ -12,10 +12,13 @@ let EMAIL_PORT = process.env.EMAIL_PORT || 1025
 let FORM_FRONTEND_URI = env === 'prod' ? process.env.PUBLIC_URL+'/' : 'http://127.0.0.1:3001/mielentilatutkimus/'
 //let FORM_FRONTEND_URI = process.env.FORM_FRONTEND || 'http://127.0.0.1:3001/mielentilatutkimus/'
 
+let ATTACHMENT_MAX_SIZE = process.env.ATTACHMENT_MAX_SIZE || 2 * 1024 * 1024
+
 module.exports = {
     MONGODB_URI,
     EMAIL_FROM,
     EMAIL_SMTP,
     EMAIL_PORT,
-    FORM_FRONTEND_URI
+    FORM_FRONTEND_URI,
+    ATTACHMENT_MAX_SIZE
 }
