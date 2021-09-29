@@ -6,7 +6,7 @@ import basicInformationForm from './components/BasicInformationForm'
 import './App.css'
 
 import {
-    Switch, Route, Redirect
+    Switch, Route
 } from 'react-router-dom'
 
 
@@ -41,9 +41,6 @@ const App = () => {
                     </div>
                 </Route>
                 <Route path='/admission_form/:id' component={AddmissionForm}>
-                </Route>
-                <Route path='/' exact>
-                    <Redirect to="/basic_information_form" />
                 </Route>
             </Switch>
         </div>

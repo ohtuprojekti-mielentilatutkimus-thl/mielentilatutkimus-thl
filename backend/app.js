@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'test') {
     app.use(morgan(':method :url :status :response-time ms :body'))
 }
 
-app.use('/', admissionsRouter)
+app.use('/api/admissions', admissionsRouter)
 
 // Tämän täytyy (ehkä) olla kaikkien routereiden jälkeen
 app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')))
