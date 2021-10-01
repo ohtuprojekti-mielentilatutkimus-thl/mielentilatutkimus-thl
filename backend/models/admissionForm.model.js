@@ -4,6 +4,7 @@ var admissionSchema = mongoose.Schema({
     //basic information
     basicInformationId: { type: String },
     admissionNoteDate: { type: Date },
+    formSender: {type: String},
     name: { type: String },
     lastName: { type: String },
     identificationNumber: { type: String },

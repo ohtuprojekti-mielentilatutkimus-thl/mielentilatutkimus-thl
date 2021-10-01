@@ -46,6 +46,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         //basicInformation id
         basicInformationId: data.basicInformationId,
         admissionNoteDate: data.admissionNoteDate,
+        formSender : data.formSender,
         name: data.name,
         lastName: data.lastName,
         identificationNumber: data.identificationNumber,
@@ -89,8 +90,8 @@ admissionsRouter.post('/admission_form', async (req, res) => {
     })
     const savedForm = await admissionForm.save()
     res.json(savedForm.toJSON())
-    
-    Mailer.sendConfirmation(data.sendersEmail, savedForm.diaariNumber, savedForm.id)
+
+    Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
 
 })
 
