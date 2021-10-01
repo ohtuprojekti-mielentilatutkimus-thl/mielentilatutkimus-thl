@@ -68,7 +68,7 @@ const Form = () => {
             console.log(res)
             setSenderInfo(res[0])
         })
-        console.log('senderInfo: ', senderInfo)
+        console.log('senderInfo on: ', senderInfo)
     }, [])
 
     const sender = {
@@ -224,6 +224,7 @@ const Form = () => {
 
         const createAddmission = {
             //  oldId: old_id,
+            formSender: sender.sendersEmail,
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -260,8 +261,6 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        //console.log('Componentsilta serviceen lähtevän lomakkeen tiedot:')
-        //console.log(createAddmission)
 
         addmissionService
             .create(createAddmission)

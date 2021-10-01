@@ -8,12 +8,8 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-const create = (props) => {
-
-    const oldId = props.old_id
-    const personObject = props.personObject
-    //console.log('Servicesissä seuraavaksi axios.postilla lisätään lomake')
-    return axios.post(baseUrl+'/admission_form', personObject, oldId)
+const create = personObject => {
+    return axios.post(baseUrl+'/admission_form', personObject)
 }
 
 /*
