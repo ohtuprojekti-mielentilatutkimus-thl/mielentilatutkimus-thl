@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 var admissionSchema = mongoose.Schema({
     //basic information
+    formState: {type: String, default: 'Odottaa tarkistusta'},
     basicInformationId: { type: String },
     admissionNoteDate: { type: Date },
     formSender: {type: String},

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 const AdmissionForm = ({ form }) => {
 
     const [showInfo, setShowInfo] = useState(false)
+    //const [formState, setFormState] = useState('')
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -11,6 +12,12 @@ const AdmissionForm = ({ form }) => {
     const handleShowLessInfo = () => {
         setShowInfo(false)
     }
+    /*
+    const handleSetFormState = (event) => {
+        setFormState(event.target.value)
+    }*/
+
+
 
     if (showInfo) {
         return (
@@ -159,6 +166,11 @@ const AdmissionForm = ({ form }) => {
                 <a href='#' onClick={() => handleShowLessInfo()}>
                     Sulje lomake
                 </a>
+                <div>
+                  Lomakkeen tila:
+                    {form.formState}
+                </div>
+
             </div>
         )} else {
         return (
