@@ -13,15 +13,10 @@ const FormState = (form) => {
     const changeFormState = (event) => {
         event.preventDefault()
 
-        console.log(selectedOption)
-
         const updateFormState = { ...form, formState: selectedOption }
-        console.log('updated formstate muuttuja on ', updateFormState)
-        console.log(updateFormState.form.id)
 
         formService.update(updateFormState.form.id, updateFormState)
             .then(response => {
-                console.log('ollaanko täällä')
                 console.log(response.data)
             })
     }

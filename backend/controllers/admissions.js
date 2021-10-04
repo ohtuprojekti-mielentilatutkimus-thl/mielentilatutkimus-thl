@@ -92,12 +92,10 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
         imprisonmentRequirementReady: data.imprisonmentRequirementReady 
     }
-    console.log('id parametri on', req.params.id)
 
     AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
         .then(updatedForm => {
             res.json(updatedForm.toJSON())
-            console.log('muokkaus onnistui')
         })
 
   
