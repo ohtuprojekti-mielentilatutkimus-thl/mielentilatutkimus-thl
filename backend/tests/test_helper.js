@@ -5,6 +5,7 @@ const admission_form_input = {
     //basicInformation id
     basicInformationId: '',
     admissionNoteDate: '',
+    formSender: '',
     name: '',
     lastName: '',
     identificationNumber: '',
@@ -50,7 +51,8 @@ const basic_information_input = {
     admissionNoteSenderOrganization: 'org',
     admissionNoteSender: 'sender',
     sendersEmail: 'smth@email.yes',
-    sendersPhoneNumber: '0351254536'
+    sendersPhoneNumber: '0351254536',
+    attachements: []
 }
 
 const admissionsInDb = async () => {

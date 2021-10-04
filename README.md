@@ -1,4 +1,11 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 # mielentilatutkimus-thl
+
+Mielentilatutkimus-thl on Terveyden ja hyvinvoinnin laitoksen (THL) mielentilatutkimusprosessia tukeva sovellus. Sovelluksen tavoite on varmistaa kansalaisten oikeusturvan toteutuminen, varmistaa mielentilatutkimusprosessien toimivuus ja vertailtavuus, sekä mahdollistaa tapaus- ja tilastoaineistojen kertyminen tieteellisen tutkimuksen tarpeisiin. 
+
+Sovellusta toteutetaan Helsingin yliopiston aineopintojen kurssille Ohjelmistotuotantoprojekti (syksy 2021).
 
 Linkit dokumentteihin:
 
@@ -8,7 +15,7 @@ Linkit dokumentteihin:
 
 ## Dokumentaatio
 
-* [Käyttöohje](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/kayttoohje.md)
+
 * [Tekninen toteutus](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/kayttoohje.md)
 
 ## Asennusohje
@@ -20,6 +27,10 @@ Suorita terminaalissa komento:
 git clone https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/
 ```
 
+### Tietokanta
+
+Backend käyttää tietokantana paikallisesti pyörivää MongoDB:tä, joka tulee olla asennettuna sovelluksen käyttöä varten. MongoDB:n asennusohjeet löydät [täällä](https://docs.mongodb.com/manual/administration/install-community/).
+
 ### Backend
 
 > Alla olevat komennot suoritetaan `backend` kansion juuressa.
@@ -30,61 +41,76 @@ Ensimmäisellä kerralla asenna backendin riippuvuudet suorittamalla komento `np
 ```
 npm start
 ```
-#### Backendin testien ajaminen
-```
-npm test
-```
-### Tietokanta
 
-Backend käyttää tietokantana paikallisesti pyörivää Mongodb:tä. Asennusohjeet [täällä](https://docs.mongodb.com/manual/administration/install-community/).
 
 ### Frontend
 
-> Alla olevat komennot suoritetaan `frontend` kansion juuressa.
+Sovelluksessa on kaksi erillistä frontendiä, toinen on suunnattu mielentilatutkimuspyyntöä tekevälle taholle, ja toinen THL:n edustajille, jotka tarkastelevat tehtyjä mielentilatutkimuspyyntöjä. `frontend`-kansiosta löydät mielentilatutkimuspyyntöä tekevän tahon sovellusnäkymän, ja `thl-frontend`-kansiosta THL:n edustajille suunnatun näkymän.
 
-Ensimmäisellä kerralla asenna frontendin riippuvuudet suorittamalla komento `npm install`
+> Alla olevat komennot suoritetaan `frontend`- tai `thl-frontend`-kansion juuressa.
+
+Ensimmäisellä kerralla asenna frontendin riippuvuudet suorittamalla komento `npm install`. 
 
 #### Palvelimen käynnistäminen porttiin 3000
 ```
 npm start
 ```
 
+`frontend` toimii osoitteessa localhost:3000/basic_information_form.
+`thl-frontend` toimii osoitteessa localhost:3000/thl-admissions.
+
 #### Tuotantoversion buildaaminen
 
 Kopioidaan frontendistä tuotantokoodi backendille. Tämä tapahtuu seuraavasti:
 
-`frontend`-kansion juuressa suorita komento
-```
-npm run build
-```
-Seuraavaksi kopioidaan frontendin tuotantokoodi backendin alle komennolla:
+`backend`-kansion juuressa suorita komento:
 
+Mielentilatutkimuspyyntöä tekevä taho:
 ```
-cp -r build ../backend
+npm run build:ui
 ```
 
-Siirry kansioon `backend` ja suorita komento
+THL:
+```
+npm run build:thl
+```
+
+Seuraavaksi suorita komento:
 
 ```
 npm start
 ```
+### Testaus
 
+#### Backendin testien ajaminen
 
-#### Frontedin testien ajaminen
+Backendin testit suoritetaan `backend`-kansiossa komennolla:
+
 ```
 npm test
 ```
 
-#### Koodin linttaaminen
+#### Frontendien testien ajaminen
+
+Frontendien testit suoritetaan joko kansiossa `frontend` tai `thl-frontend` komennolla:
+
 ```
-npm lint
+npm test
+```
+
+#### Sovelluskoodin ESlint tarkistus
+
+Tyylitarkistuksen voi suorittaa `backend`-kansiossa komennolla:
+
+```
+npm run lint
 ```
 
 #### EndToEnd -testaus  
-Käynnistä sekä front- että backend ja suorita frontendissä komento  
+Käynnistä sekä front- että backend (npm start) ja suorita `frontend` komento:  
 ```
 npm run cypress:open
 ```
 #### Sähköpostivahvistukset  
-Sovelluksen lähettämät sähköpostiviestit menevät `mailDev`:in kautta osoitteeseen `localhost:1080`.
+Sovelluksen lähettämät sähköpostiviestit menevät tällä hetkellä `mailDev`:in kautta osoitteeseen `localhost:1080`.
 Lisää ohjeita täällä: https://maildev.github.io/maildev/
