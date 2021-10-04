@@ -61,8 +61,8 @@ const admissionsInDb = async () => {
 }
 
 const basicsInDb = async () => {
-    const admis = await BasicInformationForm.find({})
-    return admis.map(a => a.toJSON())
+    const basics = await BasicInformationForm.find({})
+    return basics.map(a => a.toJSON())
 }
 
 module.exports = {

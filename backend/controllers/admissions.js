@@ -14,7 +14,7 @@ admissionsRouter.get('/', async (req, res) => {
 })
   
 admissionsRouter.get('/basic_information/:id', async (req, res) => {
-    const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
+    const data = await BasicInformationForm.find({}).catch((err) => {console.log(err)})
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
