@@ -7,4 +7,8 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-export default { getAll }
+const update = (id, newObject) => {
+    return axios.put(`${baseUrl}/thl/${id}`, newObject)
+}
+
+export default { getAll, update }
