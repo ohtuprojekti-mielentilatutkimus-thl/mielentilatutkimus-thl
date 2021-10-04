@@ -9,7 +9,7 @@ const getAll = () => {
 }
 
 const update = (id, newObject) => {
-    return axios.put(`${baseUrl}/${id}`, newObject)
+    return axios.put(`${baseUrl}/thl/${id}`, newObject)
 }
 
 export default { getAll, update }

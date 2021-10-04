@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import formService from '../services/formService'
 
 const FormState = (form) => {
 
     const [selectedOption, setSelectedOption] = useState('')
-    const [forms, setForms] = useState('')
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
+        console.log(selectedOption)
     }
 
     const changeFormState = (event) => {
@@ -15,21 +15,11 @@ const FormState = (form) => {
 
         console.log(selectedOption)
 
-        useEffect(() => {
-            formService
-                .getAll()
-                .then(response => {
-                    setForms(response.data)
-                    console.log(forms)
-                })
+        const updateFormState = { ...form, formState: selectedOption }
+        console.log('updated formstate muuttuja on ', updateFormState)
+        console.log(updateFormState.form.id)
 
-        }, [])
-
-        const updateForm = forms.find(n => n.id === form.id)
-
-        const updateFormState = { ... updateForm, formState: selectedOption }
-
-        formService.update(form.id, updateFormState)
+        formService.update(updateFormState.form.id, updateFormState)
             .then(response => {
                 console.log('ollaanko täällä')
                 console.log(response.data)
@@ -37,49 +27,52 @@ const FormState = (form) => {
     }
 
     return (
-        <form onSubmit={changeFormState}>
-            <div className='states'>
-                <label>
-                    <input type='radio' value='Hyväksytty/Tarkastettu'
-                        checked={selectedOption === 'Hyväksytty/Tarkastettu'}
-                        onChange={handleOptionChange} />
+        <div>
+
+            <form onSubmit={changeFormState}>
+                <div className='states'>
+                    <label>
+                        <input type='radio' value='Hyväksytty/Tarkastettu'
+                            checked={selectedOption === 'Hyväksytty/Tarkastettu'}
+                            onChange={handleOptionChange} />
           Hyväksytty/Tarkastettu
-                </label>
-            </div>
-            <div className='states'>
-                <label>
-                    <input type='radio' value='Kysytään tutkimuspaikkaa'
-                        checked={selectedOption === 'Kysytään tutkimuspaikkaa'}
-                        onChange={handleOptionChange} />
+                    </label>
+                </div>
+                <div className='states'>
+                    <label>
+                        <input type='radio' value='Kysytään tutkimuspaikkaa'
+                            checked={selectedOption === 'Kysytään tutkimuspaikkaa'}
+                            onChange={handleOptionChange} />
           Kysytään tutkimuspaikkaa
-                </label>
-            </div>
-            <div className='states'>
-                <label>
-                    <input type='radio' value='Tutkimuspaikka hyväksytty'
-                        checked={selectedOption === 'Tutkimuspaikka hyväksytty'}
-                        onChange={handleOptionChange}  />
+                    </label>
+                </div>
+                <div className='states'>
+                    <label>
+                        <input type='radio' value='Tutkimuspaikka hyväksytty'
+                            checked={selectedOption === 'Tutkimuspaikka hyväksytty'}
+                            onChange={handleOptionChange}  />
           Tutkimuspaikka hyväksytty
-                </label>
-            </div>
-            <div className='states'>
-                <label>
-                    <input type='radio' value='Lausunto saapunut'
-                        checked={selectedOption === 'Lausunto saapunut'}
-                        onChange={handleOptionChange}  />
+                    </label>
+                </div>
+                <div className='states'>
+                    <label>
+                        <input type='radio' value='Lausunto saapunut'
+                            checked={selectedOption === 'Lausunto saapunut'}
+                            onChange={handleOptionChange}  />
           Lausunto saapunut
-                </label>
-            </div>
-            <div className='states'>
-                <label>
-                    <input type='radio' value='Jatkoaika hyväksytty'
-                        checked={selectedOption === 'Jatkoaika hyväksytty'}
-                        onChange={handleOptionChange} />
+                    </label>
+                </div>
+                <div className='states'>
+                    <label>
+                        <input type='radio' value='Jatkoaika hyväksytty'
+                            checked={selectedOption === 'Jatkoaika hyväksytty'}
+                            onChange={handleOptionChange} />
           Jatkoaika hyväksytty
-                </label>
-            </div>
-            <button id='updateFormState' type='submit'>Päivitä lomakkeen tila</button>
-        </form>
+                    </label>
+                </div>
+                <button id='updateFormState' type='submit'>Päivitä lomakkeen tila</button>
+            </form>
+        </div>
     )
 }
 
