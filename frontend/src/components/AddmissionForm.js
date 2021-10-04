@@ -241,6 +241,7 @@ const Form = () => {
 
         const createAddmission = {
             //  oldId: old_id,
+            formState : 'Odottaa tarkistusta',
             formSender: sender.sendersEmail,
             name: name,
             lastname: lastname,
@@ -277,6 +278,8 @@ const Form = () => {
             legalGuardianInstitute: legalGuardianInstitute,
             appealedDecision: appealedDecision,
         }
+
+        console.log('Createadmission olio on:', createAddmission)
 
 
         addmissionService
