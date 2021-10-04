@@ -35,7 +35,6 @@ const Form = () => {
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
     const [selectedFiles, setSelectedFiles] = useState(null)
-    const [currentFile, setCurrentFile] = useState(null)
 
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
@@ -75,16 +74,14 @@ const Form = () => {
     }, [])
 
     const selectFile = (event) => {
-        setSelectedFiles(event.target.files)
+        setSelectedFiles(event.target.files[0])
+        console.log(selectedFiles)
     }
 
-    const upload = () => {
-        const currFile = selectedFiles[0]
-        setCurrentFile(currFile)
-        addmissionService.upload(currentFile, basicInformationId)
-            .then((res) => {
-                console.log(res.data)
-            })
+    const upload = async () => {
+        const currFile = selectedFiles
+        console.log(typeof(currFile))
+        await addmissionService.upload(currFile, basicInformationId)
         setSelectedFiles(null)
     }
 
@@ -514,162 +511,83 @@ const Form = () => {
                             <p></p>
                         </form>
                         <h2>Liitteet</h2>
+                        <label htmlFor='valituomio'>
+                            Välituomio tai päätös mielentilatutkimukseen määräämisestä
+                            <input
+                                id='valituomio'
+                                name='valituomio'
+                                style={{ display: 'none' }}
+                                type='file'
+                                onChange={selectFile}
+                                accept='image/*,.pdf'
+                            />
+                            <button onClick={upload}>Lataa tiedosto</button>
+                        </label>
+                        <br />
                         <label htmlFor='btn-upload'>
+                            Pöytäkirja
                             <input
                                 id='btn-upload'
                                 name='btn-upload'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
+                                accept='image/*,.pdf'
                             />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Välituomio tai päätös mielentilatutkimukseen määräämisestä
-                            </Button>
+                            <button onClick={upload}>Lataa tiedosto</button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
                         <br />
                         <label htmlFor='btn-upload'>
+                            Haastehakemus
                             <input
                                 id='btn-upload'
                                 name='btn-upload'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
+                                accept='image/*,.pdf'
                             />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Pöytäkirja
-                            </Button>
+                            <button onClick={upload}>Lataa tiedosto</button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
                         <br />
                         <label htmlFor='btn-upload'>
+                            Rikosrekisteriote
                             <input
                                 id='btn-upload'
                                 name='btn-upload'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
+                                accept='image/*,.pdf'
                             />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Haastehakemus
-                            </Button>
+                            <button onClick={upload}>Lataa tiedosto</button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
                         <br />
                         <label htmlFor='btn-upload'>
+                            Esitutkintapöytäkirja liitteineen
                             <input
                                 id='btn-upload'
                                 name='btn-upload'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
+                                accept='image/*,.pdf'
                             />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Rikosrekisteriote
-                            </Button>
+                            <button onClick={upload}>Lataa tiedosto</button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
                         <br />
                         <label htmlFor='btn-upload'>
+                            Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
                             <input
                                 id='btn-upload'
                                 name='btn-upload'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
+                                accept='image/*,.pdf'
                             />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Esitutkintapöytäkirja liitteineen
-                            </Button>
+                            <button onClick={upload}>Lataa tiedosto</button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
-                        <br />
-                        <label htmlFor='btn-upload'>
-                            <input
-                                id='btn-upload'
-                                name='btn-upload'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'
-                            >
-                                Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
-                            </Button>
-                        </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                            Lataa tiedosto
-                        </Button>
-                        <br />
                     </Paper>
                 </div>
             </div>
