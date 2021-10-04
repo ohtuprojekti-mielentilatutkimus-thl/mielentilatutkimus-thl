@@ -4,7 +4,12 @@ const baseUrl = process.env.PUBLIC_URL + '/api/admissions'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
+    console.log('servicessä')
     return request.then(response => response.data)
 }
 
-export default { getAll }
+const update = (id, newObject) => {
+    return axios.put(`${baseUrl}/${id}`, newObject)
+}
+
+export default { getAll, update }

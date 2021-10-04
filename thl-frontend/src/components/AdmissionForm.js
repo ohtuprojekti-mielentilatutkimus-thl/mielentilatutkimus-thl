@@ -1,4 +1,87 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import formService from '../services/formService'
+
+const FormState = (form) => {
+
+    const [selectedOption, setSelectedOption] = useState('')
+    const [forms, setForms] = useState('')
+
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value)
+    }
+
+    const changeFormState = (event) => {
+        event.preventDefault()
+
+        console.log(selectedOption)
+
+        useEffect(() => {
+            formService
+                .getAll()
+                .then(response => {
+                    setForms(response.data)
+                    console.log(forms)
+                })
+
+        }, [])
+
+        const updateForm = forms.find(n => n.id === form.id)
+
+        const updateFormState = { ... updateForm, formState: selectedOption }
+
+        formService.update(form.id, updateFormState)
+            .then(response => {
+                console.log('ollaanko täällä')
+                console.log(response.data)
+            })
+    }
+
+    return (
+        <form onSubmit={changeFormState}>
+            <div className='states'>
+                <label>
+                    <input type='radio' value='Hyväksytty/Tarkastettu'
+                        checked={selectedOption === 'Hyväksytty/Tarkastettu'}
+                        onChange={handleOptionChange} />
+          Hyväksytty/Tarkastettu
+                </label>
+            </div>
+            <div className='states'>
+                <label>
+                    <input type='radio' value='Kysytään tutkimuspaikkaa'
+                        checked={selectedOption === 'Kysytään tutkimuspaikkaa'}
+                        onChange={handleOptionChange} />
+          Kysytään tutkimuspaikkaa
+                </label>
+            </div>
+            <div className='states'>
+                <label>
+                    <input type='radio' value='Tutkimuspaikka hyväksytty'
+                        checked={selectedOption === 'Tutkimuspaikka hyväksytty'}
+                        onChange={handleOptionChange}  />
+          Tutkimuspaikka hyväksytty
+                </label>
+            </div>
+            <div className='states'>
+                <label>
+                    <input type='radio' value='Lausunto saapunut'
+                        checked={selectedOption === 'Lausunto saapunut'}
+                        onChange={handleOptionChange}  />
+          Lausunto saapunut
+                </label>
+            </div>
+            <div className='states'>
+                <label>
+                    <input type='radio' value='Jatkoaika hyväksytty'
+                        checked={selectedOption === 'Jatkoaika hyväksytty'}
+                        onChange={handleOptionChange} />
+          Jatkoaika hyväksytty
+                </label>
+            </div>
+            <button id='updateFormState' type='submit'>Päivitä lomakkeen tila</button>
+        </form>
+    )
+}
 
 const AdmissionForm = ({ form }) => {
 
@@ -22,6 +105,12 @@ const AdmissionForm = ({ form }) => {
     if (showInfo) {
         return (
             <div>
+                <h1>Lomake: {form.id}</h1>
+                <div>
+                  Lomakkeen tila:
+                    {form.formState}
+                </div>
+                <FormState form={form}/>
                 <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                 <br />
                 <div>
@@ -166,10 +255,6 @@ const AdmissionForm = ({ form }) => {
                 <a href='#' onClick={() => handleShowLessInfo()}>
                     Sulje lomake
                 </a>
-                <div>
-                  Lomakkeen tila:
-                    {form.formState}
-                </div>
 
             </div>
         )} else {
@@ -180,6 +265,11 @@ const AdmissionForm = ({ form }) => {
                 <a href='#' onClick={() => handleShowMoreInfo()}>
                     Avaa lomake
                 </a>
+                <div>
+                  Lomakkeen tila:
+                    {form.formState}
+                </div>
+                <FormState form={form}/>
             </div>
         )
     }
