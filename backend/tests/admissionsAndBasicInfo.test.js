@@ -91,7 +91,7 @@ describe('when db is empty', () => {
         expect(basicsInDb).toHaveLength(1)
     })
     
-    test('admission form can be saved to database', async () => {
+    test('admission form can be saved to database with POST', async () => {
         const admission_form = helper.admission_form_input
 
         await api
