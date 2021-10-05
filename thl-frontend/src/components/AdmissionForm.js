@@ -240,7 +240,7 @@ const AdmissionForm = ({ form }) => {
                     Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:
                     {form.appealedDecision}
                 </div>
-                <a href='#' onClick={() => handleShowLessInfo()}>
+                <a href='#' id='handleShowLessInfo' onClick={() => handleShowLessInfo()}>
                     Sulje lomake
                 </a>
 
@@ -250,7 +250,7 @@ const AdmissionForm = ({ form }) => {
             <div>
                 Id:
                 {form.id}
-                <a href='#' onClick={() => handleShowMoreInfo()}>
+                <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
                     Avaa lomake
                 </a>
                 <div>
