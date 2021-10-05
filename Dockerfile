@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:16-alpine
 
 ARG PUBLIC_URL
 ENV PUBLIC_URL=$PUBLIC_URL
