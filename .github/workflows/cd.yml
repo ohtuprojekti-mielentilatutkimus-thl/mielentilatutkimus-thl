@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - backendTestsToWorkflow
   pull_request:
     branches: 
       - main
