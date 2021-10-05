@@ -14,18 +14,27 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    strategy:
+      matrix:
+        node-version: [12.x]
+        mongodb-version: ['5.0.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: ${{ matrix.node-version }}
       - name: npm install
         run: npm install
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: Run the tests
+        run: npm test
       - name: lint
         run: npm run lint
-       # add running tests 
 
   frontend:
     runs-on: ubuntu-latest
