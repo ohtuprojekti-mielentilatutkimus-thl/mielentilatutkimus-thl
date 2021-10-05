@@ -12,6 +12,17 @@ const create = personObject => {
     return axios.post(baseUrl+'/admission_form', personObject)
 }
 
+const upload = (file, id) => {
+    const formData = new FormData()
+    console.log(file)
+    formData.append('file', file)
+    const res = axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    })
+    return res.data
+}
 /*
 const update = (props) => {
 
@@ -21,4 +32,4 @@ const update = (props) => {
 } */
 
 
-export default { getAll, create }
+export default { getAll, create, upload }
