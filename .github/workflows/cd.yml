@@ -55,10 +55,15 @@ jobs:
         run: npm run lint
       - name: build
         run: npm run build
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
       - name: cypress e2e tests
         uses: cypress-io/github-action@v2
         with: 
           working-directory: frontend
+          command: npm run cypress:run
           start: npm run cypress:build
           wait-on: http://localhost:3001
 
