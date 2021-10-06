@@ -90,8 +90,6 @@ jobs:
             node-version: '16.x'
         - name: npm install
           run: npm ci && cd ../backend && npm ci && cd ../thl-frontend
-        - name: lint
-          run: npm run lint
         - name: build
           run: npm run build
         - name: Start MongoDB
