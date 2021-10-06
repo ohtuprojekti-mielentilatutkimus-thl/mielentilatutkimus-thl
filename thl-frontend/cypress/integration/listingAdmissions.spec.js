@@ -29,7 +29,7 @@ describe('Admissions can be viewed', () => {
 
     it('Admission can be viewed', function () {
 
-        cy.visit('http://localhost:3001/thl-admissions')
+        cy.visit('http://localhost:3002/mielentilatutkimus/thl-admissions')
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
