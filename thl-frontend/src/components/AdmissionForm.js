@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
 
+
 const FormState = (form) => {
 
     const [selectedOption, setSelectedOption] = useState('')
+    const [newOption, setNewOption] = useState(form.formState)
+
+    console.log('state: ', form.formState)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -17,12 +21,14 @@ const FormState = (form) => {
 
         formService.update(updateFormState.form.id, updateFormState)
             .then(response => {
+                setNewOption(selectedOption)
                 console.log(response.data)
             })
     }
 
     return (
         <div>
+            <p>Lomakkeen tila: {newOption} </p>
 
             <form onSubmit={changeFormState}>
                 <div className='states'>
@@ -94,11 +100,8 @@ const AdmissionForm = ({ form }) => {
         return (
             <div>
                 <h1>Lomake: {form.id}</h1>
-                <div>
-                  Lomakkeen tila:
-                    {form.formState}
-                </div>
-                <FormState form={form}/>
+                <p></p>
+                <FormState form={form} formState={form.formState}/>
                 <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                 <br />
                 <div>
@@ -254,10 +257,10 @@ const AdmissionForm = ({ form }) => {
                     Avaa lomake
                 </a>
                 <div>
-                  Lomakkeen tila:
-                    {form.formState}
                 </div>
-                <FormState form={form}/>
+                <FormState form={form} formState={form.formState}/>
+                <p>
+                </p>
             </div>
         )
     }
