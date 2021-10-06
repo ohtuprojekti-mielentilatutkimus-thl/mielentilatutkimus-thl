@@ -54,8 +54,12 @@ jobs:
         run: npm run lint
       - name: build
         run: npm run build
-       # add running tests
-
+      - name: cypress e2e tests
+        uses: cypress-io/github-action@v2
+        with: 
+          working-directory: frontend
+          start: npm run cypress:build
+          wait-on: http://localhost:3001
 
 
 
