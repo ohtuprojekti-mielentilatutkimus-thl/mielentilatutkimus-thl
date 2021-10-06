@@ -99,6 +99,6 @@ jobs:
         - name: cypress e2e tests
           uses: cypress-io/github-action@v2
           with: 
-            working-directory: frontend
+            working-directory: thl-frontend
             start: npm start, npm run start:cypress --prefix ../backend/
             wait-on: http://localhost:3002
