@@ -1,12 +1,14 @@
 const express = require('express')
 const app = express()
-app.use(express.static('build'))
 const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./utils/config')
 const path = require('path')
 
 app.use(cors())
+
+app.use('/thl', express.static('builds/thl/build'))
+app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build'))
 
 morgan.token('body', function (req) { return JSON.stringify(req.body) })
 
@@ -31,6 +33,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.use('/api/admissions', admissionsRouter)
 
 // Tämän täytyy (ehkä) olla kaikkien routereiden jälkeen
-app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')))
+app.get('/thl/*', (req, res) => res.sendFile(path.resolve('builds', 'thl', 'build', 'index.html')))
+app.get('/mielentilatutkimus/*', (req, res) => res.sendFile(path.resolve('builds', 'mielentilatutkimus', 'build', 'index.html')))
 
 module.exports = app
