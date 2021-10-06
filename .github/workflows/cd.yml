@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - cypressToWorkflow
   pull_request:
     branches: 
       - main
