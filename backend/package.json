@@ -18,6 +18,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "maildev": "^1.1.0",
     "mongoose": "^6.0.5",
@@ -26,7 +27,6 @@
     "nodemailer": "^6.6.3"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "jest": "^27.2.2",
     "supertest": "^6.1.6"
