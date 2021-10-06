@@ -2,7 +2,7 @@
 
 describe('Basic Information View', function() {
     beforeEach(function() {
-        cy.visit('http://localhost:3001/mielentilatutkimus/basic_information_form')
+        cy.visit('http://localhost:3000/mielentilatutkimus/basic_information_form')
     })
 
     it('Basic information page can be opened', function() {
