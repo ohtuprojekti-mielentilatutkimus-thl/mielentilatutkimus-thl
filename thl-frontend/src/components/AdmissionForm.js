@@ -3,9 +3,13 @@ import formService from '../services/formService'
 import { Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
+
 const FormState = (form) => {
 
     const [selectedOption, setSelectedOption] = useState('')
+    const [newOption, setNewOption] = useState(form.formState)
+
+    console.log('state: ', form.formState)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -19,12 +23,18 @@ const FormState = (form) => {
 
         formService.update(updateFormState.form.id, updateFormState)
             .then(response => {
+                setNewOption(selectedOption)
                 console.log(response.data)
             })
     }
 
     return (
         <div>
+<<<<<<< HEAD
+=======
+            <p>Lomakkeen tila: {newOption} </p>
+
+>>>>>>> d30db052b38b1e6e9888f1868f9752f4651d6109
             <form onSubmit={changeFormState}>
                 <div className='states'>
                     <label>
@@ -291,14 +301,14 @@ const AdmissionForm = ({ form }) => {
             <div>
                 Id:
                 {form.id}
-                <a href='#' onClick={() => handleShowMoreInfo()}>
+                <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
                     Avaa lomake
                 </a>
                 <div>
-                  Lomakkeen tila:
-                    {form.formState}
                 </div>
-                <FormState form={form}/>
+                <FormState form={form} formState={form.formState}/>
+                <p>
+                </p>
             </div>
         )
     }

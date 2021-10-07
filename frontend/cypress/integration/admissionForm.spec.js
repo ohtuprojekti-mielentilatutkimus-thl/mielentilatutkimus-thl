@@ -2,7 +2,7 @@
 describe('Send Admission Form', function() {
 
     it('Post basic information form to get the id', function(){
-        cy.request('POST', 'http://localhost:3001/api/admissions/basic_information_form', {
+        cy.request('POST', 'http://localhost:3000/api/admissions/basic_information_form', {
             admissionNoteSender: 'Sampo',
             admissionNoteSenderOrganization: 'Organisaatio',
             sendersEmail: 'postia@sampolle.fi',
@@ -12,7 +12,7 @@ describe('Send Admission Form', function() {
             const sender_id = localStorage.sender_id
             const senders_id = sender_id.replace(/['"]+/g,'')
 
-            cy.visit(`http://localhost:3001/admission_form/${senders_id}`)
+            cy.visit(`http://localhost:3000/admission_form/${senders_id}`)
             cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
 

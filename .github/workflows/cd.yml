@@ -8,30 +8,45 @@ on:
     branches: 
       - main
 
+  workflow_dispatch:
+
 jobs:
   backend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
+    strategy:
+      matrix:
+        node-version: [12.x]
+        mongodb-version: ['5.0.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: ${{ matrix.node-version }}
       - name: npm install
         run: npm install
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: Run the tests
+        run: npm test
       - name: lint
         run: npm run lint
-       # add running tests 
 
   frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
+    strategy:
+      matrix:
+        node-version: [12.x]
+        mongodb-version: ['5.0.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -40,14 +55,20 @@ jobs:
         with:
           node-version: '16.x'
       - name: npm install
-        run: npm install
+        run: npm ci && cd ../backend && npm ci && cd ../frontend
       - name: lint
         run: npm run lint
       - name: build
         run: npm run build
-       # add running tests
-
-
-
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: cypress e2e tests
+        uses: cypress-io/github-action@v2
+        with: 
+          working-directory: frontend
+          start: npm start, npm run start:cypress --prefix ../backend/
+          wait-on: http://localhost:3000
 
    

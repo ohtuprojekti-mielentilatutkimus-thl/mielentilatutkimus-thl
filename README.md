@@ -1,5 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/cd.yml/badge.svg)](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/cd.yml)
+[![Staging](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/staging.yml/badge.svg)](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/staging.yml)
 
 # mielentilatutkimus-thl
 

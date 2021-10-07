@@ -14,12 +14,14 @@ const create = personObject => {
 
 const upload = (file, id) => {
     const formData = new FormData()
+    console.log(file)
     formData.append('file', file)
-    return axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
+    const res = axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         }
     })
+    return res.data
 }
 /*
 const update = (props) => {
