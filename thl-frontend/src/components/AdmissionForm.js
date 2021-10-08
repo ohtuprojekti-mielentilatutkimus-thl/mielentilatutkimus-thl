@@ -30,11 +30,6 @@ const FormState = (form) => {
 
     return (
         <div>
-<<<<<<< HEAD
-=======
-            <p>Lomakkeen tila: {newOption} </p>
-
->>>>>>> d30db052b38b1e6e9888f1868f9752f4651d6109
             <form onSubmit={changeFormState}>
                 <div className='states'>
                     <label>
