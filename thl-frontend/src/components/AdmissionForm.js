@@ -30,6 +30,8 @@ const FormState = (form) => {
 
     return (
         <div>
+            <p>Lomakkeen tila: {newOption} </p>
+            
             <form onSubmit={changeFormState}>
                 <div className='states'>
                     <label>
