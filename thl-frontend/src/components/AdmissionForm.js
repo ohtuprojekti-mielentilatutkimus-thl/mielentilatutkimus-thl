@@ -82,7 +82,7 @@ const FormState = (form) => {
 const AdmissionForm = ({ form }) => {
 
     const [showInfo, setShowInfo] = useState(false)
-    //const [formState, setFormState] = useState('')
+
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -91,10 +91,6 @@ const AdmissionForm = ({ form }) => {
     const handleShowLessInfo = () => {
         setShowInfo(false)
     }
-    /*
-    const handleSetFormState = (event) => {
-        setFormState(event.target.value)
-    }*/
 
     const useStyles = makeStyles({
         form: {
@@ -132,11 +128,7 @@ const AdmissionForm = ({ form }) => {
                     justify='center'
                 >
                     <h1>Lomake: {form.id}</h1>
-                    <div>
-                        Lomakkeen tila:
-                        {form.formState}
-                    </div>
-                    <FormState form={form}/>
+                    <FormState form={form} formState={form.formState} />
                     <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                     <br />
                     <Grid
@@ -296,16 +288,13 @@ const AdmissionForm = ({ form }) => {
         )} else {
         return (
             <div>
-                Id:
-                {form.id}
+                <p> Id: {form.id} </p>
+                <p>Tila:{form.formState} </p>
                 <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
                     Avaa lomake
                 </a>
-                <div>
-                </div>
-                <FormState form={form} formState={form.formState}/>
-                <p>
-                </p>
+                <br></br>
+                <br></br>
             </div>
         )
     }
