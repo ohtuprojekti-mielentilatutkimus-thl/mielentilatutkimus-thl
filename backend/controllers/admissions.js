@@ -164,9 +164,10 @@ admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
     //const data = req.body
     try {
         await uploadFile(req, res)
+        console.log(req.body.whichFile)
         //const data = req.body
         console.log(req.file, req.file.buffer)
-        Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer)
+        Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer, req.body.whichFile)
         //res.json(savedForm.toJSON())
         res.status(200).send({ message: 'ok' })
     } catch (err) {
