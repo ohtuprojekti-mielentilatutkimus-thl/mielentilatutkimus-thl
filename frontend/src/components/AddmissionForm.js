@@ -535,15 +535,6 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa tiedosto
-                        </Button>
                         <br />
                         Pöytäkirja
                         <br />
@@ -563,15 +554,6 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa tiedosto
-                        </Button>
                         <br />
                         Haastehakemus
                         <br />
@@ -591,15 +573,6 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa tiedosto
-                        </Button>
                         <br />
                         Rikosrekisteriote
                         <br />
@@ -619,15 +592,6 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa tiedosto
-                        </Button>
                         <br />
                         Esitutkintapöytäkirja liitteineen
                         <br />
@@ -647,15 +611,6 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa tiedosto
-                        </Button>
                         <br />
                         Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
                         <br/>
@@ -675,6 +630,8 @@ const Form = () => {
                                     Valitse tiedosto
                             </Button>
                         </label>
+                        <br />
+                        <br />
                         <Button
                             className='btn-upload'
                             color='primary'
@@ -682,7 +639,7 @@ const Form = () => {
                             component='span'
                             disabled={!selectedFiles}
                             onClick={upload}>
-                                Lataa tiedosto
+                                Lataa valittu tiedosto
                         </Button>
                     </Paper>
                 </div>
