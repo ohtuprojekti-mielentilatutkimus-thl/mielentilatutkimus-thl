@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-
+/*
 describe('Admissions can be viewed', () => {
 
     beforeEach(function() {
@@ -42,4 +42,5 @@ describe('Admissions can be viewed', () => {
     )
 }
 )
+*/
 
