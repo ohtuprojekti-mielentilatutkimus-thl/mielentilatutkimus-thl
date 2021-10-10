@@ -9,7 +9,7 @@ const FormState = (form) => {
     const [selectedOption, setSelectedOption] = useState('')
     const [newOption, setNewOption] = useState(form.formState)
 
-    console.log('state: ', form.formState)
+    //console.log('formin sisältö: ', form)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -181,7 +181,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                            <div className={classes.text}>{form.sendersPhonenumber}</div>
+                            <div className={classes.text}>{form.sendersPhoneNumber}</div>
                         </Grid>
                     </Grid>
                     <br />
@@ -201,7 +201,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssessment}</div>
+                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssesment}</div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkittavan äidinkieli:</div>
