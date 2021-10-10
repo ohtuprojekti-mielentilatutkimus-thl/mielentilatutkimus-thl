@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
-import { Paper, Grid } from '@material-ui/core'
+import { Paper, Grid, TableRow, TableCell } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
 
 const FormState = (form) => {
 
@@ -111,6 +110,14 @@ const AdmissionForm = ({ form }) => {
             fontSize: '18px',
             justifyContent: 'center',
             align: 'center'
+        },
+        tablecell: {
+            fontSize: 14
+        },
+        tablerow: {
+            '&:last-child td, &:last-child th': {
+                border: 0,
+            },
         }
     })
 
@@ -295,18 +302,16 @@ const AdmissionForm = ({ form }) => {
             </div>
         )} else {
         return (
-            <div>
-                Id:
-                {form.id}
-                <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
-                    Avaa lomake
-                </a>
-                <div>
-                </div>
-                <FormState form={form} formState={form.formState}/>
-                <p>
-                </p>
-            </div>
+            <TableRow key={form.id} className={classes.tablerow}>
+                <TableCell component='th' scope='row' className={classes.tablecell}>
+                    {form.id}
+                </TableCell>
+                <TableCell align='right' className={classes.tablecell}>
+                    <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
+                        Avaa lomake
+                    </a>
+                </TableCell>
+            </TableRow>
         )
     }
 }
