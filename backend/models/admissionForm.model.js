@@ -7,7 +7,7 @@ var admissionSchema = mongoose.Schema({
     admissionNoteDate: { type: Date },
     formSender: {type: String},
     name: { type: String },
-    lastName: { type: String },
+    lastname: { type: String },
     identificationNumber: { type: String },
     address: { type: String },
     location: { type: String },
@@ -19,7 +19,6 @@ var admissionSchema = mongoose.Schema({
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
     sendersPhoneNumber: { type: String },
-    sendersAddress: { type: String },
     // THL more information
     hazardAssesment: { type: Boolean },
     diaariNumber: { type: String },

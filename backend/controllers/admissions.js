@@ -116,7 +116,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         admissionNoteDate: data.admissionNoteDate,
         formSender : data.formSender,
         name: data.name,
-        lastName: data.lastname,
+        lastname: data.lastname,
         identificationNumber: data.identificationNumber,
         address: data.address,
         location: data.location,
