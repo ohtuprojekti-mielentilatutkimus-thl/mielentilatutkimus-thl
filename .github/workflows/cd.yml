@@ -70,5 +70,34 @@ jobs:
           working-directory: frontend
           start: npm start, npm run start:cypress --prefix ../backend/
           wait-on: http://localhost:3000
-
-   
+              
+  thl-frontend:
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: thl-frontend
+      strategy:
+        matrix:
+          node-version: [12.x]
+          mongodb-version: ['5.0.2']
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: setup node
+          uses: actions/setup-node@v1
+          with:
+            node-version: '16.x'
+        - name: npm install
+          run: npm ci && cd ../backend && npm ci && cd ../thl-frontend
+        - name: build
+          run: npm run build
+        - name: Start MongoDB
+          uses: supercharge/mongodb-github-action@1.6.0
+          with:
+            mongodb-version: ${{ matrix.mongodb-version }}
+        - name: cypress e2e tests
+          uses: cypress-io/github-action@v2
+          with: 
+            working-directory: thl-frontend
+            start: npm start, npm run start:cypress --prefix ../backend/
+            wait-on: http://localhost:3002

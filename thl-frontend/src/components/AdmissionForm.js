@@ -81,7 +81,7 @@ const FormState = (form) => {
 const AdmissionForm = ({ form }) => {
 
     const [showInfo, setShowInfo] = useState(false)
-    //const [formState, setFormState] = useState('')
+
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -90,10 +90,6 @@ const AdmissionForm = ({ form }) => {
     const handleShowLessInfo = () => {
         setShowInfo(false)
     }
-    /*
-    const handleSetFormState = (event) => {
-        setFormState(event.target.value)
-    }*/
 
     const useStyles = makeStyles({
         form: {
@@ -139,11 +135,7 @@ const AdmissionForm = ({ form }) => {
                     justify='center'
                 >
                     <h1>Lomake: {form.id}</h1>
-                    <div>
-                        Lomakkeen tila:
-                        {form.formState}
-                    </div>
-                    <FormState form={form}/>
+                    <FormState form={form} formState={form.formState} />
                     <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                     <br />
                     <Grid
