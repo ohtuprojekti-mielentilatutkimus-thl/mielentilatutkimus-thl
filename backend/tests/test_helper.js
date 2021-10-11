@@ -6,7 +6,7 @@ const admission_form_input = {
     //basicInformation id
     basicInformationId: '',
     admissionNoteDate: '',
-    formSender: '',
+    formSender: 'smth@email.yes',
     name: '',
     lastname: '',
     identificationNumber: '',
@@ -21,7 +21,7 @@ const admission_form_input = {
     sendersPhoneNumber: '',
     // THL more information
     hazardAssesment: false,
-    diaariNumber: '',
+    diaariNumber: 'R 20 / 123',
     datePrescribedForPsychiatricAssesment: '',
     nativeLanguage: '',
     desiredLanguageOfBusiness: '',
