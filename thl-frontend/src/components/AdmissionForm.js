@@ -208,7 +208,13 @@ const AdmissionForm = ({ form }) => {
                     >
                         <Grid item xs={6}>
                             <div className={classes.text}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                            <div className={classes.text}>{form.hazardAssessment}</div>
+                            <div>
+                                <label>
+                                    <input type='radio' value='Vaarallisuusarvio'
+                                        checked={form.hazardAssessment === true}
+                                    />
+                                </label>
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Diaarinumero:</div>
@@ -232,7 +238,13 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Onko syyte nostettu:</div>
-                            <div className={classes.text}>{form.prosecuted}</div>
+                            <div>
+                                <label>
+                                    <input type='radio' value='SyyteNostettu'
+                                        checked={form.prosecuted === true}
+                                    />
+                                </label>
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
