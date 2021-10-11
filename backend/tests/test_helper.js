@@ -2,7 +2,7 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
 const admission_form_input = {
-    formState: '',
+    // using default value for formState
     //basicInformation id
     basicInformationId: '',
     admissionNoteDate: '',
