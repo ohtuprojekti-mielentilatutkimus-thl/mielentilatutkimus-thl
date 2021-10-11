@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 var attachmentSchema = mongoose.Schema({
     fileName: { type: String },
-    fileData: { type: Buffer }
+    fileData: { type: Buffer },
+    whichFile: { type: String }
 })
 
 attachmentSchema.set('toJSON', {

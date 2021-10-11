@@ -35,6 +35,7 @@ const Form = () => {
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
     const [selectedFiles, setSelectedFiles] = useState(null)
+    const [whichFile, setWhichFile] = useState('')
 
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
@@ -74,15 +75,19 @@ const Form = () => {
     }, [])
 
     const selectFile = (event) => {
-        setSelectedFiles(event.target.files[0])
+        const inputTarget = event.target
+        setSelectedFiles(inputTarget.files[0])
+        setWhichFile(inputTarget.id)
         console.log(selectedFiles)
+        console.log(whichFile)
     }
 
     const upload = async () => {
         const currFile = selectedFiles
         console.log(typeof(currFile))
-        await addmissionService.upload(currFile, basicInformationId)
+        await addmissionService.upload(currFile, basicInformationId, whichFile)
         setSelectedFiles(null)
+        setWhichFile(null)
     }
 
     const sender = {
@@ -106,7 +111,7 @@ const Form = () => {
     const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
     const [hazardAssessment, setHazardAssessment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
-    const [datePrescribedForPsychiatricAssessment, setDatePrescribedForPsychiatricAssessment] = useState('')
+    const [datePrescribedForPsychiatricAssesment, setDatePrescribedForPsychiatricAssesment] = useState('')
     const [nativeLanguage, setNativeLanguage] = useState('')
     const [desiredLanguageOfBusiness, setDesiredLanguageOfBusiness] = useState('')
     const [municipalityOfResidence, setMunicipalityOfResidence] = useState('')
@@ -165,14 +170,14 @@ const Form = () => {
     const handleSendersPhoneNumberChange = (event) => {
         setSendersPhoneNumber(event.target.value)
     }
-    const handleHazardAssessmentChange = (event) => {
-        setHazardAssessment(event.target.hazardAssessment)
+    const handleHazardAssessmentChange = () => {
+        setHazardAssessment(!hazardAssessment)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
     }
-    const handleDatePrescribedForPsychiatricAssessmentChange = (event) => {
-        setDatePrescribedForPsychiatricAssessment(event.target.value)
+    const handleDatePrescribedForPsychiatricAssesmentChange = (event) => {
+        setDatePrescribedForPsychiatricAssesment(event.target.value)
     }
     const handleNativeLanguageChange = (event) => {
         setNativeLanguage(event.target.value)
@@ -183,8 +188,8 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = (event) => {
-        setProsecuted(event.target.prosecuted)
+    const handleProsecutedChange = () => {
+        setProsecuted(!prosecuted)
     }
     const handleDeadlineForProsecutionChange = (event) => {
         setDeadlineForProsecution(event.target.value)
@@ -252,9 +257,9 @@ const Form = () => {
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
             sendersPhoneNumber: sendersPhoneNumber,
-            setHazardAssessment: hazardAssessment,
+            hazardAssessment: hazardAssessment,
             diaariNumber: diaariNumber,
-            datePrescribedForPsychiatricAssessment: datePrescribedForPsychiatricAssessment,
+            datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
             nativeLanguage: nativeLanguage,
             desiredLanguageOfBusiness: desiredLanguageOfBusiness,
             municipalityOfResidence: municipalityOfResidence,
@@ -268,7 +273,7 @@ const Form = () => {
             crimes: crimes,
             assistantsEmail: assistantsEmail,
             assistantsPhonenumber: assistantsPhonenumber,
-            setAssistantsAddress: assistantsAddress,
+            assistantsAddress: assistantsAddress,
             legalGuardianEmail: legalGuardianEmail,
             legalGuardianPhonenumber: legalGuardianPhonenumber,
             legalGuardianAddress: legalGuardianAddress,
@@ -276,7 +281,7 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        console.log('Createadmission olio on:', createAddmission)
+        //console.log('Createadmission olio on:', createAddmission)
 
 
         addmissionService
@@ -309,7 +314,7 @@ const Form = () => {
         setSendersPhoneNumber('')
         setHazardAssessment(false)
         setDiaariNumber('')
-        setDatePrescribedForPsychiatricAssessment('')
+        setDatePrescribedForPsychiatricAssesment('')
         setNativeLanguage('')
         setDesiredLanguageOfBusiness('')
         setMunicipalityOfResidence('')
@@ -424,7 +429,7 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                                    <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
+                                    <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssesment} onChange={handleDatePrescribedForPsychiatricAssesmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkittavan äidinkieli:</div>
@@ -511,8 +516,10 @@ const Form = () => {
                             <p></p>
                         </form>
                         <h2>Liitteet</h2>
+
+                        Välituomio tai päätös mielentilatutkimukseen määräämisestä
+                        <br />
                         <label htmlFor='valituomio'>
-                            Välituomio tai päätös mielentilatutkimukseen määräämisestä
                             <input
                                 id='valituomio'
                                 name='valituomio'
@@ -521,73 +528,119 @@ const Form = () => {
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
                         <br />
-                        <label htmlFor='btn-upload'>
-                            Pöytäkirja
+                        Pöytäkirja
+                        <br />
+                        <label htmlFor='poytakirja'>
                             <input
-                                id='btn-upload'
-                                name='btn-upload'
+                                id='poytakirja'
+                                name='poytakirja'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
                         <br />
-                        <label htmlFor='btn-upload'>
-                            Haastehakemus
+                        Haastehakemus
+                        <br />
+                        <label htmlFor='haastehakemus'>
                             <input
-                                id='btn-upload'
-                                name='btn-upload'
+                                id='haastehakemus'
+                                name='haastehakemus'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
                         <br />
-                        <label htmlFor='btn-upload'>
-                            Rikosrekisteriote
+                        Rikosrekisteriote
+                        <br />
+                        <label htmlFor='rikosrekisteriote'>
                             <input
-                                id='btn-upload'
-                                name='btn-upload'
+                                id='rikosrekisteriote'
+                                name='rikosrekisteriote'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
                         <br />
-                        <label htmlFor='btn-upload'>
-                            Esitutkintapöytäkirja liitteineen
+                        Esitutkintapöytäkirja liitteineen
+                        <br />
+                        <label htmlFor='esitutkintapoytakirja'>
                             <input
-                                id='btn-upload'
-                                name='btn-upload'
+                                id='esitutkintapoytakirja'
+                                name='esitutkintapoytakirja'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
                         <br />
-                        <label htmlFor='btn-upload'>
-                            Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
+                        Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
+                        <br/>
+                        <label htmlFor='vangitsemispaatos'>
                             <input
-                                id='btn-upload'
-                                name='btn-upload'
+                                id='vangitsemispaatos'
+                                name='vangitsemispaatos'
                                 style={{ display: 'none' }}
                                 type='file'
                                 onChange={selectFile}
                                 accept='image/*,.pdf'
                             />
-                            <button onClick={upload}>Lataa tiedosto</button>
+                            <Button
+                                className='btn-choose'
+                                variant='outlined'
+                                component='span'>
+                                    Valitse tiedosto
+                            </Button>
                         </label>
+                        <br />
+                        <br />
+                        <Button
+                            className='btn-upload'
+                            color='primary'
+                            variant='contained'
+                            component='span'
+                            disabled={!selectedFiles}
+                            onClick={upload}>
+                                Lataa valittu tiedosto
+                        </Button>
                     </Paper>
                 </div>
             </div>

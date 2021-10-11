@@ -12,10 +12,11 @@ const create = personObject => {
     return axios.post(baseUrl+'/admission_form', personObject)
 }
 
-const upload = (file, id) => {
+const upload = (file, id, whichFile) => {
     const formData = new FormData()
     console.log(file)
     formData.append('file', file)
+    formData.append('whichFile', whichFile)
     const res = axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',

@@ -8,7 +8,7 @@ const FormState = (form) => {
     const [selectedOption, setSelectedOption] = useState('')
     const [newOption, setNewOption] = useState(form.formState)
 
-    console.log('state: ', form.formState)
+    //console.log('formin sisältö: ', form)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -81,7 +81,7 @@ const FormState = (form) => {
 const AdmissionForm = ({ form }) => {
 
     const [showInfo, setShowInfo] = useState(false)
-    //const [formState, setFormState] = useState('')
+
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -90,10 +90,6 @@ const AdmissionForm = ({ form }) => {
     const handleShowLessInfo = () => {
         setShowInfo(false)
     }
-    /*
-    const handleSetFormState = (event) => {
-        setFormState(event.target.value)
-    }*/
 
     const useStyles = makeStyles({
         form: {
@@ -139,11 +135,7 @@ const AdmissionForm = ({ form }) => {
                     justify='center'
                 >
                     <h1>Lomake: {form.id}</h1>
-                    <div>
-                        Lomakkeen tila:
-                        {form.formState}
-                    </div>
-                    <FormState form={form}/>
+                    <FormState form={form} formState={form.formState} />
                     <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                     <br />
                     <Grid
@@ -196,7 +188,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                            <div className={classes.text}>{form.sendersPhonenumber}</div>
+                            <div className={classes.text}>{form.sendersPhoneNumber}</div>
                         </Grid>
                     </Grid>
                     <br />
@@ -222,7 +214,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssessment}</div>
+                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssesment}</div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkittavan äidinkieli:</div>

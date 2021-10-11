@@ -17,7 +17,7 @@ Linkit dokumentteihin:
 ## Dokumentaatio
 
 
-* [Tekninen toteutus](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/kayttoohje.md)
+* [Tekninen toteutus](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/toteutus.md)
 
 ## Asennusohje
 
