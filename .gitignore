@@ -1,4 +1,5 @@
-backend/builds/*
+backend/builds/mielentilatutkimus/build
+backend/builds/thl/build
 node_modules/
 .history/
 backend/request/
