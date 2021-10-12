@@ -47,6 +47,7 @@
   "devDependencies": {
     "cypress": "^8.5.0",
     "eslint-plugin": "^1.0.1",
+    "eslint-plugin-cypress": "^2.12.1",
     "maildev": "^1.1.0"
   }
 }
