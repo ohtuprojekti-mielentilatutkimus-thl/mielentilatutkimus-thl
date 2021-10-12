@@ -58,7 +58,8 @@ describe('when db is initialized with data', () => {
             const admissionsInDb = await helper.admissionsInDb()
         
             // + 1 for id, + 1 because formState has a default value
-            const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 2
+            // +2 for createdAt and updatedAt
+            const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 4
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -139,8 +140,9 @@ describe('when db is empty', () => {
         const admissionsInDb = await helper.admissionsInDb()
 
         expect(admissionsInDb).toHaveLength(1)
-
-        const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 2
+        // + 1 for id, + 1 because formState has a default value
+        // +2 for createdAt and updatedAt
+        const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 4
         const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
         expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
