@@ -299,7 +299,7 @@ const AdmissionForm = ({ form }) => {
                             <div className={classes.text}>{form.appealedDecision}</div>
                         </Grid>
                     </Grid>
-                    <a href='#' onClick={() => handleShowLessInfo()}>
+                    <a href='#' id='handleShowLessInfo' onClick={() => handleShowLessInfo()}>
                         Sulje lomake
                     </a>
                 </Paper>
