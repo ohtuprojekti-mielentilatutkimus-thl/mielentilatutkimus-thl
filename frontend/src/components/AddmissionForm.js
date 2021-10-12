@@ -109,7 +109,7 @@ const Form = () => {
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
-    const [hazardAssessment, setHazardAssessment] = useState(false)
+    const [hazardAssesment, setHazardAssesment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssesment, setDatePrescribedForPsychiatricAssesment] = useState('')
     const [nativeLanguage, setNativeLanguage] = useState('')
@@ -170,8 +170,8 @@ const Form = () => {
     const handleSendersPhoneNumberChange = (event) => {
         setSendersPhoneNumber(event.target.value)
     }
-    const handleHazardAssessmentChange = () => {
-        setHazardAssessment(!hazardAssessment)
+    const handleHazardAssesmentChange = () => {
+        setHazardAssesment(!hazardAssesment)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
@@ -257,7 +257,7 @@ const Form = () => {
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
             sendersPhoneNumber: sendersPhoneNumber,
-            hazardAssessment: hazardAssessment,
+            hazardAssesment: hazardAssesment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
             nativeLanguage: nativeLanguage,
@@ -312,7 +312,7 @@ const Form = () => {
         setAdmissionNoteSender('')
         setSendersEmail('')
         setSendersPhoneNumber('')
-        setHazardAssessment(false)
+        setHazardAssesment(false)
         setDiaariNumber('')
         setDatePrescribedForPsychiatricAssesment('')
         setNativeLanguage('')
@@ -421,7 +421,7 @@ const Form = () => {
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <input id='setHazardAssessment' type='checkbox' value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
+                                    <input id='setHazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Diaarinumero:</div>

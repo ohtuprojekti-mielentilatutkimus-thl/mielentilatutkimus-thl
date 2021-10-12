@@ -203,7 +203,7 @@ const AdmissionForm = ({ form }) => {
                             <div>
                                 <label>
                                     <input type='radio' value='Vaarallisuusarvio'
-                                        checked={form.hazardAssessment === true}
+                                        checked={form.hazardAssesment === true}
                                     />
                                 </label>
                             </div>
