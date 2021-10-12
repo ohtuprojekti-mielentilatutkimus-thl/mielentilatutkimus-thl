@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 describe('All admissions can be viewed', () => {
 
     beforeEach(function() {
@@ -28,7 +26,7 @@ describe('All admissions can be viewed', () => {
 
     it('New admission can be viewed', function () {
 
-        cy.visit('http://localhost:3002/mielentilatutkimus/thl-admissions')
+        cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
@@ -44,7 +42,8 @@ describe('All admissions can be viewed', () => {
 
     it('the state of the form can be changed', function () {
 
-        cy.visit('http://localhost:3002/mielentilatutkimus/thl-admissions')
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+      
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
