@@ -1,3 +1,4 @@
+backend/builds/*
 node_modules/
 .history/
 backend/request/
