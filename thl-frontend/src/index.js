@@ -4,7 +4,7 @@ import React from 'react'
 import {  BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
-    <Router basename='/mielentilatutkimus'>
+    <Router basename='/thl'>
         <App/>
     </Router>,
     document.getElementById('root')

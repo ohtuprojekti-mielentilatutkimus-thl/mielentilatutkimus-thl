@@ -9,8 +9,8 @@
     "lint": "eslint .",
     "dev": "NODE_ENV=dev node index.js",
     "prod": "NODE_ENV=production node index.js",
-    "build:thl": "rm -rf build && cd ../thl-frontend && npm run build --prod && cp -r build ../backend",
-    "build:ui": "rm -rf build && cd ../frontend/ && npm run build --prod && cp -r build ../backend",
+    "build:thl": "cd ../thl-frontend && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/thl npm run build && cp -r build ../backend/builds/thl",
+    "build:ui": "cd ../frontend/ && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/mielentilatutkimus npm run build && cp -r build ../backend/builds/mielentilatutkimus",
     "start:cypress": "cross-env NODE_ENV=test node index.js"
   },
   "author": "",
