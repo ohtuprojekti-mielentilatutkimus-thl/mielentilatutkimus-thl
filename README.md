@@ -86,6 +86,8 @@ Seuraavaksi suorita komento:
 ```
 npm start
 ```
+Tuotantoversioita käytettäessä frontendien alkuosoitteet ovat localhost:3001/mielentilatutkimus/basic_information_form ja localhost:3001/thl/thl-admissions
+
 ### Testaus
 
 #### Backendin testien ajaminen
