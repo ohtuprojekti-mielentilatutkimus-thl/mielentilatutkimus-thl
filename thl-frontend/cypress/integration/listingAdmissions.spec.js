@@ -41,6 +41,25 @@ describe('All admissions can be viewed', () => {
         cy.contains('Lomakkeet')
     }
     )
+
+    it('the state of the form can be changed', function () {
+
+        cy.visit('http://localhost:3002/mielentilatutkimus/thl-admissions')
+        cy.contains('Lomakkeet')
+
+        cy.get('a').last().click()
+        cy.contains('Yleiset tutkittavan henkilön tiedot')
+        cy.contains('Odottaa tarkistusta')
+        cy.contains('Sampo2')
+        cy.contains('123456789')
+        cy.get('[type="radio"]').first().check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+
+        cy.get('#handleShowLessInfo').click()
+        cy.contains('Lomakkeet')
+
+    })
 }
 )
 
