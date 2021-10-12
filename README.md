@@ -53,19 +53,21 @@ Sovelluksessa on kaksi erillistä frontendiä, toinen on suunnattu mielentilatut
 
 Ensimmäisellä kerralla asenna frontendin riippuvuudet suorittamalla komento `npm install`. 
 
-#### Palvelimen käynnistäminen porttiin 3000
+#### Palvelimen käynnistäminen
 ```
 npm start
 ```
 
-`frontend` toimii osoitteessa localhost:3000/basic_information_form.
-`thl-frontend` toimii osoitteessa localhost:3000/thl-admissions.
+`frontend` toimii osoitteessa localhost:3000/mielentilatutkimus/basic_information_form.
+`thl-frontend` toimii osoitteessa localhost:3002/thl/thl-admissions.
 
 #### Tuotantoversion buildaaminen
 
-Kopioidaan frontendistä tuotantokoodi backendille. Tämä tapahtuu seuraavasti:
+Frontendien tuotantoversiot on yhdistetty backendissä, eli voit suorittaa molempien frontendien allaolevat komennot ja käyttää niitä samanaikaisesti.
 
-`backend`-kansion juuressa suorita komento:
+Kopioidaan frontendistä tuotantokoodi backendille.
+
+Seuraavat komennot syötetään `backend`-kansion juuressa:
 
 Mielentilatutkimuspyyntöä tekevä taho:
 ```
@@ -76,6 +78,8 @@ THL:
 ```
 npm run build:thl
 ```
+
+Vaihtoehtoisesti molemmat tuotantoversiot voi luoda komennolla `npm run build:both`. Tämä kuitenkin vaatii suoritusoikeuksien lisäämistä skriptille `build_frontends.sh`. Lisäohjeet [täällä](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/scripts).
 
 Seuraavaksi suorita komento:
 
@@ -113,6 +117,8 @@ Käynnistä sekä front- että backend (npm start) ja suorita `frontend` komento
 ```
 npm run cypress:open
 ```
+Cypress-testejä voi myös suorittaa [bash-skriptillä](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/scripts)
+
 #### Sähköpostivahvistukset  
 Sovelluksen lähettämät sähköpostiviestit menevät tällä hetkellä `mailDev`:in kautta osoitteeseen `localhost:1080`.
 Lisää ohjeita täällä: https://maildev.github.io/maildev/
