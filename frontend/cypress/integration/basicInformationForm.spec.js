@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 
 describe('Basic Information View', function() {
     beforeEach(function() {
