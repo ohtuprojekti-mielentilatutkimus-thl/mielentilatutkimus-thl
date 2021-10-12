@@ -33,10 +33,12 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
-      - name: Run the tests
-        run: npm test
       - name: lint
         run: npm run lint
+      - name: Run the tests
+        run: npm test -- --coverage
+      - name: upload coverage to Codecov
+        uses: codecov/codecov-action@v2
 
   frontend:
     runs-on: ubuntu-latest
