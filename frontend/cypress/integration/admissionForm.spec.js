@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe('Send Admission Form', function() {
 
     it('Post basic information form to get the id', function(){
