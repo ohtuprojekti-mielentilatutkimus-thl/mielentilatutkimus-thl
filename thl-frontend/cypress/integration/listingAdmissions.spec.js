@@ -43,6 +43,7 @@ describe('All admissions can be viewed', () => {
     it('the state of the form can be changed', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
+      
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()

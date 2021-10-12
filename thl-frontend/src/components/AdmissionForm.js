@@ -1,15 +1,10 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
-import { Paper, Grid } from '@material-ui/core'
+import { Paper, Grid, TableRow, TableCell } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-
-const FormState = (form) => {
-
+const FormState = ( { form, updateForms } ) => {
     const [selectedOption, setSelectedOption] = useState('')
-    const [newOption, setNewOption] = useState(form.formState)
-
-    console.log('state: ', form.formState)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -20,17 +15,16 @@ const FormState = (form) => {
         event.preventDefault()
 
         const updateFormState = { ...form, formState: selectedOption }
-
-        formService.update(updateFormState.form.id, updateFormState)
+        formService.update(updateFormState.id, updateFormState)
             .then(response => {
-                setNewOption(selectedOption)
-                console.log(response.data)
+                console.log(response)
+                updateForms(updateFormState)
             })
-    }
 
+    }
     return (
         <div>
-            <p>Lomakkeen tila: {newOption} </p>
+            <p>Lomakkeen tila: {form.formState} </p>
 
             <form onSubmit={changeFormState}>
                 <div className='states'>
@@ -79,8 +73,9 @@ const FormState = (form) => {
     )
 }
 
-const AdmissionForm = ({ form }) => {
+const AdmissionForm = ({ form, updateForms } ) => {
 
+    //test()
     const [showInfo, setShowInfo] = useState(false)
 
 
@@ -107,6 +102,14 @@ const AdmissionForm = ({ form }) => {
             fontSize: '18px',
             justifyContent: 'center',
             align: 'center'
+        },
+        tablecell: {
+            fontSize: 14
+        },
+        tablerow: {
+            '&:last-child td, &:last-child th': {
+                border: 0,
+            },
         }
     })
 
@@ -128,7 +131,7 @@ const AdmissionForm = ({ form }) => {
                     justify='center'
                 >
                     <h1>Lomake: {form.id}</h1>
-                    <FormState form={form} formState={form.formState} />
+                    <FormState form={form} formState={form.formState} updateForms={updateForms} />
                     <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                     <br />
                     <Grid
@@ -181,7 +184,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                            <div className={classes.text}>{form.sendersPhonenumber}</div>
+                            <div className={classes.text}>{form.sendersPhoneNumber}</div>
                         </Grid>
                     </Grid>
                     <br />
@@ -193,7 +196,13 @@ const AdmissionForm = ({ form }) => {
                     >
                         <Grid item xs={6}>
                             <div className={classes.text}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                            <div className={classes.text}>{form.hazardAssessment}</div>
+                            <div>
+                                <label>
+                                    <input type='radio' value='Vaarallisuusarvio'
+                                        checked={form.hazardAssesment === true}
+                                    />
+                                </label>
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Diaarinumero:</div>
@@ -201,7 +210,7 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssessment}</div>
+                            <div className={classes.text}>{form.datePrescribedForPsychiatricAssesment}</div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Tutkittavan äidinkieli:</div>
@@ -217,7 +226,13 @@ const AdmissionForm = ({ form }) => {
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Onko syyte nostettu:</div>
-                            <div className={classes.text}>{form.prosecuted}</div>
+                            <div>
+                                <label>
+                                    <input type='radio' value='SyyteNostettu'
+                                        checked={form.prosecuted === true}
+                                    />
+                                </label>
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
                             <div className={classes.text}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
@@ -280,22 +295,29 @@ const AdmissionForm = ({ form }) => {
                             <div className={classes.text}>{form.appealedDecision}</div>
                         </Grid>
                     </Grid>
-                    <a href='#' onClick={() => handleShowLessInfo()}>
+                    <a href='#' id='handleShowLessInfo' onClick={() => handleShowLessInfo()}>
                         Sulje lomake
                     </a>
                 </Paper>
             </div>
         )} else {
         return (
-            <div>
-                <p> Id: {form.id} </p>
-                <p>Tila:{form.formState} </p>
-                <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
-                    Avaa lomake
-                </a>
-                <br></br>
-                <br></br>
-            </div>
+            <TableRow key={form.id} className={classes.tablerow}>
+                <TableCell component='th' scope='row' className={classes.tablecell}>
+                    {form.id}
+                </TableCell>
+                <TableCell className={classes.tablecell}>
+                    Luotu: {form.createdAt}
+                </TableCell>
+                <TableCell className={classes.tablecell}>
+                    Päivitetty: {form.updatedAt}
+                </TableCell>
+                <TableCell align='right' className={classes.tablecell}>
+                    <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
+                        Avaa lomake
+                    </a>
+                </TableCell>
+            </TableRow>
         )
     }
 }

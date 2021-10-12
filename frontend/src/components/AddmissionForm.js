@@ -109,9 +109,9 @@ const Form = () => {
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
-    const [hazardAssessment, setHazardAssessment] = useState(false)
+    const [hazardAssesment, setHazardAssesment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
-    const [datePrescribedForPsychiatricAssessment, setDatePrescribedForPsychiatricAssessment] = useState('')
+    const [datePrescribedForPsychiatricAssesment, setDatePrescribedForPsychiatricAssesment] = useState('')
     const [nativeLanguage, setNativeLanguage] = useState('')
     const [desiredLanguageOfBusiness, setDesiredLanguageOfBusiness] = useState('')
     const [municipalityOfResidence, setMunicipalityOfResidence] = useState('')
@@ -170,14 +170,14 @@ const Form = () => {
     const handleSendersPhoneNumberChange = (event) => {
         setSendersPhoneNumber(event.target.value)
     }
-    const handleHazardAssessmentChange = (event) => {
-        setHazardAssessment(event.target.hazardAssessment)
+    const handleHazardAssesmentChange = () => {
+        setHazardAssesment(!hazardAssesment)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
     }
-    const handleDatePrescribedForPsychiatricAssessmentChange = (event) => {
-        setDatePrescribedForPsychiatricAssessment(event.target.value)
+    const handleDatePrescribedForPsychiatricAssesmentChange = (event) => {
+        setDatePrescribedForPsychiatricAssesment(event.target.value)
     }
     const handleNativeLanguageChange = (event) => {
         setNativeLanguage(event.target.value)
@@ -188,8 +188,8 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = (event) => {
-        setProsecuted(event.target.prosecuted)
+    const handleProsecutedChange = () => {
+        setProsecuted(!prosecuted)
     }
     const handleDeadlineForProsecutionChange = (event) => {
         setDeadlineForProsecution(event.target.value)
@@ -257,9 +257,9 @@ const Form = () => {
             admissionNoteSender: admissionNoteSender,
             sendersEmail: sendersEmail,
             sendersPhoneNumber: sendersPhoneNumber,
-            setHazardAssessment: hazardAssessment,
+            hazardAssesment: hazardAssesment,
             diaariNumber: diaariNumber,
-            datePrescribedForPsychiatricAssessment: datePrescribedForPsychiatricAssessment,
+            datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
             nativeLanguage: nativeLanguage,
             desiredLanguageOfBusiness: desiredLanguageOfBusiness,
             municipalityOfResidence: municipalityOfResidence,
@@ -273,7 +273,7 @@ const Form = () => {
             crimes: crimes,
             assistantsEmail: assistantsEmail,
             assistantsPhonenumber: assistantsPhonenumber,
-            setAssistantsAddress: assistantsAddress,
+            assistantsAddress: assistantsAddress,
             legalGuardianEmail: legalGuardianEmail,
             legalGuardianPhonenumber: legalGuardianPhonenumber,
             legalGuardianAddress: legalGuardianAddress,
@@ -281,7 +281,7 @@ const Form = () => {
             appealedDecision: appealedDecision,
         }
 
-        console.log('Createadmission olio on:', createAddmission)
+        //console.log('Createadmission olio on:', createAddmission)
 
 
         addmissionService
@@ -312,9 +312,9 @@ const Form = () => {
         setAdmissionNoteSender('')
         setSendersEmail('')
         setSendersPhoneNumber('')
-        setHazardAssessment(false)
+        setHazardAssesment(false)
         setDiaariNumber('')
-        setDatePrescribedForPsychiatricAssessment('')
+        setDatePrescribedForPsychiatricAssesment('')
         setNativeLanguage('')
         setDesiredLanguageOfBusiness('')
         setMunicipalityOfResidence('')
@@ -421,7 +421,7 @@ const Form = () => {
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <input id='setHazardAssessment' type='checkbox' value={hazardAssessment} onChange={handleHazardAssessmentChange} /> Kyllä
+                                    <input id='setHazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Diaarinumero:</div>
@@ -429,7 +429,7 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                                    <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssessment} onChange={handleDatePrescribedForPsychiatricAssessmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
+                                    <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssesment} onChange={handleDatePrescribedForPsychiatricAssesmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkittavan äidinkieli:</div>
