@@ -59,6 +59,9 @@ describe('All admissions can be viewed', () => {
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
 
+        cy.get('a').last().click()
+        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+
     })
 }
 )

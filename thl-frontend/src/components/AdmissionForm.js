@@ -3,12 +3,8 @@ import formService from '../services/formService'
 import { Paper, Grid, TableRow, TableCell } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-const FormState = (form) => {
-
+const FormState = ( { form, updateForms } ) => {
     const [selectedOption, setSelectedOption] = useState('')
-    const [newOption, setNewOption] = useState(form.formState)
-
-    //console.log('formin sisältö: ', form)
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value)
@@ -19,17 +15,16 @@ const FormState = (form) => {
         event.preventDefault()
 
         const updateFormState = { ...form, formState: selectedOption }
-
-        formService.update(updateFormState.form.id, updateFormState)
+        formService.update(updateFormState.id, updateFormState)
             .then(response => {
-                setNewOption(selectedOption)
-                console.log(response.data)
+                console.log(response)
+                updateForms(updateFormState)
             })
-    }
 
+    }
     return (
         <div>
-            <p>Lomakkeen tila: {newOption} </p>
+            <p>Lomakkeen tila: {form.formState} </p>
 
             <form onSubmit={changeFormState}>
                 <div className='states'>
@@ -78,8 +73,9 @@ const FormState = (form) => {
     )
 }
 
-const AdmissionForm = ({ form }) => {
+const AdmissionForm = ({ form, updateForms } ) => {
 
+    //test()
     const [showInfo, setShowInfo] = useState(false)
 
 
@@ -135,7 +131,7 @@ const AdmissionForm = ({ form }) => {
                     justify='center'
                 >
                     <h1>Lomake: {form.id}</h1>
-                    <FormState form={form} formState={form.formState} />
+                    <FormState form={form} formState={form.formState} updateForms={updateForms} />
                     <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                     <br />
                     <Grid
