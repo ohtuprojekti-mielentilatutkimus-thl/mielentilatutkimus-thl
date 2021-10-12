@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
-/*
-describe('Admissions can be viewed', () => {
+describe('All admissions can be viewed', () => {
 
     beforeEach(function() {
 
@@ -18,7 +16,6 @@ describe('Admissions can be viewed', () => {
             senders_id = sender_id.replace(/['"]+/g,'')
             console.log(senders_id)
 
-            //   cy.request('POST', `http://localhost:3001/api/admissions/admission_form/${senders_id}`, {
             cy.request('POST', 'http://localhost:3001/api/admissions/admission_form', {
                 admissionNoteSender: 'Sampo2',
                 diaariNumber: '123456789',
@@ -27,20 +24,43 @@ describe('Admissions can be viewed', () => {
     })
 
 
-    it('Admission can be viewed', function () {
+    it('New admission can be viewed', function () {
 
-        cy.visit('http://localhost:3002/mielentilatutkimus/thl-admissions')
+        cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
+        cy.contains('Odottaa tarkistusta')
+        cy.contains('Sampo2')
         cy.contains('123456789')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
     }
     )
+
+    it('the state of the form can be changed', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.contains('Lomakkeet')
+
+        cy.get('a').last().click()
+        cy.contains('Yleiset tutkittavan henkilön tiedot')
+        cy.contains('Odottaa tarkistusta')
+        cy.contains('Sampo2')
+        cy.contains('123456789')
+        cy.get('[type="radio"]').first().check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+
+        cy.get('#handleShowLessInfo').click()
+        cy.contains('Lomakkeet')
+
+        cy.get('a').last().click()
+        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+
+    })
 }
 )
-*/
 
