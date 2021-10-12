@@ -18,7 +18,7 @@ const FormState = ( { form, updateForms } ) => {
         formService.update(updateFormState.id, updateFormState)
             .then(response => {
                 console.log(response)
-                updateForms(updateFormState)
+                updateForms(response.data)
             })
 
     }
