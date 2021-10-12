@@ -1,6 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/cd.yml/badge.svg)](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/cd.yml)
 [![Staging](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/staging.yml/badge.svg)](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/actions/workflows/staging.yml)
+[![codecov](https://codecov.io/gh/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/branch/codecov/graph/badge.svg?token=rx0tIT6gVh)](https://codecov.io/gh/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl)
 
 # mielentilatutkimus-thl
 
