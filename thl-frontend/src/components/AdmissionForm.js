@@ -306,6 +306,12 @@ const AdmissionForm = ({ form, updateForms } ) => {
                 <TableCell component='th' scope='row' className={classes.tablecell}>
                     {form.id}
                 </TableCell>
+                <TableCell className={classes.tablecell}>
+                    Luotu: {form.createdAt}
+                </TableCell>
+                <TableCell className={classes.tablecell}>
+                    Päivitetty: {form.updatedAt}
+                </TableCell>
                 <TableCell align='right' className={classes.tablecell}>
                     <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
                         Avaa lomake

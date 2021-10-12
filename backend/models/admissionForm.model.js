@@ -49,7 +49,8 @@ var admissionSchema = mongoose.Schema({
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
     imprisonmentRequirementReady: { type: Boolean }
-})
+},
+{timestamps: true})
 
 admissionSchema.set('toJSON', {
     transform: (document, returnedObject) => {
