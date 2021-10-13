@@ -33,7 +33,7 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Odottaa tarkistusta')
+        cy.contains('Pyyntö saapunut')
         cy.contains('Sampo2')
         cy.contains('123456789')
 
@@ -50,18 +50,18 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Odottaa tarkistusta')
+        cy.contains('Pyyntö saapunut')
         cy.contains('Sampo2')
         cy.contains('123456789')
-        cy.get('[type="radio"]').first().check()
+        cy.get('[type="radio"]').eq(1).check()
         cy.contains('Päivitä lomakkeen tila').click()
-        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
-        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
 
     })
 
@@ -70,18 +70,17 @@ describe('All admissions can be viewed', () => {
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
         cy.get('a').first().click()
+        cy.get('[type="radio"]').eq(2).check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#handleShowLessInfo').click()
+        cy.get('#formState').first().contains('Pyydetty lisätietoja')
+
+        cy.get('a').first().click()
         cy.get('[type="radio"]').eq(3).check()
         cy.contains('Päivitä lomakkeen tila').click()
         cy.get('#handleShowLessInfo').click()
-        cy.get('#formState').first().contains('Lausunto saapunut')
 
-        cy.get('a').first().click()
-        cy.get('[type="radio"]').eq(4).check()
-        cy.contains('Päivitä lomakkeen tila').click()
-        cy.get('#handleShowLessInfo').click()
-
-        cy.get('#formState').first().contains('Jatkoaika hyväksytty')
+        cy.get('#formState').first().contains('Saatu lisätietoja')
     })
 }
 )
-

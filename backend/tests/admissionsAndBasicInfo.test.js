@@ -100,15 +100,15 @@ describe('when db is initialized with data', () => {
             expect(admission.address).not.toBeNull()
         })
 
-        test('admissionform state is waiting for review by default', async () => {
+        test('admissionform state is admission received by default', async () => {
             const admission_form = helper.admission_form_input
             await api
                 .post(baseUrl+'/admission_form')
-                .send(admission_form)  
+                .send(admission_form) 
             const admissionsInDb = await helper.admissionsInDb()
-            expect(admissionsInDb[admissionsInDb.length-1].formState).toBe('Odottaa tarkistusta')
-            
-        })
+            expect(admissionsInDb[admissionsInDb.length-1].formState).toBe('Pyyntö saapunut')
+           
+        }) 
     })
 })
 
