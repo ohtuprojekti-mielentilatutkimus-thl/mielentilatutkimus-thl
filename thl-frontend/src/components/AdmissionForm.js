@@ -29,47 +29,48 @@ const FormState = ( { form, updateForms } ) => {
             <form onSubmit={changeFormState}>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Hyväksytty/Tarkastettu'
-                            checked={selectedOption === 'Hyväksytty/Tarkastettu'}
+                        <input type='radio' value='Pyyntö saapunut'
+                            checked={selectedOption === 'Pyyntö saapunut'}
                             onChange={handleOptionChange} />
-                               Hyväksytty/Tarkastettu
+                           Pyyntö saapunut
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Kysytään tutkimuspaikkaa'
-                            checked={selectedOption === 'Kysytään tutkimuspaikkaa'}
+                        <input type='radio' value='Pyyntö tarkastelussa'
+                            checked={selectedOption === 'Pyyntö tarkastelussa'}
                             onChange={handleOptionChange} />
-         Kysytään tutkimuspaikkaa
+                          Pyyntö tarkastelussa
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Tutkimuspaikka hyväksytty'
-                            checked={selectedOption === 'Tutkimuspaikka hyväksytty'}
+                        <input type='radio' value='Pyydetty lisätietoja'
+                            checked={selectedOption === 'Pyydetty lisätietoja'}
                             onChange={handleOptionChange}  />
-         Tutkimuspaikka hyväksytty
+                           Pyydetty lisätietoja
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Lausunto saapunut'
-                            checked={selectedOption === 'Lausunto saapunut'}
+                        <input type='radio' value='Saatu lisätietoja'
+                            checked={selectedOption === 'Saatu lisätietoja'}
                             onChange={handleOptionChange}  />
-         Lausunto saapunut
+                          Saatu lisätietoja
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Jatkoaika hyväksytty'
-                            checked={selectedOption === 'Jatkoaika hyväksytty'}
+                        <input type='radio' value='Pyyntö hyväksytty'
+                            checked={selectedOption === 'Pyyntö hyväksytty'}
                             onChange={handleOptionChange} />
-         Jatkoaika hyväksytty
+                          Pyyntö hyväksytty
                     </label>
                 </div>
                 <button id='updateFormState' type='submit'>Päivitä lomakkeen tila</button>
             </form>
         </div>
+
     )
 }
 
