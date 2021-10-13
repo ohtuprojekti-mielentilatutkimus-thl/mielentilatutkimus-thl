@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 describe('All admissions can be viewed', () => {
 
     beforeEach(function() {
@@ -40,10 +42,10 @@ describe('All admissions can be viewed', () => {
     }
     )
 
-    it('the state of the form can be changed', function () {
+    it('The state of the form can be changed', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
-      
+
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
@@ -61,6 +63,24 @@ describe('All admissions can be viewed', () => {
         cy.get('a').last().click()
         cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
 
+    })
+
+    it('Listing view shows states correctly', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').first().click()
+        cy.get('[type="radio"]').eq(3).check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#handleShowLessInfo').click()
+        cy.get('#formState').first().contains('Lausunto saapunut')
+
+        cy.get('a').first().click()
+        cy.get('[type="radio"]').eq(4).check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#handleShowLessInfo').click()
+
+        cy.get('#formState').first().contains('Jatkoaika hyväksytty')
     })
 }
 )
