@@ -1,6 +1,5 @@
 import React from 'react'
 import { Component } from 'react'
-import { useEffect } from 'react'
 import AddmissionForm from './components/AddmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import './App.css'
@@ -11,27 +10,6 @@ import {
 
 
 const App = () => {
-
-
-    useEffect(() => {
-        /*not in use atm
-        addmissionService
-            .getAll().then(response => {
-                setAddmissions(response.data)
-            })*/
-    }, [])
-
-    //const [addmissions, setAddmissions] = useState([])
-
-    /*try {
-        const newAddmission = await addmissionService.create(addmissionObject)
-        setAddmissions(addmissions.concat(newAddmission))
-        console.log('Lisäys onnistui')
-        /*}
-        catch (exception){
-            console.log('Virhe')
-        }*/
-
     return (
         <div className='app'>
             <Switch>
