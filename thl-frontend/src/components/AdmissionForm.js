@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
 import { Paper, Grid, Dialog, DialogContent, Box, DialogActions, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { useStyles } from '../styles'
 
 const FormState = ( { form, updateForms } ) => {
     const [selectedOption, setSelectedOption] = useState('')
@@ -86,34 +86,6 @@ const AdmissionForm = ({ form, updateForms } ) => {
     const handleShowLessInfo = () => {
         setShowInfo(false)
     }
-
-
-
-    const useStyles = makeStyles({
-        form: {
-            display: 'center',
-            background: 'white',
-            padding: '10px',
-            borderWidth: '1px',
-            width: '50%',
-            height: '50%',
-            align: 'center',
-            justifyContent: 'center'
-        },
-        text: {
-            fontSize: '18px',
-            justifyContent: 'center',
-            align: 'center'
-        },
-        tablecell: {
-            fontSize: 14
-        },
-        tablerow: {
-            '&:last-child td, &:last-child th': {
-                border: 0,
-            },
-        }
-    })
 
     const classes = useStyles()
 
