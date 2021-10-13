@@ -42,7 +42,7 @@ const ThlAdmissions = () => {
                                     </TableCell>
                                     <TableCell align="left">{form.createdAt}</TableCell>
                                     <TableCell align="left">{form.updatedAt}</TableCell>
-                                    <TableCell align="left">{form.formState}</TableCell>
+                                    <TableCell align="left" id="formState">{form.formState}</TableCell>
                                 </TableRow>
                             )
                         })}
