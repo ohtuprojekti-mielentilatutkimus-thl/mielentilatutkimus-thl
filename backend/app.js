@@ -23,15 +23,11 @@ mongoose.connect(config.MONGODB_URI).then( () => {
     console.log('error connecting')
 })
 
-//mongoose.connect('mongodb://localhost:27017/mielentila')
-
-//app.use(express.urlencoded({ extended: true }))
-
 if (process.env.NODE_ENV !== 'test') {
     app.use(morgan(':method :url :status :response-time ms :body'))
 }
 
-// Tämän täytyy (ehkä) olla kaikkien routereiden jälkeen
+// Nämä pitää määritellä routereiden jälkeen
 app.get('/thl/*', (req, res) => res.sendFile(path.resolve('builds', 'thl', 'build', 'index.html')))
 app.get('/mielentilatutkimus/*', (req, res) => res.sendFile(path.resolve('builds', 'mielentilatutkimus', 'build', 'index.html')))
 

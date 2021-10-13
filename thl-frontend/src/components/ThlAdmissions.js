@@ -24,7 +24,7 @@ const ThlAdmissions = () => {
         <div>
             <h2>Lomakkeet:</h2>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+                <Table sx={{ minWidth: 700 }}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
@@ -37,12 +37,12 @@ const ThlAdmissions = () => {
                         {forms.slice().map(form => {
                             return (
                                 <TableRow key={form.id}>
-                                    <TableCell component="th">
+                                    <TableCell>
                                         <AdmissionForm key={form.id} form={form} updateForms={updateForms}> </AdmissionForm>
                                     </TableCell>
                                     <TableCell align="left">{form.createdAt}</TableCell>
                                     <TableCell align="left">{form.updatedAt}</TableCell>
-                                    <TableCell align="left">{form.formState}</TableCell>
+                                    <TableCell align="left" id="formState">{form.formState}</TableCell>
                                 </TableRow>
                             )
                         })}

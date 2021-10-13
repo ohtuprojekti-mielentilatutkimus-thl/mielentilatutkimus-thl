@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    env:
+      PUBLIC_URL_MTL: https://ohtup-staging.cs.helsinki.fi/mielentilatutkimus
+      PUBLIC_URL_THL: https://ohtup-staging.cs.helsinki.fi/thl
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -20,7 +23,8 @@ jobs:
           addLatest: true
           registry: docker.io
           buildArgs:
-            PUBLIC_URL=https://ohtup-staging.cs.helsinki.fi/mielentilatutkimus
+            PUBLIC_URL_MTL=${{ env.PUBLIC_URL_MTL }},
+            PUBLIC_URL_THL=${{ env.PUBLIC_URL_THL }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
@@ -31,5 +35,5 @@ jobs:
       - name: Check production http status
         uses: lakuapik/gh-actions-http-status@v1
         with:
-          sites: '["https://ohtup-staging.cs.helsinki.fi/mielentilatutkimus/basic_information_form"]'
-          expected: '[200]'
+          sites: '["${{ env.PUBLIC_URL_MTL }}/basic_information_form", "${{ env.PUBLIC_URL_THL }}/thl-admissions"]'
+          expected: '[200, 200]'

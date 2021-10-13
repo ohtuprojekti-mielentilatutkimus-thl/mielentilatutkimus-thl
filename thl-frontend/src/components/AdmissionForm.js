@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
-import { Paper, Grid, TableRow, TableCell, Dialog, DialogContent, Box, DialogActions, Button } from '@material-ui/core'
+import { Paper, Grid, Dialog, DialogContent, Box, DialogActions, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const FormState = ( { form, updateForms } ) => {
@@ -29,47 +29,48 @@ const FormState = ( { form, updateForms } ) => {
             <form onSubmit={changeFormState}>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Hyväksytty/Tarkastettu'
-                            checked={selectedOption === 'Hyväksytty/Tarkastettu'}
+                        <input type='radio' value='Pyyntö saapunut'
+                            checked={selectedOption === 'Pyyntö saapunut'}
                             onChange={handleOptionChange} />
-                               Hyväksytty/Tarkastettu
+                           Pyyntö saapunut
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Kysytään tutkimuspaikkaa'
-                            checked={selectedOption === 'Kysytään tutkimuspaikkaa'}
+                        <input type='radio' value='Pyyntö tarkastelussa'
+                            checked={selectedOption === 'Pyyntö tarkastelussa'}
                             onChange={handleOptionChange} />
-         Kysytään tutkimuspaikkaa
+                          Pyyntö tarkastelussa
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Tutkimuspaikka hyväksytty'
-                            checked={selectedOption === 'Tutkimuspaikka hyväksytty'}
+                        <input type='radio' value='Pyydetty lisätietoja'
+                            checked={selectedOption === 'Pyydetty lisätietoja'}
                             onChange={handleOptionChange}  />
-         Tutkimuspaikka hyväksytty
+                           Pyydetty lisätietoja
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Lausunto saapunut'
-                            checked={selectedOption === 'Lausunto saapunut'}
+                        <input type='radio' value='Saatu lisätietoja'
+                            checked={selectedOption === 'Saatu lisätietoja'}
                             onChange={handleOptionChange}  />
-         Lausunto saapunut
+                          Saatu lisätietoja
                     </label>
                 </div>
                 <div className='states'>
                     <label>
-                        <input type='radio' value='Jatkoaika hyväksytty'
-                            checked={selectedOption === 'Jatkoaika hyväksytty'}
+                        <input type='radio' value='Pyyntö hyväksytty'
+                            checked={selectedOption === 'Pyyntö hyväksytty'}
                             onChange={handleOptionChange} />
-         Jatkoaika hyväksytty
+                          Pyyntö hyväksytty
                     </label>
                 </div>
                 <button id='updateFormState' type='submit'>Päivitä lomakkeen tila</button>
             </form>
         </div>
+
     )
 }
 
@@ -145,8 +146,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                             <br />
                             <Grid
-                                container rowSpacing={2}
-                                columnSpacing={{ xs: 2 }}
+                                container
+                                rowspacing={2}
+                                columnspacing={{ xs: 2 }}
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Etunimet:</div>
@@ -201,8 +203,8 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             <h2>Mielentilatutkimuslomake:</h2>
                             <br />
                             <Grid
-                                container rowSpacing={2}
-                                columnSpacing={{ xs: 2 }}
+                                container rowspacing={2}
+                                columnspacing={{ xs: 2 }}
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Halutaanko lisäksi vaarallisuusarvio:</div>
@@ -210,6 +212,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                         <label>
                                             <input type='radio' value='Vaarallisuusarvio'
                                                 checked={form.hazardAssesment === true}
+                                                readOnly
                                             />
                                         </label>
                                     </div>
@@ -240,6 +243,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                         <label>
                                             <input type='radio' value='SyyteNostettu'
                                                 checked={form.prosecuted === true}
+                                                readOnly
                                             />
                                         </label>
                                     </div>
@@ -320,16 +324,11 @@ const AdmissionForm = ({ form, updateForms } ) => {
 
     } else {
         return (
-            <TableRow key={form.id} className={classes.tablerow}>
-                <TableCell scope='row' className={classes.tablecell}>
+            <div>
+                <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
                     {form.id}
-                </TableCell>
-                <TableCell align='right' className={classes.tablecell}>
-                    <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
-                   Avaa lomake
-                    </a>
-                </TableCell>
-            </TableRow>
+                </a>
+            </div>
         )
     }
 }

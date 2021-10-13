@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 describe('All admissions can be viewed', () => {
 
     beforeEach(function() {
@@ -31,7 +33,7 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Odottaa tarkistusta')
+        cy.contains('Pyyntö saapunut')
         cy.contains('Sampo2')
         cy.contains('123456789')
 
@@ -40,28 +42,45 @@ describe('All admissions can be viewed', () => {
     }
     )
 
-    it('the state of the form can be changed', function () {
+    it('The state of the form can be changed', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
-      
+
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Odottaa tarkistusta')
+        cy.contains('Pyyntö saapunut')
         cy.contains('Sampo2')
         cy.contains('123456789')
-        cy.get('[type="radio"]').first().check()
+        cy.get('[type="radio"]').eq(1).check()
         cy.contains('Päivitä lomakkeen tila').click()
-        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
-        cy.contains('Lomakkeen tila: Hyväksytty/Tarkastettu')
+        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
 
+    })
+
+    it('Listing view shows states correctly', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').first().click()
+        cy.get('[type="radio"]').eq(2).check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#handleShowLessInfo').click()
+        cy.get('#formState').first().contains('Pyydetty lisätietoja')
+
+        cy.get('a').first().click()
+        cy.get('[type="radio"]').eq(3).check()
+        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#handleShowLessInfo').click()
+
+        cy.get('#formState').first().contains('Saatu lisätietoja')
     })
 }
 )
-
