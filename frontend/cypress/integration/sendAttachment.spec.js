@@ -31,15 +31,6 @@ describe('Attach files in  Admission Form', function() {
             const testFile = 'testfile.pdf'
             const filePath = 'testfiles/' + testFile
 
-            /*cy.contains('Valitse tiedosto').click()
-            cy.get('input[type="file"]').attachFile(filepath)
-            cy.contains('Lataa valittu tiedosto').click()
-            cy.wait('@uploadApi').then((interception) => {
-                assert.equal(testfile, interception.response.body.originalname)
-                assert.equal('valituomio', interception.response.body.whichFile)
-                assert.equal('ok', interception.response.body.message)
-            })*/
-
             const attachments = ['valituomio', 'poytakirja', 'haastehakemus', 'rikosrekisteriote', 'esitutkintapoytakirja', 'vangitsemispaatos']
 
             for (const i in attachments) {
@@ -52,12 +43,9 @@ describe('Attach files in  Admission Form', function() {
                 })
             }
 
-
             cy.get('#createPersonButton').click()
             cy.contains('Pyyntö lähetettiin onnistuneesti')
 
         })
-
     })
-
 })
