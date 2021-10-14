@@ -30,8 +30,14 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         attachments: []
     })
     const savedForm = await basicInformationForm.save()
-    res.json(savedForm.toJSON())
+    const response = [
+        savedForm.admissionNoteSenderOrganization,
+        savedForm.admissionNoteSender,
+        savedForm.sendersEmail,
+        savedForm.sendersPhoneNumber
+    ]
     
+    res.json(response).toJSON()
     Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
 
 })
