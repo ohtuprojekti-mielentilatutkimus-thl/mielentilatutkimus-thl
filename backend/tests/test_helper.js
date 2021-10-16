@@ -1,5 +1,9 @@
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
+const testData = require('./test_data.json')
+
+const admissionFormTestData = testData.admission_forms[0]
+const basicInfoFormTestData = testData.basic_info_forms[0]
 
 const admission_form_input = {
     // using default value for formState
@@ -71,5 +75,5 @@ const basicsInDb = async () => {
 }
 
 module.exports = {
-    admission_form_input, basic_information_input, admissionsInDb, basicsInDb
+    admission_form_input, basic_information_input, admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb
 }
