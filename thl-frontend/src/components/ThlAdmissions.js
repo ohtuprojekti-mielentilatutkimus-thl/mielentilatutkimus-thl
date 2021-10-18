@@ -3,6 +3,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import AdmissionForm from './AdmissionForm'
 import formService from '../services/formService'
 import { useStyles } from '../styles'
+import dayjs from 'dayjs'
 
 const ThlAdmissions = () => {
     const [forms, setForms] = useState([])
@@ -46,8 +47,8 @@ const ThlAdmissions = () => {
                                         <TableCell>
                                             <AdmissionForm key={form.id} form={form} updateForms={updateForms}> </AdmissionForm>
                                         </TableCell>
-                                        <TableCell align="left">{form.createdAt}</TableCell>
-                                        <TableCell align="left">{form.updatedAt}</TableCell>
+                                        <TableCell align="left">{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left">{dayjs(form.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
                                         <TableCell align="left" id="formState">{form.formState}</TableCell>
                                     </TableRow>
                                 )

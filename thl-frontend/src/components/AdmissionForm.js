@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import formService from '../services/formService'
 import { Paper, Grid, Dialog, DialogContent, Box, DialogActions, Button } from '@material-ui/core'
 import { useStyles } from '../styles'
+import dayjs from 'dayjs'
 
 const FormState = ( { form, updateForms } ) => {
     const [selectedOption, setSelectedOption] = useState('')
@@ -195,7 +196,8 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                                    <div className={classes.text}>{form.datePrescribedForPsychiatricAssesment}</div>
+                                    <div className={classes.text}>{dayjs(form.datePrescribedForPsychiatricAssesment).format('DD.MM.YYYY')}</div>
+
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Tutkittavan äidinkieli:</div>
@@ -222,7 +224,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                                    <div className={classes.text}>{form.deadlineForProsecution}</div>
+                                    <div className={classes.text}>{dayjs(form.deadlineForProsecution).format('DD.MM.YYYY')}</div>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.text}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
