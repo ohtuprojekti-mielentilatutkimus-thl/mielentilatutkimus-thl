@@ -1,5 +1,6 @@
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
+const AttachmentForm = require('../models/attachmentForm.model.js')
 const testData = require('./test_data.json')
 
 let admissionFormTestData = testData.admission_forms[0]
@@ -74,6 +75,11 @@ const basicsInDb = async () => {
     return basics.map(a => a.toJSON())
 }
 
+const attachmentsInDb = async () => {
+    const attachments = await AttachmentForm.find({})
+    return attachments.map(a => a.toJSON())
+}
+
 module.exports = {
-    admission_form_input, basic_information_input, admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb
+    admission_form_input, basic_information_input, admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb, attachmentsInDb
 }
