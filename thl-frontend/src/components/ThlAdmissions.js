@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 
 const ThlAdmissions = () => {
     const [forms, setForms] = useState([])
+    const [ascending, setAscending] = useState(true)
 
     const classes = useStyles()
 
@@ -25,7 +26,14 @@ const ThlAdmissions = () => {
 
     const sortForms = async () => {
         const forms = await formService.getAll()
-        setForms(forms.sort((a,b) => a.formState > b.formState ? 1 : -1))
+
+        if (ascending) {
+            setForms(forms.sort((a,b) => a.formState > b.formState ? 1 : -1))
+            setAscending(false)
+        } else {
+            setForms(forms.sort((a,b) => b.formState > a.formState ? 1 : -1))
+            setAscending(true)
+        }
     }
 
 
@@ -43,7 +51,8 @@ const ThlAdmissions = () => {
                                 <TableCell align="left">Luotu</TableCell>
                                 <TableCell align="left">Päivitetty</TableCell>
                                 <TableCell align="left">Tila
-                                    <button onClick={sortForms}>Sort by state</button></TableCell>
+                                    <button onClick={sortForms}>Järjestä</button>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
