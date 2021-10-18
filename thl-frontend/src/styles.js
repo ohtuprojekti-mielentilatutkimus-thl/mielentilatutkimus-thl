@@ -18,9 +18,11 @@ const useStyles = makeStyles({
         align: 'center',
     },
     text: {
-        fontSize: '18px',
-        justifyContent: 'center',
-        align: 'center'
+        fontSize: '18px'
+    },
+    textLabel: {
+        fontSize: '16px',
+        fontWeight: 'bold'
     },
     tablecell: {
         fontSize: 14

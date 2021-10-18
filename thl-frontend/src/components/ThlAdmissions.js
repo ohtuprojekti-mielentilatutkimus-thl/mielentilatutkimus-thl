@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 const ThlAdmissions = () => {
     const [forms, setForms] = useState([])
     const [ascending, setAscending] = useState(true)
-    const [ascendingDate, setAscendingDate] = useState (true)
+    const [ascendingDate, setAscendingDate] = useState (false)
 
     const classes = useStyles()
 
