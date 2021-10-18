@@ -1,30 +1,31 @@
 /* eslint-disable no-undef */
 
-describe('All admissions can be viewed', () => {
 
-    beforeEach(function() {
+beforeEach(function() {
 
-        var senders_id = ''
+    var senders_id = ''
 
-        cy.request('POST', 'http://localhost:3001/api/admissions/basic_information_form', {
-            admissionNoteSender: 'Sampo',
-            admissionNoteSenderOrganization: 'Organisaatio',
-            sendersEmail: 'postia@sampolle.fi',
-            sendersPhoneNumber: '060606606060'
-        }).then(response => {
+    cy.request('POST', 'http://localhost:3001/api/admissions/basic_information_form', {
+        admissionNoteSender: 'Sampo',
+        admissionNoteSenderOrganization: 'Organisaatio',
+        sendersEmail: 'postia@sampolle.fi',
+        sendersPhoneNumber: '060606606060'
+    }).then(response => {
 
-            localStorage.setItem('sender_id', JSON.stringify(response.body.id))
-            const sender_id = localStorage.sender_id
-            senders_id = sender_id.replace(/['"]+/g,'')
-            console.log(senders_id)
+        localStorage.setItem('sender_id', JSON.stringify(response.body.id))
+        const sender_id = localStorage.sender_id
+        senders_id = sender_id.replace(/['"]+/g,'')
+        console.log(senders_id)
 
-            cy.request('POST', 'http://localhost:3001/api/admissions/admission_form', {
-                admissionNoteSender: 'Sampo2',
-                diaariNumber: '123456789',
-            })
+        cy.request('POST', 'http://localhost:3001/api/admissions/admission_form', {
+            admissionNoteSender: 'Sampo2',
+            diaariNumber: '123456789',
+            formState: 'AAAAAA'
         })
     })
+})
 
+describe('All admissions can be viewed', () => {
 
     it('New admission can be viewed', function () {
 
@@ -81,6 +82,15 @@ describe('All admissions can be viewed', () => {
         cy.get('#handleShowLessInfo').click()
 
         cy.get('#formState').first().contains('Saatu lisätietoja')
+    })
+
+    it('Sort by state sorts correctly', function () {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.contains('AAAAAA')
+        cy.get('#sortState').click()
+        cy.get('#admissionsListRow').first().contains('AAAAAA')
+        cy.get('#sortState').click()
+        cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
     })
 }
 )
