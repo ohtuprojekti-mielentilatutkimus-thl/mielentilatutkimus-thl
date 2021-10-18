@@ -23,6 +23,11 @@ const ThlAdmissions = () => {
         setForms(forms.map(form => form.id !== updateFormState.id ? form : updateFormState))
     }
 
+    const sortForms = async () => {
+        const forms = await formService.getAll()
+        setForms(forms.sort((a,b) => a.formState > b.formState ? 1 : -1))
+    }
+
 
     return (
         <div className={classes.page}>
@@ -37,7 +42,8 @@ const ThlAdmissions = () => {
                                 <TableCell>Id</TableCell>
                                 <TableCell align="left">Luotu</TableCell>
                                 <TableCell align="left">Päivitetty</TableCell>
-                                <TableCell align="left">Tila</TableCell>
+                                <TableCell align="left">Tila
+                                    <button onClick={sortForms}>Sort by state</button></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
