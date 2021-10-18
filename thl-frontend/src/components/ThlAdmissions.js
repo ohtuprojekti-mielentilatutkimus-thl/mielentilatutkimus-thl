@@ -67,14 +67,14 @@ const ThlAdmissions = () => {
                                 <TableCell align="left">Päivitetty
                                 </TableCell>
                                 <TableCell align="left">Tila
-                                    <button onClick={sortFormsByState}>Järjestä</button>
+                                    <button id='sortState' onClick={sortFormsByState}>Järjestä</button>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {forms.slice().map(form => {
                                 return (
-                                    <TableRow key={form.id}>
+                                    <TableRow id='admissionsListRow' key={form.id}>
                                         <TableCell>
                                             <AdmissionForm key={form.id} form={form} updateForms={updateForms}> </AdmissionForm>
                                         </TableCell>
