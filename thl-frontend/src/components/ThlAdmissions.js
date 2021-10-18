@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 const ThlAdmissions = () => {
     const [forms, setForms] = useState([])
     const [ascending, setAscending] = useState(true)
+    const [ascendingDate, setAscendingDate] = useState (true)
 
     const classes = useStyles()
 
@@ -24,7 +25,7 @@ const ThlAdmissions = () => {
         setForms(forms.map(form => form.id !== updateFormState.id ? form : updateFormState))
     }
 
-    const sortForms = async () => {
+    const sortFormsByState = async () => {
         const forms = await formService.getAll()
 
         if (ascending) {
@@ -33,6 +34,18 @@ const ThlAdmissions = () => {
         } else {
             setForms(forms.sort((a,b) => b.formState > a.formState ? 1 : -1))
             setAscending(true)
+        }
+    }
+
+    const sortFormsByDate= async () => {
+        const forms = await formService.getAll()
+
+        if (ascendingDate) {
+            setForms(forms.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1))
+            setAscendingDate(false)
+        } else {
+            setForms(forms.sort((a,b) => b.createdAt > a.createdAt ? 1 : -1))
+            setAscendingDate(true)
         }
     }
 
@@ -48,10 +61,13 @@ const ThlAdmissions = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>
-                                <TableCell align="left">Luotu</TableCell>
-                                <TableCell align="left">Päivitetty</TableCell>
+                                <TableCell align="left">Luotu
+                                    <button onClick={sortFormsByDate}>Järjestä</button>
+                                </TableCell>
+                                <TableCell align="left">Päivitetty
+                                </TableCell>
                                 <TableCell align="left">Tila
-                                    <button onClick={sortForms}>Järjestä</button>
+                                    <button onClick={sortFormsByState}>Järjestä</button>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
