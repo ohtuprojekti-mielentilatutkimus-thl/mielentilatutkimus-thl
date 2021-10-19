@@ -13,7 +13,7 @@ describe('Attach files in  Admission Form', function() {
                 admissionNoteSenderOrganization: helper.basic_information_input.admissionNoteSenderOrganization,
                 sendersEmail: helper.basic_information_input.sendersEmail,
                 sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber
-            }).then(response => {
+            }).then(() => {
                 cy.wait(1000)
                 cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
                     expect(emails.status).equal(200)

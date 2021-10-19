@@ -9,7 +9,7 @@ describe('Send Admission Form', function() {
                 admissionNoteSenderOrganization: 'Organisaatio',
                 sendersEmail: 'postia@sampolle.fi',
                 sendersPhoneNumber: '060606606060'
-            }).then(response => {
+            }).then(() => {
                 cy.wait(1000)
                 cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
                     expect(emails.status).equal(200)
