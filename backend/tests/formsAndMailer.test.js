@@ -22,8 +22,8 @@ beforeEach(async () => {
     await BasicInformationForm.deleteMany({})
 })
 
-afterAll(() => {
-    maildev.close()
+afterAll(async () => {
+    await maildev.close()
 })
 
 test('Link to admission form is sent after POST request', async () => {
