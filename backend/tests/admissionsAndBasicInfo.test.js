@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
@@ -148,10 +147,4 @@ describe('when db is empty', () => {
     })
 
 
-})
-
-
-
-afterAll(() => {
-    mongoose.connection.close()
 })
