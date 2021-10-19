@@ -1,37 +1,29 @@
 /* eslint-disable no-undef */
-import dayjs from 'dayjs'
-
-
 var created_at = ''
 
 beforeEach(function() {
+    cy.emptyDatabase()
+    cy.wait(1000)
 
-    var senders_id = ''
+    cy.sendBasicInformation()
+    cy.wait(1000)
 
-    cy.request('POST', 'http://localhost:3001/api/admissions/basic_information_form', {
-        admissionNoteSender: 'Sampo',
-        admissionNoteSenderOrganization: 'Organisaatio',
-        sendersEmail: 'postia@sampolle.fi',
-        sendersPhoneNumber: '060606606060'
-    }).then(response => {
+    cy.sendAdmissionForm({
+        formState: 'AAAAAA'
+    })
+    cy.wait(1000)
 
-        localStorage.setItem('sender_id', JSON.stringify(response.body.id))
-        const sender_id = localStorage.sender_id
-        senders_id = sender_id.replace(/['"]+/g,'')
-        console.log(senders_id)
+    cy.sendAdmissionForm({
+        formState: 'BBBBBB'
+    })
+    cy.wait(1000)
 
-        cy.request('POST', 'http://localhost:3001/api/admissions/admission_form', {
-            admissionNoteSender: 'Sampo2',
-            diaariNumber: '123456789',
-            formState: 'AAAAAA'
-        }).then(response => {
-
-            localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
-            const createdAt = localStorage.createdAt
-            created_at = createdAt.replace(/['"]+/g,'')
-        }
-        )}
-    )
+    cy.sendAdmissionForm({
+        formState: 'CCCCCC'
+    }).then(() => {
+        const createdAt = localStorage.createdAt
+        created_at = createdAt
+    })
 })
 
 
@@ -45,8 +37,8 @@ describe('All admissions can be viewed', () => {
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
         cy.contains('Pyyntö saapunut')
-        cy.contains('Sampo2')
-        cy.contains('123456789')
+        cy.contains('Reijo')
+        cy.contains('Tomi Tuomari')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
@@ -62,8 +54,8 @@ describe('All admissions can be viewed', () => {
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
         cy.contains('Pyyntö saapunut')
-        cy.contains('Sampo2')
-        cy.contains('123456789')
+        cy.contains('Reijo')
+        cy.contains('Tomi Tuomari')
         cy.get('[type="radio"]').eq(1).check()
         cy.contains('Päivitä lomakkeen tila').click()
         cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
@@ -107,6 +99,8 @@ describe('All admissions can be viewed', () => {
         cy.wait(200)
 
         cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
+        cy.get('#admissionsListRow').first().contains('CCCCCC')
+
     })
 
     it('Sort by time sorts correctly', function () {
