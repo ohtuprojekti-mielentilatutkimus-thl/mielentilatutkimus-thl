@@ -7,6 +7,9 @@ import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
+import DateAdapter from '@mui/lab/AdapterDayjs'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 
 /* // toiminnallisuus myöhemmälle
 var old_id = ''
@@ -176,8 +179,8 @@ const Form = () => {
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
     }
-    const handleDatePrescribedForPsychiatricAssesmentChange = (event) => {
-        setDatePrescribedForPsychiatricAssesment(event.target.value)
+    const handleDatePrescribedForPsychiatricAssesmentChange = (newValue) => {
+        setDatePrescribedForPsychiatricAssesment(newValue)
     }
     const handleNativeLanguageChange = (event) => {
         setNativeLanguage(event.target.value)
@@ -191,8 +194,8 @@ const Form = () => {
     const handleProsecutedChange = () => {
         setProsecuted(!prosecuted)
     }
-    const handleDeadlineForProsecutionChange = (event) => {
-        setDeadlineForProsecution(event.target.value)
+    const handleDeadlineForProsecutionChange = (newValue) => {
+        setDeadlineForProsecution(newValue)
     }
     const handlePreTrialPoliceDepartmentChange = (event) => {
         setPreTrialPoliceDepartment(event.target.value)
@@ -429,7 +432,15 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen:</div>
-                                    <TextField fullWidth id='datePrescribedForPsychiatricAssessment' value={datePrescribedForPsychiatricAssesment} onChange={handleDatePrescribedForPsychiatricAssesmentChange} label='Päivämäärä mielentilatutkimukseen' variant='outlined' margin='normal' />
+                                    <LocalizationProvider dateAdapter={DateAdapter}>
+                                        <DesktopDatePicker
+                                            label="Kalenteri"
+                                            inputFormat="DD/MM/YYYY"
+                                            value={datePrescribedForPsychiatricAssesment}
+                                            onChange={handleDatePrescribedForPsychiatricAssesmentChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkittavan äidinkieli:</div>
@@ -449,7 +460,15 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                                    <TextField fullWidth id='deadlineForProsecution' value={deadlineForProsecution} onChange={handleDeadlineForProsecutionChange} label='Syytteen nostamisen määräaika' variant='outlined' margin='normal' />
+                                    <LocalizationProvider dateAdapter={DateAdapter}>
+                                        <DesktopDatePicker
+                                            label="Kalenteri"
+                                            inputFormat="DD/MM/YYYY"
+                                            value={deadlineForProsecution}
+                                            onChange={handleDeadlineForProsecutionChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>

@@ -1,6 +1,18 @@
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, createTheme } from '@material-ui/core/styles'
 
+const bg_color = '#F8F8F8'
+const primary_color = '#24242E'
+const secondary_color = '#595050'
+
+const theme = createTheme({
+    typography: {
+        h4: {
+            color: primary_color,
+            fontWeight: 'bold',
+        }
+    },
+})
 
 const useStyles = makeStyles({
     form: {
@@ -19,8 +31,12 @@ const useStyles = makeStyles({
     },
     text: {
         fontSize: '18px',
-        justifyContent: 'center',
-        align: 'center'
+        color: secondary_color
+    },
+    textLabel: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        color: primary_color
     },
     tablecell: {
         fontSize: 14
@@ -28,8 +44,16 @@ const useStyles = makeStyles({
     tablerow: {
         '&:last-child td, &:last-child th': {
             border: 0,
-        },
+        }
+    },
+    app: {
+        backgroundColor: bg_color,
+        width:'100%',
+        height:'100%',
+        top:'0',
+        left: '0',
+        position:'fixed'
     }
 })
 
-export { useStyles }
+export { useStyles, theme }

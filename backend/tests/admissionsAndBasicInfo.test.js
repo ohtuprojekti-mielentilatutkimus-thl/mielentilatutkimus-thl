@@ -11,17 +11,16 @@ const api = supertest(app)
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
-
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
         await AdmissionForm.deleteMany({})
         await BasicInformationForm.deleteMany({})
         
-        const newBasicsForm = new BasicInformationForm(helper.basic_information_input)
+        const newBasicsForm = new BasicInformationForm(helper.basicInfoFormTestData)
         await newBasicsForm.save()
 
-        const newAdmissionForm = new AdmissionForm(helper.admission_form_input)
+        const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
         await newAdmissionForm.save()
 
     })    
@@ -36,8 +35,8 @@ describe('when db is initialized with data', () => {
         test('can be retrieved from db', async () => {
             const basicsInDb = await helper.basicsInDb()
         
-            // +1 for id
-            const lengthOfInputFields = Object.keys(helper.basic_information_input).length + 1 
+            // +2 for id and attachment fields (not included in json)
+            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 2
             const lengthOfFieldsInDbItem = Object.keys(basicsInDb[0])
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
         })
@@ -48,7 +47,7 @@ describe('when db is initialized with data', () => {
 
             const response = await api.get(baseUrl+'/basic_information/'+idOfItemInDb)
         
-            const lengthOfInputFields = Object.keys(helper.basic_information_input).length + 1 
+            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 2
             expect(Object.keys(response.body[0])).toHaveLength(lengthOfInputFields)
         })
     })
@@ -59,7 +58,7 @@ describe('when db is initialized with data', () => {
         
             // + 1 for id, + 1 because formState has a default value
             // +2 for createdAt and updatedAt
-            const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 4
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 4
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -77,7 +76,7 @@ describe('when db is initialized with data', () => {
             let admissionsInDb = await helper.admissionsInDb()
             const idOfItemInDb = admissionsInDb[0].id
             
-            const changedAdmissionForm = { ...helper.admission_form_input, 
+            const changedAdmissionForm = { ...helper.admissionFormTestData, 
                 formState: 'muutettu prosessin tila'}
 
             await api
@@ -101,7 +100,7 @@ describe('when db is initialized with data', () => {
         })
 
         test('admissionform state is admission received by default', async () => {
-            const admission_form = helper.admission_form_input
+            const admission_form = helper.admissionFormTestData
             await api
                 .post(baseUrl+'/admission_form')
                 .send(admission_form) 
@@ -119,7 +118,7 @@ describe('when db is empty', () => {
         await BasicInformationForm.deleteMany({})
     })
     test('basic information can be saved to database with POST', async () => {
-        const basicInfo = helper.basic_information_input
+        const basicInfo = helper.basicInfoFormTestData
 
         await api
             .post(baseUrl+'/basic_information_form')
@@ -131,7 +130,7 @@ describe('when db is empty', () => {
     })
     
     test('admission form can be saved to database with POST', async () => {
-        const admission_form = helper.admission_form_input
+        const admission_form = helper.admissionFormTestData
 
         await api
             .post(baseUrl+'/admission_form')
@@ -142,7 +141,7 @@ describe('when db is empty', () => {
         expect(admissionsInDb).toHaveLength(1)
         // + 1 for id, + 1 because formState has a default value
         // +2 for createdAt and updatedAt
-        const lengthOfInputFields = Object.keys(helper.admission_form_input).length + 4
+        const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 4
         const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
         expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
