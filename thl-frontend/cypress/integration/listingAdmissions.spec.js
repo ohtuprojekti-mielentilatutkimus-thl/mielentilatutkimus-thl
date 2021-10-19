@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 var created_at = ''
 
-beforeEach(function() {
+before(function() {
     cy.emptyDatabase()
     cy.wait(1000)
 
@@ -45,6 +45,38 @@ describe('All admissions can be viewed', () => {
     }
     )
 
+    it('Sort by state sorts correctly', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.contains('AAAAAA')
+        cy.get('#sortState').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains('AAAAAA')
+        cy.get('#sortState').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
+        cy.get('#admissionsListRow').first().contains('CCCCCC')
+
+    })
+
+    it('Sort by time sorts correctly', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.contains(created_at)
+        cy.get('#sortTime').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains(created_at)
+        cy.get('#sortTime').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains(created_at).should('not.exist')
+    })
+
     it('The state of the form can be changed', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
@@ -86,36 +118,5 @@ describe('All admissions can be viewed', () => {
         cy.get('#formState').first().contains('Saatu lisätietoja')
     })
 
-    it('Sort by state sorts correctly', function () {
-
-        cy.visit('http://localhost:3002/thl/thl-admissions')
-
-        cy.contains('AAAAAA')
-        cy.get('#sortState').click()
-        cy.wait(200)
-
-        cy.get('#admissionsListRow').first().contains('AAAAAA')
-        cy.get('#sortState').click()
-        cy.wait(200)
-
-        cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
-        cy.get('#admissionsListRow').first().contains('CCCCCC')
-
-    })
-
-    it('Sort by time sorts correctly', function () {
-
-        cy.visit('http://localhost:3002/thl/thl-admissions')
-
-        cy.contains(created_at)
-        cy.get('#sortTime').click()
-        cy.wait(200)
-
-        cy.get('#admissionsListRow').first().contains(created_at)
-        cy.get('#sortTime').click()
-        cy.wait(200)
-
-        cy.get('#admissionsListRow').first().contains(created_at).should('not.exist')
-    })
 }
 )

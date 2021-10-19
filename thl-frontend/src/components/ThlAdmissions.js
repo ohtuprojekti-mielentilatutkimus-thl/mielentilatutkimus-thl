@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core'
 import AdmissionForm from './AdmissionForm'
 import formService from '../services/formService'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
+
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import IconButton from '@material-ui/core/IconButton'
 
 const ThlAdmissions = () => {
     const [forms, setForms] = useState([])
@@ -53,7 +56,7 @@ const ThlAdmissions = () => {
     return (
         <div className={classes.page}>
             <div>
-                <h2>Lomakkeet:</h2>
+                <Typography variant={'h4'}>Lomakkeet</Typography>
             </div>
             <div>
                 <TableContainer component={Paper} className={classes.form}>
@@ -62,12 +65,18 @@ const ThlAdmissions = () => {
                             <TableRow>
                                 <TableCell>Id</TableCell>
                                 <TableCell align="left">Luotu
-                                    <button id='sortTime' onClick={sortFormsByDate}>Järjestä</button>
+                                    <IconButton id="sortTime" onClick={sortFormsByDate} color="primary">
+                                        <ArrowDropDownIcon />
+                                    </IconButton>
+
                                 </TableCell>
                                 <TableCell align="left">Päivitetty
                                 </TableCell>
                                 <TableCell align="left">Tila
-                                    <button id='sortState' onClick={sortFormsByState}>Järjestä</button>
+                                    <IconButton id="sortState" onClick={sortFormsByState} color="primary">
+                                        <ArrowDropDownIcon fontSize="small" color="black" />
+                                    </IconButton>
+
                                 </TableCell>
                             </TableRow>
                         </TableHead>
