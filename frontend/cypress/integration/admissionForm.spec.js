@@ -1,14 +1,15 @@
 /* eslint-disable no-undef */
+const helper = require('./test_helper')
 describe('Send Admission Form', function() {
 
     it('Post basic information form to get the id', function(){
         cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
             expect(res.status).equal(200)
             cy.request('POST', 'http://localhost:3000/api/admissions/basic_information_form', {
-                admissionNoteSender: 'Sampo',
-                admissionNoteSenderOrganization: 'Organisaatio',
-                sendersEmail: 'postia@sampolle.fi',
-                sendersPhoneNumber: '060606606060'
+                admissionNoteSender: helper.admission_form_input.admissionNoteSender,
+                admissionNoteSenderOrganization: helper.admission_form_input.admissionNoteSenderOrganization,
+                sendersEmail: helper.admission_form_input.sendersEmail,
+                sendersPhoneNumber: helper.admission_form_input.sendersPhoneNumber
             }).then(() => {
                 cy.wait(1000)
                 cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
@@ -29,8 +30,8 @@ describe('Send Admission Form', function() {
                     cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
 
-                    cy.get('#name').type('Outi')
-                    cy.get('#diaariNumber').type('666')
+                    cy.get('#name').type(helper.admission_form_input.name)
+                    cy.get('#diaariNumber').type(helper.admission_form_input.diaariNumber)
 
                     cy.get('#createPersonButton').click()
                     cy.contains('Pyyntö lähetettiin onnistuneesti')
