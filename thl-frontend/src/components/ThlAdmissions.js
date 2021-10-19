@@ -62,7 +62,7 @@ const ThlAdmissions = () => {
                             <TableRow>
                                 <TableCell>Id</TableCell>
                                 <TableCell align="left">Luotu
-                                    <button onClick={sortFormsByDate}>Järjestä</button>
+                                    <button id='sortTime' onClick={sortFormsByDate}>Järjestä</button>
                                 </TableCell>
                                 <TableCell align="left">Päivitetty
                                 </TableCell>
@@ -78,9 +78,9 @@ const ThlAdmissions = () => {
                                         <TableCell>
                                             <AdmissionForm key={form.id} form={form} updateForms={updateForms}> </AdmissionForm>
                                         </TableCell>
-                                        <TableCell align="left">{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
-                                        <TableCell align="left">{dayjs(form.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
-                                        <TableCell align="left" id="formState">{form.formState}</TableCell>
+                                        <TableCell align="left" id='createdAt'>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left" id='updatedAt'>{dayjs(form.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left" id='formState'>{form.formState}</TableCell>
                                     </TableRow>
                                 )
                             })}
