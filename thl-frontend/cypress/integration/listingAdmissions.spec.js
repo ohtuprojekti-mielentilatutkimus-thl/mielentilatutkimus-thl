@@ -1,5 +1,8 @@
 /* eslint-disable no-undef */
+import dayjs from 'dayjs'
 
+
+var created_at = ''
 
 beforeEach(function() {
 
@@ -21,9 +24,16 @@ beforeEach(function() {
             admissionNoteSender: 'Sampo2',
             diaariNumber: '123456789',
             formState: 'AAAAAA'
-        })
-    })
+        }).then(response => {
+
+            localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
+            const createdAt = localStorage.createdAt
+            created_at = createdAt.replace(/['"]+/g,'')
+        }
+        )}
+    )
 })
+
 
 describe('All admissions can be viewed', () => {
 
@@ -85,12 +95,33 @@ describe('All admissions can be viewed', () => {
     })
 
     it('Sort by state sorts correctly', function () {
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
+
         cy.contains('AAAAAA')
         cy.get('#sortState').click()
+        cy.wait(200)
+
         cy.get('#admissionsListRow').first().contains('AAAAAA')
         cy.get('#sortState').click()
+        cy.wait(200)
+
         cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
+    })
+
+    it('Sort by time sorts correctly', function () {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.contains(created_at)
+        cy.get('#sortTime').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains(created_at)
+        cy.get('#sortTime').click()
+        cy.wait(200)
+
+        cy.get('#admissionsListRow').first().contains(created_at).should('not.exist')
     })
 }
 )
