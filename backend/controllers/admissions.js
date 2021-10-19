@@ -37,7 +37,7 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         savedForm.sendersPhoneNumber
     ]
     
-    res.json(response).toJSON()
+    res.json(response)
     Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
 
 })
