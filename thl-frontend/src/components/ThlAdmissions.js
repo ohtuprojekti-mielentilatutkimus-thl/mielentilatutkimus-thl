@@ -74,7 +74,7 @@ const ThlAdmissions = () => {
                                 </TableCell>
                                 <TableCell align="left">Tila
                                     <IconButton id="sortState" onClick={sortFormsByState} color="primary">
-                                        <ArrowDropDownIcon fontSize="small" color="black" />
+                                        <ArrowDropDownIcon fontSize="small"/>
                                     </IconButton>
 
                                 </TableCell>
