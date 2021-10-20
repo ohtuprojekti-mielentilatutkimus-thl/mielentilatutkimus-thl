@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 const FormState = ( { form, updateForms } ) => {
 
-    const [selectedOption, setSelectedOption] = useState()
+    const [selectedOption, setSelectedOption] = useState('')
 
     const changeFormState = (event) => {
 
@@ -33,6 +33,7 @@ const FormState = ( { form, updateForms } ) => {
                     <Select
                         onChange={handleChange}
                         defaultValue= {form.formState ? form.formState : ' ' }
+                        value={selectedOption || form.formState}
                         disableUnderline
                         id='selectState'>
                         <MenuItem id='0' value={'Pyyntö saapunut'}> Pyyntö saapunut</MenuItem>
@@ -77,8 +78,8 @@ const AdmissionForm = ({ form, updateForms } ) => {
                 },
             }} fullWidth>
 
-                <DialogTitle>
-                    <h2>Lomake: {form.id}</h2>
+                <DialogTitle disableTypography>
+                    <h1>Lomake: {form.id}</h1>
 
                     <Grid
                         container
@@ -103,13 +104,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                 </DialogTitle>
                 <DialogContent>
 
-
                     <Grid>
                         <p> </p>
-
-
                         <Typography variant={'h4'}>Yleiset tutkittavan henkilön tiedot</Typography>
-
                         <br></br>
 
                         <Grid
