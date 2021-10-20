@@ -134,7 +134,8 @@ describe('when db is empty', () => {
             expect(basicInfo[k]).not.toBeUndefined()
             expect(basicInfo[k]).toEqual(basicsInDb[0][k])
         }
-        expect(basicInfo.length).toBe(basicsInDb[0].length)
+
+        expect(Object.keys(basicInfo).length).toBe(Object.keys(basicsInDb[0]).length-2)//-id and attachments field
 
     })
     
@@ -154,7 +155,12 @@ describe('when db is empty', () => {
         const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
         expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
-    })
 
+        for (k in admission_form) {
+            expect(admission_form[k]).not.toBeNull()
+            expect(admission_form[k]).not.toBeUndefined()
+            expect(admission_form[k]).toEqual(admissionsInDb[0][k])
+        }
+    })
 
 })
