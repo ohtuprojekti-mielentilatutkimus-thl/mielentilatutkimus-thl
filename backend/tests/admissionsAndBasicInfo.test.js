@@ -129,6 +129,13 @@ describe('when db is empty', () => {
         const basicsInDb = await helper.basicsInDb()
 
         expect(basicsInDb).toHaveLength(1)
+        for (k in basicInfo) {
+            expect(basicInfo[k]).not.toBeNull()
+            expect(basicInfo[k]).not.toBeUndefined()
+            expect(basicInfo[k]).toEqual(basicsInDb[0][k])
+        }
+        expect(basicInfo.length).toBe(basicsInDb[0].length)
+
     })
     
     test('admission form can be saved to database with POST', async () => {
