@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 const helper = require('./test_helper')
+import 'cypress-file-upload'
+
 describe('From posting basic information to confirmation email', function() {
 
     it('From posting basic information to confirmation email', function(){
