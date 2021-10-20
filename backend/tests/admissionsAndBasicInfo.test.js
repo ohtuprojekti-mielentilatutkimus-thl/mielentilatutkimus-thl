@@ -87,6 +87,9 @@ describe('when db is initialized with data', () => {
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
         })
 
+        //this test does not actually do anything.
+        //Result of api.get is status 404, expect not.toBeNull works because value is undefined
+        /*
         test('admissionform contains information about the suspect', async () => {
             let admissionsInDb = await helper.admissionsInDb()
             const idOfItemInDb = admissionsInDb[0].id
@@ -96,7 +99,7 @@ describe('when db is initialized with data', () => {
             expect(admission.lastName).not.toBeNull()
             expect(admission.identificationNumber).not.toBeNull()
             expect(admission.address).not.toBeNull()
-        })
+        })*/
 
         test('admissionform state is admission received by default', async () => {
             const admission_form = helper.admissionFormTestData
@@ -126,6 +129,14 @@ describe('when db is empty', () => {
         const basicsInDb = await helper.basicsInDb()
 
         expect(basicsInDb).toHaveLength(1)
+        for (k in basicInfo) {
+            expect(basicInfo[k]).not.toBeNull()
+            expect(basicInfo[k]).not.toBeUndefined()
+            expect(basicInfo[k]).toEqual(basicsInDb[0][k])
+        }
+
+        expect(Object.keys(basicInfo).length).toBe(Object.keys(basicsInDb[0]).length-2)//-id and attachments field
+
     })
     
     test('admission form can be saved to database with POST', async () => {
@@ -144,7 +155,12 @@ describe('when db is empty', () => {
         const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
         expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
-    })
 
+        for (k in admission_form) {
+            expect(admission_form[k]).not.toBeNull()
+            expect(admission_form[k]).not.toBeUndefined()
+            expect(admission_form[k]).toEqual(admissionsInDb[0][k])
+        }
+    })
 
 })
