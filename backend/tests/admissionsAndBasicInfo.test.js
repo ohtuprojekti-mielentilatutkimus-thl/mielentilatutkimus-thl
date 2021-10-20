@@ -87,6 +87,9 @@ describe('when db is initialized with data', () => {
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
         })
 
+        //this test does not actually do anything.
+        //Result of api.get is status 404, expect not.toBeNull works because value is undefined
+        /*
         test('admissionform contains information about the suspect', async () => {
             let admissionsInDb = await helper.admissionsInDb()
             const idOfItemInDb = admissionsInDb[0].id
@@ -96,7 +99,7 @@ describe('when db is initialized with data', () => {
             expect(admission.lastName).not.toBeNull()
             expect(admission.identificationNumber).not.toBeNull()
             expect(admission.address).not.toBeNull()
-        })
+        })*/
 
         test('admissionform state is admission received by default', async () => {
             const admission_form = helper.admissionFormTestData
