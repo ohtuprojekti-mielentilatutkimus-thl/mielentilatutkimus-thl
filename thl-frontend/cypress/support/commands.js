@@ -69,6 +69,7 @@ Cypress.Commands.add('sendAdmissionForm', ( data ) => {
         localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
         const createdAt = localStorage.createdAt
         created_at = createdAt.replace(/['"]+/g,'')
+        console.log(created_at)
     }
     )
 })

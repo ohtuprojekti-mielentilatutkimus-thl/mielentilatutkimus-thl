@@ -35,8 +35,8 @@ describe('All admissions can be viewed', () => {
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
+
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Pyyntö saapunut')
         cy.contains('Reijo')
         cy.contains('Tomi Tuomari')
 
@@ -85,18 +85,24 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
         cy.contains('Yleiset tutkittavan henkilön tiedot')
-        cy.contains('Pyyntö saapunut')
+
         cy.contains('Reijo')
         cy.contains('Tomi Tuomari')
-        cy.get('[type="radio"]').eq(1).check()
-        cy.contains('Päivitä lomakkeen tila').click()
-        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
+        cy.get('#selectState').click()
+        cy.get('#1')
+            .contains('Pyyntö tarkastelussa')
+            .click()
+
+        cy.wait(200)
+
+        cy.get('#updateFormState').click()
+        cy.contains('Pyyntö tarkastelussa')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Lomakkeet')
 
         cy.get('a').last().click()
-        cy.contains('Lomakkeen tila: Pyyntö tarkastelussa')
+        cy.contains('Pyyntö tarkastelussa')
 
     })
 
@@ -105,14 +111,22 @@ describe('All admissions can be viewed', () => {
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
         cy.get('a').first().click()
-        cy.get('[type="radio"]').eq(2).check()
-        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#selectState').click()
+        cy.get('#2')
+            .contains('Pyydetty lisätietoja')
+            .click()
+
+        cy.get('#updateFormState').click()
         cy.get('#handleShowLessInfo').click()
         cy.get('#formState').first().contains('Pyydetty lisätietoja')
 
         cy.get('a').first().click()
-        cy.get('[type="radio"]').eq(3).check()
-        cy.contains('Päivitä lomakkeen tila').click()
+        cy.get('#selectState').click()
+        cy.get('#3')
+            .contains('Saatu lisätietoja')
+            .click()
+
+        cy.get('#updateFormState').click()
         cy.get('#handleShowLessInfo').click()
 
         cy.get('#formState').first().contains('Saatu lisätietoja')
