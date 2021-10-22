@@ -404,15 +404,15 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkimuspyynnön lähettävä henkilö:</div>
-                                    <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Lähettävä henkilö' variant='outlined' margin='normal' />
+                                    <TextField id='admissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Lähettävä henkilö' variant='outlined' margin='normal' />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkimuspyynnön lähettäjän sähköposti:</div>
-                                    <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Lähettäjän sähköposti' variant='outlined' margin='normal' />
+                                    <TextField id='sendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Lähettäjän sähköposti' variant='outlined' margin='normal' />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                                    <TextField id='setSendersPhonenumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Lähettäjän puhelinnumero' variant='outlined' margin='normal' />
+                                    <TextField id='sendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Lähettäjän puhelinnumero' variant='outlined' margin='normal' />
                                 </Grid>
                             </Grid>
 
@@ -424,7 +424,7 @@ const Form = () => {
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <input id='setHazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
+                                    <input id='hazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Diaarinumero:</div>
@@ -516,7 +516,7 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen osoite:</div>
-                                    <TextField fullWidth id='legalGuardianAddressnumber' value={legalGuardianAddress} onChange={handleLegalGuardianAddressChange} label='Huoltajan/sosiaalitoimen osoite' variant='outlined' margin='normal' />
+                                    <TextField fullWidth id='legalGuardianAddress' value={legalGuardianAddress} onChange={handleLegalGuardianAddressChange} label='Huoltajan/sosiaalitoimen osoite' variant='outlined' margin='normal' />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen mahdollinen laitos:</div>
@@ -524,7 +524,7 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:</div>
-                                    <TextField fullWidth id='setAppealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} label='Mihin päätökseen haettu muutosta' variant='outlined' margin='normal' />
+                                    <TextField fullWidth id='appealedDecision' value={appealedDecision} onChange={handleAppealedDecisionChange} label='Mihin päätökseen haettu muutosta' variant='outlined' margin='normal' />
                                 </Grid>
                             </Grid>
                             {(errorMessage && <Alert severity="error">

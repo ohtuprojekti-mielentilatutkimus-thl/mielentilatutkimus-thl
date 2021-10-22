@@ -29,12 +29,21 @@ describe('Send Admission Form', function() {
                     cy.visit(`http://localhost:3000/admission_form/${senders_id}`)
                     cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
-
-                    cy.get('#name').type(helper.admission_form_input.name)
-                    cy.get('#diaariNumber').type(helper.admission_form_input.diaariNumber)
+                    for (const i in helper.admission_form_input) {
+                        if (['basicInformationId', 'formSender', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution'].includes(i) ||
+                        i.includes('Ready')) {
+                            continue
+                        }
+                        if (typeof(helper.admission_form_input[i]) === 'boolean') {
+                            cy.get('#' + i).check()
+                            continue
+                        }
+                        cy.get('#' + i).type(helper.admission_form_input[i])
+                    }
 
                     cy.get('#createPersonButton').click()
                     cy.contains('Pyyntö lähetettiin onnistuneesti')
+
                 })
             })
 
