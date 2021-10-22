@@ -54,7 +54,7 @@ const ThlAdmissions = () => {
 
 
     return (
-        <div className={classes.page}>
+        <div className={classes.page}  style={{ maxHeight: '100%',overflow: 'auto' }} >
             <div>
                 <Typography variant={'h4'}>Lomakkeet</Typography>
             </div>
