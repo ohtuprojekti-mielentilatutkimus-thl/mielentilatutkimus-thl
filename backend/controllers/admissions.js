@@ -167,7 +167,6 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
     const savedForm = await admissionForm.save()
-    console.log(savedForm.formId)
     res.json(savedForm.toJSON())
 
     Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
