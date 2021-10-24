@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-autoIncrement = require('mongoose-auto-increment')
+const autoIncrement = require('mongoose-auto-increment')
 
 var admissionSchema = mongoose.Schema({
     //basic information
@@ -62,5 +62,5 @@ admissionSchema.set('toJSON', {
 })
 
 autoIncrement.initialize(mongoose.connection)
-admissionSchema.plugin(autoIncrement.plugin, { model: 'AdmissionForm', field: 'formId' });
+admissionSchema.plugin(autoIncrement.plugin, { model: 'AdmissionForm', field: 'formId' })
 module.exports = mongoose.model('admissionForm', admissionSchema)
