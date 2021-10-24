@@ -114,7 +114,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             align='left'
                             justify='left'
                         >
-                            <h1>Lomake: {form.createdAt.substring(0,10)}</h1>
+                            <h1>THL_OIKPSYK_{form.createdAt.substring(0,10)}</h1>
                             <FormState form={form} formState={form.formState} updateForms={updateForms} />
                             <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                             <br />
