@@ -30,8 +30,14 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         attachments: []
     })
     const savedForm = await basicInformationForm.save()
-    res.json(savedForm.toJSON())
+    const response = [
+        savedForm.admissionNoteSenderOrganization,
+        savedForm.admissionNoteSender,
+        savedForm.sendersEmail,
+        savedForm.sendersPhoneNumber
+    ]
     
+    res.json(response)
     Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
 
 })
@@ -170,14 +176,10 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
 
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
-    //const data = req.body
     try {
         await uploadFile(req, res)
-        console.log(req.body.whichFile)
-        //const data = req.body
         console.log(req.file, req.file.buffer)
         Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer, req.body.whichFile)
-        //res.json(savedForm.toJSON())
         res.status(200).send({
             originalname: req.file.originalname,
             whichFile: req.body.whichFile,

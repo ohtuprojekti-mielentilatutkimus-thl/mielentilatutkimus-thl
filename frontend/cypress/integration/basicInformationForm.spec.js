@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const helper = require('./test_helper')
 
 describe('Basic Information View', function() {
     beforeEach(function() {
@@ -10,10 +11,10 @@ describe('Basic Information View', function() {
     })
 
     it('Basic information page has fillable forms', function() {
-        cy.get('#setAdmissionNoteSender').type('Testi lähettäjä')
-        cy.get('#setadmissionNoteSendingOrganization').type('Organisaatio')
-        cy.get('#setSendersEmail').type('polizia@yes.fi')
-        cy.get('#setSendersPhoneNumber').type('0452572355')
+        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.admissionNoteSender)
+        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.admissionNoteSenderOrganization)
+        cy.get('#setSendersEmail').type(helper.basic_information_input.sendersEmail)
+        cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.sendersPhoneNumber)
 
         cy.get('#createBasicInformationsButton').click()
 

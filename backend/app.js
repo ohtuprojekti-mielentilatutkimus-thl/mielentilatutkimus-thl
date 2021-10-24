@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const config = require('./utils/config')
 const path = require('path')
 const admissionsRouter = require('./controllers/admissions')
+const testsRouter = require('./controllers/tests')
 
 app.use(cors())
 app.use(express.json())
@@ -13,6 +14,10 @@ app.use('*/api/admissions', admissionsRouter)
 
 app.use('/thl', express.static('builds/thl/build'))
 app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build'))
+
+if (process.env.NODE_ENV === 'test') {
+    app.use('*/tests', testsRouter)
+}
 
 morgan.token('body', function (req) { return JSON.stringify(req.body) })
 

@@ -22,33 +22,32 @@ afterAll(() => {
 })
 
 test('Link to admission form is sent', async () => {
-    Mailer.sendLinkToAdmissionForm(helper.basic_information_input.sendersEmail, '616014ea275e2df3c553b958')
+    Mailer.sendLinkToAdmissionForm(helper.basicInfoFormTestData.sendersEmail, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
         expect(emails.length).toBe(1)
         email = emails[0]
-        expect(email.to).toStrictEqual([{ address: helper.basic_information_input.sendersEmail, name: '' }])
+        expect(email.to).toStrictEqual([{ address: helper.basicInfoFormTestData.sendersEmail, name: '' }])
         expect(email.text.includes('616014ea275e2df3c553b958')).toBe(true)
     })
 })
 
 test('Confirmation is sent', async () => {
-    //await Mailer.sendConfirmation(helper.admission_form_input.email, helper.admission_form_input.diaariNumber, helper.thl_id)
-    Mailer.sendConfirmation('smth@email.yes', 'R 20 / 123', '616014ea275e2df3c553b958')
+    Mailer.sendConfirmation(helper.admissionFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
         expect(emails.length).toBe(1)
         email = emails[0]
-        expect(email.to).toStrictEqual([{ address: 'smth@email.yes', name: '' }])
-        expect(email.text.includes('R 20 / 123')).toBe(true)
+        expect(email.to).toStrictEqual([{ address: helper.basicInfoFormTestData.sendersEmail, name: '' }])
+        expect(email.text.includes(helper.admissionFormTestData.diaariNumber)).toBe(true)
         expect(email.text.includes('616014ea275e2df3c553b958')).toBe(true)
     })
 })
 
 test('Uses values from configuration 1', async () => {
-    Mailer.sendLinkToAdmissionForm(helper.basic_information_input.sendersEmail, '616014ea275e2df3c553b958')
+    Mailer.sendLinkToAdmissionForm(helper.basicInfoFormTestData.sendersEmail, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
@@ -60,7 +59,7 @@ test('Uses values from configuration 1', async () => {
 })
 
 test('Uses values from configuration 2', async () => {
-    Mailer.sendConfirmation('smth@email.yes', 'R 20 / 123', '616014ea275e2df3c553b958')
+    Mailer.sendConfirmation(helper.admissionFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()

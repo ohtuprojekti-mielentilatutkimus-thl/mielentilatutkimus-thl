@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles --runInBand",
     "lint": "eslint .",
     "dev": "NODE_ENV=dev node index.js",
     "prod": "NODE_ENV=production node index.js",
@@ -36,6 +36,7 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
     "coveragePathIgnorePatterns": [
       "<rootDir>/utils/",
       "<rootDir>/node_modules"

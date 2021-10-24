@@ -116,7 +116,7 @@ npm run lint
 ```
 
 #### EndToEnd -testaus  
-Käynnistä sekä front- että backend (npm start) ja suorita `frontend` komento:  
+Käynnistä frontend komennolla `npm start` ja backend komennolla `npm run start:cypress`, sekä suorita `frontend` komento:  
 ```
 npm run cypress:open
 ```

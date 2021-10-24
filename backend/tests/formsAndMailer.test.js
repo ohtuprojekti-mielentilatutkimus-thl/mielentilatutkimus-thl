@@ -22,12 +22,12 @@ beforeEach(async () => {
     await BasicInformationForm.deleteMany({})
 })
 
-afterAll(() => {
-    maildev.close()
+afterAll(async () => {
+    await maildev.close()
 })
 
 test('Link to admission form is sent after POST request', async () => {
-    const basicInfo = helper.basic_information_input
+    const basicInfo = helper.basicInfoFormTestData
 
     await api
         .post(baseUrl+'/basic_information_form')
@@ -48,7 +48,7 @@ test('Link to admission form is sent after POST request', async () => {
 })
 
 test('Confirmation is sent after POST request', async () => {
-    const admission_form = helper.admission_form_input
+    const admission_form = helper.admissionFormTestData
 
     await api
         .post(baseUrl+'/admission_form')
