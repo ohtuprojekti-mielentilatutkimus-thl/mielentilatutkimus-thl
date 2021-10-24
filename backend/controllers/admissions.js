@@ -94,7 +94,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
         preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady 
+        imprisonmentRequirementReady: data.imprisonmentRequirementReady    
     }
 
     AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
@@ -158,9 +158,10 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
         preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady 
+        imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
     const savedForm = await admissionForm.save()
+    console.log(savedForm.formId)
     res.json(savedForm.toJSON())
 
     Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)

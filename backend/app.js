@@ -23,6 +23,7 @@ mongoose.connect(config.MONGODB_URI).then( () => {
     console.log('error connecting')
 })
 
+
 if (process.env.NODE_ENV !== 'test') {
     app.use(morgan(':method :url :status :response-time ms :body'))
 }
