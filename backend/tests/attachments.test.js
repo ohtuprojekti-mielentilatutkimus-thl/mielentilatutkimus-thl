@@ -19,7 +19,7 @@ beforeEach(async () => {
 })    
 
 test('attachment can be sent by a valid user', async () => {
-    const newBasicsForm = new BasicInformationForm(helper.basic_information_input)
+    const newBasicsForm = new BasicInformationForm(helper.basicInfoFormTestData)
     await newBasicsForm.save()
     const basicsInDb = await helper.basicsInDb()
     const basics = basicsInDb[0]
@@ -46,7 +46,7 @@ test('attachment can\'t be sent without a user', async () => {
 })
 
 test('attachments have a field describing which file it is', async () => {
-    const newBasicsForm = new BasicInformationForm(helper.basic_information_input)
+    const newBasicsForm = new BasicInformationForm(helper.basicInfoFormTestData)
     await newBasicsForm.save()
     const basicsInDb = await helper.basicsInDb()
     const basics = basicsInDb[0]
