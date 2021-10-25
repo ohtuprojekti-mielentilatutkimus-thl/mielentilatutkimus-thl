@@ -108,10 +108,6 @@ const Form = () => {
     const [processAddress, setProcessAddress] = useState('')
     const [trustee, setTrustee] = useState('')
     const [citizenship, setCitizenship] = useState('')
-    const [admissionNoteSendingOrganization, setAdmissionNoteSendingOrganization] = useState('')
-    const [admissionNoteSender, setAdmissionNoteSender] = useState('')
-    const [sendersEmail, setSendersEmail] = useState('')
-    const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
     const [hazardAssesment, setHazardAssesment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssesment, setDatePrescribedForPsychiatricAssesment] = useState('')
@@ -160,18 +156,6 @@ const Form = () => {
     }
     const handleCitizenshipChange = (event) => {
         setCitizenship(event.target.value)
-    }
-    const handleAdmissionNoteSendingOrganizationChange = (event) => {
-        setAdmissionNoteSendingOrganization(event.target.value)
-    }
-    const handleAdmissionNoteSenderChange = (event) => {
-        setAdmissionNoteSender(event.target.value)
-    }
-    const handleSendersEmailChange = (event) => {
-        setSendersEmail(event.target.value)
-    }
-    const handleSendersPhoneNumberChange = (event) => {
-        setSendersPhoneNumber(event.target.value)
     }
     const handleHazardAssesmentChange = () => {
         setHazardAssesment(!hazardAssesment)
@@ -256,10 +240,10 @@ const Form = () => {
             processAddress: processAddress,
             trustee: trustee,
             citizenship: citizenship,
-            admissionNoteSendingOrganization: admissionNoteSendingOrganization,
-            admissionNoteSender: admissionNoteSender,
-            sendersEmail: sendersEmail,
-            sendersPhoneNumber: sendersPhoneNumber,
+            admissionNoteSendingOrganization: sender.admissionNoteSenderOrganization,
+            admissionNoteSender: sender.admissionNoteSender,
+            sendersEmail: sender.sendersEmail,
+            sendersPhoneNumber: sender.sendersPhoneNumber,
             hazardAssesment: hazardAssesment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
@@ -311,10 +295,6 @@ const Form = () => {
         setProcessAddress('')
         setTrustee('')
         setCitizenship('')
-        setAdmissionNoteSendingOrganization('')
-        setAdmissionNoteSender('')
-        setSendersEmail('')
-        setSendersPhoneNumber('')
         setHazardAssesment(false)
         setDiaariNumber('')
         setDatePrescribedForPsychiatricAssesment('')
@@ -397,22 +377,6 @@ const Form = () => {
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Kansalaisuus:</div>
                                     <TextField id='citizenship' value={citizenship} onChange={handleCitizenshipChange} label='Kansalaisuus' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettävä taho:</div>
-                                    <TextField id='admissionNoteSendingOrganization' value={admissionNoteSendingOrganization} onChange={handleAdmissionNoteSendingOrganizationChange} label='Lähettävä taho' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettävä henkilö:</div>
-                                    <TextField id='admissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Lähettävä henkilö' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettäjän sähköposti:</div>
-                                    <TextField id='sendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Lähettäjän sähköposti' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                                    <TextField id='sendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Lähettäjän puhelinnumero' variant='outlined' margin='normal' />
                                 </Grid>
                             </Grid>
 

@@ -79,14 +79,15 @@ const AdmissionForm = ({ form, updateForms } ) => {
             }} fullWidth>
 
                 <DialogTitle disableTypography>
-                    <h1>Lomake: {form.id}</h1>
+                    <Typography variant={'h4'}>Mielentilatutkimuspyyntö</Typography>
+                    <Typography variant={'h5'}>{form.lastname}, {form.name}</Typography>
 
                     <Grid
                         container
                         spacing={1}
                     >
                         <Grid item xs={4}>
-                            <div className={classes.textLabel}>Lomake luotu:</div>
+                            <div className={classes.textLabel}>Pyyntö luotu:</div>
                             <div className={classes.text}>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</div>
                         </Grid>
 

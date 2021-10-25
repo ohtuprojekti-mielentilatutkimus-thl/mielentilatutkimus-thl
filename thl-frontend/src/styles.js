@@ -10,6 +10,10 @@ const theme = createTheme({
         h4: {
             color: primary_color,
             fontWeight: 'bold',
+        },
+        h5: {
+            color: primary_color,
+            fontWeight: 'bold',
         }
     },
 })
