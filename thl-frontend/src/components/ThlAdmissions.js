@@ -63,7 +63,7 @@ const ThlAdmissions = () => {
                     <Table sx={{ minWidth: 700 }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Tutkittava henkilö</TableCell>
+                                <TableCell>Pyynnön tunniste</TableCell>
                                 <TableCell align="left">Luotu
                                     <IconButton id="sortTime" onClick={sortFormsByDate} color="primary">
                                         <ArrowDropDownIcon />
