@@ -79,7 +79,8 @@ const AdmissionForm = ({ form, updateForms } ) => {
             }} fullWidth>
 
                 <DialogTitle disableTypography>
-                    <h1>Lomake: {form.id}</h1>
+                    <h1>THL_OIKPSYK_{form.createdAt.substring(0,10)}</h1>
+
 
                     <Grid
                         container
@@ -113,9 +114,6 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             container
                             spacing={1}
                         >
-                            <h1>THL_OIKPSYK_{form.createdAt.substring(0,10)}</h1>
-                            <FormState form={form} formState={form.formState} updateForms={updateForms} />
-                            <h2>Yleiset tutkittavan henkilön tiedot:</h2>
                             <br />
                             <Grid
                                 container
