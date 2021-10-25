@@ -86,8 +86,8 @@ const AdmissionForm = ({ form, updateForms } ) => {
                         spacing={1}
                     >
                         <Grid item xs={4}>
-                            <div className={classes.textLabel}>Päivämäärä:</div>
-                            <div className={classes.textLabel}>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</div>
+                            <div className={classes.textLabel}>Lomake luotu:</div>
+                            <div className={classes.text}>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</div>
                         </Grid>
 
                         <Grid item xs={4}>
@@ -106,7 +106,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
 
                     <Grid>
                         <p> </p>
-                        <Typography variant={'h4'}>Yleiset tutkittavan henkilön tiedot</Typography>
+                        <Typography variant={'h4'}>Tutkittavan henkilön yleistiedot</Typography>
                         <br></br>
 
                         <Grid
@@ -166,7 +166,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                         <br></br>
                         <br></br>
 
-                        <Typography variant={'h4'}>Mielentilatutkimuslomake</Typography>
+                        <Typography variant={'h4'}>Mielentilatutkimuspyyntö</Typography>
 
                         <br></br>
 
@@ -293,7 +293,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
         return (
             <div>
                 <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
-                    {form.id}
+                    THL/{dayjs(form.createdAt).format('YYYYMMDD')}/{form.lastname}
                 </a>
             </div>
         )
