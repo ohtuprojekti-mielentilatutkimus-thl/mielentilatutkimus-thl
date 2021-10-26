@@ -32,16 +32,16 @@ describe('All admissions can be viewed', () => {
     it('New admission can be viewed', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
-        cy.contains('Lomakkeet')
+        cy.contains('Mielentilatutkimuspyynnöt')
 
         cy.get('a').last().click()
 
-        cy.contains('Yleiset tutkittavan henkilön tiedot')
+        cy.contains('Tutkittavan henkilön yleistiedot')
         cy.contains('Reijo')
         cy.contains('Tomi Tuomari')
 
         cy.get('#handleShowLessInfo').click()
-        cy.contains('Lomakkeet')
+        cy.contains('Mielentilatutkimuspyynnöt')
     }
     )
 
@@ -81,10 +81,10 @@ describe('All admissions can be viewed', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
-        cy.contains('Lomakkeet')
+        cy.contains('Mielentilatutkimuspyynnöt')
 
         cy.get('a').last().click()
-        cy.contains('Yleiset tutkittavan henkilön tiedot')
+        cy.contains('Tutkittavan henkilön yleistiedot')
 
         cy.contains('Reijo')
         cy.contains('Tomi Tuomari')
@@ -99,7 +99,7 @@ describe('All admissions can be viewed', () => {
         cy.contains('Pyyntö tarkastelussa')
 
         cy.get('#handleShowLessInfo').click()
-        cy.contains('Lomakkeet')
+        cy.contains('Mielentilatutkimuspyynnöt')
 
         cy.get('a').last().click()
         cy.contains('Pyyntö tarkastelussa')

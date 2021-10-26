@@ -34,7 +34,7 @@ test('Link to admission form is sent', async () => {
 })
 
 test('Confirmation is sent', async () => {
-    Mailer.sendConfirmation(helper.admissionFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
+    Mailer.sendConfirmation(helper.basicInfoFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
@@ -59,7 +59,7 @@ test('Uses values from configuration 1', async () => {
 })
 
 test('Uses values from configuration 2', async () => {
-    Mailer.sendConfirmation(helper.admissionFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
+    Mailer.sendConfirmation(helper.basicInfoFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
