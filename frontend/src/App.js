@@ -2,6 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import AddmissionForm from './components/AddmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
+import UploadForm from './components/UploadForm'
 import './App.css'
 
 import {
@@ -19,6 +20,8 @@ const App = () => {
                     </div>
                 </Route>
                 <Route path='/admission_form/:id' component={AddmissionForm}>
+                </Route>
+                <Route path='/upload_form/:id' component={UploadForm}>
                 </Route>
             </Switch>
         </div>

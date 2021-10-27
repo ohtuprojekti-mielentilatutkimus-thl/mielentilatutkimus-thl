@@ -37,9 +37,6 @@ const Form = () => {
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
-    const [selectedFiles, setSelectedFiles] = useState(null)
-    const [whichFile, setWhichFile] = useState('')
-
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
     const showWhenVisible = { display: formVisible ? '' : 'none' }
@@ -76,22 +73,6 @@ const Form = () => {
         })
         console.log('senderInfo on: ', senderInfo)
     }, [])
-
-    const selectFile = (event) => {
-        const inputTarget = event.target
-        setSelectedFiles(inputTarget.files[0])
-        setWhichFile(inputTarget.id)
-        console.log(selectedFiles)
-        console.log(whichFile)
-    }
-
-    const upload = async () => {
-        const currFile = selectedFiles
-        console.log(typeof(currFile))
-        await addmissionService.upload(currFile, basicInformationId, whichFile)
-        setSelectedFiles(null)
-        setWhichFile(null)
-    }
 
     const sender = {
         admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
@@ -534,132 +515,6 @@ const Form = () => {
                             <p></p>
                             <p></p>
                         </form>
-                        <h2>Liitteet</h2>
-
-                        Välituomio tai päätös mielentilatutkimukseen määräämisestä
-                        <br />
-                        <label htmlFor='valituomio'>
-                            <input
-                                id='valituomio'
-                                name='valituomio'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Pöytäkirja
-                        <br />
-                        <label htmlFor='poytakirja'>
-                            <input
-                                id='poytakirja'
-                                name='poytakirja'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Haastehakemus
-                        <br />
-                        <label htmlFor='haastehakemus'>
-                            <input
-                                id='haastehakemus'
-                                name='haastehakemus'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Rikosrekisteriote
-                        <br />
-                        <label htmlFor='rikosrekisteriote'>
-                            <input
-                                id='rikosrekisteriote'
-                                name='rikosrekisteriote'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Esitutkintapöytäkirja liitteineen
-                        <br />
-                        <label htmlFor='esitutkintapoytakirja'>
-                            <input
-                                id='esitutkintapoytakirja'
-                                name='esitutkintapoytakirja'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
-                        <br/>
-                        <label htmlFor='vangitsemispaatos'>
-                            <input
-                                id='vangitsemispaatos'
-                                name='vangitsemispaatos'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        <br />
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa valittu tiedosto
-                        </Button>
                     </Paper>
                 </div>
             </div>
