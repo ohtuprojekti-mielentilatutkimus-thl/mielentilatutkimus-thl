@@ -175,7 +175,6 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
 
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
-    console.log(req.params)
     try {
         await uploadFile(req, res)
         console.log(req.file, req.file.buffer)

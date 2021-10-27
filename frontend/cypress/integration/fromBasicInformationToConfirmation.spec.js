@@ -70,10 +70,9 @@ describe('From posting basic information to confirmation email', function() {
                         assert.equal('ok', interception.response.body.message)
                     })
                 }
-
+*/
                 cy.get('#createPersonButton').click()
                 cy.contains('Pyyntö lähetettiin onnistuneesti')
-                */
             })
         }).then(() => {
             cy.wait(1000)

@@ -5,7 +5,7 @@ async function attachFile(admissionFormId, fileName, fileData, whichFile) {
     //console.log(req)
     console.log(admissionFormId)
     const attachmentForm = new AttachmentForm({
-        //admissionFormId: admissionFormId,
+        admissionFormId: admissionFormId,
         fileName: fileName,
         fileData: fileData,
         whichFile: whichFile
