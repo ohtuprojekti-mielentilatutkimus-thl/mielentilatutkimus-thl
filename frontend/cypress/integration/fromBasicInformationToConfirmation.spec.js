@@ -79,7 +79,7 @@ describe('From posting basic information to confirmation email', function() {
             cy.wait(1000)
             cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
                 expect(emails.status).equal(200)
-                assert.equal(emails.body[0].headers.to, helper.admission_form_input.sendersEmail)
+                assert.equal(emails.body[0].headers.to, helper.basic_information_input.sendersEmail)
                 assert.equal(emails.body[0].subject, 'Vahvistus')
                 expect(emails.body[0].text.includes('Tutkimuspyyntö vastaanotettu'))
                 expect(emails.body[0].text.includes(helper.admission_form_input.diaariNumber))
