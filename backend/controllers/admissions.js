@@ -5,8 +5,12 @@ const uploadFile = require('../utils/upload.js')
 
 const admissionsRouter = require('express').Router()
 
+const FileHandler = require('../services/fileHandler')
+
 const AdmissionForm = require('../models/admissionForm.model.js')
+const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
+const path = require('path')
 
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({})
@@ -173,11 +177,27 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
 })
 
+admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {
+    const attachmentFile = await AttachmentForm.findById(req.params.attachmentId).catch((err) => {console.log(err)})
+
+    const fileBuffer = Buffer.from(attachmentFile.fileData)
+
+    // currently assumed that all files are pdf, different file types might require other handling
+    await FileHandler.bufferToPdf(fileBuffer, attachmentFile.fileName)
+    res.sendFile(path.resolve('./', attachmentFile.fileName), function (err) {
+        if (err) {
+            console.log('Error sending file')
+        } else {
+            FileHandler.deleteTmpFile(attachmentFile.fileName)
+        }
+    })
+})
 
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
     try {
         await uploadFile(req, res)
-        console.log(req.file, req.file.buffer)
+        //console.log(req.file.buffer)
+        console.log(req.file.buffer.toString())
         Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer, req.body.whichFile)
         res.status(200).send({
             originalname: req.file.originalname,
