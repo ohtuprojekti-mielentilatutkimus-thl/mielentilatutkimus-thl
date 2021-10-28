@@ -46,7 +46,7 @@ describe('From posting basic information to confirmation email', function() {
                     }
                     cy.get('#' + i).type(helper.admission_form_input[i])
                 }
-
+                /*
                 cy.intercept({
                     method: 'POST',
                     url: `/api/admissions/admission_form_attachment/${senders_id}`,
@@ -70,10 +70,9 @@ describe('From posting basic information to confirmation email', function() {
                         assert.equal('ok', interception.response.body.message)
                     })
                 }
-
+*/
                 cy.get('#createPersonButton').click()
                 cy.contains('Pyyntö lähetettiin onnistuneesti')
-
             })
         }).then(() => {
             cy.wait(1000)

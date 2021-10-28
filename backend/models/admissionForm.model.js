@@ -48,7 +48,13 @@ var admissionSchema = mongoose.Schema({
     transcriptOfCriminalRecordIsReady: { type: Boolean },
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
-    imprisonmentRequirementReady: { type: Boolean }
+    imprisonmentRequirementReady: { type: Boolean },
+    attachments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Attachment'
+        }
+    ],
 },
 {timestamps: true})
 

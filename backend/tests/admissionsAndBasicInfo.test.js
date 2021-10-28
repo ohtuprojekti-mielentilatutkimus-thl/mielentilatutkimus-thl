@@ -34,8 +34,8 @@ describe('when db is initialized with data', () => {
         test('can be retrieved from db', async () => {
             const basicsInDb = await helper.basicsInDb()
         
-            // +2 for id and attachment fields (not included in json)
-            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 2
+            // +1 for id field (not included in json)
+            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 1
             const lengthOfFieldsInDbItem = Object.keys(basicsInDb[0])
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
         })
@@ -46,7 +46,7 @@ describe('when db is initialized with data', () => {
 
             const response = await api.get(baseUrl+'/basic_information/'+idOfItemInDb)
         
-            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 2
+            const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 1
             expect(Object.keys(response.body[0])).toHaveLength(lengthOfInputFields)
         })
     })
@@ -57,7 +57,8 @@ describe('when db is initialized with data', () => {
         
             // + 1 for id, + 1 because formState has a default value
             // +2 for createdAt and updatedAt
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 4
+            // +1 for attachments
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 5
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -135,7 +136,7 @@ describe('when db is empty', () => {
             expect(basicInfo[k]).toEqual(basicsInDb[0][k])
         }
 
-        expect(Object.keys(basicInfo).length).toBe(Object.keys(basicsInDb[0]).length-2)//-id and attachments field
+        expect(Object.keys(basicInfo).length).toBe(Object.keys(basicsInDb[0]).length-1)//-id field
 
     })
     
@@ -151,7 +152,8 @@ describe('when db is empty', () => {
         expect(admissionsInDb).toHaveLength(1)
         // + 1 for id, + 1 because formState has a default value
         // +2 for createdAt and updatedAt
-        const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 4
+        //+1 for attachments
+        const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 5
         const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
         expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)

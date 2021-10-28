@@ -12,6 +12,7 @@ const create = personObject => {
 }
 
 const upload = (file, id, whichFile) => {
+    console.log(id)
     const formData = new FormData()
     console.log(file)
     formData.append('file', file)
