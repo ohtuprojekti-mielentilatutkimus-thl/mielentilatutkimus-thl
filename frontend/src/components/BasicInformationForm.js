@@ -3,8 +3,7 @@ import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
-
-
+import validator from 'validator'
 
 const BasicInformationForm = () => {
 
@@ -28,6 +27,16 @@ const BasicInformationForm = () => {
         setSendersPhoneNumber(event.target.value)
     }
 
+    const validateSendersEmail = () => {
+        if (!validator.isEmail(sendersEmail)) {
+            console.log('virheellinen email')
+            setErrorMessage('Virheellinen sähköpostiosoite!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
+
     const addBasicInformations = (event) => {
         event.preventDefault()
 
@@ -38,28 +47,30 @@ const BasicInformationForm = () => {
             sendersPhoneNumber: sendersPhoneNumber,
         }
 
-        basicInformationService
-            .create(basicInformations)
-            .then(response => {
-                console.log(response.data)
-                setMessage('Perustietojen lähettäminen onnistui!')
-                setTimeout(() => {
-                    setMessage(null)
-                }, 1000*7)
-            })
-            .catch(error => {
-                console.log(error)
-                setErrorMessage('Perustietojen lähettämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000*7)
-            })
+        validateSendersEmail()
 
+        if (errorMessage === null) {
+            basicInformationService
+                .create(basicInformations)
+                .then(response => {
+                    console.log(response.data)
+                    setMessage('Perustietojen lähettäminen onnistui!')
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 1000*7)
+                })
+                .catch(error => {
+                    console.log(error)
+                    setErrorMessage('Perustietojen lähettämisessä tapahtui virhe!')
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 1000*7)
+                })
+        }
         setAdmissionNoteSenderOrganization('')
         setAdmissionNoteSender('')
         setSendersEmail('')
         setSendersPhoneNumber('')
-
     }
 
     const useStyles = makeStyles({

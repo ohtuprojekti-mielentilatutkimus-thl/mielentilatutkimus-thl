@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
-import AddmissionForm from './components/AddmissionForm'
+import AdmissionForm from './components/AdmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import UploadForm from './components/UploadForm'
 import './App.css'
@@ -19,9 +19,9 @@ const App = () => {
                         {basicInformationForm()}
                     </div>
                 </Route>
-                <Route path='/admission_form/:id' component={AddmissionForm}>
+                <Route path='/admission_form/:id' component={AdmissionForm}>
                 </Route>
-                <Route path='/admission_form/:id/edit' component={AddmissionForm}>
+                <Route path='/admission_form/:id/edit' component={AdmissionForm}>
                 </Route>
                 <Route path='/upload_form/:id' component={UploadForm}>
                 </Route>

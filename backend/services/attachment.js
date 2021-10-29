@@ -3,7 +3,8 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 
 async function attachFile(admissionFormId, fileName, fileData, whichFile) {
     //console.log(req)
-    console.log(admissionFormId)
+    console.log(fileData)
+    console.log(fileData.buffer)
     const attachmentForm = new AttachmentForm({
         admissionFormId: admissionFormId,
         fileName: fileName,

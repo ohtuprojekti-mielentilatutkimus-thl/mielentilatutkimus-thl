@@ -11,9 +11,10 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const path = require('path')
+const emailValidator = require('email-validator')
 
 admissionsRouter.get('/', async (req, res) => {
-    const admissionForms = await AdmissionForm.find({})
+    const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1, whichFile: 1 })
     res.json(admissionForms.map((admissionform) => admissionform.toJSON()))
 })
   
@@ -21,6 +22,10 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
     const data = await BasicInformationForm.find({}).catch((err) => {console.log(err)})
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
+
+const validateBasicInformationData = (basicInformationForm) => {
+    return emailValidator.validate(basicInformationForm.sendersEmail)
+}
 
 admissionsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
@@ -33,17 +38,20 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         sendersPhoneNumber: data.sendersPhoneNumber,
         attachments: []
     })
-    const savedForm = await basicInformationForm.save()
-    const response = [
-        savedForm.admissionNoteSenderOrganization,
-        savedForm.admissionNoteSender,
-        savedForm.sendersEmail,
-        savedForm.sendersPhoneNumber
-    ]
-    
-    res.json(response)
-    Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
 
+    if (!validateBasicInformationData(basicInformationForm)) {
+        res.sendStatus(500)
+    } else {
+        const savedForm = await basicInformationForm.save()
+        const response = [
+            savedForm.admissionNoteSenderOrganization,
+            savedForm.admissionNoteSender,
+            savedForm.sendersEmail,
+            savedForm.sendersPhoneNumber
+        ]
+        res.json(response)
+        Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
+    }
 })
 
 //testauksessa ei toimi vielä
@@ -83,9 +91,6 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         prosecuted: data.prosecuted,
         deadlineForProsecution: data.deadlineForProsecution,
         preTrialPoliceDepartment: data.preTrialPoliceDepartment,
-        emailFromTheDirectorOfInvestigation: data.emailFromTheDirectorOfInvestigation,
-        phonenumberFromTheDirectorOfInvestigation: data.phonenumberFromTheDirectorOfInvestigation,
-        addressFromTheDirectorOfInvestigation: data.addressFromTheDirectorOfInvestigation,
         crime: data.crime,
         crimes: data.crimes,
         assistantsEmail: data.assistantsEmail,
@@ -114,6 +119,11 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
 
   
 })
+
+const validateAdmissionFormData = (admissionForm) => {
+    return emailValidator.validate(admissionForm.assistantsEmail) &&
+    emailValidator.validate(admissionForm.legalGuardianEmail)
+}
 
 
 admissionsRouter.post('/admission_form', async (req, res) => {
@@ -147,9 +157,6 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         prosecuted: data.prosecuted,
         deadlineForProsecution: data.deadlineForProsecution,
         preTrialPoliceDepartment: data.preTrialPoliceDepartment,
-        emailFromTheDirectorOfInvestigation: data.emailFromTheDirectorOfInvestigation,
-        phonenumberFromTheDirectorOfInvestigation: data.phonenumberFromTheDirectorOfInvestigation,
-        addressFromTheDirectorOfInvestigation: data.addressFromTheDirectorOfInvestigation,
         crime: data.crime,
         crimes: data.crimes,
         assistantsEmail: data.assistantsEmail,
@@ -170,11 +177,14 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
-    const savedForm = await admissionForm.save()
-    res.json(savedForm.toJSON())
 
-    Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
-
+    if (!validateAdmissionFormData(admissionForm)) {
+        res.sendStatus(500)
+    } else {
+        const savedForm = await admissionForm.save()
+        res.json(savedForm.toJSON())
+        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
+    }
 })
 
 admissionsRouter.get('/admission_form/:id', async (req, res) => {

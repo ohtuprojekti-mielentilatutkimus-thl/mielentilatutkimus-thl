@@ -1,23 +1,53 @@
 import React, { /*useEffect,*/ useState } from 'react'
-import addmissionService from '../services/addmissionService'
-import { useParams } from 'react-router-dom'
+import admissionService from '../services/admissionService'
+import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
-import { Paper, Grid, Button, TextField } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
 import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
+import validator from 'validator'
+
+const NotProsecuted = (props) => {
+    if (props.prosecuted === false){
+        return (
+            <div>
+                <Grid item xs={12}>
+                    <div>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
+                    <LocalizationProvider dateAdapter={DateAdapter}>
+                        <DesktopDatePicker
+                            label="Kalenteri"
+                            inputFormat="DD/MM/YYYY"
+                            value={props.deadlineForProsecution}
+                            onChange={props.handleDeadlineForProsecutionChange}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
+                    <div>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
+                    <TextField fullWidth id='preTrialPoliceDepartment' value={props.preTrialPoliceDepartment} onChange={props.handlePreTrialPoliceDepartmentChange} label='Esitutkinnan suorittava poliisilaitos' variant='outlined' margin='normal' />
+                </Grid>
+            </div>
+        )
+    }
+    else {
+        return (
+            <br></br>
+        )
+    }
+}
 
 const Form = () => {
-
-    const [errorMessage, setErrorMessage] = useState(null)
     const basicInformationId = useParams().id
-    const formId = useParams().id
+    const paramFormId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
+    const [formId, setFormId] = useState('')
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
     const showWhenVisible = { display: formVisible ? '' : 'none' }
@@ -51,7 +81,7 @@ const Form = () => {
     if (window.location.toString().includes('edit')){
 
         useEffect(() => {
-            addmissionService.get(formId).then(res => {
+            admissionService.get(paramFormId).then(res => {
                 console.log(res)
                 setSenderInfo(res[0])
             })
@@ -93,9 +123,6 @@ const Form = () => {
     const [prosecuted, setProsecuted] = useState(false)
     const [deadlineForProsecution, setDeadlineForProsecution] = useState('')
     const [preTrialPoliceDepartment, setPreTrialPoliceDepartment] = useState('')
-    const [emailFromTheDirectorOfInvestigation, setEmailFromTheDirectorOfInvestigation] = useState('')
-    const [phonenumberFromTheDirectorOfInvestigation, setPhonenumberFromTheDirectorOfInvestigation] = useState('')
-    const [addressFromTheDirectorOfInvestigation, setAddressFromTheDirectorOfInvestigation] = useState('')
     const [crime, setCrime] = useState('')
     const [crimes, setCrimes] = useState('')
     const [assistantsEmail, setAssistantsEmail] = useState('')
@@ -106,7 +133,7 @@ const Form = () => {
     const [legalGuardianAddress, setLegalGuardianAddress] = useState('')
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
-
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const handleNameChange = (event) => {
         setName(event.target.value)
@@ -133,8 +160,8 @@ const Form = () => {
     const handleCitizenshipChange = (event) => {
         setCitizenship(event.target.value)
     }
-    const handleHazardAssesmentChange = () => {
-        setHazardAssesment(!hazardAssesment)
+    const handleHazardAssesmentChange = (event) => {
+        setHazardAssesment(event.target.value)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
@@ -151,23 +178,14 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = () => {
-        setProsecuted(!prosecuted)
+    const handleProsecutedChange = (event) => {
+        setProsecuted(event.target.value)
     }
     const handleDeadlineForProsecutionChange = (newValue) => {
         setDeadlineForProsecution(newValue)
     }
     const handlePreTrialPoliceDepartmentChange = (event) => {
         setPreTrialPoliceDepartment(event.target.value)
-    }
-    const handleEmailFromTheDirectorOfInvestigationChange = (event) => {
-        setEmailFromTheDirectorOfInvestigation(event.target.value)
-    }
-    const handlePhonenumberFromTheDirectorOfInvestigationChange = (event) => {
-        setPhonenumberFromTheDirectorOfInvestigation(event.target.value)
-    }
-    const handleAddressFromTheDirectorOfInvestigationChange = (event) => {
-        setAddressFromTheDirectorOfInvestigation(event.target.value)
     }
     const handleCrimeChange = (event) => {
         setCrime(event.target.value)
@@ -200,12 +218,32 @@ const Form = () => {
         setAppealedDecision(event.target.value)
     }
 
+    const validateAssistantsEmail = () => {
+        if (!validator.isEmail(assistantsEmail)) {
+            console.log('virheellinen email')
+            setErrorMessage('Avustajan sähköpostiosoite on virheellinen!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
+
+    const validateLegalGuardianEmail = () => {
+        if (!validator.isEmail(legalGuardianEmail)) {
+            console.log('virheellinen email')
+            setErrorMessage('Edunvalvojan sähköpostiosoite on virheellinen!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
+
     const updatePerson = (event) => {
 
         /*const [formState, setFormState] = useState('')
 
         useEffect(() => {
-            addmissionService.get(formId).then(res => {
+            admissionService.get(paramFormId).then(res => {
                 setFormState(res[0].formState)
             })
             console.log('tila on: ', formState)
@@ -236,9 +274,6 @@ const Form = () => {
             prosecuted: prosecuted,
             deadlineForProsecution: deadlineForProsecution,
             preTrialPoliceDepartment: preTrialPoliceDepartment,
-            emailFromTheDirectorOfInvestigation: emailFromTheDirectorOfInvestigation,
-            phonenumberFromTheDirectorOfInvestigation: phonenumberFromTheDirectorOfInvestigation,
-            addressFromTheDirectorOfInvestigation: addressFromTheDirectorOfInvestigation,
             crime: crime,
             crimes: crimes,
             assistantsEmail: assistantsEmail,
@@ -260,8 +295,8 @@ const Form = () => {
                 delete updateAdmission[value]
             }
         }
-        addmissionService
-            .update(formId, updateAdmission)
+        admissionService
+            .update(paramFormId, updateAdmission)
             .then(response => {
                 console.log(response.data)
                 toggleVisibility()
@@ -295,7 +330,7 @@ const Form = () => {
 
             event.preventDefault()
 
-            const createAddmission = {
+            const createAdmission = {
                 //  oldId: old_id,
                 formState : 'Odottaa tarkistusta',
                 formSender: sender.sendersEmail,
@@ -320,9 +355,6 @@ const Form = () => {
                 prosecuted: prosecuted,
                 deadlineForProsecution: deadlineForProsecution,
                 preTrialPoliceDepartment: preTrialPoliceDepartment,
-                emailFromTheDirectorOfInvestigation: emailFromTheDirectorOfInvestigation,
-                phonenumberFromTheDirectorOfInvestigation: phonenumberFromTheDirectorOfInvestigation,
-                addressFromTheDirectorOfInvestigation: addressFromTheDirectorOfInvestigation,
                 crime: crime,
                 crimes: crimes,
                 assistantsEmail: assistantsEmail,
@@ -335,55 +367,59 @@ const Form = () => {
                 appealedDecision: appealedDecision,
             }
 
-            console.log('Createadmission olio on:', createAddmission)
+            console.log('Createadmission olio on:', createAdmission)
 
 
-            addmissionService
-                .create(createAddmission)
-                .then(response => {
-                    console.log(response.data)
-                    toggleVisibility()
-                })
-                .catch(error => {
-                    console.log(error)
-                    setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
-                    setTimeout(() => {
-                        setErrorMessage(null)
-                    }, 1000 * 7)
-                })
+            validateAssistantsEmail()
+            validateLegalGuardianEmail()
 
-            setName('')
-            setLastname('')
-            setIdentificationNumber('')
-            setAddress('')
-            setLocation('')
-            setProcessAddress('')
-            setTrustee('')
-            setCitizenship('')
-            setHazardAssesment(false)
-            setDiaariNumber('')
-            setDatePrescribedForPsychiatricAssesment('')
-            setNativeLanguage('')
-            setDesiredLanguageOfBusiness('')
-            setMunicipalityOfResidence('')
-            setProsecuted(false)
-            setDeadlineForProsecution('')
-            setPreTrialPoliceDepartment('')
-            setEmailFromTheDirectorOfInvestigation('')
-            setPhonenumberFromTheDirectorOfInvestigation('')
-            setAddressFromTheDirectorOfInvestigation('')
-            setCrime('')
-            setCrimes('')
-            setAssistantsEmail('')
-            setAssistantsPhonenumber('')
-            setAssistantsAddress('')
-            setLegalGuardianEmail('')
-            setLegalGuardianPhonenumber('')
-            setLegalGuardianAddress('')
-            setLegalGuardianInstitute('')
-            setAppealedDecision('')
+            if (errorMessage === null) {
+                admissionService
+                    .create(createAdmission)
+                    .then(response => {
+                        console.log(response.data)
+                        setFormId(response.data.id)
+                        toggleVisibility()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
+                        setTimeout(() => {
+                            setErrorMessage(null)
+                        }, 1000 * 7)
+                    })
+
+                setName('')
+                setLastname('')
+                setIdentificationNumber('')
+                setAddress('')
+                setLocation('')
+                setProcessAddress('')
+                setTrustee('')
+                setCitizenship('')
+                setHazardAssesment(false)
+                setDiaariNumber('')
+                setDatePrescribedForPsychiatricAssesment('')
+                setNativeLanguage('')
+                setDesiredLanguageOfBusiness('')
+                setMunicipalityOfResidence('')
+                setProsecuted(false)
+                setDeadlineForProsecution('')
+                setPreTrialPoliceDepartment('')
+                setCrime('')
+                setCrimes('')
+                setAssistantsEmail('')
+                setAssistantsPhonenumber('')
+                setAssistantsAddress('')
+                setLegalGuardianEmail('')
+                setLegalGuardianPhonenumber('')
+                setLegalGuardianAddress('')
+                setLegalGuardianInstitute('')
+                setAppealedDecision('')
+            }
         }
     }
+
 
     return (
 
@@ -405,7 +441,7 @@ const Form = () => {
                         align='center'
                         justify='center'
                     >
-                        <h2>Yleiset tutkittavan henkilön tiedot:</h2>
+                        <h2>Tutkittavan henkilön yleistiedot:</h2>
                         <p></p>
                         <form onSubmit={addPerson}>
                             <Grid
@@ -454,7 +490,16 @@ const Form = () => {
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <input id='hazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
+                                    <FormControl>
+                                        <Select
+                                            onChange={handleHazardAssesmentChange}
+                                            value={hazardAssesment}
+                                            disableUnderline
+                                            id='selectHazardAssesment'>
+                                            <MenuItem id='0' value={true}> Kyllä</MenuItem>
+                                            <MenuItem id='1' value={false}>Ei</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Diaarinumero:</div>
@@ -486,36 +531,24 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Onko syyte nostettu:</div>
-                                    <input id='prosecuted' type="checkbox" value={prosecuted} onChange={handleProsecutedChange} /> Kyllä
+                                    <FormControl>
+                                        <Select
+                                            onChange={handleProsecutedChange}
+                                            value={prosecuted}
+                                            disableUnderline
+                                            id='selectIfProsecuted'>
+                                            <MenuItem id='0' value={true}> Kyllä</MenuItem>
+                                            <MenuItem id='1' value={false}>Ei</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                                    <LocalizationProvider dateAdapter={DateAdapter}>
-                                        <DesktopDatePicker
-                                            label="Kalenteri"
-                                            inputFormat="DD/MM/YYYY"
-                                            value={deadlineForProsecution}
-                                            onChange={handleDeadlineForProsecutionChange}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
-                                    <TextField fullWidth id='preTrialPoliceDepartment' value={preTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} label='Esitutkinnan suorittava poliisilaitos' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:</div>
-                                    <TextField fullWidth id='emailFromTheDirectorOfInvestigation' value={emailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan sähköposti' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:</div>
-                                    <TextField fullWidth id='phonenumberFromTheDirectorOfInvestigation' value={phonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan puhelinnumero' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:</div>
-                                    <TextField fullWidth id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan osoite' variant='outlined' margin='normal' />
-                                </Grid>
+                                <NotProsecuted
+                                    prosecuted ={prosecuted}
+                                    deadlineForProsecution = {deadlineForProsecution}
+                                    handleDeadlineForProsecutionChange = {handleDeadlineForProsecutionChange}
+                                    preTrialPoliceDepartment = {preTrialPoliceDepartment}
+                                    handlePreTrialPoliceDepartmentChange = {handlePreTrialPoliceDepartmentChange}
+                                />
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):</div>
                                     <TextField fullWidth id='crime' value={crime} onChange={handleCrimeChange} label='Vakavin teko (päätös tai välituomio)' variant='outlined' margin='normal' />
@@ -590,8 +623,13 @@ const Form = () => {
                             container rowSpacing={2}
                             columnSpacing={{ xs: 1 }}
                         >
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button onClick={toggleVisibility} type="submit" style={{ color: '#228B22', bordercolor: '#228B22' }} >Lähetä uusi pyyntö</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button style={{ color: '#228B22', bordercolor: '#228B22' }}>
+                                    <Link to={`/upload_form/${formId}`}>Lisää liitteitä</Link>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Paper>
