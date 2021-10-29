@@ -129,9 +129,6 @@ const Form = () => {
     const [prosecuted, setProsecuted] = useState(false)
     const [deadlineForProsecution, setDeadlineForProsecution] = useState('')
     const [preTrialPoliceDepartment, setPreTrialPoliceDepartment] = useState('')
-    const [emailFromTheDirectorOfInvestigation, setEmailFromTheDirectorOfInvestigation] = useState('')
-    const [phonenumberFromTheDirectorOfInvestigation, setPhonenumberFromTheDirectorOfInvestigation] = useState('')
-    const [addressFromTheDirectorOfInvestigation, setAddressFromTheDirectorOfInvestigation] = useState('')
     const [crime, setCrime] = useState('')
     const [crimes, setCrimes] = useState('')
     const [assistantsEmail, setAssistantsEmail] = useState('')
@@ -256,9 +253,6 @@ const Form = () => {
             prosecuted: prosecuted,
             deadlineForProsecution: deadlineForProsecution,
             preTrialPoliceDepartment: preTrialPoliceDepartment,
-            emailFromTheDirectorOfInvestigation: emailFromTheDirectorOfInvestigation,
-            phonenumberFromTheDirectorOfInvestigation: phonenumberFromTheDirectorOfInvestigation,
-            addressFromTheDirectorOfInvestigation: addressFromTheDirectorOfInvestigation,
             crime: crime,
             crimes: crimes,
             assistantsEmail: assistantsEmail,
@@ -307,9 +301,6 @@ const Form = () => {
         setProsecuted(false)
         setDeadlineForProsecution('')
         setPreTrialPoliceDepartment('')
-        setEmailFromTheDirectorOfInvestigation('')
-        setPhonenumberFromTheDirectorOfInvestigation('')
-        setAddressFromTheDirectorOfInvestigation('')
         setCrime('')
         setCrimes('')
         setAssistantsEmail('')

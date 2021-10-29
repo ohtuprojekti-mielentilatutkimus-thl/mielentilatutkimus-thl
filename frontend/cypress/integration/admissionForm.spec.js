@@ -35,7 +35,6 @@ describe('Send Admission Form', function() {
                             continue
                         }
                         if (typeof(helper.admission_form_input[i]) === 'boolean') {
-                            cy.get('#' + i).check()
                             continue
                         }
                         cy.get('#' + i).type(helper.admission_form_input[i])
