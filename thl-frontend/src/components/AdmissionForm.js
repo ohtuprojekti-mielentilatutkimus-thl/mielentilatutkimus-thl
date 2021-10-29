@@ -6,6 +6,7 @@ import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 import MenuItem from '@material-ui/core/MenuItem'
 import PdfViewer from './PdfViewer'
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 
 const FormState = ( { form, updateForms } ) => {
 
@@ -41,6 +42,7 @@ const FormState = ( { form, updateForms } ) => {
                         <MenuItem id='2' value={'Pyydetty lisätietoja'}>Pyydetty lisätietoja</MenuItem>
                         <MenuItem id='3' value={'Saatu lisätietoja'}>Saatu lisätietoja</MenuItem>
                         <MenuItem id='4' value={'Pyyntö hyväksytty'}>Pyyntö hyväksytty</MenuItem>
+                        <MenuItem id='5' value={'Odottaa tarkistusta'}>Odottaa tarkistusta</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -312,12 +314,15 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                         <div className={classes.text}>{form.appealedDecision}</div>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <div className={classes.textLabel}>Liitteet:</div>
+                                        <div className={classes.textLabel}>Liitteet</div>
                                         {form.attachments.map(attachment => {
                                             return(
                                                 <div key={attachment.id} className={classes.text}>
                                                     <Button onClick={() => handleAttachment(attachment.id)}>
-                                                        {attachment.fileName}
+                                                        { attachment.fileName.includes('pdf') &&
+                                                                <PictureAsPdfIcon />
+                                                        }
+                                                        {attachment.whichFile}: {attachment.fileName}
                                                     </Button>
                                                 </div>
                                             )
