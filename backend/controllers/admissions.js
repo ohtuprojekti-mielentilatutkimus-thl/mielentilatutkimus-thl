@@ -121,8 +121,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
 })
 
 const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.sendersEmail) &&
-    emailValidator.validate(admissionForm.assistantsEmail) &&
+    return emailValidator.validate(admissionForm.assistantsEmail) &&
     emailValidator.validate(admissionForm.legalGuardianEmail)
 }
 
