@@ -223,16 +223,6 @@ const Form = () => {
         setAppealedDecision(event.target.value)
     }
 
-    const validateEmailFromTheDirectorOfInvestigation = () => {
-        if (!validator.isEmail(emailFromTheDirectorOfInvestigation)) {
-            console.log('virheellinen email')
-            setErrorMessage('Tutkinnanjohtajan sähköpostiosoite on virheellinen!')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
-        }
-    }
-
     const validateAssistantsEmail = () => {
         if (!validator.isEmail(assistantsEmail)) {
             console.log('virheellinen email')
@@ -295,7 +285,6 @@ const Form = () => {
 
         //console.log('Createadmission olio on:', createAddmission)
 
-        validateEmailFromTheDirectorOfInvestigation()
         validateAssistantsEmail()
         validateLegalGuardianEmail()
 
