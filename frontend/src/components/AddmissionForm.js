@@ -237,7 +237,7 @@ const Form = () => {
     const validateLegalGuardianEmail = () => {
         if (!validator.isEmail(legalGuardianEmail)) {
             console.log('virheellinen email')
-            setErrorMessage('Tutkinnanjohtajan sähköpostiosoite on virheellinen!')
+            setErrorMessage('Edunvalvojan sähköpostiosoite on virheellinen!')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 1000*7)

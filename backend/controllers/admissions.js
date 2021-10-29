@@ -11,6 +11,7 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const path = require('path')
+const email_validator = require('email-validator')
 
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1 })
