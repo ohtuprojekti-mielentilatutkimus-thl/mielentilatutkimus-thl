@@ -10,6 +10,7 @@ import { Alert } from '@material-ui/lab'
 import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
+import validator from 'validator'
 
 /* // toiminnallisuus myöhemmälle
 var old_id = ''
@@ -63,8 +64,6 @@ const NotProsecuted = (props) => {
 }
 
 const Form = () => {
-
-    const [errorMessage, setErrorMessage] = useState(null)
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
@@ -139,7 +138,7 @@ const Form = () => {
     const [legalGuardianAddress, setLegalGuardianAddress] = useState('')
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
-
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const handleNameChange = (event) => {
         setName(event.target.value)
@@ -224,6 +223,35 @@ const Form = () => {
         setAppealedDecision(event.target.value)
     }
 
+    const validateEmailFromTheDirectorOfInvestigation = () => {
+        if (!validator.isEmail(emailFromTheDirectorOfInvestigation)) {
+            console.log('virheellinen email')
+            setErrorMessage('Tutkinnanjohtajan sähköpostiosoite on virheellinen!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
+
+    const validateAssistantsEmail = () => {
+        if (!validator.isEmail(assistantsEmail)) {
+            console.log('virheellinen email')
+            setErrorMessage('Avustajan sähköpostiosoite on virheellinen!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
+
+    const validateLegalGuardianEmail = () => {
+        if (!validator.isEmail(legalGuardianEmail)) {
+            console.log('virheellinen email')
+            setErrorMessage('Tutkinnanjohtajan sähköpostiosoite on virheellinen!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+    }
 
     const addPerson = (event) => {
         event.preventDefault()
@@ -267,22 +295,25 @@ const Form = () => {
 
         //console.log('Createadmission olio on:', createAddmission)
 
+        validateEmailFromTheDirectorOfInvestigation()
+        validateAssistantsEmail()
+        validateLegalGuardianEmail()
 
-        addmissionService
-            .create(createAddmission)
-            .then(response => {
-                console.log(response.data)
-                toggleVisibility()
-            })
-            .catch(error => {
-                console.log(error)
-                setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 7)
-            })
-
-
+        if (errorMessage === null) {
+            addmissionService
+                .create(createAddmission)
+                .then(response => {
+                    console.log(response.data)
+                    toggleVisibility()
+                })
+                .catch(error => {
+                    console.log(error)
+                    setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 1000 * 7)
+                })
+        }
 
         setName('')
         setLastname('')
