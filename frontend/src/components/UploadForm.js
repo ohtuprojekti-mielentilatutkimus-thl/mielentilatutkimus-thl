@@ -8,9 +8,9 @@ const UploadForm = () => {
 
     const [selectedFiles, setSelectedFiles] = useState(null)
     const [whichFile, setWhichFile] = useState('')
-    const AddmissionFormId = useParams().id
+    const AdmissionFormId = useParams().id
 
-    console.log(AddmissionFormId)
+    console.log(AdmissionFormId)
 
     const useStyles = makeStyles({
         form: {
@@ -36,10 +36,10 @@ const UploadForm = () => {
     }
 
     const upload = async () => {
-        console.log(AddmissionFormId)
+        console.log(AdmissionFormId)
         const currFile = selectedFiles
         console.log(typeof(currFile))
-        await admissionService.upload(currFile, AddmissionFormId, whichFile)
+        await admissionService.upload(currFile, AdmissionFormId, whichFile)
         setSelectedFiles(null)
         setWhichFile(null)
     }
