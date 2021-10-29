@@ -29,13 +29,27 @@ describe('Send Admission Form', function() {
                     cy.visit(`http://localhost:3000/admission_form/${senders_id}`)
                     cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
+                    var whichboolean = 0
                     for (const i in helper.admission_form_input) {
                         if (['basicInformationId', 'formSender', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution'].includes(i) ||
                         i.includes('Ready')) {
                             continue
                         }
                         if (typeof(helper.admission_form_input[i]) === 'boolean') {
-                            continue
+                            if (whichboolean === 0){
+                                cy.get('#selectHazardAssesment').click()
+                                cy.get('#0')
+                                    .contains('Kyllä')
+                                    .click()
+                                whichboolean= +1
+                                continue
+                            } else {
+                                cy.get('#selectIfProsecuted').click()
+                                cy.get('#1')
+                                    .contains('Ei')
+                                    .click()
+                                continue
+                            }
                         }
                         cy.get('#' + i).type(helper.admission_form_input[i])
                     }
