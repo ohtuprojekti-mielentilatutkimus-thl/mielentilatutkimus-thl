@@ -1,6 +1,6 @@
 import React, { /*useEffect,*/ useState } from 'react'
 import addmissionService from '../services/addmissionService'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
@@ -37,6 +37,7 @@ const Form = () => {
     const basicInformationId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
+    const [formId, setFormId] = useState('')
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
     const showWhenVisible = { display: formVisible ? '' : 'none' }
@@ -255,7 +256,7 @@ const Form = () => {
         addmissionService
             .create(createAddmission)
             .then(response => {
-                console.log(response.data)
+                setFormId(response.data.id)
                 toggleVisibility()
             })
             .catch(error => {
@@ -505,8 +506,13 @@ const Form = () => {
                             container rowSpacing={2}
                             columnSpacing={{ xs: 1 }}
                         >
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button onClick={toggleVisibility} type="submit" style={{ color: '#228B22', bordercolor: '#228B22' }} >Lähetä uusi pyyntö</Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button style={{ color: '#228B22', bordercolor: '#228B22' }}>
+                                    <Link to={`/upload_form/${formId}`}>Lisää liitteitä</Link>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Paper>
