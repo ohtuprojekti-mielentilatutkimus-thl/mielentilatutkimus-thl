@@ -13,7 +13,7 @@ const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const path = require('path')
 
 admissionsRouter.get('/', async (req, res) => {
-    const admissionForms = await AdmissionForm.find({})
+    const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1 })
     res.json(admissionForms.map((admissionform) => admissionform.toJSON()))
 })
   

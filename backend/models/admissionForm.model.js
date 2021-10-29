@@ -52,7 +52,7 @@ var admissionSchema = mongoose.Schema({
     attachments: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:'Attachment'
+            ref:'attachmentForm'
         }
     ],
 },
