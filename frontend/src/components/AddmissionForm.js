@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
-import { Paper, Grid, Button, TextField } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
 import DateAdapter from '@mui/lab/AdapterDayjs'
@@ -30,6 +30,37 @@ const EditingForm = () => {
         <h1>Syötä henkilön tiedot:</h1>
     )
 } */
+
+const NotProsecuted = (props) => {
+    if (props.prosecuted === false){
+        return (
+            <div>
+                <Grid item xs={12}>
+                    <div>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
+                    <LocalizationProvider dateAdapter={DateAdapter}>
+                        <DesktopDatePicker
+                            label="Kalenteri"
+                            inputFormat="DD/MM/YYYY"
+                            value={props.deadlineForProsecution}
+                            onChange={props.handleDeadlineForProsecutionChange}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
+                    <div>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
+                    <TextField fullWidth id='preTrialPoliceDepartment' value={props.preTrialPoliceDepartment} onChange={props.handlePreTrialPoliceDepartmentChange} label='Esitutkinnan suorittava poliisilaitos' variant='outlined' margin='normal' />
+                </Grid>
+            </div>
+        )
+    }
+    else {
+        return (
+            <br></br>
+        )
+    }
+
+}
 
 const Form = () => {
 
@@ -138,8 +169,8 @@ const Form = () => {
     const handleCitizenshipChange = (event) => {
         setCitizenship(event.target.value)
     }
-    const handleHazardAssesmentChange = () => {
-        setHazardAssesment(!hazardAssesment)
+    const handleHazardAssesmentChange = (event) => {
+        setHazardAssesment(event.target.value)
     }
     const handleDiaariNumberChange = (event) => {
         setDiaariNumber(event.target.value)
@@ -156,23 +187,14 @@ const Form = () => {
     const handleMunicipalityOfResidenceChange = (event) => {
         setMunicipalityOfResidence(event.target.value)
     }
-    const handleProsecutedChange = () => {
-        setProsecuted(!prosecuted)
+    const handleProsecutedChange = (event) => {
+        setProsecuted(event.target.value)
     }
     const handleDeadlineForProsecutionChange = (newValue) => {
         setDeadlineForProsecution(newValue)
     }
     const handlePreTrialPoliceDepartmentChange = (event) => {
         setPreTrialPoliceDepartment(event.target.value)
-    }
-    const handleEmailFromTheDirectorOfInvestigationChange = (event) => {
-        setEmailFromTheDirectorOfInvestigation(event.target.value)
-    }
-    const handlePhonenumberFromTheDirectorOfInvestigationChange = (event) => {
-        setPhonenumberFromTheDirectorOfInvestigation(event.target.value)
-    }
-    const handleAddressFromTheDirectorOfInvestigationChange = (event) => {
-        setAddressFromTheDirectorOfInvestigation(event.target.value)
     }
     const handleCrimeChange = (event) => {
         setCrime(event.target.value)
@@ -320,7 +342,7 @@ const Form = () => {
                         align='center'
                         justify='center'
                     >
-                        <h2>Yleiset tutkittavan henkilön tiedot:</h2>
+                        <h2>Tutkittavan henkilön yleistiedot:</h2>
                         <p></p>
                         <form onSubmit={addPerson}>
                             <Grid
@@ -369,7 +391,16 @@ const Form = () => {
                             >
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <input id='hazardAssesment' type='checkbox' value={hazardAssesment} onChange={handleHazardAssesmentChange} /> Kyllä
+                                    <FormControl>
+                                        <Select
+                                            onChange={handleHazardAssesmentChange}
+                                            value={hazardAssesment}
+                                            disableUnderline
+                                            id='selectHazardAssesment'>
+                                            <MenuItem id='0' value={true}> Kyllä</MenuItem>
+                                            <MenuItem id='1' value={false}>Ei</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Diaarinumero:</div>
@@ -401,36 +432,24 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Onko syyte nostettu:</div>
-                                    <input id='prosecuted' type="checkbox" value={prosecuted} onChange={handleProsecutedChange} /> Kyllä
+                                    <FormControl>
+                                        <Select
+                                            onChange={handleProsecutedChange}
+                                            value={prosecuted}
+                                            disableUnderline
+                                            id='selectIfProsecuted'>
+                                            <MenuItem id='0' value={true}> Kyllä</MenuItem>
+                                            <MenuItem id='1' value={false}>Ei</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                                    <LocalizationProvider dateAdapter={DateAdapter}>
-                                        <DesktopDatePicker
-                                            label="Kalenteri"
-                                            inputFormat="DD/MM/YYYY"
-                                            value={deadlineForProsecution}
-                                            onChange={handleDeadlineForProsecutionChange}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
-                                    <TextField fullWidth id='preTrialPoliceDepartment' value={preTrialPoliceDepartment} onChange={handlePreTrialPoliceDepartmentChange} label='Esitutkinnan suorittava poliisilaitos' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:</div>
-                                    <TextField fullWidth id='emailFromTheDirectorOfInvestigation' value={emailFromTheDirectorOfInvestigation} onChange={handleEmailFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan sähköposti' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:</div>
-                                    <TextField fullWidth id='phonenumberFromTheDirectorOfInvestigation' value={phonenumberFromTheDirectorOfInvestigation} onChange={handlePhonenumberFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan puhelinnumero' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <div className={classes.labelText}>Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:</div>
-                                    <TextField fullWidth id='addressFromTheDirectorOfInvestigation' value={addressFromTheDirectorOfInvestigation} onChange={handleAddressFromTheDirectorOfInvestigationChange} label='Tutkinnan johtajan osoite' variant='outlined' margin='normal' />
-                                </Grid>
+                                <NotProsecuted
+                                    prosecuted ={prosecuted}
+                                    deadlineForProsecution = {deadlineForProsecution}
+                                    handleDeadlineForProsecutionChange = {handleDeadlineForProsecutionChange}
+                                    preTrialPoliceDepartment = {preTrialPoliceDepartment}
+                                    handlePreTrialPoliceDepartmentChange = {handlePreTrialPoliceDepartmentChange}
+                                />
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):</div>
                                     <TextField fullWidth id='crime' value={crime} onChange={handleCrimeChange} label='Vakavin teko (päätös tai välituomio)' variant='outlined' margin='normal' />
