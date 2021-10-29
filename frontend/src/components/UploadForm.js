@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import addmissionService from '../services/addmissionService'
+import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
 import { Paper, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,9 +8,9 @@ const UploadForm = () => {
 
     const [selectedFiles, setSelectedFiles] = useState(null)
     const [whichFile, setWhichFile] = useState('')
-    const AddmissionFormId = useParams().id
+    const AdmissionFormId = useParams().id
 
-    console.log(AddmissionFormId)
+    console.log(AdmissionFormId)
 
     const useStyles = makeStyles({
         form: {
@@ -36,10 +36,10 @@ const UploadForm = () => {
     }
 
     const upload = async () => {
-        console.log(AddmissionFormId)
+        console.log(AdmissionFormId)
         const currFile = selectedFiles
         console.log(typeof(currFile))
-        await addmissionService.upload(currFile, AddmissionFormId, whichFile)
+        await admissionService.upload(currFile, AdmissionFormId, whichFile)
         setSelectedFiles(null)
         setWhichFile(null)
     }
