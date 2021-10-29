@@ -64,7 +64,7 @@ Cypress.Commands.add('sendAdmissionForm', ( data ) => {
     cy.request({
         url: 'http://localhost:3001/api/admissions/admission_form',
         method: 'POST',
-        body: { ...admissionFormData, formState: data.formState }
+        body: { ...admissionFormData, formState: data.formState, prosecuted: data.prosecuted }
     }).then(response => {
         localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
         const createdAt = localStorage.createdAt

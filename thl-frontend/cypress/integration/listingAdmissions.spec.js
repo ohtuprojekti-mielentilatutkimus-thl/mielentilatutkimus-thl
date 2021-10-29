@@ -9,7 +9,8 @@ before(function() {
     cy.wait(1000)
 
     cy.sendAdmissionForm({
-        formState: 'AAAAAA'
+        formState: 'AAAAAA',
+        prosecuted : false
     })
     cy.wait(1000)
 
@@ -19,7 +20,8 @@ before(function() {
     cy.wait(1000)
 
     cy.sendAdmissionForm({
-        formState: 'CCCCCC'
+        formState: 'CCCCCC',
+        prosecuted : true
     }).then(() => {
         const createdAt = localStorage.createdAt
         created_at = createdAt
@@ -44,6 +46,21 @@ describe('All admissions can be viewed', () => {
         cy.contains('Mielentilatutkimuspyynnöt')
     }
     )
+
+    it('If prosecuted is false extra fields are shown',function() {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').first().click()
+
+        cy.contains('Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:')
+        cy.contains('Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:')
+    })
+
+    it('If prosecuted is true extra fields are hidden', function() {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').last().click()
+        cy.get('prosecutionDeadLine').should('not.exist')
+        cy.get('preTrialPoliceDepartment').should('not.exist')
+    })
 
     it('Sort by state sorts correctly', function () {
 

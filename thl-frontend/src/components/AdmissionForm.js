@@ -59,11 +59,11 @@ const NotProsecuted = (form) => {
         return (
             <div>
                 <Grid item xs={4}>
-                    <div className = {classes.textLabel}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
+                    <div className = {classes.textLabel} id='prosecutionDeadLine'>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
                     <div className = {classes.text}>{dayjs(form.deadlineForProsecution).format('DD.MM.YYYY')}</div>
                 </Grid>
                 <Grid item xs={4}>
-                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
+                    <div className={classes.textLabel} id='preTrialPoliceDepartment'>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
                     <div className = {classes.text}>{form.preTrialPoliceDepartment}</div>
                 </Grid>
             </div>
