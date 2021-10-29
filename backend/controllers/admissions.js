@@ -22,6 +22,10 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
+const validateBasicInformationData = (basicInformationForm) => {
+    return email_validator.validate(basicInformationForm.sendersEmail) && true && !false
+}
+
 admissionsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
 
@@ -33,17 +37,20 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         sendersPhoneNumber: data.sendersPhoneNumber,
         attachments: []
     })
-    const savedForm = await basicInformationForm.save()
-    const response = [
-        savedForm.admissionNoteSenderOrganization,
-        savedForm.admissionNoteSender,
-        savedForm.sendersEmail,
-        savedForm.sendersPhoneNumber
-    ]
-    
-    res.json(response)
-    Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
 
+    if (!validateBasicInformationData(basicInformationForm)) {
+        res.sendStatus(500)
+    } else {
+        const savedForm = await basicInformationForm.save()
+        const response = [
+            savedForm.admissionNoteSenderOrganization,
+            savedForm.admissionNoteSender,
+            savedForm.sendersEmail,
+            savedForm.sendersPhoneNumber
+        ]
+        res.json(response)
+        Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
+    }
 })
 
 //testauksessa ei toimi vielä
