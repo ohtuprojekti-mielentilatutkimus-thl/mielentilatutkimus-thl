@@ -49,6 +49,52 @@ const FormState = ( { form, updateForms } ) => {
     )
 }
 
+const NotProsecuted = (form) => {
+    const classes = useStyles ()
+    if (form.form.prosecuted)
+        return (
+            <br></br>
+        )
+    else {
+        return (
+            <div>
+                <Grid item xs={4}>
+                    <div className = {classes.textLabel} id='prosecutionDeadLine'>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
+                    <div className = {classes.text}>{dayjs(form.deadlineForProsecution).format('DD.MM.YYYY')}</div>
+                </Grid>
+                <Grid item xs={4}>
+                    <div className={classes.textLabel} id='preTrialPoliceDepartment'>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
+                    <div className = {classes.text}>{form.preTrialPoliceDepartment}</div>
+                </Grid>
+            </div>
+        )
+    }
+}
+
+const DisplayProsecuted = (form) => {
+    if (form.form.prosecuted) {
+        return (
+            <div>Kyllä</div>
+        )
+    }else {
+        return (
+            <div> Ei</div>
+        )
+    }
+}
+const DisplayHazard = (form) => {
+    console.log(form)
+    if (form.form.hazardAssesment) {
+        return (
+            <div>Kyllä</div>
+        )
+    }else {
+        return (
+            <div>Ei</div>
+        )
+    }
+}
+
 const AdmissionForm = ({ form, updateForms } ) => {
 
     //test()
@@ -177,14 +223,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             >
                                 <Grid item xs={4}>
                                     <div className={classes.textLabel}>Halutaanko lisäksi vaarallisuusarvio:</div>
-                                    <div>
-                                        <label>
-                                            <input type='radio' value='Vaarallisuusarvio'
-                                                checked={form.hazardAssesment === true}
-                                                readOnly
-                                            />
-                                        </label>
-                                    </div>
+                                    <DisplayHazard form={form}/>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <div className={classes.textLabel}>Oikeuden diaarinumero:</div>
@@ -208,35 +247,12 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <div className={classes.textLabel}>Onko syyte nostettu:</div>
-                                    <div>
-                                        <label>
-                                            <input type='radio' value='SyyteNostettu'
-                                                checked={form.prosecuted === true}
-                                                readOnly
-                                            />
-                                        </label>
-                                    </div>
+                                    <DisplayProsecuted form={form}/>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                                    <div className={classes.text}>{dayjs(form.deadlineForProsecution).format('DD.MM.YYYY')}</div>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
-                                    <div className={classes.text}>{form.preTrialPoliceDepartment}</div>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, tutkinnan johtajan sähköposti:</div>
-                                    <div className={classes.text}>{form.emailFromTheDirectorOfInvestigation}</div>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, tutkinnan johtajan puhelinnumero:</div>
-                                    <div className={classes.text}>{form.phonenumberFromTheDirectorOfInvestigation}</div>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Jos syytettä ei ole nostettu, tutkinnan johtajan osoite:</div>
-                                    <div className={classes.text}>{form.addressFromTheDirectorOfInvestigation}</div>
-                                </Grid>
+                                <NotProsecuted
+                                    form = {form}
+                                />
+
                                 <Grid item xs={4}>
                                     <div className={classes.textLabel}>Mielentilatutkimuksen määräämiseen johtanut vakavin teko (päätös tai välituomio):</div>
                                     <div className={classes.text}>{form.crime}</div>
