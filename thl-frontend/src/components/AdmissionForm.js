@@ -277,6 +277,17 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                     <div className={classes.textLabel}>Mikäli lähettäjä hovioikeus/korkein oikeus, mihin päätökseen haettu muutosta:</div>
                                     <div className={classes.text}>{form.appealedDecision}</div>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <div className={classes.textLabel}>Liitteet:</div>
+                                    {form.attachments.map(attachment => {
+                                        return(
+                                            <div key={attachment.id} className={classes.text}>
+                                                {attachment.fileName}
+                                            </div>
+                                        )
+                                    })}
+                                </Grid>
+
                             </Grid>
                         </Grid>
                     </Grid>
