@@ -11,35 +11,13 @@ import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 
-/* // toiminnallisuus myöhemmälle
-var old_id = ''
-
-const EditingForm = () => {
-
-    const queryParams = new URLSearchParams(window.location.search)
-    const change = Boolean(queryParams.get('id'))
-    // console.log('old id: ', { old_id } ,' ja change on: ', { change })
-
-    if (change) {
-        old_id = queryParams.get('old_id')
-
-        return (
-            <h1>Lomakkeen {old_id} muokkaustila</h1>
-        )
-    } return (
-        <h1>Syötä henkilön tiedot:</h1>
-    )
-} */
-
 const Form = () => {
 
     const [errorMessage, setErrorMessage] = useState(null)
     const basicInformationId = useParams().id
+    const formId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
-    const [selectedFiles, setSelectedFiles] = useState(null)
-    const [whichFile, setWhichFile] = useState('')
-
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
     const showWhenVisible = { display: formVisible ? '' : 'none' }
@@ -68,37 +46,35 @@ const Form = () => {
     })
 
     const classes = useStyles()
+    var sender = ''
 
-    useEffect(() => {
-        basicInformationService.get(basicInformationId).then(res => {
-            console.log(res)
-            setSenderInfo(res[0])
-        })
-        console.log('senderInfo on: ', senderInfo)
-    }, [])
+    if (window.location.toString().includes('edit')){
 
-    const selectFile = (event) => {
-        const inputTarget = event.target
-        setSelectedFiles(inputTarget.files[0])
-        setWhichFile(inputTarget.id)
-        console.log(selectedFiles)
-        console.log(whichFile)
+        useEffect(() => {
+            addmissionService.get(formId).then(res => {
+                console.log(res)
+                setSenderInfo(res[0])
+            })
+            console.log('senderInfo on: ', senderInfo)
+        }, [])
+
+    } else {
+        useEffect(() => {
+            basicInformationService.get(basicInformationId).then(res => {
+                console.log(res)
+                setSenderInfo(res[0])
+            })
+            console.log('senderInfo on: ', senderInfo)
+        }, [])
     }
-
-    const upload = async () => {
-        const currFile = selectedFiles
-        console.log(typeof(currFile))
-        await addmissionService.upload(currFile, basicInformationId, whichFile)
-        setSelectedFiles(null)
-        setWhichFile(null)
-    }
-
-    const sender = {
+    sender = {
         admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
         admissionNoteSender: senderInfo.admissionNoteSender,
         sendersEmail: senderInfo.sendersEmail,
         sendersPhoneNumber: senderInfo.sendersPhoneNumber
     }
+
+
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -108,10 +84,6 @@ const Form = () => {
     const [processAddress, setProcessAddress] = useState('')
     const [trustee, setTrustee] = useState('')
     const [citizenship, setCitizenship] = useState('')
-    const [admissionNoteSendingOrganization, setAdmissionNoteSendingOrganization] = useState('')
-    const [admissionNoteSender, setAdmissionNoteSender] = useState('')
-    const [sendersEmail, setSendersEmail] = useState('')
-    const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
     const [hazardAssesment, setHazardAssesment] = useState(false)
     const [diaariNumber, setDiaariNumber] = useState('')
     const [datePrescribedForPsychiatricAssesment, setDatePrescribedForPsychiatricAssesment] = useState('')
@@ -160,18 +132,6 @@ const Form = () => {
     }
     const handleCitizenshipChange = (event) => {
         setCitizenship(event.target.value)
-    }
-    const handleAdmissionNoteSendingOrganizationChange = (event) => {
-        setAdmissionNoteSendingOrganization(event.target.value)
-    }
-    const handleAdmissionNoteSenderChange = (event) => {
-        setAdmissionNoteSender(event.target.value)
-    }
-    const handleSendersEmailChange = (event) => {
-        setSendersEmail(event.target.value)
-    }
-    const handleSendersPhoneNumberChange = (event) => {
-        setSendersPhoneNumber(event.target.value)
     }
     const handleHazardAssesmentChange = () => {
         setHazardAssesment(!hazardAssesment)
@@ -241,11 +201,24 @@ const Form = () => {
     }
 
     const updatePerson = (event) => {
+
+        /*const [formState, setFormState] = useState('')
+
+        useEffect(() => {
+            addmissionService.get(formId).then(res => {
+                setFormState(res[0].formState)
+            })
+            console.log('tila on: ', formState)
+        }, [])
+
+        if (formState==='Pyydetty lisätietoja'){
+
+            */
+
         event.preventDefault()
 
         const updateAdmission = {
             formState : 'Saatu lisätietoja',
-            formSender: sender.sendersEmail,
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -254,10 +227,6 @@ const Form = () => {
             processAddress: processAddress,
             trustee: trustee,
             citizenship: citizenship,
-            admissionNoteSendingOrganization: admissionNoteSendingOrganization,
-            admissionNoteSender: admissionNoteSender,
-            sendersEmail: sendersEmail,
-            sendersPhoneNumber: sendersPhoneNumber,
             hazardAssesment: hazardAssesment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
@@ -281,23 +250,18 @@ const Form = () => {
             legalGuardianInstitute: legalGuardianInstitute,
             appealedDecision: appealedDecision,
         }
-        for (const propName in updateAdmission) {
+        for (const value in updateAdmission) {
 
             if (
-                updateAdmission[propName] === null ||
-                updateAdmission[propName] === undefined ||
-                updateAdmission[propName] === ''
+                updateAdmission[value] === null ||
+                updateAdmission[value] === undefined ||
+                updateAdmission[value] === ''
             ) {
-                delete updateAdmission[propName]
+                delete updateAdmission[value]
             }
         }
-        console.log(updateAdmission)
-
-        const queryParams = new URLSearchParams(window.location.search)
-        const id = queryParams.get('id')
-
         addmissionService
-            .update(id, updateAdmission)
+            .update(formId, updateAdmission)
             .then(response => {
                 console.log(response.data)
                 toggleVisibility()
@@ -309,11 +273,20 @@ const Form = () => {
                     setErrorMessage(null)
                 }, 1000 * 7)
             })
+
+        /* } else {
+            console.log('väärä tila')
+            setErrorMessage('Lisätietoja ei olla pyydetty')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000 * 7)
+        } */
     }
 
 
-    const addPerson = (event) => {
 
+
+    const addPerson = (event) => {
 
         if (window.location.toString().includes('edit')){
             updatePerson(event)
@@ -323,7 +296,7 @@ const Form = () => {
             event.preventDefault()
 
             const createAddmission = {
-            //  oldId: old_id,
+                //  oldId: old_id,
                 formState : 'Odottaa tarkistusta',
                 formSender: sender.sendersEmail,
                 name: name,
@@ -334,10 +307,10 @@ const Form = () => {
                 processAddress: processAddress,
                 trustee: trustee,
                 citizenship: citizenship,
-                admissionNoteSendingOrganization: admissionNoteSendingOrganization,
-                admissionNoteSender: admissionNoteSender,
-                sendersEmail: sendersEmail,
-                sendersPhoneNumber: sendersPhoneNumber,
+                admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
+                admissionNoteSender: sender.admissionNoteSender,
+                sendersEmail: sender.sendersEmail,
+                sendersPhoneNumber: sender.sendersPhoneNumber,
                 hazardAssesment: hazardAssesment,
                 diaariNumber: diaariNumber,
                 datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
@@ -379,8 +352,6 @@ const Form = () => {
                     }, 1000 * 7)
                 })
 
-
-
             setName('')
             setLastname('')
             setIdentificationNumber('')
@@ -389,10 +360,6 @@ const Form = () => {
             setProcessAddress('')
             setTrustee('')
             setCitizenship('')
-            setAdmissionNoteSendingOrganization('')
-            setAdmissionNoteSender('')
-            setSendersEmail('')
-            setSendersPhoneNumber('')
             setHazardAssesment(false)
             setDiaariNumber('')
             setDatePrescribedForPsychiatricAssesment('')
@@ -476,22 +443,6 @@ const Form = () => {
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Kansalaisuus:</div>
                                     <TextField id='citizenship' value={citizenship} onChange={handleCitizenshipChange} label='Kansalaisuus' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettävä taho:</div>
-                                    <TextField id='admissionNoteSendingOrganization' value={admissionNoteSendingOrganization} onChange={handleAdmissionNoteSendingOrganizationChange} label='Lähettävä taho' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettävä henkilö:</div>
-                                    <TextField id='admissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Lähettävä henkilö' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettäjän sähköposti:</div>
-                                    <TextField id='sendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Lähettäjän sähköposti' variant='outlined' margin='normal' />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <div className={classes.labelText}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                                    <TextField id='sendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Lähettäjän puhelinnumero' variant='outlined' margin='normal' />
                                 </Grid>
                             </Grid>
 
@@ -613,132 +564,6 @@ const Form = () => {
                             <p></p>
                             <p></p>
                         </form>
-                        <h2>Liitteet</h2>
-
-                        Välituomio tai päätös mielentilatutkimukseen määräämisestä
-                        <br />
-                        <label htmlFor='valituomio'>
-                            <input
-                                id='valituomio'
-                                name='valituomio'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Pöytäkirja
-                        <br />
-                        <label htmlFor='poytakirja'>
-                            <input
-                                id='poytakirja'
-                                name='poytakirja'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Haastehakemus
-                        <br />
-                        <label htmlFor='haastehakemus'>
-                            <input
-                                id='haastehakemus'
-                                name='haastehakemus'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Rikosrekisteriote
-                        <br />
-                        <label htmlFor='rikosrekisteriote'>
-                            <input
-                                id='rikosrekisteriote'
-                                name='rikosrekisteriote'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Esitutkintapöytäkirja liitteineen
-                        <br />
-                        <label htmlFor='esitutkintapoytakirja'>
-                            <input
-                                id='esitutkintapoytakirja'
-                                name='esitutkintapoytakirja'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
-                        <br/>
-                        <label htmlFor='vangitsemispaatos'>
-                            <input
-                                id='vangitsemispaatos'
-                                name='vangitsemispaatos'
-                                style={{ display: 'none' }}
-                                type='file'
-                                onChange={selectFile}
-                                accept='image/*,.pdf'
-                            />
-                            <Button
-                                className='btn-choose'
-                                variant='outlined'
-                                component='span'>
-                                    Valitse tiedosto
-                            </Button>
-                        </label>
-                        <br />
-                        <br />
-                        <Button
-                            className='btn-upload'
-                            color='primary'
-                            variant='contained'
-                            component='span'
-                            disabled={!selectedFiles}
-                            onClick={upload}>
-                                Lataa valittu tiedosto
-                        </Button>
                     </Paper>
                 </div>
             </div>

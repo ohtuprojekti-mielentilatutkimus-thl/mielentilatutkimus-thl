@@ -46,7 +46,7 @@ describe('From posting basic information to confirmation email', function() {
                     }
                     cy.get('#' + i).type(helper.admission_form_input[i])
                 }
-
+                /*
                 cy.intercept({
                     method: 'POST',
                     url: `/api/admissions/admission_form_attachment/${senders_id}`,
@@ -70,16 +70,15 @@ describe('From posting basic information to confirmation email', function() {
                         assert.equal('ok', interception.response.body.message)
                     })
                 }
-
+*/
                 cy.get('#createPersonButton').click()
                 cy.contains('Pyyntö lähetettiin onnistuneesti')
-
             })
         }).then(() => {
             cy.wait(1000)
             cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
                 expect(emails.status).equal(200)
-                assert.equal(emails.body[0].headers.to, helper.admission_form_input.sendersEmail)
+                assert.equal(emails.body[0].headers.to, helper.basic_information_input.sendersEmail)
                 assert.equal(emails.body[0].subject, 'Vahvistus')
                 expect(emails.body[0].text.includes('Tutkimuspyyntö vastaanotettu'))
                 expect(emails.body[0].text.includes(helper.admission_form_input.diaariNumber))

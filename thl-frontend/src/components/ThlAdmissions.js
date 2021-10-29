@@ -54,16 +54,16 @@ const ThlAdmissions = () => {
 
 
     return (
-        <div className={classes.page}>
+        <div className={classes.page}  style={{ maxHeight: '100%',overflow: 'auto' }} >
             <div>
-                <Typography variant={'h4'}>Lomakkeet</Typography>
+                <Typography variant={'h4'}>Mielentilatutkimuspyynnöt</Typography>
             </div>
             <div>
                 <TableContainer component={Paper} className={classes.form}>
                     <Table sx={{ minWidth: 700 }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Id</TableCell>
+                                <TableCell>Pyynnön tunniste</TableCell>
                                 <TableCell align="left">Luotu
                                     <IconButton id="sortTime" onClick={sortFormsByDate} color="primary">
                                         <ArrowDropDownIcon />

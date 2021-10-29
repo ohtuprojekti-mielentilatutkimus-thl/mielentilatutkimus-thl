@@ -5,8 +5,12 @@ const uploadFile = require('../utils/upload.js')
 
 const admissionsRouter = require('express').Router()
 
+const FileHandler = require('../services/fileHandler')
+
 const AdmissionForm = require('../models/admissionForm.model.js')
+const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
+const path = require('path')
 
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({})
@@ -65,7 +69,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         processAddress: data.processAddress,
         trustee: data.trustee,
         citizenship: data.citizenship,
-        admissionNoteSendingOrganization : data.admissionNoteSendingOrganization,
+        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
         admissionNoteSender : data.admissionNoteSender,
         sendersEmail : data.sendersEmail,
         sendersPhoneNumber : data.sendersPhoneNumber,
@@ -100,7 +104,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
         preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady 
+        imprisonmentRequirementReady: data.imprisonmentRequirementReady    
     }
 
     AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
@@ -129,7 +133,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         processAddress: data.processAddress,
         trustee: data.trustee,
         citizenship: data.citizenship,
-        admissionNoteSendingOrganization : data.admissionNoteSendingOrganization,
+        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
         admissionNoteSender : data.admissionNoteSender,
         sendersEmail : data.sendersEmail,
         sendersPhoneNumber : data.sendersPhoneNumber,
@@ -164,7 +168,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
         preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady 
+        imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
     const savedForm = await admissionForm.save()
     res.json(savedForm.toJSON())
@@ -173,42 +177,53 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
 })
 
-admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
+admissionsRouter.get('/admission_form/:id', async (req, res) => {
+    const data = await AdmissionForm.find({}).catch((err) => {console.log(err)})
+    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
+})
 
-    // ei kyllä voi toimia perustietojen id:n mukaan, koska samoilla perustiedoilla voidaan lähettää useampi mttp-lomake?
+
+admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
     const data = req.body
 
     var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
     var form = forms.filter(d => d.id === req.params.id).map(f => f.toJSON())
 
-    console.log('id = ', req.params.id)
-    console.log('vanhat tiedot:')
-    console.log(form)
+    // console.log('muokatut tiedot: ', data)
 
-  
-    for (let i = 0; i < data.length; i++) { 
-        var prop = data[i]
-        console.log(prop)
-        form = { ...form, prop: 'lol' }
-    }
+    for (let i = 0; i < Object.keys(data).length; i++) { 
 
-    console.log('uudet tiedot:')
-    console.log(form)
-
-    AdmissionForm.findByIdAndUpdate(form.id, form, {new: true})
+        var key = Object.keys(data)[i]
+        var value = Object.values(data)[i]
+        form = { ...form, [key]: value }
+    } 
+ 
+    AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
         .then(updatedForm => {
             res.json(updatedForm.toJSON())
         })
-
-  
 })
 
+admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {
+    const attachmentFile = await AttachmentForm.findById(req.params.attachmentId).catch((err) => {console.log(err)})
+
+    const fileBuffer = Buffer.from(attachmentFile.fileData)
+
+    // currently assumed that all files are pdf, different file types might require other handling
+    await FileHandler.bufferToPdf(fileBuffer, attachmentFile.fileName)
+    res.sendFile(path.resolve('./', attachmentFile.fileName), function (err) {
+        if (err) {
+            console.log('Error sending file')
+        } else {
+            FileHandler.deleteTmpFile(attachmentFile.fileName)
+        }
+    })
+})
 
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
     try {
         await uploadFile(req, res)
-        console.log(req.file, req.file.buffer)
         Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer, req.body.whichFile)
         res.status(200).send({
             originalname: req.file.originalname,

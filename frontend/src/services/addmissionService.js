@@ -13,16 +13,17 @@ const create = personObject => {
 
 const update = (id, personObject) => {
 
-    //personObjectilla on vain muuttuneet tiedot, ei mitään vanhoja
-
-    console.log('täällä')
-    console.log(personObject)
-    console.log(id)
-
     return axios.put(`${baseUrl}/admission_form/${id}/edit`, personObject)
 }
 
+const get = async (  id  ) => {
+
+    const request = await axios.get(`${baseUrl}/admission_form/${id}`)
+    return request.data
+}
+
 const upload = (file, id, whichFile) => {
+    console.log(id)
     const formData = new FormData()
     console.log(file)
     formData.append('file', file)
@@ -35,4 +36,4 @@ const upload = (file, id, whichFile) => {
     return res.data
 }
 
-export default { getAll, create, update, upload }
+export default { getAll, create, update, get, upload }

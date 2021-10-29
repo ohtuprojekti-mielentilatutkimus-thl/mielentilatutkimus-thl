@@ -15,7 +15,7 @@ var admissionSchema = mongoose.Schema({
     trustee: { type: String },
     citizenship: { type: String },
     //oldId: { type: String },
-    admissionNoteSendingOrganization: { type: String },
+    admissionNoteSenderOrganization: { type: String },
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
     sendersPhoneNumber: { type: String },
@@ -48,7 +48,13 @@ var admissionSchema = mongoose.Schema({
     transcriptOfCriminalRecordIsReady: { type: Boolean },
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
-    imprisonmentRequirementReady: { type: Boolean }
+    imprisonmentRequirementReady: { type: Boolean },
+    attachments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Attachment'
+        }
+    ],
 },
 {timestamps: true})
 
