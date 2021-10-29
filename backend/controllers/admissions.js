@@ -11,7 +11,7 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const path = require('path')
-const email_validator = require('email-validator')
+const emailValidator = require('email-validator')
 
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1 })
@@ -24,7 +24,7 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
 })
 
 const validateBasicInformationData = (basicInformationForm) => {
-    return email_validator.validate(basicInformationForm.sendersEmail) && true && !false
+    return emailValidator.validate(basicInformationForm.sendersEmail)
 }
 
 admissionsRouter.post('/basic_information_form', async (req, res) => {
@@ -120,6 +120,12 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
   
 })
 
+const validateAdmissionFormData = (admissionForm) => {
+    return emailValidator.validate(admissionForm.sendersEmail) &&
+    emailValidator.validate(admissionForm.assistantsEmail) &&
+    emailValidator.validate(admissionForm.legalGuardianEmail)
+}
+
 
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
@@ -172,11 +178,14 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
-    const savedForm = await admissionForm.save()
-    res.json(savedForm.toJSON())
 
-    Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
-
+    if (!validateAdmissionFormData(admissionForm)) {
+        res.sendStatus(500)
+    } else {
+        const savedForm = await admissionForm.save()
+        res.json(savedForm.toJSON())
+        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
+    }
 })
 
 admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {
