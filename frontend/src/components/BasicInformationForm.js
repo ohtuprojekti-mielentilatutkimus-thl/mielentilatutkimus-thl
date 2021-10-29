@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
 import validator from 'validator'
 
-
 const BasicInformationForm = () => {
 
     const [admissionNoteSenderOrganization, setAdmissionNoteSenderOrganization] = useState('')
