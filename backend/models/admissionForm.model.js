@@ -29,9 +29,6 @@ var admissionSchema = mongoose.Schema({
     prosecuted: { type: Boolean },
     deadlineForProsecution: { type: String },
     preTrialPoliceDepartment: { type: String },
-    emailFromTheDirectorOfInvestigation: { type: String },
-    phonenumberFromTheDirectorOfInvestigation: { type: String },
-    addressFromTheDirectorOfInvestigation: { type: String },
     crime: { type: String },
     crimes: { type: String },
     assistantsEmail: { type: String },
@@ -52,7 +49,7 @@ var admissionSchema = mongoose.Schema({
     attachments: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:'Attachment'
+            ref:'attachmentForm'
         }
     ],
 },
