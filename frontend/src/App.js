@@ -20,6 +20,8 @@ const App = () => {
                 </Route>
                 <Route path='/admission_form/:id' component={AddmissionForm}>
                 </Route>
+                <Route path='/admission_form/:id/edit' component={AddmissionForm}>
+                </Route>
             </Switch>
         </div>
     )

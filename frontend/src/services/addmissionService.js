@@ -11,6 +11,17 @@ const create = personObject => {
     return axios.post(baseUrl+'/admission_form', personObject)
 }
 
+const update = (id, personObject) => {
+
+    //personObjectilla on vain muuttuneet tiedot, ei mitään vanhoja
+
+    console.log('täällä')
+    console.log(personObject)
+    console.log(id)
+
+    return axios.put(`${baseUrl}/admission_form/${id}/edit`, personObject)
+}
+
 const upload = (file, id, whichFile) => {
     const formData = new FormData()
     console.log(file)
@@ -23,13 +34,5 @@ const upload = (file, id, whichFile) => {
     })
     return res.data
 }
-/*
-const update = (props) => {
 
-    const personObject = props.personObject
-    const oldId = props. old_id
-    return axios.post(baseUrl, personObject, oldId)
-} */
-
-
-export default { getAll, create, upload }
+export default { getAll, create, update, upload }

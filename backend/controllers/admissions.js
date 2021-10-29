@@ -173,6 +173,37 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
 })
 
+admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
+
+    // ei kyllä voi toimia perustietojen id:n mukaan, koska samoilla perustiedoilla voidaan lähettää useampi mttp-lomake?
+
+    const data = req.body
+
+    var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
+    var form = forms.filter(d => d.id === req.params.id).map(f => f.toJSON())
+
+    console.log('id = ', req.params.id)
+    console.log('vanhat tiedot:')
+    console.log(form)
+
+  
+    for (let i = 0; i < data.length; i++) { 
+        var prop = data[i]
+        console.log(prop)
+        form = { ...form, prop: 'lol' }
+    }
+
+    console.log('uudet tiedot:')
+    console.log(form)
+
+    AdmissionForm.findByIdAndUpdate(form.id, form, {new: true})
+        .then(updatedForm => {
+            res.json(updatedForm.toJSON())
+        })
+
+  
+})
+
 
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
     try {
