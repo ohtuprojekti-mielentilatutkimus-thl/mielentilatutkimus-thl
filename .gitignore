@@ -6,3 +6,4 @@ backend/request/
 backend/build/
 .env
 backend/coverage/
+tmp/
