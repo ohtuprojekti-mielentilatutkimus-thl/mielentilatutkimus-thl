@@ -15,7 +15,7 @@ var admissionSchema = mongoose.Schema({
     trustee: { type: String },
     citizenship: { type: String },
     //oldId: { type: String },
-    admissionNoteSendingOrganization: { type: String },
+    admissionNoteSenderOrganization: { type: String },
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
     sendersPhoneNumber: { type: String },

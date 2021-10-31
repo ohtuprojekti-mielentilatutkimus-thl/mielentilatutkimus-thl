@@ -1,5 +1,5 @@
 import React, { /*useEffect,*/ useState } from 'react'
-import addmissionService from '../services/admissionService'
+import admissionService from '../services/admissionService'
 import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
@@ -11,26 +11,6 @@ import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import validator from 'validator'
-
-/* // toiminnallisuus myöhemmälle
-var old_id = ''
-
-const EditingForm = () => {
-
-    const queryParams = new URLSearchParams(window.location.search)
-    const change = Boolean(queryParams.get('id'))
-    // console.log('old id: ', { old_id } ,' ja change on: ', { change })
-
-    if (change) {
-        old_id = queryParams.get('old_id')
-
-        return (
-            <h1>Lomakkeen {old_id} muokkaustila</h1>
-        )
-    } return (
-        <h1>Syötä henkilön tiedot:</h1>
-    )
-} */
 
 const NotProsecuted = (props) => {
     if (props.prosecuted === false){
@@ -60,11 +40,11 @@ const NotProsecuted = (props) => {
             <br></br>
         )
     }
-
 }
 
 const Form = () => {
     const basicInformationId = useParams().id
+    const paramFormId = useParams().id
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
     const [formId, setFormId] = useState('')
@@ -96,21 +76,35 @@ const Form = () => {
     })
 
     const classes = useStyles()
+    var sender = ''
 
-    useEffect(() => {
-        basicInformationService.get(basicInformationId).then(res => {
-            console.log(res)
-            setSenderInfo(res[0])
-        })
-        console.log('senderInfo on: ', senderInfo)
-    }, [])
+    if (window.location.toString().includes('edit')){
 
-    const sender = {
+        useEffect(() => {
+            admissionService.get(paramFormId).then(res => {
+                console.log(res)
+                setSenderInfo(res[0])
+            })
+            console.log('senderInfo on: ', senderInfo)
+        }, [])
+
+    } else {
+        useEffect(() => {
+            basicInformationService.get(basicInformationId).then(res => {
+                console.log(res)
+                setSenderInfo(res[0])
+            })
+            console.log('senderInfo on: ', senderInfo)
+        }, [])
+    }
+    sender = {
         admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
         admissionNoteSender: senderInfo.admissionNoteSender,
         sendersEmail: senderInfo.sendersEmail,
         sendersPhoneNumber: senderInfo.sendersPhoneNumber
     }
+
+
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -244,13 +238,25 @@ const Form = () => {
         }
     }
 
-    const addPerson = (event) => {
+    const updatePerson = (event) => {
+
+        /*const [formState, setFormState] = useState('')
+
+        useEffect(() => {
+            admissionService.get(paramFormId).then(res => {
+                setFormState(res[0].formState)
+            })
+            console.log('tila on: ', formState)
+        }, [])
+
+        if (formState==='Pyydetty lisätietoja'){
+
+            */
+
         event.preventDefault()
 
-        const createAddmission = {
-            //  oldId: old_id,
-            formState : 'Odottaa tarkistusta',
-            formSender: sender.sendersEmail,
+        const updateAdmission = {
+            formState : 'Saatu lisätietoja',
             name: name,
             lastname: lastname,
             identificationNumber: identificationNumber,
@@ -259,10 +265,6 @@ const Form = () => {
             processAddress: processAddress,
             trustee: trustee,
             citizenship: citizenship,
-            admissionNoteSendingOrganization: sender.admissionNoteSenderOrganization,
-            admissionNoteSender: sender.admissionNoteSender,
-            sendersEmail: sender.sendersEmail,
-            sendersPhoneNumber: sender.sendersPhoneNumber,
             hazardAssesment: hazardAssesment,
             diaariNumber: diaariNumber,
             datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
@@ -283,57 +285,141 @@ const Form = () => {
             legalGuardianInstitute: legalGuardianInstitute,
             appealedDecision: appealedDecision,
         }
+        for (const value in updateAdmission) {
 
-        //console.log('Createadmission olio on:', createAddmission)
-
-        validateAssistantsEmail()
-        validateLegalGuardianEmail()
-
-        if (errorMessage === null) {
-            addmissionService
-                .create(createAddmission)
-                .then(response => {
-                    console.log(response.data)
-                    setFormId(response.data.id)
-                    toggleVisibility()
-                })
-                .catch(error => {
-                    console.log(error)
-                    setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
-                    setTimeout(() => {
-                        setErrorMessage(null)
-                    }, 1000 * 7)
-                })
+            if (
+                updateAdmission[value] === null ||
+                updateAdmission[value] === undefined ||
+                updateAdmission[value] === ''
+            ) {
+                delete updateAdmission[value]
+            }
         }
+        admissionService
+            .update(paramFormId, updateAdmission)
+            .then(response => {
+                console.log(response.data)
+                toggleVisibility()
+            })
+            .catch(error => {
+                console.log(error)
+                setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000 * 7)
+            })
 
-        setName('')
-        setLastname('')
-        setIdentificationNumber('')
-        setAddress('')
-        setLocation('')
-        setProcessAddress('')
-        setTrustee('')
-        setCitizenship('')
-        setHazardAssesment(false)
-        setDiaariNumber('')
-        setDatePrescribedForPsychiatricAssesment('')
-        setNativeLanguage('')
-        setDesiredLanguageOfBusiness('')
-        setMunicipalityOfResidence('')
-        setProsecuted(false)
-        setDeadlineForProsecution('')
-        setPreTrialPoliceDepartment('')
-        setCrime('')
-        setCrimes('')
-        setAssistantsEmail('')
-        setAssistantsPhonenumber('')
-        setAssistantsAddress('')
-        setLegalGuardianEmail('')
-        setLegalGuardianPhonenumber('')
-        setLegalGuardianAddress('')
-        setLegalGuardianInstitute('')
-        setAppealedDecision('')
+        /* } else {
+            console.log('väärä tila')
+            setErrorMessage('Lisätietoja ei olla pyydetty')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000 * 7)
+        } */
     }
+
+
+
+
+    const addPerson = (event) => {
+
+        if (window.location.toString().includes('edit')){
+            updatePerson(event)
+        }
+        else {
+
+            event.preventDefault()
+
+            const createAdmission = {
+                //  oldId: old_id,
+                formState : 'Odottaa tarkistusta',
+                formSender: sender.sendersEmail,
+                name: name,
+                lastname: lastname,
+                identificationNumber: identificationNumber,
+                address: address,
+                location: location,
+                processAddress: processAddress,
+                trustee: trustee,
+                citizenship: citizenship,
+                admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
+                admissionNoteSender: sender.admissionNoteSender,
+                sendersEmail: sender.sendersEmail,
+                sendersPhoneNumber: sender.sendersPhoneNumber,
+                hazardAssesment: hazardAssesment,
+                diaariNumber: diaariNumber,
+                datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
+                nativeLanguage: nativeLanguage,
+                desiredLanguageOfBusiness: desiredLanguageOfBusiness,
+                municipalityOfResidence: municipalityOfResidence,
+                prosecuted: prosecuted,
+                deadlineForProsecution: deadlineForProsecution,
+                preTrialPoliceDepartment: preTrialPoliceDepartment,
+                crime: crime,
+                crimes: crimes,
+                assistantsEmail: assistantsEmail,
+                assistantsPhonenumber: assistantsPhonenumber,
+                assistantsAddress: assistantsAddress,
+                legalGuardianEmail: legalGuardianEmail,
+                legalGuardianPhonenumber: legalGuardianPhonenumber,
+                legalGuardianAddress: legalGuardianAddress,
+                legalGuardianInstitute: legalGuardianInstitute,
+                appealedDecision: appealedDecision,
+            }
+
+            console.log('Createadmission olio on:', createAdmission)
+
+
+            validateAssistantsEmail()
+            validateLegalGuardianEmail()
+
+            if (errorMessage === null) {
+                admissionService
+                    .create(createAdmission)
+                    .then(response => {
+                        console.log(response.data)
+                        setFormId(response.data.id)
+                        toggleVisibility()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
+                        setTimeout(() => {
+                            setErrorMessage(null)
+                        }, 1000 * 7)
+                    })
+
+                setName('')
+                setLastname('')
+                setIdentificationNumber('')
+                setAddress('')
+                setLocation('')
+                setProcessAddress('')
+                setTrustee('')
+                setCitizenship('')
+                setHazardAssesment(false)
+                setDiaariNumber('')
+                setDatePrescribedForPsychiatricAssesment('')
+                setNativeLanguage('')
+                setDesiredLanguageOfBusiness('')
+                setMunicipalityOfResidence('')
+                setProsecuted(false)
+                setDeadlineForProsecution('')
+                setPreTrialPoliceDepartment('')
+                setCrime('')
+                setCrimes('')
+                setAssistantsEmail('')
+                setAssistantsPhonenumber('')
+                setAssistantsAddress('')
+                setLegalGuardianEmail('')
+                setLegalGuardianPhonenumber('')
+                setLegalGuardianAddress('')
+                setLegalGuardianInstitute('')
+                setAppealedDecision('')
+            }
+        }
+    }
+
 
     return (
 

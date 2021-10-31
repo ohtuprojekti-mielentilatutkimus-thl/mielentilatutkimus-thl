@@ -77,7 +77,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         processAddress: data.processAddress,
         trustee: data.trustee,
         citizenship: data.citizenship,
-        admissionNoteSendingOrganization : data.admissionNoteSendingOrganization,
+        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
         admissionNoteSender : data.admissionNoteSender,
         sendersEmail : data.sendersEmail,
         sendersPhoneNumber : data.sendersPhoneNumber,
@@ -143,7 +143,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         processAddress: data.processAddress,
         trustee: data.trustee,
         citizenship: data.citizenship,
-        admissionNoteSendingOrganization : data.admissionNoteSendingOrganization,
+        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
         admissionNoteSender : data.admissionNoteSender,
         sendersEmail : data.sendersEmail,
         sendersPhoneNumber : data.sendersPhoneNumber,
@@ -185,6 +185,34 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         res.json(savedForm.toJSON())
         Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
     }
+})
+
+admissionsRouter.get('/admission_form/:id', async (req, res) => {
+    const data = await AdmissionForm.find({}).catch((err) => {console.log(err)})
+    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
+})
+
+
+admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
+
+    const data = req.body
+
+    var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
+    var form = forms.filter(d => d.id === req.params.id).map(f => f.toJSON())
+
+    // console.log('muokatut tiedot: ', data)
+
+    for (let i = 0; i < Object.keys(data).length; i++) { 
+
+        var key = Object.keys(data)[i]
+        var value = Object.values(data)[i]
+        form = { ...form, [key]: value }
+    } 
+ 
+    AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
+        .then(updatedForm => {
+            res.json(updatedForm.toJSON())
+        })
 })
 
 admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {

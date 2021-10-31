@@ -11,6 +11,17 @@ const create = personObject => {
     return axios.post(baseUrl+'/admission_form', personObject)
 }
 
+const update = (id, personObject) => {
+
+    return axios.put(`${baseUrl}/admission_form/${id}/edit`, personObject)
+}
+
+const get = async (  id  ) => {
+
+    const request = await axios.get(`${baseUrl}/admission_form/${id}`)
+    return request.data
+}
+
 const upload = (file, id, whichFile) => {
     console.log(id)
     const formData = new FormData()
@@ -24,13 +35,5 @@ const upload = (file, id, whichFile) => {
     })
     return res.data
 }
-/*
-const update = (props) => {
 
-    const personObject = props.personObject
-    const oldId = props. old_id
-    return axios.post(baseUrl, personObject, oldId)
-} */
-
-
-export default { getAll, create, upload }
+export default { getAll, create, update, get, upload }
