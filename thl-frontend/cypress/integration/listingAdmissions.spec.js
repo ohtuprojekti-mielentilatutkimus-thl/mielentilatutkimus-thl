@@ -9,22 +9,30 @@ before(function() {
     cy.wait(1000)
 
     cy.sendAdmissionForm({
-        formState: 'AAAAAA',
+        formState: 'Odottaa tarkistusta',
         prosecuted : false
     })
     cy.wait(1000)
 
     cy.sendAdmissionForm({
-        formState: 'BBBBBB'
+        formState: 'Pyyntö saapunut'
     })
     cy.wait(1000)
 
     cy.sendAdmissionForm({
-        formState: 'CCCCCC',
+        formState: 'Saatu lisätietoja',
         prosecuted : true
-    }).then(() => {
+    }).then((res) => {
         const createdAt = localStorage.createdAt
         created_at = createdAt
+        cy.sendAttachment({
+            id: res.body.id,
+            whichFile: 'valituomio'
+        })
+        cy.sendAttachment({
+            id: res.body.id,
+            whichFile: 'poytakirja'
+        })
     })
 })
 
@@ -66,16 +74,16 @@ describe('All admissions can be viewed', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
-        cy.contains('AAAAAA')
+        cy.contains('Odottaa tarkistusta')
         cy.get('#sortState').click()
         cy.wait(200)
 
-        cy.get('#admissionsListRow').first().contains('AAAAAA')
+        cy.get('#admissionsListRow').first().contains('Odottaa tarkistusta')
         cy.get('#sortState').click()
         cy.wait(200)
 
-        cy.get('#admissionsListRow').first().contains('AAAAAA').should('not.exist')
-        cy.get('#admissionsListRow').first().contains('CCCCCC')
+        cy.get('#admissionsListRow').first().contains('Odottaa tarkistusta').should('not.exist')
+        cy.get('#admissionsListRow').first().contains('Saatu lisätietoja')
 
     })
 
@@ -101,10 +109,7 @@ describe('All admissions can be viewed', () => {
         cy.contains('Mielentilatutkimuspyynnöt')
 
         cy.get('a').last().click()
-        cy.contains('Tutkittavan henkilön yleistiedot')
 
-        cy.contains('Reijo')
-        cy.contains('Tomi Tuomari')
         cy.get('#selectState').click()
         cy.get('#1')
             .contains('Pyyntö tarkastelussa')
@@ -147,6 +152,25 @@ describe('All admissions can be viewed', () => {
         cy.get('#handleShowLessInfo').click()
 
         cy.get('#formState').first().contains('Saatu lisätietoja')
+    })
+
+    it('Pdf attachments are listed and can be opened', function ()  {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').last().click()
+        cy.get('.MuiButton-text').first().click()
+        cy.wait(1000)
+
+        cy.contains('This is a test pdf :)')
+        cy.contains('random text that should not exist :)').should('not.exist')
+
+        cy.get('#next').click()
+        cy.wait(1000)
+
+        cy.contains('two pages!')
+        cy.contains('random text that should not exist :)').should('not.exist')
+
     })
 
 }

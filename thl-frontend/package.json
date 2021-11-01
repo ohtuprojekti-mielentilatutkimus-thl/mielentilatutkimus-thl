@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "cypress": "^8.6.0",
+    "cypress-file-upload": "^5.0.8",
     "eslint-plugin": "^1.0.1",
     "maildev": "^1.1.0"
   }
