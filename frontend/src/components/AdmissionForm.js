@@ -289,6 +289,7 @@ const Form = () => {
                 .update(paramFormId, updateAdmission)
                 .then(response => {
                     console.log(response.data)
+                    setFormId(response.data.id)
                     toggleVisibility()
                 })
                 .catch(error => {
