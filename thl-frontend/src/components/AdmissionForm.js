@@ -57,6 +57,8 @@ const AdditionalInfo = ({ form }) => {
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [additionalInfo, setAdditionalInfo] = useState ('')
     const [message, setMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
 
     const handleCloseAdditionalInfo = () => {
         setShowAdditionalInfo(false)
@@ -76,13 +78,40 @@ const AdditionalInfo = ({ form }) => {
             id: form.id,
             additional_info : additionalInfo
         }
-        formService.askForInfo(infoObject)
+
+        setErrorMessage('')
+
+        formService
+            .askForInfo(infoObject)
             .then(setAdditionalInfo(''))
         setMessage('Muokkauspyyntö lähetetty')
         setTimeout(() => {
             setMessage(null)
             setShowAdditionalInfo(false)
         }, 1000*7)
+
+        /*  .then jälkeinen osa ei toimi ???
+        const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
+
+        formService
+            .askForInfo(infoObject)
+            .update(form.id, updateFormState)
+            .then(response => {
+                setAdditionalInfo('')
+                setMessage('Muokkauspyyntö lähetetty')
+                setTimeout(() => {
+                    setMessage(null)
+                    setShowAdditionalInfo(false)
+                }, 1000*7)
+            }
+            )
+            .catch(error => {
+                console.log(error)
+                setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000 * 7)
+            }) */
     }
 
 
@@ -110,6 +139,14 @@ const AdditionalInfo = ({ form }) => {
                             <div>
                                 {(message && <Alert severity="success">
                                     {message} </Alert>
+                                )}
+
+                            </div>
+                        </Grid>
+                        <Grid>
+                            <div>
+                                {(errorMessage && <Alert severity="error">
+                                    {errorMessage} </Alert>
                                 )}
 
                             </div>
