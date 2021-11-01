@@ -401,7 +401,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                             return(
                                                 <div key={attachment.id} className={classes.text}>
                                                     <Button onClick={() => handleAttachment(attachment.id)}>
-                                                        { attachment.fileName.includes('pdf') &&
+                                                        { attachment.fileName && attachment.fileName.includes('pdf') &&
                                                                 <PictureAsPdfIcon />
                                                         }
                                                         {attachment.whichFile}: {attachment.fileName}
