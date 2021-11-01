@@ -69,7 +69,13 @@ const AdditionalInfo = ({ form }) => {
     }
 
     const requestAdditionalInfoFromSender = () => {
-
+        const infoObject= {
+            sender: form.sendersEmail,
+            id: form.id,
+            additional_info : additionalInfo
+        }
+        formService.askForInfo(infoObject)
+            .then(setAdditionalInfo(''))
     }
 
 

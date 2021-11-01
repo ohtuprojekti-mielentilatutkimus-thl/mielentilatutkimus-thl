@@ -12,4 +12,9 @@ const update = (id, newObject) => {
     return axios.put(`${baseUrl}/thl/${id}`, newObject)
 }
 
-export default { getAll, update }
+const askForInfo = (infoObject) => {
+
+    return axios.post(`${baseUrl}/admission_form/request_additional_info/`, infoObject)
+}
+
+export default { getAll, update,askForInfo }
