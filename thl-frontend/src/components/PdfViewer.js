@@ -26,10 +26,10 @@ const pdfViewer = ( { pdf } ) => {
     return(
         <div>
             <div className="controls">
-                <button onClick={prevPage} disabled={pageNumber === 1}>
+                <button id="previous" onClick={prevPage} disabled={pageNumber === 1}>
           Prev
                 </button>
-                <button onClick={nextPage} disabled={pageNumber === numPages}>
+                <button id="next" onClick={nextPage} disabled={pageNumber === numPages}>
           Next
                 </button>
             </div>
