@@ -66,8 +66,6 @@ const AdditionalInfo = ({ form }) => {
 
     const handleAdditionalInfoChange = (event) => {
         setAdditionalInfo(event.target.value)
-        console.log('additionalinfo on')
-        console.log(additionalInfo)
     }
 
     const requestAdditionalInfoFromSender = () => {
@@ -134,8 +132,8 @@ const NotProsecuted = (form) => {
     }
 }
 
-const DisplayProsecuted = (form) => {
-    if (form.form.prosecuted) {
+const DisplayProsecuted = ({ form }) => {
+    if (form.prosecuted) {
         return (
             <div>Kyllä</div>
         )
@@ -145,9 +143,8 @@ const DisplayProsecuted = (form) => {
         )
     }
 }
-const DisplayHazard = (form) => {
-    console.log(form)
-    if (form.form.hazardAssesment) {
+const DisplayHazard = ({ form }) => {
+    if (form.hazardAssesment) {
         return (
             <div>Kyllä</div>
         )
