@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
 import attachmentService from '../services/attachmentService'
-import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl } from '@material-ui/core'
+import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl, TextField } from '@material-ui/core'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -46,9 +46,68 @@ const FormState = ( { form, updateForms } ) => {
                     </Select>
                 </FormControl>
             </div>
-            <Button variant="outlined" id='updateFormState' type='submit'>Päivitä</Button>
+            <Button variant="outlined" color='primary' id='updateFormState' type='submit'>Päivitä</Button>
         </form>
     )
+}
+
+const AdditionalInfo = ({ form }) => {
+
+    const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
+    const [additionalInfo, setAdditionalInfo] = useState ('')
+
+    const handleCloseAdditionalInfo = () => {
+        setShowAdditionalInfo(false)
+    }
+
+    const handleShowAdditionalInfo = () => {
+        setShowAdditionalInfo(true)
+    }
+
+    const handleAdditionalInfoChange = (event) => {
+        setAdditionalInfo(event.target.value)
+    }
+
+    const requestAdditionalInfoFromSender = () => {
+
+    }
+
+
+    if (showAdditionalInfo) {
+        return (
+            <Dialog open={showAdditionalInfo} onClose={handleCloseAdditionalInfo} maxWidth="md"  PaperProps={{
+                style: {
+                    backgroundColor: 'white',
+                    boxShadow: 'none',
+                    elevation:'3',
+                    square:'false',
+                    align:'left'
+                },
+            }} fullWidth>
+                <DialogTitle disableTypography>
+                    <h4> THL_OIKPSYK_{form.createdAt.substring(0,10)}</h4>
+                    <form onSubmit = {requestAdditionalInfoFromSender}>
+                        <Grid>
+                            <TextField value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
+                        </Grid>
+                        <Grid>
+                            <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                        </Grid>
+                        <DialogActions>
+                            <Button variant = 'contained' color='primary' align='right' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
+                        </DialogActions>
+
+                    </form>
+                </DialogTitle>
+            </Dialog>
+        )
+    }
+
+    return (
+        <Button variant='outlined' color='primary' id='askAdditionalInfo' onClick={handleShowAdditionalInfo}> Pyydä lisätietoja</Button>
+
+    )
+
 }
 
 const NotProsecuted = (form) => {
@@ -73,8 +132,8 @@ const NotProsecuted = (form) => {
     }
 }
 
-const DisplayProsecuted = (form) => {
-    if (form.form.prosecuted) {
+const DisplayProsecuted = ({ form }) => {
+    if (form.prosecuted) {
         return (
             <div>Kyllä</div>
         )
@@ -84,9 +143,8 @@ const DisplayProsecuted = (form) => {
         )
     }
 }
-const DisplayHazard = (form) => {
-    console.log(form)
-    if (form.form.hazardAssesment) {
+const DisplayHazard = ({ form }) => {
+    if (form.hazardAssesment) {
         return (
             <div>Kyllä</div>
         )
@@ -164,6 +222,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                 <div className={classes.textLabel}>Päivitä lomakkeen tilaa:</div>
                                 <FormState form={form} formState={form.formState} updateForms={updateForms} />
                             </Grid>
+                        </Grid>
+                        <Grid>
+                            <AdditionalInfo form={form}/>
                         </Grid>
 
                     </DialogTitle>
