@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import formService from '../services/formService'
 import attachmentService from '../services/attachmentService'
 import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl, TextField } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -55,6 +56,7 @@ const AdditionalInfo = ({ form }) => {
 
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [additionalInfo, setAdditionalInfo] = useState ('')
+    const [message, setMessage] = useState('')
 
     const handleCloseAdditionalInfo = () => {
         setShowAdditionalInfo(false)
@@ -69,7 +71,18 @@ const AdditionalInfo = ({ form }) => {
     }
 
     const requestAdditionalInfoFromSender = () => {
-
+        const infoObject= {
+            sender: form.sendersEmail,
+            id: form.id,
+            additional_info : additionalInfo
+        }
+        formService.askForInfo(infoObject)
+            .then(setAdditionalInfo(''))
+        setMessage('Muokkauspyyntö lähetetty')
+        setTimeout(() => {
+            setMessage(null)
+            setShowAdditionalInfo(false)
+        }, 1000*7)
     }
 
 
@@ -92,6 +105,14 @@ const AdditionalInfo = ({ form }) => {
                         </Grid>
                         <Grid>
                             <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                        </Grid>
+                        <Grid>
+                            <div>
+                                {(message && <Alert severity="success">
+                                    {message} </Alert>
+                                )}
+
+                            </div>
                         </Grid>
                         <DialogActions>
                             <Button variant = 'contained' color='primary' align='right' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
