@@ -238,9 +238,8 @@ admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res
     res.sendFile(path.resolve('./tmp', attachmentFile.fileName), function (err) {
         if (err) {
             console.log('Error sending file')
-        } else {
-            FileHandler.deleteTmpFile(attachmentFile.fileName)
         }
+        FileHandler.deleteTmpFile(attachmentFile.fileName)
     })
 })
 
