@@ -12,28 +12,6 @@ const AttachmentForm = require('../models/attachmentForm.model.js')
 
 const fs = require('fs')
 const path = require('path')
-const { EEXIST } = require('constants')
-
-// tämän tiedoston voisi ehkä refaktoroida siten, että testiliitteet lähetetään kerran beforeAll-metodilla
-
-/*
-beforeAll(async () => {
-    await AdmissionForm.deleteMany({})
-
-    const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
-    await newAdmissionForm.save()
-
-    const admissionsInDb = await helper.admissionsInDb()
-    const testAdmission = admissionsInDb[0]
-
-    await api
-        .post(baseUrl+`/admission_form_attachment/${testAdmission.id}`)
-        .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
-        .field('whichFile', 'valituomio')
-        .field('originalname', 'test_pdf.pdf')
-        .expect(200)
-})
-*/
 
 beforeEach(async () => {
     await AttachmentForm.deleteMany({})
@@ -125,7 +103,3 @@ const saveTestPdf = async () => {
         .field('originalname', 'test_pdf.pdf')
         .expect(200)
 }
-
-// selenium screenshot id mongossa: 617f0a4f8cce46342e579118
-
-// tira luku 08 id: 617fc65a5d0e22c0e4597cbf
