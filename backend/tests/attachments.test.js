@@ -2,12 +2,12 @@
 const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
-
 const baseUrl = '/api/admissions'
 
 const api = supertest(app)
 
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
+const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model.js')
 
 const fs = require('fs')
@@ -61,3 +61,45 @@ test('attachments have a field describing which file it is', async () => {
     expect(attachmentsInDb[0].whichFile).not.toBeNull()
 
 })
+
+describe('on requesting an attachment with get-request,', () => {
+
+    test('pdf file is sent to requesting client', async () => {
+        await saveTestPdf()
+        const testPdf = await AttachmentForm.findOne({ fileName: 'test_pdf.pdf' })
+    
+        await api
+            .get(baseUrl+`/admission_form_attachment/${testPdf.id}`)
+            .expect(200)
+            .expect('Content-Type', /application\/pdf/)
+    })
+    
+    test('tmp folder exists after the request', () => {
+        fs.mkdir(path.join(__dirname, '../tmp'), (err) => {
+            expect(err.code).toBe('EEXIST')
+        })
+    })
+    
+    test('tmp folder is empty after request', () => {
+        fs.readdir(path.join(__dirname, '../tmp'), (err, files) => {
+            expect(files).toHaveLength(0)
+        })
+    })  
+})
+
+const saveTestPdf = async () => {
+    await AdmissionForm.deleteMany({})
+
+    const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
+    await newAdmissionForm.save()
+
+    const admissionsInDb = await helper.admissionsInDb()
+    const testAdmission = admissionsInDb[0]
+
+    await api
+        .post(baseUrl+`/admission_form_attachment/${testAdmission.id}`)
+        .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+        .field('whichFile', 'valituomio')
+        .field('originalname', 'test_pdf.pdf')
+        .expect(200)
+}
