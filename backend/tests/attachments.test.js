@@ -69,9 +69,9 @@ describe('on requesting an attachment with get-request,', () => {
         const testPdf = await AttachmentForm.findOne({ fileName: 'test_pdf.pdf' })
     
         await api
-                .get(baseUrl+`/admission_form_attachment/${testPdf.id}`)
-                .expect(200)
-                .expect('Content-Type', /application\/pdf/)
+            .get(baseUrl+`/admission_form_attachment/${testPdf.id}`)
+            .expect(200)
+            .expect('Content-Type', /application\/pdf/)
     })
     
     test('tmp folder exists after the request', () => {
