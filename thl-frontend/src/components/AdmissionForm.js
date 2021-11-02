@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
 import attachmentService from '../services/attachmentService'
-import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl } from '@material-ui/core'
+import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl, TextField } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -46,9 +47,125 @@ const FormState = ( { form, updateForms } ) => {
                     </Select>
                 </FormControl>
             </div>
-            <Button variant="outlined" id='updateFormState' type='submit'>Päivitä</Button>
+            <Button variant="outlined" color='primary' id='updateFormState' type='submit'>Päivitä</Button>
         </form>
     )
+}
+
+const AdditionalInfo = ({ form }) => {
+
+    const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
+    const [additionalInfo, setAdditionalInfo] = useState ('')
+    const [message, setMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+
+    const handleCloseAdditionalInfo = () => {
+        setShowAdditionalInfo(false)
+    }
+
+    const handleShowAdditionalInfo = () => {
+        setShowAdditionalInfo(true)
+    }
+
+    const handleAdditionalInfoChange = (event) => {
+        setAdditionalInfo(event.target.value)
+    }
+
+    const requestAdditionalInfoFromSender = () => {
+        const infoObject= {
+            sender: form.sendersEmail,
+            id: form.id,
+            additional_info : additionalInfo
+        }
+
+        setErrorMessage('')
+
+        formService
+            .askForInfo(infoObject)
+            .then(setAdditionalInfo(''))
+        setMessage('Muokkauspyyntö lähetetty')
+        setTimeout(() => {
+            setMessage(null)
+            setShowAdditionalInfo(false)
+        }, 1000*7)
+
+        /*  .then jälkeinen osa ei toimi ???
+        const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
+
+        formService
+            .askForInfo(infoObject)
+            .update(form.id, updateFormState)
+            .then(response => {
+                setAdditionalInfo('')
+                setMessage('Muokkauspyyntö lähetetty')
+                setTimeout(() => {
+                    setMessage(null)
+                    setShowAdditionalInfo(false)
+                }, 1000*7)
+            }
+            )
+            .catch(error => {
+                console.log(error)
+                setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000 * 7)
+            }) */
+    }
+
+
+    if (showAdditionalInfo) {
+        return (
+            <Dialog open={showAdditionalInfo} onClose={handleCloseAdditionalInfo} maxWidth="md"  PaperProps={{
+                style: {
+                    backgroundColor: 'white',
+                    boxShadow: 'none',
+                    elevation:'3',
+                    square:'false',
+                    align:'left'
+                },
+            }} fullWidth>
+                <DialogTitle disableTypography>
+                    <h4> THL_OIKPSYK_{form.createdAt.substring(0,10)}</h4>
+                    <form onSubmit = {requestAdditionalInfoFromSender}>
+                        <Grid>
+                            <TextField value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
+                        </Grid>
+                        <Grid>
+                            <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                        </Grid>
+                        <Grid>
+                            <div>
+                                {(message && <Alert severity="success">
+                                    {message} </Alert>
+                                )}
+
+                            </div>
+                        </Grid>
+                        <Grid>
+                            <div>
+                                {(errorMessage && <Alert severity="error">
+                                    {errorMessage} </Alert>
+                                )}
+
+                            </div>
+                        </Grid>
+                        <DialogActions>
+                            <Button variant = 'contained' color='primary' align='right' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
+                        </DialogActions>
+
+                    </form>
+                </DialogTitle>
+            </Dialog>
+        )
+    }
+
+    return (
+        <Button variant='outlined' color='primary' id='askAdditionalInfo' onClick={handleShowAdditionalInfo}> Pyydä lisätietoja</Button>
+
+    )
+
 }
 
 const NotProsecuted = (form) => {
@@ -73,8 +190,8 @@ const NotProsecuted = (form) => {
     }
 }
 
-const DisplayProsecuted = (form) => {
-    if (form.form.prosecuted) {
+const DisplayProsecuted = ({ form }) => {
+    if (form.prosecuted) {
         return (
             <div>Kyllä</div>
         )
@@ -84,9 +201,8 @@ const DisplayProsecuted = (form) => {
         )
     }
 }
-const DisplayHazard = (form) => {
-    console.log(form)
-    if (form.form.hazardAssesment) {
+const DisplayHazard = ({ form }) => {
+    if (form.hazardAssesment) {
         return (
             <div>Kyllä</div>
         )
@@ -164,6 +280,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                 <div className={classes.textLabel}>Päivitä lomakkeen tilaa:</div>
                                 <FormState form={form} formState={form.formState} updateForms={updateForms} />
                             </Grid>
+                        </Grid>
+                        <Grid>
+                            <AdditionalInfo form={form}/>
                         </Grid>
 
                     </DialogTitle>
@@ -319,7 +438,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                             return(
                                                 <div key={attachment.id} className={classes.text}>
                                                     <Button onClick={() => handleAttachment(attachment.id)}>
-                                                        { attachment.fileName.includes('pdf') &&
+                                                        { attachment.fileName && attachment.fileName.includes('pdf') &&
                                                                 <PictureAsPdfIcon />
                                                         }
                                                         {attachment.whichFile}: {attachment.fileName}

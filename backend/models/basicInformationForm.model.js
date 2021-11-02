@@ -4,10 +4,22 @@ var basicInformationSchema = mongoose.Schema({
     //basic information
     //oldId: { type: String },
 
-    admissionNoteSenderOrganization: { type: String },
-    admissionNoteSender: { type: String },
-    sendersEmail: { type: String },
-    sendersPhoneNumber: { type: String }
+    admissionNoteSenderOrganization: {
+        type: String,
+        required: true
+    },
+    admissionNoteSender: {
+        type: String,
+        required: true
+    },
+    sendersEmail: {
+        type: String,
+        required: true
+    },
+    sendersPhoneNumber: {
+        type: String,
+        required: true
+    }
 })
 
 basicInformationSchema.set('toJSON', {

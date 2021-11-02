@@ -48,6 +48,8 @@ const Form = () => {
     const [senderInfo, setSenderInfo] = useState([])
     const [formVisible, setFormVisible] = useState(true)
     const [formId, setFormId] = useState('')
+    const [formState, setFormState] = useState(null)
+
 
     const hideWhenVisible = { display: formVisible ? 'none' : '' }
     const showWhenVisible = { display: formVisible ? '' : 'none' }
@@ -82,8 +84,8 @@ const Form = () => {
 
         useEffect(() => {
             admissionService.get(paramFormId).then(res => {
-                console.log(res)
                 setSenderInfo(res[0])
+                setFormState(res[0].formState)
             })
             console.log('senderInfo on: ', senderInfo)
         }, [])
@@ -91,7 +93,6 @@ const Form = () => {
     } else {
         useEffect(() => {
             basicInformationService.get(basicInformationId).then(res => {
-                console.log(res)
                 setSenderInfo(res[0])
             })
             console.log('senderInfo on: ', senderInfo)
@@ -240,88 +241,77 @@ const Form = () => {
 
     const updatePerson = (event) => {
 
-        /*const [formState, setFormState] = useState('')
-
-        useEffect(() => {
-            admissionService.get(paramFormId).then(res => {
-                setFormState(res[0].formState)
-            })
-            console.log('tila on: ', formState)
-        }, [])
-
-        if (formState==='Pyydetty lisätietoja'){
-
-            */
-
         event.preventDefault()
 
-        const updateAdmission = {
-            formState : 'Saatu lisätietoja',
-            name: name,
-            lastname: lastname,
-            identificationNumber: identificationNumber,
-            address: address,
-            location: location,
-            processAddress: processAddress,
-            trustee: trustee,
-            citizenship: citizenship,
-            hazardAssesment: hazardAssesment,
-            diaariNumber: diaariNumber,
-            datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
-            nativeLanguage: nativeLanguage,
-            desiredLanguageOfBusiness: desiredLanguageOfBusiness,
-            municipalityOfResidence: municipalityOfResidence,
-            prosecuted: prosecuted,
-            deadlineForProsecution: deadlineForProsecution,
-            preTrialPoliceDepartment: preTrialPoliceDepartment,
-            crime: crime,
-            crimes: crimes,
-            assistantsEmail: assistantsEmail,
-            assistantsPhonenumber: assistantsPhonenumber,
-            assistantsAddress: assistantsAddress,
-            legalGuardianEmail: legalGuardianEmail,
-            legalGuardianPhonenumber: legalGuardianPhonenumber,
-            legalGuardianAddress: legalGuardianAddress,
-            legalGuardianInstitute: legalGuardianInstitute,
-            appealedDecision: appealedDecision,
-        }
-        for (const value in updateAdmission) {
+        if(formState === 'Pyydetty lisätietoja') {
 
-            if (
-                updateAdmission[value] === null ||
+            const updateAdmission = {
+                formState : 'Saatu lisätietoja',
+                name: name,
+                lastname: lastname,
+                identificationNumber: identificationNumber,
+                address: address,
+                location: location,
+                processAddress: processAddress,
+                trustee: trustee,
+                citizenship: citizenship,
+                hazardAssesment: hazardAssesment,
+                diaariNumber: diaariNumber,
+                datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
+                nativeLanguage: nativeLanguage,
+                desiredLanguageOfBusiness: desiredLanguageOfBusiness,
+                municipalityOfResidence: municipalityOfResidence,
+                prosecuted: prosecuted,
+                deadlineForProsecution: deadlineForProsecution,
+                preTrialPoliceDepartment: preTrialPoliceDepartment,
+                crime: crime,
+                crimes: crimes,
+                assistantsEmail: assistantsEmail,
+                assistantsPhonenumber: assistantsPhonenumber,
+                assistantsAddress: assistantsAddress,
+                legalGuardianEmail: legalGuardianEmail,
+                legalGuardianPhonenumber: legalGuardianPhonenumber,
+                legalGuardianAddress: legalGuardianAddress,
+                legalGuardianInstitute: legalGuardianInstitute,
+                appealedDecision: appealedDecision,
+            }
+            for (const value in updateAdmission) {
+
+                if (
+                    updateAdmission[value] === null ||
                 updateAdmission[value] === undefined ||
                 updateAdmission[value] === ''
-            ) {
-                delete updateAdmission[value]
+                ) {
+                    delete updateAdmission[value]
+                }
             }
-        }
-        admissionService
-            .update(paramFormId, updateAdmission)
-            .then(response => {
-                console.log(response.data)
-                toggleVisibility()
-            })
-            .catch(error => {
-                console.log(error)
-                setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 7)
-            })
+            admissionService
+                .update(paramFormId, updateAdmission)
+                .then(response => {
+                    console.log(response.data)
+                    setFormId(response.data.id)
+                    toggleVisibility()
+                })
+                .catch(error => {
+                    console.log(error)
+                    setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 1000 * 7)
+                })
 
-        /* } else {
-            console.log('väärä tila')
+        } else {
             setErrorMessage('Lisätietoja ei olla pyydetty')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 1000 * 7)
-        } */
+        }
     }
 
 
 
-
     const addPerson = (event) => {
+
 
         if (window.location.toString().includes('edit')){
             updatePerson(event)
@@ -418,6 +408,16 @@ const Form = () => {
                 setAppealedDecision('')
             }
         }
+    }
+
+    const getSubmittedMessage = () => {
+
+        var message = 'Pyyntö lähetettiin onnistuneesti!'
+
+        if (formState !== null){
+            message = 'Muokatut tiedot lähetetty!'
+        }
+        return (<p>{message}</p>)
     }
 
 
@@ -617,7 +617,7 @@ const Form = () => {
                         align='center'
                         justify='center'
                     >
-                        <h2>Pyyntö lähetettiin onnistuneesti</h2>
+                        <h2>{getSubmittedMessage()}</h2>
                         <p></p>
                         <Grid
                             container rowSpacing={2}

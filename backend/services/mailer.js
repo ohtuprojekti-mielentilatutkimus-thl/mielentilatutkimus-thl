@@ -45,5 +45,23 @@ const sendConfirmation = (email, diaari_nro, thl_id) => {
     })
 }
 
+const requestAdditionalInfoFromSender = (email, id, additional_info) => {
+    var mailOptions = {
+        from: config.EMAIL_FROM,
+        to: email,
+        subject: 'Mielentilatutkimuspyyntö vaatii lisätietoja',
+        text: 'Hei, tutkimuspyynnössäsi on puutteita. Seuraavia lisätietoja pyydetään:\n\n ' + additional_info + '\n\n Lähetä tutkimuspyynnön tiedot uudelleen: ' + config.FORM_FRONTEND_URI + 'admission_form/' + id +'/edit'
 
-module.exports = { sendLinkToAdmissionForm, sendConfirmation }
+    }
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            logger.info(err)
+        }
+        if (info) {
+            logger.info(info)
+        }
+    })
+}
+
+
+module.exports = { sendLinkToAdmissionForm, sendConfirmation, requestAdditionalInfoFromSender }

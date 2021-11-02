@@ -192,6 +192,19 @@ admissionsRouter.get('/admission_form/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
+admissionsRouter.post('/admission_form/request_additional_info', async (req) => {
+    const data = req.body
+    Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info)
+})
+
+admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
+    const data = await AdmissionForm.findById(req.params.id).catch((err) => {console.log(err)})
+        .then(data => {
+            res.json(data.toJSON())
+        })
+    console.log(data)
+
+})
 
 admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
@@ -225,9 +238,8 @@ admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res
     res.sendFile(path.resolve('./tmp', attachmentFile.fileName), function (err) {
         if (err) {
             console.log('Error sending file')
-        } else {
-            FileHandler.deleteTmpFile(attachmentFile.fileName)
         }
+        FileHandler.deleteTmpFile(attachmentFile.fileName)
     })
 })
 

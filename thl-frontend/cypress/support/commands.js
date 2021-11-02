@@ -28,6 +28,9 @@
 import dayjs from 'dayjs'
 const testData = require('./test_data.json')
 
+import 'cypress-file-upload'
+const testPdfName = 'test_pdf.pdf'
+
 var senders_id = ''
 var created_at = ''
 
@@ -61,16 +64,48 @@ Cypress.Commands.add('sendBasicInformation', () => {
 })
 
 Cypress.Commands.add('sendAdmissionForm', ( data ) => {
-    cy.request({
+    return cy.request({
         url: 'http://localhost:3001/api/admissions/admission_form',
         method: 'POST',
-        body: { ...admissionFormData, formState: data.formState, prosecuted: data.prosecuted }
+        body: { ...admissionFormData, formState: data.formState }
     }).then(response => {
         localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
         const createdAt = localStorage.createdAt
         created_at = createdAt.replace(/['"]+/g,'')
-        console.log(created_at)
+        return response
     }
     )
 })
 
+Cypress.Commands.add('form_request', (url, formData) => {
+    return cy
+        .server()
+        .route('POST', url)
+        .as('formRequest')
+        .window()
+        .then(win => {
+            var xhr = new win.XMLHttpRequest()
+            xhr.open('POST', url)
+            xhr.send(formData)
+        })
+        .wait('@formRequest')
+})
+
+Cypress.Commands.add('sendAttachment', ( { id, whichFile } ) => {
+    const fileName = testPdfName
+
+    cy.fixture(fileName, 'binary')
+        .then(Cypress.Blob.binaryStringToBlob)
+        .then((blob) => {
+
+            // Build up the form
+            const formData = new FormData()
+            formData.set('file', blob, fileName) //adding a file to the form
+            formData.append('whichFile', whichFile)
+
+            // Perform the request
+            cy.form_request('http://localhost:3001/api/admissions/admission_form_attachment/'+id, formData)
+        })
+
+
+})

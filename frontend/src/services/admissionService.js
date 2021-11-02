@@ -19,6 +19,7 @@ const update = (id, personObject) => {
 const get = async (  id  ) => {
 
     const request = await axios.get(`${baseUrl}/admission_form/${id}`)
+
     return request.data
 }
 
