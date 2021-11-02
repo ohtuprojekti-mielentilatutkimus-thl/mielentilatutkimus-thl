@@ -4,8 +4,10 @@ const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./utils/config')
 const path = require('path')
+require('express-async-errors')
 const admissionsRouter = require('./controllers/admissions')
 const testsRouter = require('./controllers/tests')
+const middleware = require('./utils/middlewares')
 
 app.use(cors())
 app.use(express.json())
@@ -18,6 +20,8 @@ app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build')
 if (process.env.NODE_ENV === 'test') {
     app.use('*/tests', testsRouter)
 }
+
+app.use(middleware.errorHandler)
 
 morgan.token('body', function (req) { return JSON.stringify(req.body) })
 
