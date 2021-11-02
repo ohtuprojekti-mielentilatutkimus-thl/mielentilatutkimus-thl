@@ -119,8 +119,8 @@ const BasicInformationForm = () => {
                     <h2>Lähettäjän perustiedot:</h2>
                     <form onSubmit={addBasicInformations}>
                         <Grid
-                            container rowSpacing={2}
-                            columnSpacing={{ xs: 2 }}
+                            container rowspacing={2}
+                            columnspacing={{ xs: 2 }}
                         >
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Nimi:</div>
