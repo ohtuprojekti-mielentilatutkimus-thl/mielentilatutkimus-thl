@@ -40,7 +40,7 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
     })
 
     if (!validateBasicInformationData(basicInformationForm)) {
-        res.sendStatus(500)
+        res.sendStatus(400)
     } else {
         const savedForm = await basicInformationForm.save()
         const response = [
