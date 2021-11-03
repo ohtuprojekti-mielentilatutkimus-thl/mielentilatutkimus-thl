@@ -12,11 +12,14 @@ let FORM_FRONTEND_URI = env === 'production' ? process.env.PUBLIC_URL+'/' : 'htt
 
 let ATTACHMENT_MAX_SIZE = process.env.ATTACHMENT_MAX_SIZE || 2 * 1024 * 1024
 
+let ALLOWED_SENDER_EMAIL_DOMAIN = process.env.ALLOWED_SENDER_EMAIL_DOMAIN || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi']
+
 module.exports = {
     MONGODB_URI,
     EMAIL_FROM,
     EMAIL_SMTP,
     EMAIL_PORT,
     FORM_FRONTEND_URI,
-    ATTACHMENT_MAX_SIZE
+    ATTACHMENT_MAX_SIZE,
+    ALLOWED_SENDER_EMAIL_DOMAIN
 }

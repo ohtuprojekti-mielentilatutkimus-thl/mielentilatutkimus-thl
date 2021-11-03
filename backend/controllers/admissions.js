@@ -1,6 +1,6 @@
 const Mailer = require('../services/mailer.js')
 const Attachment = require('../services/attachment.js')
-
+const config = require('../utils/config')
 const uploadFile = require('../utils/upload.js')
 
 const admissionsRouter = require('express').Router()
@@ -23,8 +23,13 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
+const emailOnListOfAllowedDomains = (email) => {
+    const domain_part = email.split('@')[1]
+    return config.ALLOWED_SENDER_EMAIL_DOMAIN.includes(domain_part)
+}
+
 const validateBasicInformationData = (basicInformationForm) => {
-    return emailValidator.validate(basicInformationForm.sendersEmail)
+    return emailValidator.validate(basicInformationForm.sendersEmail) && emailOnListOfAllowedDomains(basicInformationForm.sendersEmail)
 }
 
 admissionsRouter.post('/basic_information_form', async (req, res) => {
