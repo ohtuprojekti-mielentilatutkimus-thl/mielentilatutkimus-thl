@@ -115,12 +115,6 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
   
 })
 
-const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.assistantsEmail) &&
-    emailValidator.validate(admissionForm.legalGuardianEmail)
-}
-
-
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
@@ -173,7 +167,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
 
-    if (!validateAdmissionFormData(admissionForm)) {
+    if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
         res.sendStatus(500)
     } else {
         const savedForm = await admissionForm.save()

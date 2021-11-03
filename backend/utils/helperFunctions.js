@@ -10,6 +10,12 @@ const validateBasicInformationData = (basicInformationForm) => {
     return emailValidator.validate(basicInformationForm.sendersEmail) && emailOnListOfAllowedDomains(basicInformationForm.sendersEmail)
 }
 
+const validateAdmissionFormData = (admissionForm) => {
+    return emailValidator.validate(admissionForm.assistantsEmail) &&
+    emailValidator.validate(admissionForm.legalGuardianEmail)
+}
+
 module.exports = {
-    validateBasicInformationData
+    validateBasicInformationData,
+    validateAdmissionFormData
 }
