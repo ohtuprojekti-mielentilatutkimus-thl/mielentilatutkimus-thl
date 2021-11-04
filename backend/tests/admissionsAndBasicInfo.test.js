@@ -102,6 +102,30 @@ describe('when db is initialized with data', () => {
             expect(admission.address).not.toBeNull()
         })*/
 
+        test('fields can be changed with PUT', async () => {
+            let admissionsInDb = await helper.admissionsInDb()
+            const idOfItemInDb = admissionsInDb[0].id
+            
+            const changedAdmissionForm = { 
+                name: 'Risto',
+                lastname: 'Roisto',
+                address: 'Ristolantie 10a, Raisio',
+                location: 'Keravan vankila',
+                formState: 'Saatu lisätietoja'
+            }
+            await api
+                .put(baseUrl+'/admission_form/'+idOfItemInDb+'/edit')
+                .send(changedAdmissionForm)
+
+            admissionsInDb = await helper.admissionsInDb()
+            const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
+            expect(updatedAdmissionForm.name).toBe('Risto')
+            expect(updatedAdmissionForm.lastname).toBe('Roisto')
+            expect(updatedAdmissionForm.address).toBe('Ristolantie 10a, Raisio')
+            expect(updatedAdmissionForm.location).toBe('Keravan vankila')
+            expect(updatedAdmissionForm.formState).toBe('Saatu lisätietoja')
+        })
+
         test('admissionform state is admission received by default', async () => {
             const admission_form = helper.admissionFormTestData
             await api
