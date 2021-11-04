@@ -1,6 +1,6 @@
 const Mailer = require('../services/mailer.js')
 const Attachment = require('../services/attachment.js')
-
+const HelperFunctions = require('../utils/helperFunctions.js')
 const uploadFile = require('../utils/upload.js')
 
 const admissionsRouter = require('express').Router()
@@ -11,7 +11,6 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const path = require('path')
-const emailValidator = require('email-validator')
 
 admissionsRouter.get('/', async (req, res) => {
     const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1, whichFile: 1 })
@@ -22,10 +21,6 @@ admissionsRouter.get('/basic_information/:id', async (req, res) => {
     const data = await BasicInformationForm.find({}).catch((err) => {console.log(err)})
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
-
-const validateBasicInformationData = (basicInformationForm) => {
-    return emailValidator.validate(basicInformationForm.sendersEmail)
-}
 
 admissionsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
@@ -39,7 +34,7 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
         attachments: []
     })
 
-    if (!validateBasicInformationData(basicInformationForm)) {
+    if (!HelperFunctions.validateBasicInformationData(basicInformationForm)) {
         res.sendStatus(400)
     } else {
         const savedForm = await basicInformationForm.save()
@@ -120,12 +115,6 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
   
 })
 
-const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.assistantsEmail) &&
-    emailValidator.validate(admissionForm.legalGuardianEmail)
-}
-
-
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
@@ -178,7 +167,7 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
 
-    if (!validateAdmissionFormData(admissionForm)) {
+    if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
         res.sendStatus(500)
     } else {
         const savedForm = await admissionForm.save()
