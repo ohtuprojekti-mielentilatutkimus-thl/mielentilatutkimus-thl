@@ -425,8 +425,18 @@ const Form = () => {
 
         <div>
             <div style={showWhenVisible}>
-                {(sender &&
-                    <BasicInformation sender={sender} />)}
+
+                <br></br>
+                <br></br>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center' }}>
+                    {(sender && <BasicInformation sender={sender} />)} </div>
+                <br></br>
+                <br></br>
+                <br></br>
+
 
                 <div style={{
                     display: 'flex',
