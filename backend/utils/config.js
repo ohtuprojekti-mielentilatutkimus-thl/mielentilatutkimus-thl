@@ -12,8 +12,8 @@ let FORM_FRONTEND_URI = env === 'production' ? process.env.PUBLIC_URL+'/' : 'htt
 
 let ATTACHMENT_MAX_SIZE = process.env.ATTACHMENT_MAX_SIZE || 2 * 1024 * 1024
 
-let ALLOWED_SENDER_EMAIL_DOMAIN = env === 'production' ? process.env.ALLOWED_SENDER_EMAIL_DOMAIN || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi']
-    : process.env.ALLOWED_SENDER_EMAIL_DOMAIN || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi', 'example.com']
+let ALLOWED_SENDER_EMAIL_DOMAIN = env === 'production' ? process.env.ALLOWED_SENDER_EMAIL_DOMAIN_PROD || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi']
+    : process.env.ALLOWED_SENDER_EMAIL_DOMAIN_TEST || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi', 'example.com', 'asianajotoimisto.fi']
 
 module.exports = {
     MONGODB_URI,
