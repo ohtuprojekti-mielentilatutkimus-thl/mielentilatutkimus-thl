@@ -10,8 +10,17 @@ const validateEmailAddress = (email) => {
     return emailValidator.validate(email) && emailOnListOfAllowedDomains(email)
 }
 
+const notEmpty = (string) => {
+    if (!string || string === '') {
+        return false
+    }
+    return true
+}
+
 const validateBasicInformationData = (basicInformationForm) => {
-    return validateEmailAddress(basicInformationForm.sendersEmail)
+    return notEmpty(basicInformationForm.sendersEmail) && notEmpty(basicInformationForm.admissionNoteSender) &&
+    notEmpty(basicInformationForm.sendersEmail) &&  notEmpty(basicInformationForm.sendersPhoneNumber) &&
+    validateEmailAddress(basicInformationForm.sendersEmail)
 }
 
 const validateAdmissionFormData = (admissionForm) => {
