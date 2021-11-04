@@ -6,13 +6,17 @@ const emailOnListOfAllowedDomains = (email) => {
     return config.ALLOWED_SENDER_EMAIL_DOMAIN.includes(domain_part)
 }
 
+const valdidateEmailAddress = (email) => {
+    return emailValidator.validate(email) && emailOnListOfAllowedDomains(email)
+}
+
 const validateBasicInformationData = (basicInformationForm) => {
-    return emailValidator.validate(basicInformationForm.sendersEmail) && emailOnListOfAllowedDomains(basicInformationForm.sendersEmail)
+    return valdidateEmailAddress(basicInformationForm.sendersEmail)
 }
 
 const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.assistantsEmail) &&
-    emailValidator.validate(admissionForm.legalGuardianEmail)
+    return valdidateEmailAddress(admissionForm.assistantsEmail) &&
+    valdidateEmailAddress(admissionForm.legalGuardianEmail)
 }
 
 module.exports = {
