@@ -17,14 +17,18 @@ const FormState = ( { form, updateForms } ) => {
 
         event.preventDefault()
 
-        const updateFormState = { ...form, formState: selectedOption }
-        formService.update(updateFormState.id, updateFormState)
-            .then(response => {
-                updateForms(response.data)
-            })
+        if(selectedOption !== ''){
+
+            const updateFormState = { ...form, formState: selectedOption }
+            formService.update(updateFormState.id, updateFormState)
+                .then(response => {
+                    updateForms(response.data)
+                })
+        }
     }
 
     const handleChange = (event) => {
+
         setSelectedOption(event.target.value)
     }
 
