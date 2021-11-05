@@ -181,9 +181,9 @@ admissionsRouter.get('/admission_form/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
-admissionsRouter.post('/admission_form/request_additional_info', async (req) => {
+admissionsRouter.post('/admission_form/request_additional_info', async (req, res) => {
     const data = req.body
-    Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info)
+    res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
 })
 
 admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
@@ -216,6 +216,7 @@ admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
             res.json(updatedForm.toJSON())
         })
 })
+   
 
 admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {
     const attachmentFile = await AttachmentForm.findById(req.params.attachmentId).catch((err) => {console.log(err)})

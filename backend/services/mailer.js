@@ -56,9 +56,11 @@ const requestAdditionalInfoFromSender = (email, id, additional_info) => {
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
             logger.info(err)
+            return (err)
         }
         if (info) {
             logger.info(info)
+            return (info)
         }
     })
 }

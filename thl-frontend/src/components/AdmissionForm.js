@@ -85,37 +85,34 @@ const AdditionalInfo = ({ form }) => {
 
         setErrorMessage('')
 
-        formService
-            .askForInfo(infoObject)
-            .then(setAdditionalInfo(''))
-        setMessage('Muokkauspyyntö lähetetty')
-        setTimeout(() => {
-            setMessage(null)
-            setShowAdditionalInfo(false)
-        }, 1000*7)
+        //   var e = Boolean(false)
 
-        /*  .then jälkeinen osa ei toimi ???
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
 
         formService
             .askForInfo(infoObject)
-            .update(form.id, updateFormState)
             .then(response => {
+                console.log(response.data)
                 setAdditionalInfo('')
                 setMessage('Muokkauspyyntö lähetetty')
                 setTimeout(() => {
                     setMessage(null)
                     setShowAdditionalInfo(false)
                 }, 1000*7)
+                formService.update(form.id, updateFormState)
             }
             )
             .catch(error => {
+                //         e = true
                 console.log(error)
                 setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
                 setTimeout(() => {
                     setErrorMessage(null)
                 }, 1000 * 7)
-            }) */
+            })
+        //     if (e === false){
+        //       formService.update(form.id, updateFormState)
+        //   }
     }
 
 
