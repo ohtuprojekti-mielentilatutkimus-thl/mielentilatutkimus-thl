@@ -117,10 +117,10 @@ const AdditionalInfo = ({ form, updateForms }) => {
                     <h4> THL_OIKPSYK_{form.createdAt.substring(0,10)}</h4>
                     <form onSubmit = {requestAdditionalInfoFromSender}>
                         <Grid>
-                            <TextField value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
+                            <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
                         </Grid>
                         <Grid>
-                            <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                            <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
                         </Grid>
                         <Grid>
                             <div>
@@ -139,7 +139,7 @@ const AdditionalInfo = ({ form, updateForms }) => {
                             </div>
                         </Grid>
                         <DialogActions>
-                            <Button variant = 'contained' color='primary' align='right' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
+                            <Button variant = 'contained' color='primary' align='right' id='closeAdditionalInfo' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
                         </DialogActions>
 
                     </form>
