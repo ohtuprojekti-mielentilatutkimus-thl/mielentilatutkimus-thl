@@ -37,6 +37,14 @@ const BasicInformationForm = () => {
         }
     }
 
+    const validateEmail = ( email ) => {
+        return !validator.isEmail(email)
+    }
+
+    const validateField = ( field ) => {
+        return validator.isEmpty(field)
+    }
+
     const addBasicInformations = (event) => {
         event.preventDefault()
 
@@ -124,19 +132,31 @@ const BasicInformationForm = () => {
                         >
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Nimi:</div>
-                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Nimi' variant='outlined' margin='normal'/>
+                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange}
+                                    label='Nimi' variant='outlined' margin='normal'
+                                    required error={validateField(admissionNoteSender)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Taho:</div>
-                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
+                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange}
+                                    label='Taho' variant='outlined' margin='normal'
+                                    required error={validateField(admissionNoteSenderOrganization)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Sähköposti:</div>
-                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Sähköposti' variant='outlined' margin='normal'/>
+                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange}
+                                    label='Sähköposti' variant='outlined' margin='normal'
+                                    required error={validateEmail(sendersEmail)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
                                 <div className={classes.labelText}>Puhelinnumero:</div>
-                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
+                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange}
+                                    label='Puhelinnumero' variant='outlined' margin='normal'
+                                    required error={validateField(sendersPhoneNumber)}
+                                />
                             </Grid>
                         </Grid>
                         <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
