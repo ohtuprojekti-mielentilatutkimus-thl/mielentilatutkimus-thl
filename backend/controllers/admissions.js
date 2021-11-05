@@ -167,13 +167,11 @@ admissionsRouter.post('/admission_form', async (req, res) => {
         imprisonmentRequirementReady: data.imprisonmentRequirementReady
     })
 
-    if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
-        res.sendStatus(500)
-    } else {
-        const savedForm = await admissionForm.save()
-        res.json(savedForm.toJSON())
-        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
-    }
+    
+    const savedForm = await admissionForm.save()
+    res.json(savedForm.toJSON())
+    Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
+    
 })
 
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
