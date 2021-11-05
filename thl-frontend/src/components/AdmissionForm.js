@@ -56,7 +56,7 @@ const FormState = ( { form, updateForms } ) => {
     )
 }
 
-const AdditionalInfo = ({ form }) => {
+const AdditionalInfo = ({ form, updateForms }) => {
 
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [additionalInfo, setAdditionalInfo] = useState ('')
@@ -94,28 +94,11 @@ const AdditionalInfo = ({ form }) => {
             setShowAdditionalInfo(false)
         }, 1000*7)
 
-        /*  .then jälkeinen osa ei toimi ???
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
-
-        formService
-            .askForInfo(infoObject)
-            .update(form.id, updateFormState)
+        formService.update(updateFormState.id, updateFormState)
             .then(response => {
-                setAdditionalInfo('')
-                setMessage('Muokkauspyyntö lähetetty')
-                setTimeout(() => {
-                    setMessage(null)
-                    setShowAdditionalInfo(false)
-                }, 1000*7)
-            }
-            )
-            .catch(error => {
-                console.log(error)
-                setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 7)
-            }) */
+                updateForms(response.data)
+            })
     }
 
 
@@ -286,7 +269,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             </Grid>
                         </Grid>
                         <Grid>
-                            <AdditionalInfo form={form}/>
+                            <AdditionalInfo form={form} updateForms={updateForms}/>
                         </Grid>
 
                     </DialogTitle>
