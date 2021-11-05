@@ -22,7 +22,7 @@
     "admission_forms": [
         {
             "basicInformationId": "123",
-            "formSender": "siiri.sihteeri@example.com",
+            "formSender": "tomi.tuomari@example.com",
             "name": "Reijo",
             "lastname": "Rikollinen",
             "identificationNumber": "101010-0000",
@@ -60,7 +60,7 @@
         },
         {
             "basicInformationId": "000",
-            "formSender": "Yrjö Ylituomari",
+            "formSender": "yrjo_ylituomari@example.com",
             "name": "Saara",
             "lastname": "Syytetty",
             "identificationNumber": "111111-1000",
@@ -98,7 +98,7 @@
         },
         {
             "basicInformationId": "000",
-            "formSender": "Ville Viranomainen",
+            "formSender": "ville@example.com",
             "name": "Ronja",
             "lastname": "Ruotsista",
             "identificationNumber": "000000-9999",
