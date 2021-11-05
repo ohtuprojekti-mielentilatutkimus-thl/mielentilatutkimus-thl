@@ -173,5 +173,22 @@ describe('All admissions can be viewed', () => {
 
     })
 
+    it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.contains('Mielentilatutkimuspyynnöt')
+
+        cy.get('#formState').last().contains('Saatu lisätietoja')
+        cy.get('a').last().click()
+        cy.get('#askAdditionalInfo').click()
+        cy.get('#inputForAdditionalInfo').type('Lisätietoja kaivataan tutkinnan suorittavasta poliisilaitoksesta.')
+        cy.get('#sendAdditionalInfo').click()
+        cy.wait(200)
+        cy.get('#sortState').click()
+        cy.wait(200)
+        cy.get('#formState').first().contains('Pyydetty lisätietoja')
+
+    })
+
+
 }
 )
