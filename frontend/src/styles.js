@@ -51,8 +51,7 @@ const useStyles = makeStyles({
         width:'100%',
         height:'100%',
         top:'0',
-        left: '0',
-        position:'fixed'
+        left: '0'
     },
 })
 
