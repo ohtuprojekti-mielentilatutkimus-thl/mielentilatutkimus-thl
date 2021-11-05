@@ -85,20 +85,37 @@ const AdditionalInfo = ({ form, updateForms }) => {
 
         setErrorMessage('')
 
+        const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
+
+        var error = Boolean(false)
+
         formService
             .askForInfo(infoObject)
-            .then(setAdditionalInfo(''))
-        setMessage('Muokkauspyyntö lähetetty')
-        setTimeout(() => {
-            setMessage(null)
-            setShowAdditionalInfo(false)
-        }, 1000*7)
-
-        const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
-        formService.update(updateFormState.id, updateFormState)
             .then(response => {
-                updateForms(response.data)
+                console.log(response.data)
+                setAdditionalInfo('')
+                setMessage('Muokkauspyyntö lähetetty')
+                setTimeout(() => {
+                    setMessage(null)
+                    setShowAdditionalInfo(false)
+                }, 1000*7)
+            }
+            )
+            .catch(error => {
+                error = true
+                console.log(error)
+                setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000 * 7)
             })
+
+        if(!error) {
+            formService.update(updateFormState.id, updateFormState)
+                .then(response => {
+                    updateForms(response.data)
+                })
+        }
     }
 
 
@@ -120,9 +137,6 @@ const AdditionalInfo = ({ form, updateForms }) => {
                             <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
                         </Grid>
                         <Grid>
-                            <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
-                        </Grid>
-                        <Grid>
                             <div>
                                 {(message && <Alert severity="success">
                                     {message} </Alert>
@@ -137,6 +151,9 @@ const AdditionalInfo = ({ form, updateForms }) => {
                                 )}
 
                             </div>
+                        </Grid>
+                        <Grid>
+                            <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
                         </Grid>
                         <DialogActions>
                             <Button variant = 'contained' color='primary' align='right' id='closeAdditionalInfo' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
