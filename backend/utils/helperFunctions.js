@@ -15,8 +15,8 @@ const validateBasicInformationData = (basicInformationForm) => {
 }
 
 const validateAdmissionFormData = (admissionForm) => {
-    return validateEmailAddress(admissionForm.assistantsEmail) &&
-    validateEmailAddress(admissionForm.legalGuardianEmail)
+    return emailValidator.validate(admissionForm.assistantsEmail) &&
+    emailValidator.validate(admissionForm.legalGuardianEmail)
 }
 
 module.exports = {
