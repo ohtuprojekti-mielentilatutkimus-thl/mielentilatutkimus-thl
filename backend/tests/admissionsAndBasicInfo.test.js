@@ -28,6 +28,9 @@ const invalid_emails = [
     'email@111.222.333.44444',
     'email@example..com',
     'Abc..123@example.com',
+    'io544+trtglgdfklgört54tärt',
+    '',
+    'fg34jhm@'
 ]
 
 describe('when db is initialized with data', () => {
