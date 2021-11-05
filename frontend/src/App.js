@@ -4,7 +4,7 @@ import AdmissionForm from './components/AdmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import UploadForm from './components/UploadForm'
 import './App.css'
-import { useStyles } from './styles'
+//import { useStyles } from './styles'
 
 
 import {
@@ -14,10 +14,10 @@ import {
 
 const App = () => {
 
-    const classes = useStyles()
+    /*const classes = useStyles()*/
 
     return (
-        <div className={classes.app}>
+        <div /*className={classes.app}*/>
             <Switch>
                 <Route path='/basic_information_form'>
                     <div>
