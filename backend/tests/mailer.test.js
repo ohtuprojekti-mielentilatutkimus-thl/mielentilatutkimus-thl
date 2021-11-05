@@ -33,6 +33,22 @@ test('Link to admission form is sent', async () => {
     })
 })
 
+test('Link to editing admission form is sent', async () => {
+
+    Mailer.requestAdditionalInfoFromSender(helper.basicInfoFormTestData.sendersEmail, '616014ea275e2df3c553b958', 'henkilötunnus puutteellinen')
+
+    await new Promise((t) => setTimeout(t, 1000))
+    maildev.getAllEmail(function (err, emails) {
+        expect(err).toBeNull()
+        expect(emails.length).toBe(1)
+        email = emails[0]
+        expect(email.to).toStrictEqual([{ address: helper.basicInfoFormTestData.sendersEmail, name: '' }])
+        expect(email.text.includes('616014ea275e2df3c553b958')).toBe(true)
+        expect(email.text.includes('henkilötunnus puutteellinen')).toBe(true)
+    }) 
+})
+
+
 test('Confirmation is sent', async () => {
     Mailer.sendConfirmation(helper.basicInfoFormTestData.sendersEmail, helper.admissionFormTestData.diaariNumber, '616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
