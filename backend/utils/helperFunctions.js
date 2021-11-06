@@ -15,7 +15,8 @@ const validateBasicInformationData = (basicInformationForm) => {
 }
 
 const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.assistantsEmail) &&
+    return emailValidator.validate(admissionForm.formSender) &&
+    emailValidator.validate(admissionForm.assistantsEmail) &&
     emailValidator.validate(admissionForm.legalGuardianEmail)
 }
 
