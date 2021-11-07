@@ -10,6 +10,8 @@ const api = supertest(app)
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
+const thisYearAsString = () => new Date().getFullYear().toString()
+
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
@@ -20,7 +22,7 @@ describe('when db is initialized with data', () => {
         await newBasicsForm.save()
 
         const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
-        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-' + 1
+        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-' + 1
         await newAdmissionForm.save()
 
     })    
@@ -102,6 +104,24 @@ describe('when db is initialized with data', () => {
             const latestAdmission = await helper.findLatestAdmissionFromDb()
 
             expect(latestAdmission.thlRequestId).toEqual(expectedRequestId)
+        })
+
+        test('field ´thlRequestId´ serialization resets to 1 when the year changes', async () => {
+            let lastYear = parseInt(new Date().getFullYear().toString()) - 1
+
+            let latestAdmissionFromDb = await helper.findLatestAdmissionFromDb()
+            latestAdmissionFromDb.thlRequestId = 'THL_OIKPSYK_' + lastYear + '-10'
+            await latestAdmissionFromDb.save()
+
+            await api
+                .post(baseUrl+'/admission_form')
+                .send(helper.admissionFormTestData)
+
+
+            const expectedThlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
+            latestAdmissionFromDb = await helper.findLatestAdmissionFromDb()
+
+            expect(latestAdmissionFromDb.thlRequestId).toBe(expectedThlRequestId)
         })
 
         //this test does not actually do anything.
@@ -240,14 +260,14 @@ describe('when db is empty', () => {
             }
         })
 
-        test('field thlRequestId serialization starts at 1', async () => {
+        test('field ´thlRequestId´ serialization starts at 1', async () => {
             const admission_form = helper.admissionFormTestData
 
             await api
                 .post(baseUrl+'/admission_form')
                 .send(admission_form)
 
-            const expectedRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-' + 1
+            const expectedRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-1'
             const admissionFromDb = await helper.findLatestAdmissionFromDb()
 
             expect(admissionFromDb.thlRequestId).toEqual(expectedRequestId)
