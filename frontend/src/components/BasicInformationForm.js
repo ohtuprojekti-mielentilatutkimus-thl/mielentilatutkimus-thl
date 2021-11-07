@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import basicInformationService from '../services/basicInformationService'
-import { Paper, Grid, Button, TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Paper, Grid, Button, TextField, Typography } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import validator from 'validator'
+import { useStyles } from '../styles'
 
 const BasicInformationForm = () => {
 
@@ -35,6 +35,14 @@ const BasicInformationForm = () => {
                 setErrorMessage(null)
             }, 1000*7)
         }
+    }
+
+    const validateEmail = ( email ) => {
+        return !validator.isEmail(email)
+    }
+
+    const validateField = ( field ) => {
+        return validator.isEmpty(field)
     }
 
     const addBasicInformations = (event) => {
@@ -73,28 +81,11 @@ const BasicInformationForm = () => {
         setSendersPhoneNumber('')
     }
 
-    const useStyles = makeStyles({
-        form: {
-            display: 'center',
-            background: 'white',
-            padding: '10px',
-            borderWidth: '1px',
-            width: '50%',
-            height: '50%',
-            align: 'center',
-            justifyContent: 'center'
-        },
-        labelText: {
-            fontSize: '12px',
-            fontWeight: 'bold'
-        }
-    })
-
     const classes = useStyles()
 
     return (
 
-        <div>
+        <div className={classes.page}>
             {(message && <Alert severity="success">
                 {message} </Alert>
             )}
@@ -103,11 +94,22 @@ const BasicInformationForm = () => {
                 {errorMessage}</Alert>
             )}
 
+
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                padding: '5px'
             }}>
+                <Typography variant={'h4'}>Lähettäjän perustiedot</Typography>
+            </div>
+
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+
                 <Paper
                     className={classes.form}
                     variant='outlined'
@@ -116,30 +118,38 @@ const BasicInformationForm = () => {
                     align='center'
                     justify='center'
                 >
-                    <h2>Lähettäjän perustiedot:</h2>
                     <form onSubmit={addBasicInformations}>
                         <Grid
-                            container rowspacing={2}
-                            columnspacing={{ xs: 2 }}
+                            container spacing={1}
                         >
                             <Grid item xs={6}>
-                                <div className={classes.labelText}>Nimi:</div>
-                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange} label='Nimi' variant='outlined' margin='normal'/>
+                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange}
+                                    label='Nimi' variant='standard' margin='normal'
+                                    required error={validateField(admissionNoteSender)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                                <div className={classes.labelText}>Taho:</div>
-                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange} label='Taho' variant='outlined' margin='normal' />
+                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange}
+                                    label='Taho' variant='standard' margin='normal'
+                                    required error={validateField(admissionNoteSenderOrganization)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                                <div className={classes.labelText}>Sähköposti:</div>
-                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange} label='Sähköposti' variant='outlined' margin='normal'/>
+                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange}
+                                    label='Sähköposti' variant='standard' margin='normal'
+                                    required error={validateEmail(sendersEmail)}
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                                <div className={classes.labelText}>Puhelinnumero:</div>
-                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange} label='Puhelinnumero' variant='outlined' margin='normal'/>
+                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange}
+                                    label='Puhelinnumero' variant='standard' margin='normal'
+                                    required error={validateField(sendersPhoneNumber)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lähetä</Button>
                             </Grid>
                         </Grid>
-                        <Button id='createBasicInformationsButton' type='submit' variant='outlined'>lisää</Button>
                     </form>
                 </Paper>
             </div>

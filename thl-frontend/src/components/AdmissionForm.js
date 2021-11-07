@@ -56,7 +56,7 @@ const FormState = ( { form, updateForms } ) => {
     )
 }
 
-const AdditionalInfo = ({ form }) => {
+const AdditionalInfo = ({ form, updateForms }) => {
 
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [additionalInfo, setAdditionalInfo] = useState ('')
@@ -85,22 +85,14 @@ const AdditionalInfo = ({ form }) => {
 
         setErrorMessage('')
 
-        formService
-            .askForInfo(infoObject)
-            .then(setAdditionalInfo(''))
-        setMessage('Muokkauspyyntö lähetetty')
-        setTimeout(() => {
-            setMessage(null)
-            setShowAdditionalInfo(false)
-        }, 1000*7)
-
-        /*  .then jälkeinen osa ei toimi ???
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
 
+        var error = Boolean(false)
+
         formService
             .askForInfo(infoObject)
-            .update(form.id, updateFormState)
             .then(response => {
+                console.log(response.data)
                 setAdditionalInfo('')
                 setMessage('Muokkauspyyntö lähetetty')
                 setTimeout(() => {
@@ -110,12 +102,20 @@ const AdditionalInfo = ({ form }) => {
             }
             )
             .catch(error => {
+                error = true
                 console.log(error)
                 setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
                 setTimeout(() => {
                     setErrorMessage(null)
                 }, 1000 * 7)
-            }) */
+            })
+
+        if(!error) {
+            formService.update(updateFormState.id, updateFormState)
+                .then(response => {
+                    updateForms(response.data)
+                })
+        }
     }
 
 
@@ -134,10 +134,7 @@ const AdditionalInfo = ({ form }) => {
                     <h4>{form.thlRequestId}</h4>
                     <form onSubmit = {requestAdditionalInfoFromSender}>
                         <Grid>
-                            <TextField value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
-                        </Grid>
-                        <Grid>
-                            <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                            <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
                         </Grid>
                         <Grid>
                             <div>
@@ -155,8 +152,11 @@ const AdditionalInfo = ({ form }) => {
 
                             </div>
                         </Grid>
+                        <Grid>
+                            <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
+                        </Grid>
                         <DialogActions>
-                            <Button variant = 'contained' color='primary' align='right' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
+                            <Button variant = 'contained' color='primary' align='right' id='closeAdditionalInfo' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
                         </DialogActions>
 
                     </form>
@@ -286,7 +286,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                             </Grid>
                         </Grid>
                         <Grid>
-                            <AdditionalInfo form={form}/>
+                            <AdditionalInfo form={form} updateForms={updateForms}/>
                         </Grid>
 
                     </DialogTitle>

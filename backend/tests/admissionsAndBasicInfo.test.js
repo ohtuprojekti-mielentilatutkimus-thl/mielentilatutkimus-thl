@@ -12,6 +12,29 @@ const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
 const thisYearAsString = () => new Date().getFullYear().toString()
 
+//from https://gist.github.com/cjaoude/fd9910626629b53c4d25
+const invalid_emails = [
+    'plainaddress',
+    '#@%^%#$@#$@#.com',
+    '@example.com',
+    'Joe Smith <email@example.com>',
+    'email.example.com',
+    'email@example@example.com',
+    '.email@example.com',
+    'email.@example.com',
+    'email..email@example.com',
+    'あいうえお@example.com',
+    'email@example.com (Joe Smith)',
+    'email@example',
+    'email@-example.com',
+    'email@111.222.333.44444',
+    'email@example..com',
+    'Abc..123@example.com',
+    'io544+trtglgdfklgört54tärt',
+    '',
+    'fg34jhm@'
+]
+
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
@@ -22,7 +45,7 @@ describe('when db is initialized with data', () => {
         await newBasicsForm.save()
 
         const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
-        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-' + 1
+        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
         await newAdmissionForm.save()
 
     })    
@@ -52,6 +75,7 @@ describe('when db is initialized with data', () => {
             const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 1
             expect(Object.keys(response.body[0])).toHaveLength(lengthOfInputFields)
         })
+
     })
     describe('admission form information..', () => { 
    
@@ -231,6 +255,18 @@ describe('when db is empty', () => {
                 }
             })
         })
+
+
+        test('does not allow invalid email address', async () => {
+            const testData = basicInfo
+            for (i in invalid_emails) {
+                testData.sendersEmail = invalid_emails[i]
+                await api
+                    .post(baseUrl+'/basic_information_form')
+                    .send(testData).expect(400)
+            }
+        })
+
     })
     describe('admission form', () => {
     
@@ -271,6 +307,26 @@ describe('when db is empty', () => {
             const admissionFromDb = await helper.findLatestAdmissionFromDb()
 
             expect(admissionFromDb.thlRequestId).toEqual(expectedRequestId)
+        })
+
+        test('does not allow invalid email address', async () => {
+            var testData = helper.admissionFormTestData
+            for (i in invalid_emails) {
+                testData.formSender = invalid_emails[i]
+                await api
+                    .post(baseUrl+'/admission_form')
+                    .send(testData).expect(500)
+                testData = helper.admissionFormTestData
+                testData.assistantsEmail = invalid_emails[i]
+                await api
+                    .post(baseUrl+'/admission_form')
+                    .send(testData).expect(500)
+                testData = helper.admissionFormTestData
+                testData.legalGuardianEmail = invalid_emails[i]
+                await api
+                    .post(baseUrl+'/admission_form')
+                    .send(testData).expect(500)
+            }
         })
     })
     
