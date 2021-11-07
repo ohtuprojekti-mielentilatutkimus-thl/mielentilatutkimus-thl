@@ -20,6 +20,7 @@ describe('when db is initialized with data', () => {
         await newBasicsForm.save()
 
         const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
+        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-' + 1
         await newAdmissionForm.save()
 
     })    
@@ -58,7 +59,8 @@ describe('when db is initialized with data', () => {
             // + 1 for id, + 1 because formState has a default value
             // +2 for createdAt and updatedAt
             // +1 for attachments
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 5
+            // +1 for thlRequestId
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -86,6 +88,20 @@ describe('when db is initialized with data', () => {
             admissionsInDb = await helper.admissionsInDb()
             const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
+        })
+
+        test('field ´thlRequestId´ is incremented for new admission request', async () => {
+            const admissionsInDb = await helper.admissionsInDb()
+            const numOfAdmissionsInDb = admissionsInDb.length
+            const expectedRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-' + (numOfAdmissionsInDb + 1)
+            
+            await api
+                .post(baseUrl+'/admission_form')
+                .send(helper.admissionFormTestData)
+
+            const latestAdmission = await helper.findLatestAdmissionFromDb()
+
+            expect(latestAdmission.thlRequestId).toEqual(expectedRequestId)
         })
 
         //this test does not actually do anything.
@@ -211,7 +227,8 @@ describe('when db is empty', () => {
             // + 1 for id, + 1 because formState has a default value
             // +2 for createdAt and updatedAt
             //+1 for attachments
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 5
+            // +1 for thlRequestId
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -221,6 +238,19 @@ describe('when db is empty', () => {
                 expect(admission_form[k]).not.toBeUndefined()
                 expect(admission_form[k]).toEqual(admissionsInDb[0][k])
             }
+        })
+
+        test('field thlRequestId serialization starts at 1', async () => {
+            const admission_form = helper.admissionFormTestData
+
+            await api
+                .post(baseUrl+'/admission_form')
+                .send(admission_form)
+
+            const expectedRequestId = 'THL_OIKPSYK_' + new Date().getFullYear().toString() + '-' + 1
+            const admissionFromDb = await helper.findLatestAdmissionFromDb()
+
+            expect(admissionFromDb.thlRequestId).toEqual(expectedRequestId)
         })
     })
     

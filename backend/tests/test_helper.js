@@ -11,6 +11,8 @@ const admissionsInDb = async () => {
     return admis.map(a => a.toJSON())
 }
 
+const findLatestAdmissionFromDb = async () => await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+
 const basicsInDb = async () => {
     const basics = await BasicInformationForm.find({})
     return basics.map(a => a.toJSON())
@@ -22,5 +24,5 @@ const attachmentsInDb = async () => {
 }
 
 module.exports = {
-    admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb, attachmentsInDb
+    admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb
 }
