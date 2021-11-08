@@ -4,6 +4,7 @@ var admissionSchema = mongoose.Schema({
     //basic information
     formState: {type: String, default: 'Pyyntö saapunut'},
     basicInformationId: { type: String },
+    thlRequestId: { type: String },
     admissionNoteDate: { type: Date },
     formSender: {type: String},
     name: { type: String },

@@ -6,6 +6,7 @@ const uploadFile = require('../utils/upload.js')
 const admissionsRouter = require('express').Router()
 
 const FileHandler = require('../services/fileHandler')
+const IdSerializer = require('../services/idSerializer')
 
 const AdmissionForm = require('../models/admissionForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model')
@@ -170,6 +171,11 @@ admissionsRouter.post('/admission_form', async (req, res) => {
     if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
         res.sendStatus(500)
     } else {
+        const prevAdmission = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+        const prevId = prevAdmission == null ? -1 : prevAdmission.thlRequestId
+    
+        admissionForm.thlRequestId = IdSerializer.getNextThlRequestId(prevId)
+
         const savedForm = await admissionForm.save()
         res.json(savedForm.toJSON())
         Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)

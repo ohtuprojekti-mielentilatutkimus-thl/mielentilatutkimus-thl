@@ -131,7 +131,7 @@ const AdditionalInfo = ({ form, updateForms }) => {
                 },
             }} fullWidth>
                 <DialogTitle disableTypography>
-                    <h4> THL_OIKPSYK_{form.createdAt.substring(0,10)}</h4>
+                    <h4>{form.thlRequestId}</h4>
                     <form onSubmit = {requestAdditionalInfoFromSender}>
                         <Grid>
                             <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
@@ -265,7 +265,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
                 }} fullWidth>
 
                     <DialogTitle disableTypography>
-                        <h1>THL_OIKPSYK_{form.createdAt.substring(0,10)}</h1>
+                        <h1>{form.thlRequestId}</h1>
                         <Grid
                             container
                             spacing={1}
@@ -470,7 +470,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
         return (
             <div>
                 <a href='#' id='handleShowMoreInfo' onClick={() => handleShowMoreInfo()}>
-                    THL_OIKPSYK_{form.createdAt.substring(0,10)}
+                    {form.thlRequestId}
                 </a>
             </div>
         )
