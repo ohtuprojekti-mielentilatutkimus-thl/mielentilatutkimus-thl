@@ -6,11 +6,13 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const UploadForm = () => {
 
-    const [selectedFiles, setSelectedFiles] = useState(null)
+    const [filesInfo, setFilesInfo] = useState([])
+    const [selectedFiles, setSelectedFiles] = useState([])
     const [whichFile, setWhichFile] = useState('')
+
     const AdmissionFormId = useParams().id
 
-    console.log(AdmissionFormId)
+    //console.log(AdmissionFormId)
 
     const useStyles = makeStyles({
         form: {
@@ -28,20 +30,40 @@ const UploadForm = () => {
     const classes = useStyles()
 
     const selectFile = (event) => {
-        const inputTarget = event.target
-        setSelectedFiles(inputTarget.files[0])
-        setWhichFile(inputTarget.id)
-        console.log(selectedFiles)
-        console.log(whichFile)
+        const file = event.target.files[0]
+
+        if (duplicateFileName(file.name)) {
+            // tässä voisi tapahtua jokin virheilmoitus joka kertoo käyttäjälle:
+            // tiedostoa ei hyväksytty uploadattavaksi koska samanniminen tiedosto oli jo valittu
+            console.log('duplikaatti')
+            return
+        }
+
+        setSelectedFiles(selectedFiles.concat(file))
+
+        console.log('logataan valitun tiedoston nimi ', file.name)
+
+        setFilesInfo(filesInfo.concat({ name: file.name, whichFile: event.target.id }))
     }
 
+    const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
+
+    /*
+    const newUpload = async () => {
+        await admissionService.upload(selectedFiles, AdmissionFormId, whichFile)
+    }
+    */
+
     const upload = async () => {
-        console.log(AdmissionFormId)
-        const currFile = selectedFiles
-        console.log(typeof(currFile))
-        await admissionService.upload(currFile, AdmissionFormId, whichFile)
+        await admissionService.upload(selectedFiles, AdmissionFormId, whichFile, filesInfo)
+
         setSelectedFiles(null)
         setWhichFile(null)
+    }
+
+    const howManyFiles = event => {
+        event.preventDefault()
+        console.log('liitteitä on valittu ', selectedFiles.length)
     }
 
     return (
@@ -188,6 +210,8 @@ const UploadForm = () => {
                     </Button>
                 </Paper>
             </div>
+
+            <button onClick={howManyFiles}>Liiteiden lkm</button>
         </div>
     )
 

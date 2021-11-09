@@ -23,18 +23,27 @@ const get = async (  id  ) => {
     return request.data
 }
 
-const upload = (file, id, whichFile) => {
-    console.log(id)
+const upload = (files, id, whichFile, filesInfo) => {
     const formData = new FormData()
-    console.log(file)
-    formData.append('file', file)
+
+    console.log('logataan filet adServicessä ', files)
+
+    formData.append('file', files)
     formData.append('whichFile', whichFile)
+
+    formData.append('filesInfo', filesInfo)
+
+    //formData.append('fieldname', 'testFieldName')
+    filesInfo.forEach(fileInfo => console.log(fileInfo))
+    /*
     const res = axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         }
     })
     return res.data
+    */
+    return 'asd'
 }
 
 export default { getAll, create, update, get, upload }
