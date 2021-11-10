@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import MenuItem from '@material-ui/core/MenuItem'
 import PdfViewer from './PdfViewer'
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+import SendToResearchUnit from './SendToResearchUnit'
 
 const FormState = ( { form, updateForms } ) => {
 
@@ -28,7 +29,6 @@ const FormState = ( { form, updateForms } ) => {
     }
 
     const handleChange = (event) => {
-
         setSelectedOption(event.target.value)
     }
 
@@ -222,6 +222,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
     const [showInfo, setShowInfo] = useState(false)
     const [attachment, setAttachment] = useState('')
     const [showAttachment, setShowAttachment] = useState(false)
+    const [showSendResearchUnit, setShowSendToResearchUnit] = useState(false)
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -241,16 +242,18 @@ const AdmissionForm = ({ form, updateForms } ) => {
         })
     }
 
-    const handleCloseAttachment = () => {
-        setShowAttachment(false)
-    }
-
     const classes = useStyles()
 
     if (showInfo) {
         return (
             <div>
-                <Dialog open={showAttachment} onClose={handleCloseAttachment}>
+
+                <Dialog open={showSendResearchUnit} onClose={() => setShowSendToResearchUnit(false)}  classes={{ paper: classes.dialogPopUp }}
+                    fullWidth>
+                    <SendToResearchUnit form={form} handleClose={() => setShowSendToResearchUnit(false)}/>
+                </Dialog>
+
+                <Dialog open={showAttachment} onClose={() => setShowAttachment(false)}>
                     <PdfViewer pdf={attachment} />
                 </Dialog>
 
@@ -451,12 +454,14 @@ const AdmissionForm = ({ form, updateForms } ) => {
                                             )
                                         })}
                                     </Grid>
-
                                 </Grid>
                             </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
+                        <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
+                        Lähetä tutkimuspaikkapyyntö
+                        </Button>
                         <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
                         Sulje
                         </Button>

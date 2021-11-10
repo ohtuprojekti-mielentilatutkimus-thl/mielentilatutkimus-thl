@@ -53,6 +53,13 @@ const useStyles = makeStyles({
         top:'0',
         left: '0',
         position:'fixed'
+    },
+    dialogPopUp: {
+        backgroundColor: 'white',
+        boxShadow: 'none',
+        elevation:'3',
+        square:'false',
+        align:'left'
     }
 })
 
