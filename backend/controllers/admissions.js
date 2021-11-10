@@ -59,7 +59,7 @@ admissionsRouter.get('/admission_form/basic_information/:id', async (req, res) =
 
 admissionsRouter.put('/thl/:id', async (req, res) => {
     const data = req.body
-  
+
     const form = {
         formState : data.formState,
         basicInformationId: data.basicInformationId,
@@ -97,18 +97,17 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         legalGuardianAddress: data.legalGuardianAddress,
         legalGuardianInstitute: data.legalGuardianInstitute,
         appealedDecision: data.appealedDecision,
-        // TBD: attachments: ,
-        //attachments: data.attachments,
         conclusionIsReady: data.conclusionIsReady,
         proceedingIsReady: data.proceedingIsReady,
         applicationForASummonsIsReady: data.applicationForASummonsIsReady,
         transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
         preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
         decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady    
+        imprisonmentRequirementReady: data.imprisonmentRequirementReady
     }
 
     AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
+        .populate('attachments', { fileName: 1, whichFile: 1 })
         .then(updatedForm => {
             res.json(updatedForm.toJSON())
         })
