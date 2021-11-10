@@ -187,10 +187,43 @@ admissionsRouter.get('/admission_form/:id', async (req, res) => {
     res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
 })
 
+
+admissionsRouter.post('/upload_form', async (req, res) => {
+    const data = req.body
+
+    if (!HelperFunctions.validatePoliceEmailAddress(data.email)) {
+        res.sendStatus(500)
+
+    } else {
+
+        var id = null
+        var formInfo = null
+
+        var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
+        var form_by_diaariNumber = forms.filter(d => d.diaariNumber === data.value)
+        var form_by_thlId = forms.filter(d => d.id === data.value)
+
+        if(form_by_diaariNumber[0] !== undefined){
+            id = form_by_diaariNumber[0].id
+            formInfo = 'diaarinumero: '+ form_by_diaariNumber[0].diaariNumber
+        }
+        if(form_by_thlId[0] !== undefined) {
+            id = form_by_thlId[0].id
+            formInfo = 'THL-id: '+ form_by_thlId[0].thlRequestId
+        }
+        if(id !== null){
+            res.json(Mailer.sendLinkToAddingAttachments(data.email, id, formInfo))
+        }
+    }
+})
+
+
 admissionsRouter.post('/admission_form/request_additional_info', async (req, res) => {
     const data = req.body
     res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
 })
+
+
 
 admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
     const data = await AdmissionForm.findById(req.params.id).catch((err) => {console.log(err)})

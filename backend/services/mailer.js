@@ -65,5 +65,21 @@ const requestAdditionalInfoFromSender = (email, id, additional_info) => {
     })
 }
 
+const sendLinkToAddingAttachments = (email, id, formInfo) => {
+    var mailOptions = {
+        from: config.EMAIL_FROM,
+        to: email,
+        subject: 'Liitteiden lisäämisen linkki',
+        text: 'Hei,\n\nvoit lähettää liitteitä koskien tapausta (' + formInfo + ') linkillä: ' + config.FORM_FRONTEND_URI + 'upload_form/' + id
+    } 
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            logger.info(err)
+        }
+        if (info) {
+            logger.info(info)
+        }
+    })
+}
 
-module.exports = { sendLinkToAdmissionForm, sendConfirmation, requestAdditionalInfoFromSender }
+module.exports = { sendLinkToAdmissionForm, sendConfirmation, requestAdditionalInfoFromSender, sendLinkToAddingAttachments }

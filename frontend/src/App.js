@@ -3,6 +3,8 @@ import { Component } from 'react'
 import AdmissionForm from './components/AdmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import UploadForm from './components/UploadForm'
+import PoliceForm from './components/PoliceForm'
+
 import './App.css'
 //import { useStyles } from './styles'
 
@@ -29,6 +31,8 @@ const App = () => {
                 <Route path='/admission_form/:id/edit' component={AdmissionForm}>
                 </Route>
                 <Route path='/upload_form/:id' component={UploadForm}>
+                </Route>
+                <Route path='/upload_form/' component={PoliceForm}>
                 </Route>
             </Switch>
         </div>
