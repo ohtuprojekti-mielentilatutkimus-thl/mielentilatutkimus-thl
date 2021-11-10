@@ -15,6 +15,9 @@ let ATTACHMENT_MAX_SIZE = process.env.ATTACHMENT_MAX_SIZE || 2 * 1024 * 1024
 let ALLOWED_SENDER_EMAIL_DOMAIN = env === 'production' ? process.env.ALLOWED_SENDER_EMAIL_DOMAIN_PROD || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi']
     : process.env.ALLOWED_SENDER_EMAIL_DOMAIN_TEST || ['helsinki.fi', 'cs.helsinki.fi', 'thl.fi', 'oikeus.fi', 'example.com', 'asianajotoimisto.fi']
 
+let ALLOWED_SENDER_EMAIL_DOMAIN_POLICE = env === 'production' ? process.env.ALLOWED_SENDER_EMAIL_DOMAIN_POLICE_PROD || ['poliisi.fi']
+    : process.env.ALLOWED_SENDER_EMAIL_DOMAIN_POLICE_TEST || ['poliisi.fi']
+
 module.exports = {
     MONGODB_URI,
     EMAIL_FROM,
@@ -22,5 +25,6 @@ module.exports = {
     EMAIL_PORT,
     FORM_FRONTEND_URI,
     ATTACHMENT_MAX_SIZE,
-    ALLOWED_SENDER_EMAIL_DOMAIN
+    ALLOWED_SENDER_EMAIL_DOMAIN,
+    ALLOWED_SENDER_EMAIL_DOMAIN_POLICE
 }

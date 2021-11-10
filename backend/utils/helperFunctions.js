@@ -20,7 +20,17 @@ const validateAdmissionFormData = (admissionForm) => {
     emailValidator.validate(admissionForm.legalGuardianEmail)
 }
 
+const emailFromPoliceOnListOfAllowedDomain = (email) => {
+    const domain_part = email.split('@')[1]
+    return config.ALLOWED_SENDER_EMAIL_DOMAIN_POLICE.includes(domain_part)
+}
+
+const validatePoliceEmailAddress = (email) => {
+    return emailValidator.validate(email) && emailFromPoliceOnListOfAllowedDomain(email)
+}
+
 module.exports = {
     validateBasicInformationData,
-    validateAdmissionFormData
+    validateAdmissionFormData,
+    validatePoliceEmailAddress
 }
