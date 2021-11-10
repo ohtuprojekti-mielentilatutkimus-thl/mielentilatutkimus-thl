@@ -8,7 +8,6 @@ const UploadForm = () => {
 
     const [filesInfo, setFilesInfo] = useState([])
     const [selectedFiles, setSelectedFiles] = useState([])
-    const [whichFile, setWhichFile] = useState('')
 
     const AdmissionFormId = useParams().id
 
@@ -55,10 +54,11 @@ const UploadForm = () => {
     */
 
     const upload = async () => {
-        await admissionService.upload(selectedFiles, AdmissionFormId, whichFile, filesInfo)
+        await admissionService.upload(selectedFiles, AdmissionFormId, filesInfo)
 
+        // täällä käyttäjälle palautetta onnistuneesta / epäonnistuneesta uploadauksesta?
+        // pitäisikö redirectaa jonnekin, käyttäjällä ei kuitenkaan syytä jäädä upload-sivulle jos onnistui
         setSelectedFiles(null)
-        setWhichFile(null)
     }
 
     const howManyFiles = event => {
