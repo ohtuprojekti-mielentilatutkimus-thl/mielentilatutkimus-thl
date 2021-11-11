@@ -26,7 +26,6 @@ const get = async (  id  ) => {
 const upload = async (files, id, filesInfo) => {
     const formData = new FormData()
 
-    formData.append('id', id)
     formData.append('filesInfo', JSON.stringify(filesInfo))
     files.forEach(file => formData.append('files', file))
 
