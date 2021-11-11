@@ -100,8 +100,11 @@ Cypress.Commands.add('sendAttachment', ( { id, whichFile } ) => {
 
             // Build up the form
             const formData = new FormData()
-            formData.set('file', blob, fileName) //adding a file to the form
-            formData.append('whichFile', whichFile)
+
+            const filesInfo = [{ name: fileName, whichFile: whichFile }]
+
+            formData.append('filesInfo', JSON.stringify(filesInfo))
+            formData.append('files', blob, fileName)
 
             // Perform the request
             cy.form_request('http://localhost:3001/api/admissions/admission_form_attachment/'+id, formData)

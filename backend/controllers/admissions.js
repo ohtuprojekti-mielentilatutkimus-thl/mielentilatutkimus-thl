@@ -274,12 +274,12 @@ admissionsRouter.get('/admission_form_attachment/:attachmentId', async (req, res
 admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
     try {
         await uploadFile(req, res)
-        Attachment.attachFile(req.params.id, req.file.originalname, req.file.buffer, req.body.whichFile)
+
+        Attachment.attachFile(req.params.id, req.files, req.body.filesInfo)
+        
         res.status(200).send({
-            originalname: req.file.originalname,
-            whichFile: req.body.whichFile,
             message: 'ok'
-        })
+        })   
     } catch (err) {
         console.log(err)
         res.status(500).send({ message: err })

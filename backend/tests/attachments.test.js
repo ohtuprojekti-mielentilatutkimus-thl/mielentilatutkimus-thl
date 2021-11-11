@@ -33,7 +33,8 @@ describe('when sending an attachment with post-request', () => {
     test('attachment can be sent by a valid user', async () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
-            .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
             .expect(200)
           
         const attachmentsInDb = await helper.attachmentsInDb()
@@ -41,10 +42,12 @@ describe('when sending an attachment with post-request', () => {
         expect(attachmentsInDb).toHaveLength(1)
     })
     
+    
     test('attachment can\'t be sent without a user', async () => {
         await api
             .post(baseUrl+'/admission_form_attachment')
-            .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
     
         const attachmentsInDb = await helper.attachmentsInDb()
         
@@ -55,17 +58,19 @@ describe('when sending an attachment with post-request', () => {
     test('attachments have a field describing which file it is', async () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
-            .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
             .expect(200)
           
         const attachmentsInDb = await helper.attachmentsInDb()
-    
-        expect(attachmentsInDb[0].whichFile).not.toBeNull()
+
+        expect(attachmentsInDb[0].whichFile).toEqual('poytakirja')
     })
 })
 
 describe('on requesting an attachment with get-request,', () => {
 
+    
     test('pdf file can be sent to requesting client', async () => {
         await postTestPdf()
         const testPdf = await AttachmentForm.findOne({ fileName: 'test_pdf.pdf' })
@@ -92,8 +97,8 @@ describe('on requesting an attachment with get-request,', () => {
 const postTestPdf = async () => {
     await api
         .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
-        .attach('file', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
-        .field('whichFile', 'valituomio')
+        .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+        .field('filesInfo', '[{"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
         .field('originalname', 'test_pdf.pdf')
         .expect(200)
 }

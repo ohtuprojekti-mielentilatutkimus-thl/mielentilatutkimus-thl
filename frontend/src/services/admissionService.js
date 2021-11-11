@@ -23,17 +23,14 @@ const get = async (  id  ) => {
     return request.data
 }
 
-const upload = (file, id, whichFile) => {
-    console.log(id)
+const upload = async (files, id, filesInfo) => {
     const formData = new FormData()
-    console.log(file)
-    formData.append('file', file)
-    formData.append('whichFile', whichFile)
-    const res = axios.post(baseUrl+`/admission_form_attachment/${id}`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        }
-    })
+
+    formData.append('filesInfo', JSON.stringify(filesInfo))
+    files.forEach(file => formData.append('files', file))
+
+    const res = await axios.post(baseUrl+`/admission_form_attachment/${id}`, formData)
+
     return res.data
 }
 
