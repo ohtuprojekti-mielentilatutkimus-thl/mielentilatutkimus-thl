@@ -66,6 +66,20 @@ describe('when sending an attachment with post-request', () => {
 
         expect(attachmentsInDb[0].whichFile).toEqual('poytakirja')
     })
+
+    test('multiple attachments of different types can be sent on same request', async () => {
+        await api
+            .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
+            .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}, {"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+            .expect(200)
+
+        const attachmentsInDb = await helper.attachmentsInDb()
+        
+        expect(attachmentsInDb.length).toEqual(2)
+    })
+
 })
 
 describe('on requesting an attachment with get-request,', () => {
