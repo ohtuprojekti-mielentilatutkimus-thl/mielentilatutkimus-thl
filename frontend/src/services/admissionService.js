@@ -22,18 +22,7 @@ const get = async (  id  ) => {
 
     return request.data
 }
-/*
-const upload = async (files, id, filesInfo) => {
-    const testObject = {
-        admissionId: id,
-        files: files,
-        filesInfo: filesInfo
-    }
 
-    const res = await axios.post(baseUrl+'/admission_form_attachment/test', testObject)
-    console.log('res ', res)
-}
-*/
 const upload = async (files, id, filesInfo) => {
     const formData = new FormData()
 

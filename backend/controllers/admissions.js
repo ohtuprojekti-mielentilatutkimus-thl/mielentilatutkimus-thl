@@ -246,7 +246,6 @@ admissionsRouter.post('/admission_form_attachment/:id', async (req, res) => {
         Attachment.attachFile(req.params.id, req.files, req.body.filesInfo)
         
         res.status(200).send({
-            originalname: req.file.originalname,
             message: 'ok'
         })   
     } catch (err) {

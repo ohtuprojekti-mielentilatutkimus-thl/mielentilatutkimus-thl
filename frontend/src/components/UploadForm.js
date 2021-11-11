@@ -11,8 +11,6 @@ const UploadForm = () => {
 
     const AdmissionFormId = useParams().id
 
-    //console.log(AdmissionFormId)
-
     const useStyles = makeStyles({
         form: {
             display: 'center',
@@ -39,19 +37,10 @@ const UploadForm = () => {
         }
 
         setSelectedFiles(selectedFiles.concat(file))
-
-        console.log('logataan valitun tiedoston nimi ', file.name)
-
         setFilesInfo(filesInfo.concat({ name: file.name, whichFile: event.target.id }))
     }
 
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
-
-    /*
-    const newUpload = async () => {
-        await admissionService.upload(selectedFiles, AdmissionFormId, whichFile)
-    }
-    */
 
     const upload = async () => {
         await admissionService.upload(selectedFiles, AdmissionFormId, filesInfo)
@@ -59,11 +48,6 @@ const UploadForm = () => {
         // täällä käyttäjälle palautetta onnistuneesta / epäonnistuneesta uploadauksesta?
         // pitäisikö redirectaa jonnekin, käyttäjällä ei kuitenkaan syytä jäädä upload-sivulle jos onnistui
         setSelectedFiles(null)
-    }
-
-    const howManyFiles = event => {
-        event.preventDefault()
-        console.log('liitteitä on valittu ', selectedFiles.length)
     }
 
     return (
@@ -210,8 +194,6 @@ const UploadForm = () => {
                     </Button>
                 </Paper>
             </div>
-
-            <button onClick={howManyFiles}>Liiteiden lkm</button>
         </div>
     )
 
