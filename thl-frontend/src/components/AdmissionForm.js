@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PdfViewer from './PdfViewer'
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 import SendToResearchUnit from './SendToResearchUnit'
+import AddAttachment from './AddAttachment'
 
 const FormState = ( { form, updateForms } ) => {
 
@@ -217,12 +218,13 @@ const DisplayHazard = ({ form }) => {
     }
 }
 
-const AdmissionForm = ({ form, updateForms } ) => {
+const AdmissionForm = ({ form, updateForms, fetchForms } ) => {
 
     const [showInfo, setShowInfo] = useState(false)
     const [attachment, setAttachment] = useState('')
     const [showAttachment, setShowAttachment] = useState(false)
     const [showSendResearchUnit, setShowSendToResearchUnit] = useState(false)
+    const [showAddAttachment, setShowAddAttachment] = useState(false)
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -247,6 +249,10 @@ const AdmissionForm = ({ form, updateForms } ) => {
     if (showInfo) {
         return (
             <div>
+                <Dialog open={showAddAttachment} onClose={() => setShowAddAttachment(false)}  classes={{ paper: classes.dialogPopUp }}
+                    fullWidth>
+                    <AddAttachment form={form} fetchForms={fetchForms} handleClose={() => setShowAddAttachment(false)}/>
+                </Dialog>
 
                 <Dialog open={showSendResearchUnit} onClose={() => setShowSendToResearchUnit(false)}  classes={{ paper: classes.dialogPopUp }}
                     fullWidth>
@@ -459,6 +465,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                         </Grid>
                     </DialogContent>
                     <DialogActions>
+                        <Button color='primary' id='handleAddAttachment' variant='contained' onClick={() => setShowAddAttachment(true)}>
+                        Lisää liitteitä
+                        </Button>
                         <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
                         Lähetä tutkimuspaikkapyyntö
                         </Button>
