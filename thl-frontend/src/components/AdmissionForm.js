@@ -48,6 +48,7 @@ const FormState = ( { form, updateForms } ) => {
                         <MenuItem id='3' value={'Saatu lisätietoja'}>Saatu lisätietoja</MenuItem>
                         <MenuItem id='4' value={'Pyyntö hyväksytty'}>Pyyntö hyväksytty</MenuItem>
                         <MenuItem id='5' value={'Odottaa tarkistusta'}>Odottaa tarkistusta</MenuItem>
+                        <MenuItem id='6' value={'Tutkimuspaikka pyydetty'}>Tutkimuspaikka pyydetty</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -250,7 +251,7 @@ const AdmissionForm = ({ form, updateForms } ) => {
 
                 <Dialog open={showSendResearchUnit} onClose={() => setShowSendToResearchUnit(false)}  classes={{ paper: classes.dialogPopUp }}
                     fullWidth>
-                    <SendToResearchUnit form={form} handleClose={() => setShowSendToResearchUnit(false)}/>
+                    <SendToResearchUnit form={form} handleClose={() => setShowSendToResearchUnit(false)} updateForms={updateForms}/>
                 </Dialog>
 
                 <Dialog open={showAttachment} onClose={() => setShowAttachment(false)}>
