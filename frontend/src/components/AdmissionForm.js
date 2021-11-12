@@ -24,7 +24,7 @@ const NotProsecuted = (props) => {
                             inputFormat="DD/MM/YYYY"
                             value={props.deadlineForProsecution}
                             onChange={props.handleDeadlineForProsecutionChange}
-                            renderInput={(params) => <TextField id='deadlineDate'{...params} />}
+                            renderInput={(params) => <TextField id='deadlineDate' {...params} />}
                         />
                     </LocalizationProvider>
                 </Grid>
