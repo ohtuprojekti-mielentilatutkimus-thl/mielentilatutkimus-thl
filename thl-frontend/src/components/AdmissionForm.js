@@ -1,229 +1,24 @@
 import React, { useState } from 'react'
-import formService from '../services/formService'
 import attachmentService from '../services/attachmentService'
-import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Select, FormControl, TextField } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography } from '@material-ui/core'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
-import MenuItem from '@material-ui/core/MenuItem'
 import PdfViewer from './PdfViewer'
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
 import SendToResearchUnit from './SendToResearchUnit'
-
-const FormState = ( { form, updateForms } ) => {
-
-    const [selectedOption, setSelectedOption] = useState('')
-
-    const changeFormState = (event) => {
-
-        event.preventDefault()
-
-        if(selectedOption !== ''){
-
-            const updateFormState = { ...form, formState: selectedOption }
-            formService.update(updateFormState.id, updateFormState)
-                .then(response => {
-                    updateForms(response.data)
-                })
-        }
-    }
-
-    const handleChange = (event) => {
-        setSelectedOption(event.target.value)
-    }
-
-    return (
-        <form onSubmit={changeFormState}>
-            <div>
-                <FormControl>
-                    <Select
-                        onChange={handleChange}
-                        defaultValue= {form.formState ? form.formState : ' ' }
-                        value={selectedOption || form.formState}
-                        disableUnderline
-                        id='selectState'>
-                        <MenuItem id='0' value={'Pyyntö saapunut'}> Pyyntö saapunut</MenuItem>
-                        <MenuItem id='1' value={'Pyyntö tarkastelussa'}>Pyyntö tarkastelussa</MenuItem>
-                        <MenuItem id='2' value={'Pyydetty lisätietoja'}>Pyydetty lisätietoja</MenuItem>
-                        <MenuItem id='3' value={'Saatu lisätietoja'}>Saatu lisätietoja</MenuItem>
-                        <MenuItem id='4' value={'Pyyntö hyväksytty'}>Pyyntö hyväksytty</MenuItem>
-                        <MenuItem id='5' value={'Odottaa tarkistusta'}>Odottaa tarkistusta</MenuItem>
-                        <MenuItem id='6' value={'Tutkimuspaikka pyydetty'}>Tutkimuspaikka pyydetty</MenuItem>
-                    </Select>
-                </FormControl>
-            </div>
-            <Button variant="outlined" color='primary' id='updateFormState' type='submit'>Päivitä</Button>
-        </form>
-    )
-}
-
-const AdditionalInfo = ({ form, updateForms }) => {
-
-    const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
-    const [additionalInfo, setAdditionalInfo] = useState ('')
-    const [message, setMessage] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+import AddAttachment from './AddAttachment'
+import AdditionalInfo from './AdditionalInfo'
+import FormState from './FormState'
+import { DisplayHazard, NotProsecuted, DisplayProsecuted } from './ExtraComponents'
 
 
-    const handleCloseAdditionalInfo = () => {
-        setShowAdditionalInfo(false)
-    }
-
-    const handleShowAdditionalInfo = () => {
-        setShowAdditionalInfo(true)
-    }
-
-    const handleAdditionalInfoChange = (event) => {
-        setAdditionalInfo(event.target.value)
-    }
-
-    const requestAdditionalInfoFromSender = () => {
-        const infoObject= {
-            sender: form.sendersEmail,
-            id: form.id,
-            additional_info : additionalInfo
-        }
-
-        setErrorMessage('')
-
-        const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
-
-        var error = Boolean(false)
-
-        formService
-            .askForInfo(infoObject)
-            .then(response => {
-                console.log(response.data)
-                setAdditionalInfo('')
-                setMessage('Muokkauspyyntö lähetetty')
-                setTimeout(() => {
-                    setMessage(null)
-                    setShowAdditionalInfo(false)
-                }, 1000*7)
-            }
-            )
-            .catch(error => {
-                error = true
-                console.log(error)
-                setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 7)
-            })
-
-        if(!error) {
-            formService.update(updateFormState.id, updateFormState)
-                .then(response => {
-                    updateForms(response.data)
-                })
-        }
-    }
-
-
-    if (showAdditionalInfo) {
-        return (
-            <Dialog open={showAdditionalInfo} onClose={handleCloseAdditionalInfo} maxWidth="md"  PaperProps={{
-                style: {
-                    backgroundColor: 'white',
-                    boxShadow: 'none',
-                    elevation:'3',
-                    square:'false',
-                    align:'left'
-                },
-            }} fullWidth>
-                <DialogTitle disableTypography>
-                    <h4>{form.thlRequestId}</h4>
-                    <form onSubmit = {requestAdditionalInfoFromSender}>
-                        <Grid>
-                            <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
-                        </Grid>
-                        <Grid>
-                            <div>
-                                {(message && <Alert severity="success">
-                                    {message} </Alert>
-                                )}
-
-                            </div>
-                        </Grid>
-                        <Grid>
-                            <div>
-                                {(errorMessage && <Alert severity="error">
-                                    {errorMessage} </Alert>
-                                )}
-
-                            </div>
-                        </Grid>
-                        <Grid>
-                            <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
-                        </Grid>
-                        <DialogActions>
-                            <Button variant = 'contained' color='primary' align='right' id='closeAdditionalInfo' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
-                        </DialogActions>
-
-                    </form>
-                </DialogTitle>
-            </Dialog>
-        )
-    }
-
-    return (
-        <Button variant='outlined' color='primary' id='askAdditionalInfo' onClick={handleShowAdditionalInfo}> Pyydä lisätietoja</Button>
-
-    )
-
-}
-
-const NotProsecuted = (form) => {
-    const classes = useStyles ()
-    if (form.form.prosecuted)
-        return (
-            <br></br>
-        )
-    else {
-        return (
-            <div>
-                <Grid item xs={4}>
-                    <div className = {classes.textLabel} id='prosecutionDeadLine'>Jos syytettä ei ole nostettu, syytteen nostamisen määräaika:</div>
-                    <div className = {classes.text}>{dayjs(form.deadlineForProsecution).format('DD.MM.YYYY')}</div>
-                </Grid>
-                <Grid item xs={4}>
-                    <div className={classes.textLabel} id='preTrialPoliceDepartment'>Jos syytettä ei ole nostettu, esitutkinnan suorittava poliisilaitos:</div>
-                    <div className = {classes.text}>{form.preTrialPoliceDepartment}</div>
-                </Grid>
-            </div>
-        )
-    }
-}
-
-const DisplayProsecuted = ({ form }) => {
-    if (form.prosecuted) {
-        return (
-            <div>Kyllä</div>
-        )
-    }else {
-        return (
-            <div> Ei</div>
-        )
-    }
-}
-const DisplayHazard = ({ form }) => {
-    if (form.hazardAssesment) {
-        return (
-            <div>Kyllä</div>
-        )
-    }else {
-        return (
-            <div>Ei</div>
-        )
-    }
-}
-
-const AdmissionForm = ({ form, updateForms } ) => {
+const AdmissionForm = ({ form, updateForms, fetchForms } ) => {
 
     const [showInfo, setShowInfo] = useState(false)
     const [attachment, setAttachment] = useState('')
     const [showAttachment, setShowAttachment] = useState(false)
     const [showSendResearchUnit, setShowSendToResearchUnit] = useState(false)
+    const [showAddAttachment, setShowAddAttachment] = useState(false)
 
     const handleShowMoreInfo = () => {
         setShowInfo(true)
@@ -248,6 +43,10 @@ const AdmissionForm = ({ form, updateForms } ) => {
     if (showInfo) {
         return (
             <div>
+                <Dialog open={showAddAttachment} onClose={() => setShowAddAttachment(false)}  classes={{ paper: classes.dialogPopUp }}
+                    fullWidth>
+                    <AddAttachment form={form} fetchForms={fetchForms} handleClose={() => setShowAddAttachment(false)}/>
+                </Dialog>
 
                 <Dialog open={showSendResearchUnit} onClose={() => setShowSendToResearchUnit(false)}  classes={{ paper: classes.dialogPopUp }}
                     fullWidth>
@@ -460,6 +259,9 @@ const AdmissionForm = ({ form, updateForms } ) => {
                         </Grid>
                     </DialogContent>
                     <DialogActions>
+                        <Button color='primary' id='handleAddAttachment' variant='contained' onClick={() => setShowAddAttachment(true)}>
+                        Lisää liitteitä
+                        </Button>
                         <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
                         Lähetä tutkimuspaikkapyyntö
                         </Button>

@@ -85,7 +85,7 @@ const ThlAdmissions = () => {
                                 return (
                                     <TableRow id='admissionsListRow' key={form.id}>
                                         <TableCell>
-                                            <AdmissionForm key={form.id} form={form} updateForms={updateForms}> </AdmissionForm>
+                                            <AdmissionForm key={form.id} form={form} updateForms={updateForms} fetchForms={fetchForms}> </AdmissionForm>
                                         </TableCell>
                                         <TableCell align="left" id='createdAt'>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
                                         <TableCell align="left" id='updatedAt'>{dayjs(form.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>

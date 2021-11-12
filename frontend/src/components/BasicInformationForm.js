@@ -34,7 +34,9 @@ const BasicInformationForm = () => {
             setTimeout(() => {
                 setErrorMessage(null)
             }, 1000*7)
+            return false
         }
+        return true
     }
 
     const validateEmail = ( email ) => {
@@ -55,7 +57,9 @@ const BasicInformationForm = () => {
             sendersPhoneNumber: sendersPhoneNumber,
         }
 
-        validateSendersEmail()
+        if (!validateSendersEmail()) {
+            return
+        }
 
         if (errorMessage === null) {
             basicInformationService

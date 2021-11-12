@@ -24,7 +24,7 @@ const NotProsecuted = (props) => {
                             inputFormat="DD/MM/YYYY"
                             value={props.deadlineForProsecution}
                             onChange={props.handleDeadlineForProsecutionChange}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField id='deadlineDate' {...params} />}
                         />
                     </LocalizationProvider>
                 </Grid>
@@ -525,7 +525,7 @@ const Form = () => {
                                             inputFormat="DD/MM/YYYY"
                                             value={datePrescribedForPsychiatricAssesment}
                                             onChange={handleDatePrescribedForPsychiatricAssesmentChange}
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField id='date-picker' {...params} />}
                                         />
                                     </LocalizationProvider>
                                 </Grid>

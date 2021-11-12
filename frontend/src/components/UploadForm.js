@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
+import { Alert } from '@material-ui/lab'
 import { Paper, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const UploadForm = () => {
 
+    const [errorMessage, setErrorMessage] = useState(null)
     const [filesInfo, setFilesInfo] = useState([])
+    const [message, setMessage] = useState(null)
     const [selectedFiles, setSelectedFiles] = useState([])
 
     const AdmissionFormId = useParams().id
@@ -30,9 +33,10 @@ const UploadForm = () => {
         const file = event.target.files[0]
 
         if (duplicateFileName(file.name)) {
-            // tässä voisi tapahtua jokin virheilmoitus joka kertoo käyttäjälle:
-            // tiedostoa ei hyväksytty uploadattavaksi koska samanniminen tiedosto oli jo valittu
-            console.log('duplikaatti')
+            setErrorMessage(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi, ei samannimisiä tiedostoja kahdesti`)
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
             return
         }
 
@@ -42,17 +46,38 @@ const UploadForm = () => {
 
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
 
-    const upload = async () => {
-        await admissionService.upload(selectedFiles, AdmissionFormId, filesInfo)
+    const upload = async (event) => {
+        event.preventDefault()
+        const res = await admissionService.upload(selectedFiles, AdmissionFormId, filesInfo)
 
-        // täällä käyttäjälle palautetta onnistuneesta / epäonnistuneesta uploadauksesta?
-        // pitäisikö redirectaa jonnekin, käyttäjällä ei kuitenkaan syytä jäädä upload-sivulle jos onnistui
-        setSelectedFiles(null)
+        if (res.status === 200) {
+            setMessage('Liitteiden lähetys onnistui!')
+            setTimeout(() => {
+                setMessage(null)
+            }, 1000*7)
+        } else {
+            setErrorMessage('Liitteiden lähetys epäonnistui!')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1000*7)
+        }
+
+        setFilesInfo(null)
+        setSelectedFiles([])
     }
 
     return (
 
-        <div>
+        <div className={classes.page}>
+
+            {(message && <Alert severity="success">
+                {message} </Alert>
+            )}
+
+            {(errorMessage && <Alert severity="error">
+                {errorMessage}</Alert>
+            )}
+
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -198,6 +223,5 @@ const UploadForm = () => {
     )
 
 }
-
 export default UploadForm
 

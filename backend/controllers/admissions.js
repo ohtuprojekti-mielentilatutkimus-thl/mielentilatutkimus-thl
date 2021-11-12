@@ -150,6 +150,7 @@ admissionsRouter.get('/admission_form/:id', async (req, res) => {
 
 
 admissionsRouter.post('/upload_form', async (req, res) => {
+
     const data = req.body
 
     if (!HelperFunctions.validatePoliceEmailAddress(data.email)) {
@@ -174,6 +175,8 @@ admissionsRouter.post('/upload_form', async (req, res) => {
         }
         if(id !== null){
             res.json(Mailer.sendLinkToAddingAttachments(data.email, id, formInfo))
+        } else {
+            res.sendStatus(500)
         }
     }
 })
