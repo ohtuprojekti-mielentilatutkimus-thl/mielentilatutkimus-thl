@@ -46,9 +46,9 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
 
+        //Tässä pitäisi varmaan testata kaikki kentät
         cy.contains('Tutkittavan henkilön yleistiedot')
         cy.contains('Reijo')
-        cy.contains('Tomi Tuomari')
 
         cy.get('#handleShowLessInfo').click()
         cy.contains('Mielentilatutkimuspyynnöt')

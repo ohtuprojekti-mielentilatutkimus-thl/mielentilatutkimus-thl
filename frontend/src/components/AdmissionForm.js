@@ -274,6 +274,8 @@ const Form = () => {
                 legalGuardianAddress: legalGuardianAddress,
                 legalGuardianInstitute: legalGuardianInstitute,
                 appealedDecision: appealedDecision,
+                researchUnit: '',
+                researchUnitInformation: ''
             }
             for (const value in updateAdmission) {
 

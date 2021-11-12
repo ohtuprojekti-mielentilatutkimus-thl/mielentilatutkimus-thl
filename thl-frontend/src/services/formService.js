@@ -17,4 +17,8 @@ const askForInfo = (infoObject) => {
     return axios.post(`${baseUrl}/admission_form/request_additional_info/`, infoObject)
 }
 
-export default { getAll, update,askForInfo }
+const updateResearchUnit = (id, newObject) => {
+    return axios.put(`${baseUrl}/thl/${id}/research_unit`, newObject)
+}
+
+export default { getAll, update, askForInfo, updateResearchUnit }

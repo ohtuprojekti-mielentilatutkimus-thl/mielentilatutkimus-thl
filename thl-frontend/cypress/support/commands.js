@@ -26,7 +26,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import dayjs from 'dayjs'
-const testData = require('./test_data.json')
+//const testData = require('./test_data.json')
+const testData = require('../../../backend/tests/test_data.json')
 
 import 'cypress-file-upload'
 const testPdfName = 'test_pdf.pdf'
