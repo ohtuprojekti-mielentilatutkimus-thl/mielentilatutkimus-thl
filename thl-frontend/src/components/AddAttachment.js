@@ -212,6 +212,7 @@ const addAttachment = ({ form, fetchForms, handleClose }) => {
                         <br />
                         <Button
                             className='btn-upload'
+                            id='uploadFiles'
                             color='primary'
                             variant='contained'
                             component='span'

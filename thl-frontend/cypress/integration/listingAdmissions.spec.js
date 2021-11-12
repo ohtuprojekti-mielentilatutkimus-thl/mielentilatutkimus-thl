@@ -154,6 +154,26 @@ describe('All admissions can be viewed', () => {
         cy.get('#formState').first().contains('Saatu lisätietoja')
     })
 
+    it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.contains('Mielentilatutkimuspyynnöt')
+
+        cy.get('#formState').last().contains('Saatu lisätietoja')
+        cy.get('a').last().click()
+        cy.get('#askAdditionalInfo').click()
+        cy.get('#inputForAdditionalInfo').type('Lisätietoja kaivataan tutkinnan suorittavasta poliisilaitoksesta.')
+        cy.get('#sendAdditionalInfo').click()
+        cy.wait(200)
+        cy.get('#sortState').click()
+        cy.wait(200)
+        cy.get('#formState').first().contains('Pyydetty lisätietoja')
+
+    })
+
+
+})
+
+describe('Attachments', () => {
     it('Pdf attachments are listed and can be opened', function ()  {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
@@ -173,22 +193,16 @@ describe('All admissions can be viewed', () => {
 
     })
 
-    it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
+    it('A new attachements can be added to the form', function () {
+        const testAttachment = 'test_pdf.pdf'
         cy.visit('http://localhost:3002/thl/thl-admissions')
-        cy.contains('Mielentilatutkimuspyynnöt')
-
-        cy.get('#formState').last().contains('Saatu lisätietoja')
         cy.get('a').last().click()
-        cy.get('#askAdditionalInfo').click()
-        cy.get('#inputForAdditionalInfo').type('Lisätietoja kaivataan tutkinnan suorittavasta poliisilaitoksesta.')
-        cy.get('#sendAdditionalInfo').click()
-        cy.wait(200)
-        cy.get('#sortState').click()
-        cy.wait(200)
-        cy.get('#formState').first().contains('Pyydetty lisätietoja')
-
+        cy.get('#handleAddAttachment').click()
+        cy.get('input[type="file"]').eq(3).attachFile(testAttachment)
+        cy.get('#uploadFiles').click()
+        cy.contains('Liitteet lisätty')
+        cy.wait(1000*7)
+        cy.get('.MuiButton-label').contains('rikosrekisteriote')
     })
-
-
 }
 )
