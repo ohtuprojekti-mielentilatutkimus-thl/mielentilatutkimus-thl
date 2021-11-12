@@ -26,6 +26,36 @@ afterAll(async () => {
     await maildev.close()
 })
 
+test('Link for police to adding attachments is sent after POST request', async () => {
+
+    const admission_form = helper.admissionFormTestData
+
+    await api
+        .post(baseUrl+'/admission_form')
+        .send(admission_form)   
+
+    const infoObject= {
+        email: 'pekka.polliisi@poliisi.fi',
+        value: 'R 20 / 123'
+    }
+    await api
+        .post(baseUrl+'/upload_form')
+        .send(infoObject)        
+        .expect(200) 
+        .expect('Content-Type', /application\/json/)
+    
+    await new Promise((t) => setTimeout(t, 1000))
+    maildev.getAllEmail(function (err, emails) {
+        expect(err).toBeNull()
+        expect(emails.length).toBe(2)
+        email = emails[1]
+        expect(email.to).toStrictEqual([{ address: infoObject.email, name: '' }])
+        expect(email.text.includes(admission_form.diaariNumber)).toBe(true)
+    }) 
+})
+
+
+
 test('Link to admission form is sent after POST request', async () => {
     const basicInfo = helper.basicInfoFormTestData
 
