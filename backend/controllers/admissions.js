@@ -113,7 +113,8 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
 
     const updatedForm = await AdmissionForm.findByIdAndUpdate(req.params.id, {
         researchUnit: data.researchUnit, 
-        researchUnitInformation: data.researchUnitInformation
+        researchUnitInformation: data.researchUnitInformation,
+        formState: data.formState
     }, {new: true})
         .populate('attachments', { fileName: 1, whichFile: 1 })
     

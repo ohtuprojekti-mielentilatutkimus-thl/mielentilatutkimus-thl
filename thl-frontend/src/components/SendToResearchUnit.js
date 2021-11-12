@@ -4,7 +4,7 @@ import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField } from '@ma
 import { Alert } from '@material-ui/lab'
 import formService from '../services/formService'
 
-const SendToResearchUnit = ({ form, handleClose }) => {
+const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
 
     const [message, setMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
@@ -16,11 +16,13 @@ const SendToResearchUnit = ({ form, handleClose }) => {
         event.preventDefault()
         formService.updateResearchUnit( form.id, {
             researchUnit: researchUnit,
-            researchUnitInformation: researchUnitInformation
+            researchUnitInformation: researchUnitInformation,
+            formState: 'Tutkimuspaikka pyydetty'
         }).then(
-            () => {
+            ( newForm ) => {
                 setResearchUnit('')
                 setResearchUnitInformation('')
+                updateForms(newForm.data)
             })
     }
 

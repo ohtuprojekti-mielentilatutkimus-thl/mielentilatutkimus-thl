@@ -50,7 +50,7 @@ const AdmissionForm = ({ form, updateForms, fetchForms } ) => {
 
                 <Dialog open={showSendResearchUnit} onClose={() => setShowSendToResearchUnit(false)}  classes={{ paper: classes.dialogPopUp }}
                     fullWidth>
-                    <SendToResearchUnit form={form} handleClose={() => setShowSendToResearchUnit(false)}/>
+                    <SendToResearchUnit form={form} handleClose={() => setShowSendToResearchUnit(false)} updateForms={updateForms}/>
                 </Dialog>
 
                 <Dialog open={showAttachment} onClose={() => setShowAttachment(false)}>
