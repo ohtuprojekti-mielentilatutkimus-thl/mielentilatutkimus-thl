@@ -2,17 +2,26 @@
 import React, { useState } from 'react'
 import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
+import formService from '../services/formService'
 
 const SendToResearchUnit = ({ form, handleClose }) => {
 
     const [message, setMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [researchUnit, setResearchUnit] = useState('')
-    const [additionalInfo, setadditionalInfo] = useState('')
+    const [researchUnitInformation, setResearchUnitInformation] = useState('')
 
 
-    const handleSend = () => {
-
+    const handleSend = (event) => {
+        event.preventDefault()
+        formService.updateResearchUnit( form.id, {
+            researchUnit: researchUnit,
+            researchUnitInformation: researchUnitInformation
+        }).then(
+            () => {
+                setResearchUnit('')
+                setResearchUnitInformation('')
+            })
     }
 
     return (
@@ -24,7 +33,7 @@ const SendToResearchUnit = ({ form, handleClose }) => {
                         multiline rows={1} fullWidth label='Tutkimuspaikkayksikkö'/>
                 </Grid>
                 <Grid>
-                    <TextField value={additionalInfo} onChange= {(event) => setadditionalInfo(event.target.value)}
+                    <TextField value={researchUnitInformation} onChange= {(event) => setResearchUnitInformation(event.target.value)}
                         multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
                 </Grid>
                 <Grid>
