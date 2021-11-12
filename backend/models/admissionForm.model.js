@@ -53,6 +53,8 @@ var admissionSchema = mongoose.Schema({
             ref:'attachmentForm'
         }
     ],
+    researchUnit: { type: String },
+    researchUnitInformation: { type: String }
 },
 {timestamps: true})
 

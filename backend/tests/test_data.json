@@ -56,7 +56,9 @@
             "transcriptOfCriminalRecordIsReady": true,
             "preliminaryInvestigationsAttachmentsAreReady": false,
             "decisionOnDetentionIsReady": false,
-            "imprisonmentRequirementReady": false
+            "imprisonmentRequirementReady": false,
+            "researchUnit": "",
+            "researchUnitInformation": ""
         },
         {
             "basicInformationId": "000",
@@ -94,7 +96,9 @@
             "transcriptOfCriminalRecordIsReady": true,
             "preliminaryInvestigationsAttachmentsAreReady": true,
             "decisionOnDetentionIsReady": true,
-            "imprisonmentRequirementReady": true
+            "imprisonmentRequirementReady": true,
+            "researchUnit": "",
+            "researchUnitInformation": ""
         },
         {
             "basicInformationId": "000",
@@ -132,7 +136,9 @@
             "transcriptOfCriminalRecordIsReady": true,
             "preliminaryInvestigationsAttachmentsAreReady": true,
             "decisionOnDetentionIsReady": true,
-            "imprisonmentRequirementReady": true
+            "imprisonmentRequirementReady": true,
+            "researchUnit": "",
+            "researchUnitInformation": ""
         }
     ]
 }
