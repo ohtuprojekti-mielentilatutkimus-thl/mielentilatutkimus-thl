@@ -24,6 +24,15 @@ const PoliceViewForm = () => {
         }
         policeInformationService
             .askForAddingAttachmentLink(infoObject)
+            .then(response => {
+                console.log(response.data)
+                setEmail('')
+                setValue('')
+            }
+            )
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const classes = useStyles()
@@ -70,21 +79,21 @@ const PoliceViewForm = () => {
                             container spacing={1}
                         >
                             <Grid item xs={6}>
-                                <TextField value={email} onChange={handleEmailChange}
+                                <TextField value={email} id='email' onChange={handleEmailChange}
                                     label='Sähköposti' variant='standard' margin='normal'
                                 />
                             </Grid>
                             <Grid>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField value={value} onChange={handleValueChange}
+                                <TextField value={value} id='value' onChange={handleValueChange}
                                     label='Diaarinumero/THL-id' variant='standard' margin='normal'
                                 />
                             </Grid>
                             <br></br>
                             <br></br>
                             <Grid item xs={12}>
-                                <Button type='submit' variant='outlined'>lähetä</Button>
+                                <Button type='submit' id='sendButton' variant='outlined'>lähetä</Button>
                             </Grid>
                         </Grid>
                     </form>
