@@ -22,9 +22,22 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             ( newForm ) => {
                 setResearchUnit('')
                 setResearchUnitInformation('')
+                setMessage('Tutkimuspaikkapyyntö lähetetty onnistuneesti')
                 updateForms(newForm.data)
+                setTimeout(() => {
+                    setMessage(null)
+                    handleClose()
+                }, 1000*5)
+            })
+            .catch(error => {
+                setErrorMessage('Tutkimuspaikkapyynnön lähettämisessä tapahtui virhe!')
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 1000 * 5)
             })
     }
+
+
 
     return (
         <DialogTitle disableTypography>
