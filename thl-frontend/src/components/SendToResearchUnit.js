@@ -44,15 +44,15 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             <h4>{form.thlRequestId}</h4>
             <form onSubmit = {handleSend}>
                 <Grid>
-                    <TextField value={researchUnit} onChange= {(event) => setResearchUnit(event.target.value)}
+                    <TextField id='inputForResearchUnit'value={researchUnit} onChange= {(event) => setResearchUnit(event.target.value)}
                         multiline rows={1} fullWidth label='Tutkimuspaikkayksikkö'/>
                 </Grid>
                 <Grid>
-                    <TextField value={researchUnitInformation} onChange= {(event) => setResearchUnitInformation(event.target.value)}
-                        multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
+                    <TextField id= 'inputForInfoForResearchUnit'value={researchUnitInformation} onChange= {(event) => setResearchUnitInformation(event.target.value)}
+                        multiline rows={10} fullWidth label='Lisätietoja...'/>
                 </Grid>
                 <Grid>
-                    <Button variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                    <Button id= 'buttonSendToResearchUnit'variant='outlined' color='primary' type='submit'>Lähetä</Button>
                 </Grid>
                 <Grid>
                     <div>
