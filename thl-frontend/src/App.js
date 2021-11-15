@@ -1,5 +1,7 @@
 import React from 'react'
 import ThlAdmissions from './components/ThlAdmissions'
+import LoginForm from './components/LoginView'
+
 import { useStyles, theme } from './styles'
 
 import {
@@ -16,6 +18,9 @@ const App = () => {
                 <Switch>
                     <Route path='/thl-admissions'>
                         <ThlAdmissions />
+                    </Route>
+                    <Route path='/login'>
+                        <LoginForm/>
                     </Route>
                 </Switch>
             </div>
