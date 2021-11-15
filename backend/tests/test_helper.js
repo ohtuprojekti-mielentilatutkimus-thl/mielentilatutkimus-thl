@@ -5,12 +5,18 @@ const testData = require('./test_data.json')
 
 let admissionFormTestData = testData.admission_forms[0]
 let basicInfoFormTestData = testData.basic_info_forms[0]
+let sendToResearchUnitData = testData.send_to_research_unit_form[0]
 
 const admissionsInDb = async () => {
     const admis = await AdmissionForm.find({})
     return admis.map(a => a.toJSON())
 }
 
+const admissionInDb = async (id) => {
+    const admis = await AdmissionForm.findById(id)
+    return admis.toJSON()
+        
+}
 const findLatestAdmissionFromDb = async () => await AdmissionForm.findOne().sort({ createdAt: 'descending' })
 
 const basicsInDb = async () => {
@@ -23,6 +29,17 @@ const attachmentsInDb = async () => {
     return attachments.map(a => a.toJSON())
 }
 
+//https://dev.to/nas5w/how-to-select-or-omit-properties-from-an-object-in-javascript-3ina
+function omit(obj, ...props) {
+    const result = { ...obj }
+    props.forEach(function(prop) {
+        delete result[prop]
+    })
+    return result
+}
+
 module.exports = {
-    admissionFormTestData, basicInfoFormTestData, admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb
+    admissionFormTestData, basicInfoFormTestData, sendToResearchUnitData,
+    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
+    admissionInDb, omit
 }
