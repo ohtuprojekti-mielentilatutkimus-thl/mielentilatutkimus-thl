@@ -29,9 +29,7 @@ const upload = async (files, id, filesInfo) => {
     formData.append('filesInfo', JSON.stringify(filesInfo))
     files.forEach(file => formData.append('files', file))
 
-    const res = await axios.post(baseUrl+`/admission_form_attachment/${id}`, formData)
-
-    return res.data
+    return await axios.post(baseUrl+`/admission_form_attachment/${id}`, formData)
 }
 
 export default { getAll, create, update, get, upload }

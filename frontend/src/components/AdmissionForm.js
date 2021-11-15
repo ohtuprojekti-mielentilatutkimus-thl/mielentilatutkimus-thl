@@ -239,6 +239,10 @@ const Form = () => {
         }
     }
 
+    const validateEmail = ( email ) => {
+        return !validator.isEmail(email)
+    }
+
     const updatePerson = (event) => {
 
         event.preventDefault()
@@ -274,6 +278,8 @@ const Form = () => {
                 legalGuardianAddress: legalGuardianAddress,
                 legalGuardianInstitute: legalGuardianInstitute,
                 appealedDecision: appealedDecision,
+                researchUnit: '',
+                researchUnitInformation: ''
             }
             for (const value in updateAdmission) {
 
@@ -569,7 +575,8 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkittavan avustajan sähköposti:</div>
-                                    <TextField id='assistantsEmail' value={assistantsEmail} onChange={handleAssistantsEmailChange} label='Avustajan sähköposti' variant='outlined' margin='normal' />
+                                    <TextField id='assistantsEmail' value={assistantsEmail} onChange={handleAssistantsEmailChange} label='Avustajan sähköposti' variant='outlined' margin='normal'
+                                        required error={validateEmail(assistantsEmail)}/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Tutkittavan avustajan puhelinnumero:</div>
@@ -581,7 +588,8 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:</div>
-                                    <TextField fullWidth id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} label='Huoltajan/sosiaalitoimen sähköposti' variant='outlined' margin='normal' />
+                                    <TextField fullWidth id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} label='Huoltajan/sosiaalitoimen sähköposti' variant='outlined' margin='normal'
+                                        required error={validateEmail(assistantsEmail)}/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:</div>

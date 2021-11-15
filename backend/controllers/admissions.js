@@ -50,13 +50,6 @@ admissionsRouter.post('/basic_information_form', async (req, res) => {
     }
 })
 
-//testauksessa ei toimi vielä
-/*
-admissionsRouter.get('/admission_form/basic_information/:id', async (req, res) => {
-    const data = await BasicInformationForm.find().catch((err) => {console.log(err)})
-    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
-})*/
-
 admissionsRouter.put('/thl/:id', async (req, res) => {
     const data = req.body
 
@@ -115,57 +108,26 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
   
 })
 
+admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
+    const data = req.body
+
+    const updatedForm = await AdmissionForm.findByIdAndUpdate(req.params.id, {
+        researchUnit: data.researchUnit, 
+        researchUnitInformation: data.researchUnitInformation,
+        formState: data.formState
+    }, {new: true})
+        .populate('attachments', { fileName: 1, whichFile: 1 })
+    
+    return res.json(updatedForm.toJSON())
+        
+})
+
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
-    const admissionForm = new AdmissionForm({
-        //basicInformation id
-        formState : data.formState,
-        basicInformationId: data.basicInformationId,
-        admissionNoteDate: data.admissionNoteDate,
-        formSender : data.formSender,
-        name: data.name,
-        lastname: data.lastname,
-        identificationNumber: data.identificationNumber,
-        address: data.address,
-        location: data.location,
-        processAddress: data.processAddress,
-        trustee: data.trustee,
-        citizenship: data.citizenship,
-        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
-        admissionNoteSender : data.admissionNoteSender,
-        sendersEmail : data.sendersEmail,
-        sendersPhoneNumber : data.sendersPhoneNumber,
-        // THL more information
-        hazardAssesment: data.hazardAssesment,
-        diaariNumber: data.diaariNumber,
-        datePrescribedForPsychiatricAssesment: data.datePrescribedForPsychiatricAssesment,
-        nativeLanguage: data.nativeLanguage,
-        desiredLanguageOfBusiness: data.desiredLanguageOfBusiness,
-        municipalityOfResidence: data.municipalityOfResidence,
-        prosecuted: data.prosecuted,
-        deadlineForProsecution: data.deadlineForProsecution,
-        preTrialPoliceDepartment: data.preTrialPoliceDepartment,
-        crime: data.crime,
-        crimes: data.crimes,
-        assistantsEmail: data.assistantsEmail,
-        assistantsPhonenumber: data.assistantsPhonenumber,
-        assistantsAddress: data.assistantsAddress,
-        legalGuardianEmail: data.legalGuardianEmail,
-        legalGuardianPhonenumber: data.legalGuardianPhonenumber,
-        legalGuardianAddress: data.legalGuardianAddress,
-        legalGuardianInstitute: data.legalGuardianInstitute,
-        appealedDecision: data.appealedDecision,
-        // TBD: attachments: ,
-        //attachments: data.attachments,
-        conclusionIsReady: data.conclusionIsReady,
-        proceedingIsReady: data.proceedingIsReady,
-        applicationForASummonsIsReady: data.applicationForASummonsIsReady,
-        transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
-        preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
-        decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady
-    })
+    const admissionForm = new AdmissionForm(
+        { ...data }
+    )
 
     if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
         res.sendStatus(500)
