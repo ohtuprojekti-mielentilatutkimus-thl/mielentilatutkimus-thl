@@ -111,8 +111,7 @@ describe('when db is initialized with data', () => {
                 .put(baseUrl+'/thl/'+idOfItemInDb)
                 .send(changedAdmissionForm)
 
-            admissionsInDb = await helper.admissionsInDb()
-            const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
         })
 
@@ -177,8 +176,7 @@ describe('when db is initialized with data', () => {
                 .put(baseUrl+'/admission_form/'+idOfItemInDb+'/edit')
                 .send(changedAdmissionForm)
 
-            admissionsInDb = await helper.admissionsInDb()
-            const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.name).toBe('Risto')
             expect(updatedAdmissionForm.lastname).toBe('Roisto')
             expect(updatedAdmissionForm.address).toBe('Ristolantie 10a, Raisio')
@@ -186,7 +184,7 @@ describe('when db is initialized with data', () => {
             expect(updatedAdmissionForm.formState).toBe('Saatu lisätietoja')
         })
 
-        test('relevant fields are changed with PUT request to "thl/:id/research_unit"', async ()=> {
+        test('only relevant fields are changed with PUT request to "thl/:id/research_unit"', async ()=> {
             const researchUnitData = helper.sendToResearchUnitData
             
             let admissionsInDb = await helper.admissionsInDb()
@@ -211,7 +209,7 @@ describe('when db is initialized with data', () => {
             expect(oldAdmissionForm).toMatchObject(changedAdmissionForm)
         })
 
-        test('admissionform state is admission received by default', async () => {
+        test('admissionform state is "admission received" by default', async () => {
             const admission_form = helper.admissionFormTestData
             await api
                 .post(baseUrl+'/admission_form')
