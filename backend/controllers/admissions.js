@@ -176,7 +176,7 @@ admissionsRouter.post('/upload_form', async (req, res) => {
         if(id !== null){
             res.json(Mailer.sendLinkToAddingAttachments(data.email, id, formInfo))
         } else {
-            res.sendStatus(500)
+            res.send('')
         }
     }
 })
