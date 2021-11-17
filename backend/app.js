@@ -6,13 +6,17 @@ const config = require('./utils/config')
 const path = require('path')
 require('express-async-errors')
 const admissionsRouter = require('./controllers/admissions')
+const basinInformationsRouter = require('./controllers/basicInformations')
+const attachmentsRouter = require('./controllers/attachments')
 const testsRouter = require('./controllers/tests')
 const middleware = require('./utils/middlewares')
 
 app.use(cors())
 app.use(express.json())
-
 app.use('*/api/admissions', admissionsRouter)
+app.use('*/api/admissions', basinInformationsRouter)
+app.use('*/api/admissions', attachmentsRouter)
+
 
 app.use('/thl', express.static('builds/thl/build'))
 app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build'))
