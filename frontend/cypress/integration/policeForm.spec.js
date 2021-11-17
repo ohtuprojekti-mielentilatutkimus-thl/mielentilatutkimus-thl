@@ -69,33 +69,67 @@ describe('From posting basic informations to police getting email for adding att
         cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
             expect(res.status).equal(200)
 
+            cy.request('POST', 'http://localhost:3000/api/admissions/upload_form', {
+                email: 'pasi.polliisi@poliisi.fi',
+                value: helper.admission_form_input.diaariNumber
+            }).then(() => {
+                cy.wait(1000)
+
+                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                    expect(emails.status).equal(200)
+
+                    assert.equal(emails.body[0].headers.to, 'pasi.polliisi@poliisi.fi')
+                    assert.equal(emails.body[0].subject, 'Liitteiden lisäämisen linkki')
+
+                    expect(emails.body[0].text.includes('Tutkimuspyyntö vastaanotettu'))
+                    expect(emails.body[0].text.includes(helper.admission_form_input.diaariNumber))
+                    expect(emails.body[0].text.includes('voit lähettää liitteitä koskien tapausta (', helper.admission_form_input.diaariNumber,')'))
+                    const email_id = emails.body[0].id
+
+                    cy.request('DELETE', `http://127.0.0.1:1080/email/${email_id}`).then((res) => {
+                        expect(res.status).equal(200)
+                    })
+                })
+            })
+        })
+    })
+
+    it('police will not receive email if the diaari number does not exist', function(){
+
+        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+            expect(res.status).equal(200)
+
+            cy.request('POST', 'http://localhost:3000/api/admissions/upload_form', {
+                email: 'pasi.polliisi@poliisi.fi',
+                value: 'ABCDE 123'
+            }).then(() => {
+                cy.wait(1000)
+
+                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                    expect(emails.body[0]).to.be.undefined
+                })
+            })
+        })
+    })
+
+    it('if the senders domain is not @poliisi.fi, email is not received even though diaari number exists', function(){
+
+        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+            expect(res.status).equal(200)
+
             cy.visit('http://localhost:3000/mielentilatutkimus/upload_form')
 
-            const diaariNumber = helper.admission_form_input.diaariNumber
-
-            cy.get('#email').type('pasi.polliisi@poliisi.fi')
-            cy.get('#value').type(diaariNumber)
+            cy.get('#email').type('pasi.feikkipolliisi@feikkipoliisi.fi')
+            cy.get('#value').type(helper.admission_form_input.diaariNumber)
             cy.get('#sendButton').click()
 
             cy.wait(1000)
+
             cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
-
-                expect(emails.status).equal(200)
-                // assert.equal(emails.body[0].headers.to, 'pasi.polliisi@poliisi.fi')
-                // assert.equal(emails.body[0].subject, 'Liitteiden lisäämisen linkki')
-
-                // expect(emails.body[0].text.includes('Tutkimuspyyntö vastaanotettu'))
-                // expect(emails.body[0].text.includes(helper.admission_form_input.diaariNumber))
-                // expect(emails.body[0].text.includes('voit lähettää liitteitä koskien tapausta (', helper.admission_form_input.diaariNumber,')'))
-                //  const email_id = emails.body[0].id
-
-                //  cy.request('DELETE', `http://127.0.0.1:1080/email/${email_id}`).then((res) => {
-                //       expect(res.status).equal(200)
-                //   })
+                expect(emails.body[0]).to.be.undefined
             })
         })
     })
 })
-
 
 
