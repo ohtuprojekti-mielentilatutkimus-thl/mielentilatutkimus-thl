@@ -1,8 +1,11 @@
 /* eslint-disable no-undef */
 const helper = require('./test_helper')
+import 'cypress-file-upload'
 
 
-describe('From posting basic informations to police getting email for adding attachments', function() {
+describe('From posting basic informations to police adding attachments', function() {
+
+    var admissionId = ''
 
     it('adding admission', function(){
 
@@ -76,7 +79,14 @@ describe('From posting basic informations to police getting email for adding att
                 cy.wait(1000)
 
                 cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+
                     expect(emails.status).equal(200)
+
+                    const parts = emails.body[0].text.split('/')
+                    const id_from_email = parts[parts.length-1].replace('\n','')
+                    localStorage.setItem('admission_id', JSON.stringify(id_from_email))
+                    const admission_id = localStorage.admission_id
+                    admissionId = admission_id.replace(/['"]+/g,'')
 
                     assert.equal(emails.body[0].headers.to, 'pasi.polliisi@poliisi.fi')
                     assert.equal(emails.body[0].subject, 'Liitteiden lisäämisen linkki')
@@ -92,6 +102,25 @@ describe('From posting basic informations to police getting email for adding att
                 })
             })
         })
+    })
+
+    it('police adding attachments', function(){
+
+        cy.visit(`http://localhost:3000/upload_form/${admissionId}`)
+        cy.contains('Lataa liitteitä')
+
+        const attachments = ['valituomio', 'poytakirja', 'haastehakemus', 'rikosrekisteriote', 'esitutkintapoytakirja', 'vangitsemispaatos']
+
+        for (const i in attachments) {
+
+            var testFile = `testfile${i}.pdf`
+            var filePath = 'testfiles/' + testFile
+
+            cy.get(`input[name="${attachments[i]}"]`).attachFile(filePath)
+        }
+        cy.contains('Lataa valittu tiedosto').click()
+        cy.wait(1000)
+        cy.contains('Liitteiden lähetys onnistui')
     })
 
     it('police will not receive email if the diaari number does not exist', function(){
