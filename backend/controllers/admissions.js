@@ -55,21 +55,22 @@ admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
 admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
     const data = req.body
+    const form = await AdmissionForm.findById(req.params.id)
+   
+    for (var [key, value] of Object.entries(data)) {
+        form[key] = value
+    }
+    await form.save()
 
-    var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
-    var form = forms.filter(d => d.id === req.params.id).map(f => f.toJSON())
+    form.log({
+        action: 'update_admission_form',
+        category: 'admission_form',
+        createdBy: 'userWouldGoHere',
+        message: 'admission form was updated'
+    })
 
-    for (let i = 0; i < Object.keys(data).length; i++) { 
+    return res.json(form.toJSON())
 
-        var key = Object.keys(data)[i]
-        var value = Object.values(data)[i]
-        form = { ...form, [key]: value }
-    } 
- 
-    AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
-        .then(updatedForm => {
-            res.json(updatedForm.toJSON())
-        })
 })
 
 admissionsRouter.put('/thl/:id', async (req, res) => {

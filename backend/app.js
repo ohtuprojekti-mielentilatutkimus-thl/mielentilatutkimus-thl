@@ -5,10 +5,15 @@ const morgan = require('morgan')
 const config = require('./utils/config')
 const path = require('path')
 require('express-async-errors')
+
+const mongoose = require('mongoose')
+mongoose.plugin(require('./utils/diff-plugin'))
+
 const admissionsRouter = require('./controllers/admissions')
 const basinInformationsRouter = require('./controllers/basicInformations')
 const attachmentsRouter = require('./controllers/attachments')
 const testsRouter = require('./controllers/tests')
+const logRouter = require('./controllers/logs')
 const middleware = require('./utils/middlewares')
 
 app.use(cors())
@@ -16,7 +21,7 @@ app.use(express.json())
 app.use('*/api/admissions', admissionsRouter)
 app.use('*/api/admissions', basinInformationsRouter)
 app.use('*/api/admissions', attachmentsRouter)
-
+app.use('*/api/log', logRouter)
 
 app.use('/thl', express.static('builds/thl/build'))
 app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build'))
@@ -29,7 +34,6 @@ app.use(middleware.errorHandler)
 
 morgan.token('body', function (req) { return JSON.stringify(req.body) })
 
-const mongoose = require('mongoose')
 mongoose.connect(config.MONGODB_URI).then( () => {
     console.log('connected to mongo')}
 ).catch(() => {
