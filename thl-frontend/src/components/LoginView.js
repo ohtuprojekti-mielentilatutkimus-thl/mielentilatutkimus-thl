@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 const LoginForm = () => {
 
     const [username, setUsername] = useState('')
-    const [role, setRole] = useState('THL-käyttäjä')
+    const [role, setRole] = useState('THL')
     let history = useHistory()
 
     const handleUsernameChange = (event) => {
@@ -80,11 +80,13 @@ const LoginForm = () => {
                                 <FormControl>
                                     <RadioGroup
                                         aria-label="Rooli:"
-                                        defaultValue="THL-käyttäjä"
+                                        defaultValue="THL"
                                         name="controlled-radio-buttons-group"
                                         onChange={handleRoleChange}>
-                                        <FormControlLabel value="THL-käyttäjä" control={<Radio />} label="THL-käyttäjä" />
-                                        <FormControlLabel value="Tutkimuspaikka-käyttäjä" control={<Radio />} label="Tutkimuspaikka-käyttäjä" />
+                                        <FormControlLabel value="THL" control={<Radio />} label="THL" />
+                                        <FormControlLabel value="Tutkimusyksikkö" control={<Radio />} label="Tutkimusyksikkö" />
+                                        <FormControlLabel value="Poliisi" control={<Radio />} label="Poliisi" />
+                                        <FormControlLabel value="Oikeuslaitos" control={<Radio />} label="Oikeuslaitos" />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
