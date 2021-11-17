@@ -646,7 +646,7 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <Button style={{ color: '#228B22', bordercolor: '#228B22' }}>
-                                    <Link to={`/upload_form/${formId}`}>Lisää liitteitä</Link>
+                                    <Link to={`/upload_form/${formId}`} id="addAttachments">Lisää liitteitä</Link>
                                 </Button>
                             </Grid>
                         </Grid>
