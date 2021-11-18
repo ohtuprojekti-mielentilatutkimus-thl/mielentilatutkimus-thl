@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const config = require('../utils/config.js')
 const authRouter = require('express').Router()
 
