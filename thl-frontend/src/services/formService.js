@@ -2,9 +2,16 @@ import axios from 'axios'
 
 const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/admissions' : process.env.PUBLIC_URL + '/api/admissions'
 
+const getAccessToken = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user && user.accessToken) {
+        return { 'x-access-token': user.accessToken }
+    }
+    return {}
+}
 
 const getAll = () => {
-    const request = axios.get(baseUrl)
+    const request = axios.get(baseUrl, { headers: getAccessToken() })
     return request.then(response => response.data)
 }
 
