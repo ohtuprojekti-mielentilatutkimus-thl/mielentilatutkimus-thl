@@ -2,6 +2,7 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const AttachmentForm = require('../models/attachmentForm.model.js')
 const testData = require('./test_data.json')
+const Log = require('../models/log.model')
 
 let admissionFormTestData = testData.admission_forms[0]
 let basicInfoFormTestData = testData.basic_info_forms[0]
@@ -29,6 +30,11 @@ const attachmentsInDb = async () => {
     return attachments.map(a => a.toJSON())
 }
 
+const getLog = async () => {
+    const log = await Log.find({})
+    return log.map(a => a.toJSON())
+}
+
 //https://dev.to/nas5w/how-to-select-or-omit-properties-from-an-object-in-javascript-3ina
 function omit(obj, ...props) {
     const result = { ...obj }
@@ -41,5 +47,5 @@ function omit(obj, ...props) {
 module.exports = {
     admissionFormTestData, basicInfoFormTestData, sendToResearchUnitData,
     admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
-    admissionInDb, omit
+    admissionInDb, omit, getLog
 }
