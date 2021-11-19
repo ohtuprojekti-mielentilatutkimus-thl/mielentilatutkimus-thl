@@ -31,7 +31,7 @@ const LoginForm = () => {
         }
 
         loginUserService
-            .create(loginUser)
+            .login(loginUser)
         history.push('/thl-admissions')
     }
 
