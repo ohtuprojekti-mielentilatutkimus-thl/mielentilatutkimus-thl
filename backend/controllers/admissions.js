@@ -1,67 +1,55 @@
 const Mailer = require('../services/mailer.js')
 const HelperFunctions = require('../utils/helperFunctions.js')
 const admissionsRouter = require('express').Router()
-const IdSerializer = require('../services/idSerializer')
-const AdmissionForm = require('../models/admissionForm.model.js')
+const admissionService = require('../services/admissionService')
 
-
+//GET ALL ADMISSIONS
 admissionsRouter.get('/', async (req, res) => {
-    const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1, whichFile: 1 })
-    res.json(admissionForms.map((admissionform) => admissionform.toJSON()))
+    res.json(await admissionService.getAllAdmissions())
 })
   
+//POST ADMISSION
 admissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
-    const admissionForm = new AdmissionForm(
-        { ...data }
-    )
-    if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
+    if (!HelperFunctions.validateAdmissionFormData(data)) {
         res.sendStatus(500)
-
     } 
-    if (admissionForm.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(admissionForm) || 
-    (admissionForm.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(admissionForm))) {
+    if (data.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(data) || 
+    (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {
         res.sendStatus(500)
 
     } else {
-        const prevAdmission = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
-        const prevId = prevAdmission == null ? -1 : prevAdmission.thlRequestId
-    
-        admissionForm.thlRequestId = IdSerializer.getNextThlRequestId(prevId)
+        const savedForm = await admissionService.saveAdmission(data)
+        
+        //Tarviiko lähettää takaisin tallennettua lomaketta?
+        res.json(savedForm)
 
-        const savedForm = await admissionForm.save()
-        res.json(savedForm.toJSON())
         Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
     }
 })
 
+//GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
-    const data = await AdmissionForm.find({}).catch((err) => {console.log(err)})
-    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
+    res.json(await admissionService.getAdmission(req.params.id))
 })
 
+//GET SIGNLE ADMISSION FOR EDITING
+admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
+    res.json(await admissionService.getAdmission(req.params.id))
+})
 
+// ?
 admissionsRouter.post('/admission_form/request_additional_info', async (req, res) => {
     const data = req.body
     res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
 })
 
 
-admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
-    
-    const data = await AdmissionForm.findById(req.params.id).catch((err) => {console.log(err)})
-        .then(data => {
-            res.json(data.toJSON())
-        })
-    console.log(data)
-
-})
-
+//PUT ALL FIELDS
 admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
     const data = req.body
-    const form = await AdmissionForm.findById(req.params.id)
 
     if (data.assistantsEmail!==undefined) {
         if (!HelperFunctions.validateAssistantsEmail(data)){
@@ -72,91 +60,32 @@ admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
         if (!HelperFunctions.validateLegalGuardianEmailEmail(data)){
             res.sendStatus(500)
         }
-    }  
-    for (var [key, value] of Object.entries(data)) {
-        form[key] = value
-    }
-    await form.save()
-
-    form.log({
-        action: 'update_admission_form',
-        category: 'admission_form',
-        createdBy: 'userWouldGoHere',
-        message: 'admission form was updated'
-    })
-
-    return res.json(form.toJSON())
-
+    } 
+    const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
+    res.json(updatedForm.toJSON())
 })
 
+//PUT FORMSTATE
 admissionsRouter.put('/thl/:id', async (req, res) => {
-    const data = req.body
-
-    const form = {
-        formState : data.formState,
-        basicInformationId: data.basicInformationId,
-        admissionNoteDate: data.admissionNoteDate,
-        formSender : data.formSender,
-        name: data.name,
-        lastName: data.lastname,
-        identificationNumber: data.identificationNumber,
-        address: data.address,
-        location: data.location,
-        processAddress: data.processAddress,
-        trustee: data.trustee,
-        citizenship: data.citizenship,
-        admissionNoteSenderOrganization : data.admissionNoteSenderOrganization,
-        admissionNoteSender : data.admissionNoteSender,
-        sendersEmail : data.sendersEmail,
-        sendersPhoneNumber : data.sendersPhoneNumber,
-        // THL more information
-        hazardAssesment: data.hazardAssesment,
-        diaariNumber: data.diaariNumber,
-        datePrescribedForPsychiatricAssesment: data.datePrescribedForPsychiatricAssesment,
-        nativeLanguage: data.nativeLanguage,
-        desiredLanguageOfBusiness: data.desiredLanguageOfBusiness,
-        municipalityOfResidence: data.municipalityOfResidence,
-        prosecuted: data.prosecuted,
-        deadlineForProsecution: data.deadlineForProsecution,
-        preTrialPoliceDepartment: data.preTrialPoliceDepartment,
-        crime: data.crime,
-        crimes: data.crimes,
-        assistantsEmail: data.assistantsEmail,
-        assistantsPhonenumber: data.assistantsPhonenumber,
-        assistantsAddress: data.assistantsAddress,
-        legalGuardianEmail: data.legalGuardianEmail,
-        legalGuardianPhonenumber: data.legalGuardianPhonenumber,
-        legalGuardianAddress: data.legalGuardianAddress,
-        legalGuardianInstitute: data.legalGuardianInstitute,
-        appealedDecision: data.appealedDecision,
-        conclusionIsReady: data.conclusionIsReady,
-        proceedingIsReady: data.proceedingIsReady,
-        applicationForASummonsIsReady: data.applicationForASummonsIsReady,
-        transcriptOfCriminalRecordIsReady: data.transcriptOfCriminalRecordIsReady,
-        preliminaryInvestigationsAttachmentsAreReady: data.preliminaryInvestigationsAttachmentsAreReady,
-        decisionOnDetentionIsReady: data.decisionOnDetentionIsReady,
-        imprisonmentRequirementReady: data.imprisonmentRequirementReady
+    const data = {
+        formState: req.body.formState
     }
 
-    AdmissionForm.findByIdAndUpdate(req.params.id, form, {new: true})
-        .populate('attachments', { fileName: 1, whichFile: 1 })
-        .then(updatedForm => {
-            res.json(updatedForm.toJSON())
-        }) 
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
+
+    res.json(updatedForm.toJSON()) 
 })
 
+//PUT RESEARCH_UNIT, RESEARCH_INFO, FORMSTATE
 admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
-    const data = req.body
+    const data = {
+        researchUnit: req.body.researchUnit, 
+        researchUnitInformation: req.body.researchUnitInformation,
+        formState: req.body.formState
+    }
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
 
-    const updatedForm = await AdmissionForm.findByIdAndUpdate(req.params.id, {
-        researchUnit: data.researchUnit, 
-        researchUnitInformation: data.researchUnitInformation,
-        formState: data.formState
-    }, {new: true})
-        .populate('attachments', { fileName: 1, whichFile: 1 })
-    
-    return res.json(updatedForm.toJSON())
-        
+    res.json(updatedForm.toJSON()) 
 })
    
 module.exports = admissionsRouter
