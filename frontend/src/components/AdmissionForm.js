@@ -391,6 +391,7 @@ const Form = () => {
                             setTimeout(() => {
                                 setErrorMessage(null)
                             }, 1000 * 7)
+
                         }
                     })
 
@@ -423,6 +424,11 @@ const Form = () => {
                 setAppealedDecision('')
             }
         }
+    }
+
+
+    const validateEmail = ( email ) => {
+        return email
     }
 
     const getSubmittedMessage = () => {
@@ -596,7 +602,8 @@ const Form = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti:</div>
-                                    <TextField fullWidth id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} label='Huoltajan/sosiaalitoimen sähköposti' variant='outlined' margin='normal'/>
+                                    <TextField fullWidth id='legalGuardianEmail' value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} label='Huoltajan/sosiaalitoimen sähköposti' variant='outlined' margin='normal'
+                                        required error={validateEmail(legalGuardianEmail)}/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <div className={classes.labelText}>Alaikäisen tutkittavan huoltajan/sosiaalitoimen puhelinnumero:</div>
