@@ -13,6 +13,21 @@ const Log = require('../models/log.model')
 
 const thisYearAsString = () => new Date().getFullYear().toString()
 
+const { getDiff } = require('../utils/logger')
+test('getDiff only returns difference between objects', async () => {
+    const before = {
+        Key: 'Value',
+        Key2: 'Value2'
+    }
+    const after = {
+        Key: 'Value3',
+        Key2: 'Value2'
+    }
+    const difference = getDiff(before, after)
+    expect(Object.keys(difference)).toHaveLength(1)
+
+})
+
 describe('PUT', () => {
     beforeAll(async ()=> {
         await AdmissionForm.deleteMany({})
