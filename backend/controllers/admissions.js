@@ -16,9 +16,14 @@ admissionsRouter.post('/admission_form', async (req, res) => {
     const admissionForm = new AdmissionForm(
         { ...data }
     )
-
     if (!HelperFunctions.validateAdmissionFormData(admissionForm)) {
         res.sendStatus(500)
+
+    } 
+    if (admissionForm.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(admissionForm) || 
+    (admissionForm.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(admissionForm))) {
+        res.sendStatus(500)
+
     } else {
         const prevAdmission = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
         const prevId = prevAdmission == null ? -1 : prevAdmission.thlRequestId
@@ -44,6 +49,7 @@ admissionsRouter.post('/admission_form/request_additional_info', async (req, res
 
 
 admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
+    
     const data = await AdmissionForm.findById(req.params.id).catch((err) => {console.log(err)})
         .then(data => {
             res.json(data.toJSON())
@@ -56,7 +62,17 @@ admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
     const data = req.body
     const form = await AdmissionForm.findById(req.params.id)
-   
+
+    if (data.assistantsEmail!==undefined) {
+        if (!HelperFunctions.validateAssistantsEmail(data)){
+            res.sendStatus(500)
+        }
+    }
+    if (data.legalGuardianEmail!==undefined) {
+        if (!HelperFunctions.validateLegalGuardianEmailEmail(data)){
+            res.sendStatus(500)
+        }
+    }  
     for (var [key, value] of Object.entries(data)) {
         form[key] = value
     }
