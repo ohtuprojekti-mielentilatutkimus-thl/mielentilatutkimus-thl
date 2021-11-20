@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
 import { Alert } from '@material-ui/lab'
-//import { styled } from '@material-ui/core'
 import { Button, Grid, List, Paper } from '@material-ui/core'
-//import { Delete } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import { Divider, Stack } from '@mui/material'
 
@@ -39,6 +37,8 @@ const UploadForm = () => {
 
     const selectFile = (event) => {
         const file = event.target.files[0]
+
+        clearMessages()
 
         if (duplicateFileName(file.name)) {
             setErrorMessage(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi, ei samannimisiä tiedostoja kahdesti`)
@@ -76,17 +76,22 @@ const UploadForm = () => {
         )
     }
 
+    const clearMessages = () => {
+        setErrorMessage(null)
+        setMessage(null)
+    }
+
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
 
     const upload = async (event) => {
         event.preventDefault()
+
+        clearMessages()
+
         const res = await admissionService.upload(selectedFiles, AdmissionFormId, filesInfo)
 
         if (res.status === 200) {
-            setMessage('Liitteiden lähetys onnistui!')
-            setTimeout(() => {
-                setMessage(null)
-            }, 1000*7)
+            setMessage('Liitteiden lähetys onnistui! Voit sulkea välilehden')
         } else {
             setErrorMessage('Liitteiden lähetys epäonnistui!')
             setTimeout(() => {
@@ -125,7 +130,7 @@ const UploadForm = () => {
                 >
                     <h2>Lataa liitteitä</h2>
                     <br />
-                    <Box justifyContent='center' alignItems='center' padding='10px'>
+                    <Box justifyContent='center' alignItems='center'>
                         <Grid container>
                             <Grid item xs={12}>
                                 Välituomio tai päätös mielentilatutkimukseen määräämisestä
@@ -290,7 +295,7 @@ const UploadForm = () => {
                         component='span'
                         disabled={!selectedFiles}
                         onClick={upload}>
-                            Lähetä tiedostoja
+                            Lähetä
                     </Button>
                 </Paper>
             </div>
