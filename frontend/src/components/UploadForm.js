@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
 import { Alert } from '@material-ui/lab'
-//import Stack from '@mui/material/Stack'
 //import { styled } from '@material-ui/core'
-import { Button, Grid, Paper } from '@material-ui/core'
+import { Button, Grid, List, Paper } from '@material-ui/core'
 //import { Delete } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
+import { Stack } from '@mui/material'
 
-import FileButton from './FileButton'
+import FileChip from './FileChip'
 
 const UploadForm = () => {
 
@@ -17,7 +17,7 @@ const UploadForm = () => {
     const [message, setMessage] = useState(null)
     const [selectedFiles, setSelectedFiles] = useState([])
 
-    const [fileButtons, setFileButtons] = useState([])
+    const [fileChips, setFileChips] = useState([])
 
     const AdmissionFormId = useParams().id
 
@@ -50,17 +50,29 @@ const UploadForm = () => {
 
         setSelectedFiles(selectedFiles.concat(file))
         setFilesInfo(filesInfo.concat({ name: file.name, whichFile: event.target.id }))
-        addNewFileButton(file.name, event.target.id)
+        addNewFileChip(file.name, event.target.id)
     }
 
-    const addNewFileButton = (fileName, attachmentType) => {
-        setFileButtons(fileButtons.concat(<FileButton fileName={fileName} attachmentType={attachmentType} removeFile={removeFile}/>))
+    const addNewFileChip = (fileName, attachmentType) => {
+        setFileChips(fileChips.concat({ key: fileName, label: fileName, attachmentType: attachmentType }))
     }
 
     const removeFile = fileName => {
-        setFileButtons(fileButtons.filter(button => button.props['fileName'] !== fileName))
+        setFileChips(fileChips.filter(chip => chip.key !== fileName))
         setSelectedFiles(selectedFiles.filter(file => file.name !== fileName))
         setFilesInfo(filesInfo.filter(fileInfo => fileInfo.name !== fileName))
+    }
+
+    const ChipList = ({ attachmentType }) => {
+        let filteredChips = fileChips.filter(chip => chip.attachmentType === attachmentType)
+
+        return (
+            <List component={Stack} direction='row' justifyContent='center'>
+                {filteredChips.map(chip =>
+                    <FileChip key={chip.label} fileName={chip.label} attachmentType={chip.attachmentType} removeFile={removeFile} />
+                )}
+            </List>
+        )
     }
 
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
@@ -85,21 +97,12 @@ const UploadForm = () => {
         setSelectedFiles([])
     }
 
-    const filterButtons = attachmentType => {
-        return fileButtons.filter(button => button.props['attachmentType'] === attachmentType)
-    }
-
     /*
-    const Item = styled(Paper)(({ theme }) => ({
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }))
+    const filterChips = attachmentType => {
+        return fileChips.filter(chip => chip.props['attachmentType'] === attachmentType)
+    }
     */
-    //Button variant="text" endIcon={<Delete/>}>
     return (
-
         <div className={classes.page}>
 
             {(message && <Alert severity="success">
@@ -122,153 +125,160 @@ const UploadForm = () => {
                     square={false}
                     align='center'
                     justify='center'
+                    spacing={3}
                 >
                     <h2>Lataa liitteitä</h2>
                     <br />
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            Välituomio tai päätös mielentilatutkimukseen määräämisestä
-                            <br />
-                            <label htmlFor='valituomio'>
-                                <input
-                                    id='valituomio'
-                                    name='valituomio'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="valituomioButtons">
-                                {filterButtons('valituomio')}
-                            </div>
-                            <br />
+                    <Grid container>
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Välituomio tai päätös mielentilatutkimukseen määräämisestä
+                                <br />
+                                <label htmlFor='valituomio'>
+                                    <input
+                                        id='valituomio'
+                                        name='valituomio'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='valituomio' />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Pöytäkirja
-                            <br />
-                            <label htmlFor='poytakirja'>
-                                <input
-                                    id='poytakirja'
-                                    name='poytakirja'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="poytakirjaButtons">
-                                {filterButtons('poytakirja')}
-                            </div>
-                            <br />
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Pöytäkirja
+                                <br />
+                                <label htmlFor='poytakirja'>
+                                    <input
+                                        id='poytakirja'
+                                        name='poytakirja'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='poytakirja' />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Haastehakemus
-                            <br />
-                            <label htmlFor='haastehakemus'>
-                                <input
-                                    id='haastehakemus'
-                                    name='haastehakemus'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="haastehakemusButtons">
-                                {filterButtons('haastehakemus')}
-                            </div>
-                            <br />
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Haastehakemus
+                                <br />
+                                <label htmlFor='haastehakemus'>
+                                    <input
+                                        id='haastehakemus'
+                                        name='haastehakemus'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='haastehakemus' />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Rikosrekisteriote
-                            <br />
-                            <label htmlFor='rikosrekisteriote'>
-                                <input
-                                    id='rikosrekisteriote'
-                                    name='rikosrekisteriote'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="rikosrekisterioteButtons">
-                                {filterButtons('rikosrekisteriote')}
-                            </div>
-                            <br />
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Rikosrekisteriote
+                                <br />
+                                <label htmlFor='rikosrekisteriote'>
+                                    <input
+                                        id='rikosrekisteriote'
+                                        name='rikosrekisteriote'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='rikosrekisteriote' />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Esitutkintapöytäkirja liitteineen
-                            <br />
-                            <label htmlFor='esitutkintapoytakirja'>
-                                <input
-                                    id='esitutkintapoytakirja'
-                                    name='esitutkintapoytakirja'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="esitutkintapoytakirjaButtons">
-                                {filterButtons('esitutkintapoytakirja')}
-                            </div>
-                            <br />
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Esitutkintapöytäkirja liitteineen
+                                <br />
+                                <label htmlFor='esitutkintapoytakirja'>
+                                    <input
+                                        id='esitutkintapoytakirja'
+                                        name='esitutkintapoytakirja'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='esitutkintapoytakirja' />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
-                            <br/>
-                            <label htmlFor='vangitsemispaatos'>
-                                <input
-                                    id='vangitsemispaatos'
-                                    name='vangitsemispaatos'
-                                    style={{ display: 'none' }}
-                                    type='file'
-                                    onChange={selectFile}
-                                    accept='image/*,.pdf'
-                                />
-                                <Button
-                                    className='btn-choose'
-                                    variant='outlined'
-                                    component='span'>
-                                        Valitse tiedosto
-                                </Button>
-                            </label>
-                            <div id="vangitsemispaatosButtons">
-                                {filterButtons('vangitsemispaatos')}
-                            </div>
-                            <br />
+                        <Grid container rowSpacing={1} alignItems='center'>
+                            <Grid item xs={12}>
+                                Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
+                                <br/>
+                                <label htmlFor='vangitsemispaatos'>
+                                    <input
+                                        id='vangitsemispaatos'
+                                        name='vangitsemispaatos'
+                                        style={{ display: 'none' }}
+                                        type='file'
+                                        onChange={selectFile}
+                                        accept='image/*,.pdf'
+                                    />
+                                    <Button
+                                        className='btn-choose'
+                                        variant='outlined'
+                                        component='span'>
+                                            Valitse tiedosto
+                                    </Button>
+                                </label>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ChipList attachmentType='vangitsemispaatos' />
+                            </Grid>
                         </Grid>
                     </Grid>
                     <br />
@@ -288,4 +298,3 @@ const UploadForm = () => {
 
 }
 export default UploadForm
-
