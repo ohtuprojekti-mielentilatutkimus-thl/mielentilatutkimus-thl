@@ -6,9 +6,10 @@ import { Alert } from '@material-ui/lab'
 import { Button, Grid, List, Paper } from '@material-ui/core'
 //import { Delete } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
-import { Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 
 import FileChip from './FileChip'
+import { Box } from '@mui/system'
 
 const UploadForm = () => {
 
@@ -97,11 +98,6 @@ const UploadForm = () => {
         setSelectedFiles([])
     }
 
-    /*
-    const filterChips = attachmentType => {
-        return fileChips.filter(chip => chip.props['attachmentType'] === attachmentType)
-    }
-    */
     return (
         <div className={classes.page}>
 
@@ -129,8 +125,8 @@ const UploadForm = () => {
                 >
                     <h2>Lataa liitteitä</h2>
                     <br />
-                    <Grid container>
-                        <Grid container rowSpacing={1} alignItems='center'>
+                    <Box justifyContent='center' alignItems='center' padding='10px'>
+                        <Grid container>
                             <Grid item xs={12}>
                                 Välituomio tai päätös mielentilatutkimukseen määräämisestä
                                 <br />
@@ -155,6 +151,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='valituomio' />
                             </Grid>
                         </Grid>
+                        <Divider  variant='middle' style={{ width: '75%', borderBottomWidth: 2, margin: 10 }}/>
                         <Grid container rowSpacing={1} alignItems='center'>
                             <Grid item xs={12}>
                                 Pöytäkirja
@@ -180,6 +177,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='poytakirja' />
                             </Grid>
                         </Grid>
+                        <Divider  variant='middle' style={{ width: '75%', borderBottomWidth: 2, margin: 10 }}/>
                         <Grid container rowSpacing={1} alignItems='center'>
                             <Grid item xs={12}>
                                 Haastehakemus
@@ -205,6 +203,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='haastehakemus' />
                             </Grid>
                         </Grid>
+                        <Divider  variant='middle' style={{ width: '75%', borderBottomWidth: 2, margin: 10 }}/>
                         <Grid container rowSpacing={1} alignItems='center'>
                             <Grid item xs={12}>
                                 Rikosrekisteriote
@@ -230,6 +229,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='rikosrekisteriote' />
                             </Grid>
                         </Grid>
+                        <Divider  variant='middle' style={{ width: '75%', borderBottomWidth: 2, margin: 10 }}/>
                         <Grid container rowSpacing={1} alignItems='center'>
                             <Grid item xs={12}>
                                 Esitutkintapöytäkirja liitteineen
@@ -255,6 +255,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='esitutkintapoytakirja' />
                             </Grid>
                         </Grid>
+                        <Divider  variant='middle' style={{ width: '75%', borderBottomWidth: 2, margin: 10 }}/>
                         <Grid container rowSpacing={1} alignItems='center'>
                             <Grid item xs={12}>
                                 Esitutkintavaiheessa: vangitsemispäätös ja vaatimus vangitsemisesta
@@ -280,7 +281,7 @@ const UploadForm = () => {
                                 <ChipList attachmentType='vangitsemispaatos' />
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Box>
                     <br />
                     <Button
                         className='btn-upload'
