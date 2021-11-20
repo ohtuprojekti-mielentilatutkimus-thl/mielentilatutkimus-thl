@@ -119,6 +119,7 @@ const Form = () => {
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
+    const [validateError, setValidateError] = useState(false)
 
     const handleNameChange = (event) => {
         setName(event.target.value)
@@ -204,8 +205,9 @@ const Form = () => {
     }
 
     const validateAssistantsEmail = () => {
-        if (!validator.isEmail(assistantsEmail)) {
+        if (!validator.isEmail(assistantsEmail) && assistantsEmail.length>0) {
             console.log('virheellinen email')
+            setValidateError(Boolean(true))
             setErrorMessage('Avustajan sähköpostiosoite on virheellinen!')
             setTimeout(() => {
                 setErrorMessage(null)
@@ -214,8 +216,9 @@ const Form = () => {
     }
 
     const validateLegalGuardianEmail = () => {
-        if (!validator.isEmail(legalGuardianEmail)) {
+        if (!validator.isEmail(legalGuardianEmail) && legalGuardianEmail.length>0) {
             console.log('virheellinen email')
+            setValidateError(Boolean(true))
             setErrorMessage('Edunvalvojan sähköpostiosoite on virheellinen!')
             setTimeout(() => {
                 setErrorMessage(null)
@@ -229,6 +232,9 @@ const Form = () => {
         event.preventDefault()
 
         if(formState === 'Pyydetty lisätietoja') {
+
+            validateAssistantsEmail()
+            validateLegalGuardianEmail()
 
             const updateAdmission = {
                 formState : 'Saatu lisätietoja',
@@ -272,21 +278,25 @@ const Form = () => {
                     delete updateAdmission[value]
                 }
             }
-            admissionService
-                .update(paramFormId, updateAdmission)
-                .then(response => {
-                    console.log(response.data)
-                    setFormId(response.data.id)
-                    toggleVisibility()
-                })
-                .catch(error => {
-                    console.log(error)
-                    setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
-                    setTimeout(() => {
-                        setErrorMessage(null)
-                    }, 1000 * 7)
-                })
 
+            if (errorMessage === null) {
+                admissionService
+                    .update(paramFormId, updateAdmission)
+                    .then(response => {
+                        console.log(response.data)
+                        setFormId(response.data.id)
+                        toggleVisibility()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        if(validateError===false){
+                            setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
+                            setTimeout(() => {
+                                setErrorMessage(null)
+                            }, 1000 * 7)
+                        }
+                    })
+            }
         } else {
             setErrorMessage('Lisätietoja ei olla pyydetty')
             setTimeout(() => {
@@ -360,10 +370,13 @@ const Form = () => {
                     })
                     .catch(error => {
                         console.log(error)
-                        setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
-                        setTimeout(() => {
-                            setErrorMessage(null)
-                        }, 1000 * 7)
+                        if(validateError===false){
+                            setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
+                            setTimeout(() => {
+                                setErrorMessage(null)
+                            }, 1000 * 7)
+
+                        }
                     })
 
                 setName('')
@@ -395,6 +408,11 @@ const Form = () => {
                 setAppealedDecision('')
             }
         }
+    }
+
+
+    const validateEmail = ( email ) => {
+        return email
     }
 
     const getSubmittedMessage = () => {
@@ -607,7 +625,8 @@ const Form = () => {
                                 <Grid item xs={5,5}>
                                     <TextField fullWidth
                                         helperText= 'Alaikäisen tutkittavan huoltajan/sosiaalitoimen sähköposti' id='legalGuardianEmail'
-                                        value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} variant='outlined' margin='normal'/>
+                                        value={legalGuardianEmail} onChange={handleLegalGuardianEmailChange} variant='outlined' margin='normal'
+                                        required error={validateEmail(legalGuardianEmail)}/>
                                 </Grid>
                                 <Grid item xs={1}/>
                                 <Grid item xs={5,5}>
