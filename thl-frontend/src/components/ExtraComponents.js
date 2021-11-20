@@ -3,9 +3,9 @@ import { useStyles } from '../styles'
 import { Grid } from '@material-ui/core'
 import dayjs from 'dayjs'
 
-const NotProsecuted = (form) => {
+const NotProsecuted = ({ form }) => {
     const classes = useStyles ()
-    if (form.form.prosecuted)
+    if (form.prosecuted)
         return (
             <br></br>
         )
