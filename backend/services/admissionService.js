@@ -49,6 +49,7 @@ const getAdmission = async (id) => {
 }
 
 const updateAdmission = async (id, data) => {
+
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
    
     for (var [key, value] of Object.entries(data)) {

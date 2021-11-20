@@ -14,6 +14,11 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
     if (!HelperFunctions.validateAdmissionFormData(data)) {
         res.sendStatus(500)
+    } 
+    if (data.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(data) || 
+    (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {
+        res.sendStatus(500)
+
     } else {
         const savedForm = await admissionService.saveAdmission(data)
         
@@ -40,8 +45,22 @@ admissionsRouter.post('/admission_form/request_additional_info', async (req, res
     res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
 })
 
+
 //PUT ALL FIELDS
 admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
+
+    const data = req.body
+
+    if (data.assistantsEmail!==undefined) {
+        if (!HelperFunctions.validateAssistantsEmail(data)){
+            res.sendStatus(500)
+        }
+    }
+    if (data.legalGuardianEmail!==undefined) {
+        if (!HelperFunctions.validateLegalGuardianEmailEmail(data)){
+            res.sendStatus(500)
+        }
+    } 
     const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
     res.json(updatedForm.toJSON())
 })
