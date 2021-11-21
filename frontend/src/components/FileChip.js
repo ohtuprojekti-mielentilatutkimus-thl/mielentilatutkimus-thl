@@ -4,17 +4,17 @@ import { styled } from '@material-ui/core'
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(1),
-    alignSelf: 'center',
 }))
 
-const FileChip = ({ fileName, attachmentType, removeFile }) => (
+const FileChip = ({ fileInfo, removeFile }) => (
     <ListItem>
         <Chip
-            label={fileName}
-            variant="outlined"
-            onDelete={() => removeFile(fileName)}
-            fileName={fileName}
-            attachmentType={attachmentType}
+            disabled={fileInfo.disabled}
+            label={fileInfo.name}
+            variant='outlined'
+            onDelete={() => removeFile(fileInfo.name)}
+            fileName={fileInfo.name}
+            attachmentType={fileInfo.whichFile}
         />
     </ListItem>
 )
