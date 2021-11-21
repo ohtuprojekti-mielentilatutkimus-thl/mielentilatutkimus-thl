@@ -12,8 +12,8 @@ const BasicInformation = ( { sender } ) => {
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
                 <div>
-                    <Button variant="outlined" style={{ color: '#808080', bordercolor: '#808080' }} {...bindTrigger(popupState)}>
-                        <h5>Tutkimuspyynnön lähettäjän tiedot:</h5>
+                    <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
+                        <h5>Tutkimuspyynnön lähettäjän tiedot</h5>
                     </Button>
                     <Popover
                         {...bindPopover(popupState)}

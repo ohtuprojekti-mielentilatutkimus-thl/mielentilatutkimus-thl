@@ -31,11 +31,11 @@ describe('From posting basic informations to police adding attachments', functio
 
                     cy.get('#date-picker')
                         .clear()
-                        .type('\'22/02/2022\'{enter}')
+                        .type('\'22/02/2022\'')
 
                     cy.get('#deadlineDate')
                         .clear()
-                        .type('\'11/11/2021\'{enter}')
+                        .type('\'11/11/2021\'')
 
                     var whichboolean = 0
                     for (const i in helper.admission_form_input) {

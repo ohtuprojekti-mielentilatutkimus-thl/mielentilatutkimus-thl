@@ -29,15 +29,12 @@ describe('Send Admission Form', function() {
                     cy.visit(`http://localhost:3000/admission_form/${senders_id}`)
                     cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
-
-
                     cy.get('#date-picker')
                         .clear()
-                        .type('\'22/02/2022\'{enter}')
+                        .type('\'22/02/2022\'')
 
                     cy.get('#deadlineDate')
-                        .clear()
-                        .type('\'11/11/2021\'{enter}')
+                        .type('\'11/11/2021\'')
 
 
 
