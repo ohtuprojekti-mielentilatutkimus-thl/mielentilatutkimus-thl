@@ -10,7 +10,7 @@ const theme = createTheme({
         h4: {
             color: primary_color,
             fontWeight: 'bold',
-        }
+        },
     },
 })
 
@@ -20,7 +20,8 @@ const useStyles = makeStyles({
         background: 'white',
         padding: '10px',
         borderWidth: '1px',
-        align: 'center',
+        width: '50%',
+        height: '50%'
     },
     page: {
         marginLeft: '100px',
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
         fontSize: '18px',
         color: secondary_color
     },
-    textLabel: {
+    labelText: {
         fontSize: '16px',
         fontWeight: 'bold',
         color: primary_color

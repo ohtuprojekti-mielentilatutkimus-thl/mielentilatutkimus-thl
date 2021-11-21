@@ -111,8 +111,7 @@ describe('when db is initialized with data', () => {
                 .put(baseUrl+'/thl/'+idOfItemInDb)
                 .send(changedAdmissionForm)
 
-            admissionsInDb = await helper.admissionsInDb()
-            const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
         })
 
@@ -177,8 +176,7 @@ describe('when db is initialized with data', () => {
                 .put(baseUrl+'/admission_form/'+idOfItemInDb+'/edit')
                 .send(changedAdmissionForm)
 
-            admissionsInDb = await helper.admissionsInDb()
-            const updatedAdmissionForm = admissionsInDb.find(item => item.id===idOfItemInDb)
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.name).toBe('Risto')
             expect(updatedAdmissionForm.lastname).toBe('Roisto')
             expect(updatedAdmissionForm.address).toBe('Ristolantie 10a, Raisio')
@@ -186,7 +184,32 @@ describe('when db is initialized with data', () => {
             expect(updatedAdmissionForm.formState).toBe('Saatu lisätietoja')
         })
 
-        test('admissionform state is admission received by default', async () => {
+        test('only relevant fields are changed with PUT request to "thl/:id/research_unit"', async ()=> {
+            const researchUnitData = helper.sendToResearchUnitData
+            
+            let admissionsInDb = await helper.admissionsInDb()
+            const ItemInDb = admissionsInDb[0]
+
+            await api 
+                .put(baseUrl+'/thl/'+ItemInDb.id+'/research_unit')
+                .send(researchUnitData)
+
+            const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
+            
+            expect(updatedAdmission.researchUnit).toBe(researchUnitData.researchUnit)
+            expect(updatedAdmission.researchUnitInformation).toBe(researchUnitData.researchUnitInformation)
+            expect(updatedAdmission.formState).toBe(researchUnitData.formState)
+            
+            //Fields that shouldn't match are excluded below 
+            const oldAdmissionForm = helper.omit(ItemInDb, 'formState', 'researchUnit', 'researchUnitInformation', 
+                'updatedAt')
+            const changedAdmissionForm = helper.omit(updatedAdmission, 'formState', 'researchUnit', 'researchUnitInformation', 
+                'updatedAt')
+                
+            expect(oldAdmissionForm).toMatchObject(changedAdmissionForm)
+        })
+
+        test('admissionform state is "admission received" by default', async () => {
             const admission_form = helper.admissionFormTestData
             await api
                 .post(baseUrl+'/admission_form')

@@ -32,9 +32,10 @@ const PoliceViewForm = () => {
             )
             .catch(error => {
                 console.log(error)
+                setEmail('')
+                setValue('')
             })
     }
-
     const classes = useStyles()
 
     return (

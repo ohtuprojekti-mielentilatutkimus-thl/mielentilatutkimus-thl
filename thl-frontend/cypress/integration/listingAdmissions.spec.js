@@ -70,6 +70,9 @@ describe('All admissions can be viewed', () => {
         cy.get('preTrialPoliceDepartment').should('not.exist')
     })
 
+})
+
+describe('Sorting forms', () => {
     it('Sort by state sorts correctly', function () {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
@@ -153,7 +156,9 @@ describe('All admissions can be viewed', () => {
 
         cy.get('#formState').first().contains('Saatu lisätietoja')
     })
+})
 
+describe('Asking for additional information from form sender', () => {
     it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.contains('Mielentilatutkimuspyynnöt')
@@ -169,8 +174,6 @@ describe('All admissions can be viewed', () => {
         cy.get('#formState').first().contains('Pyydetty lisätietoja')
 
     })
-
-
 })
 
 describe('Attachments', () => {
@@ -203,6 +206,24 @@ describe('Attachments', () => {
         cy.contains('Liitteet lisätty')
         cy.wait(1000*7)
         cy.get('.MuiButton-label').contains('rikosrekisteriote')
+    })
+}
+)
+
+describe('Send to research unit', () => {
+    it('Sending a request to research unit can be done and it changes form state to "Tutkimuspaikka pyydetty"', function ()  {
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').last().click()
+        cy.get('#handleSendToOperatingUnit').click()
+        cy.wait(1000)
+        cy.get('#inputForResearchUnit').type('Turun testitutkimusyksikkö')
+        cy.get('#inputForInfoForResearchUnit').type('Oikeuslaitos toivoo tutkimuksen suoritusta ennen 1.1.2022.')
+        cy.get('#buttonSendToResearchUnit').click()
+        cy.contains('Tutkimuspaikkapyyntö lähetetty onnistuneesti')
+        cy.wait(1000*6)
+        cy.get('#showState').contains('Tutkimuspaikka pyydetty')
     })
 }
 )

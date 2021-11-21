@@ -1,4 +1,25 @@
 const logger = require('./logger')
+const config = require('./config.js')
+const jwt = require('jsonwebtoken')
+
+const  verifyToken = (req, res, next) => {
+    let token = req.headers['x-access-token']
+    if (!token) {
+        return res.status(403)
+    }
+    jwt.verify(token, config.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401)
+        }
+        req.username = decoded.username
+        req.role = decoded.role
+        next()
+    })
+}
+
+const authJwt = {
+    verifyToken: verifyToken
+}
 
 const requestLogger = (req, res, next) => {
     console.log('Method:', req.method)
@@ -18,5 +39,5 @@ const errorHandler = (error, request, response, next) => {
 }
 
 module.exports = {
-    requestLogger, errorHandler
+    requestLogger, errorHandler, authJwt
 }

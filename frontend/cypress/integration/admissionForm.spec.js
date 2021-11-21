@@ -29,22 +29,19 @@ describe('Send Admission Form', function() {
                     cy.visit(`http://localhost:3000/admission_form/${senders_id}`)
                     cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
-
-
                     cy.get('#date-picker')
                         .clear()
-                        .type('\'22/02/2022\'{enter}')
+                        .type('\'22/02/2022\'')
 
                     cy.get('#deadlineDate')
-                        .clear()
-                        .type('\'11/11/2021\'{enter}')
+                        .type('\'11/11/2021\'')
 
 
 
 
                     var whichboolean = 0
                     for (const i in helper.admission_form_input) {
-                        if (['basicInformationId', 'formSender', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution'].includes(i) ||
+                        if (['basicInformationId', 'formSender', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
                         i.includes('Ready')) {
                             continue
                         }

@@ -144,7 +144,7 @@ const AdmissionForm = ({ form, updateForms, fetchForms } ) => {
                                     </Grid>
                                     <Grid item xs={6}>
                                         <div className={classes.textLabel}>Tutkimuspyynnön lähettävä taho:</div>
-                                        <div className={classes.text}>{form.admissionNoteSendingOrganization}</div>
+                                        <div className={classes.text}>{form.admissionNoteSenderOrganization}</div>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <div className={classes.textLabel}>Tutkimuspyynnön lähettävä henkilö:</div>

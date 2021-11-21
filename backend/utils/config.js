@@ -18,6 +18,9 @@ let ALLOWED_SENDER_EMAIL_DOMAIN = env === 'production' ? process.env.ALLOWED_SEN
 let ALLOWED_SENDER_EMAIL_DOMAIN_POLICE = env === 'production' ? process.env.ALLOWED_SENDER_EMAIL_DOMAIN_POLICE_PROD || ['poliisi.fi']
     : process.env.ALLOWED_SENDER_EMAIL_DOMAIN_POLICE_TEST || ['poliisi.fi']
 
+let TOKEN_SECRET = process.env.TOKEN_SECRET || 'DO_NOT_USE_THIS_=D'
+
+    
 module.exports = {
     MONGODB_URI,
     EMAIL_FROM,
@@ -26,5 +29,6 @@ module.exports = {
     FORM_FRONTEND_URI,
     ATTACHMENT_MAX_SIZE,
     ALLOWED_SENDER_EMAIL_DOMAIN,
-    ALLOWED_SENDER_EMAIL_DOMAIN_POLICE
+    ALLOWED_SENDER_EMAIL_DOMAIN_POLICE,
+    TOKEN_SECRET
 }
