@@ -68,7 +68,7 @@ describe('Attach files in  Admission Form', function() {
 
                         cy.get(`input[name="${attachments[i]}"]`).attachFile(filePath)
                     }
-                    cy.contains('Lataa valittu tiedosto').click()
+                    cy.contains('Lähetä').click()
                     cy.wait(1000)
                     cy.contains('Liitteiden lähetys onnistui')
                 })
