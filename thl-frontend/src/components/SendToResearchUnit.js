@@ -49,13 +49,14 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
                     <FormControl fullWidth label='Tutkimuspaikkayksikkö'>
                         <Select
                             value = {researchUnit}
-                            onChange={selectResearchUnit}>
-                            <MenuItem value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
-                            <MenuItem value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
-                            <MenuItem value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
-                            <MenuItem value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
-                            <MenuItem value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
-                            <MenuItem value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
+                            onChange={selectResearchUnit}
+                            id='selectResearchUnit'>
+                            <MenuItem id='0' value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
+                            <MenuItem id='1' value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
+                            <MenuItem id='2' value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
+                            <MenuItem id='3' value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
+                            <MenuItem id='4' value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
+                            <MenuItem id='5' value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
