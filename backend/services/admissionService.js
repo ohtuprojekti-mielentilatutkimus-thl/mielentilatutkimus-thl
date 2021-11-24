@@ -49,6 +49,20 @@ const getAdmission = async (id) => {
     return form.toJSON()
 }
 
+const getAdmissionsByResearchUnit = async (researchUnit) => {
+
+    const forms = await AdmissionForm.find({researchUnit: (researchUnit)}).populate('attachments', { fileName: 1, whichFile: 1 })
+
+    /*forms.log({
+        action: 'get_admission_form',
+        category: 'admission_form',
+        createdBy: 'userWouldGoHere',
+        message: `admissions where research unit is '${researchUnit}' was requested`
+    }) */
+
+    return forms.map((admissionform) => admissionform.toJSON())
+}
+
 const updateAdmission = async (id, data) => {
 
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
@@ -75,4 +89,4 @@ const updateAdmission = async (id, data) => {
 
 }
 
-module.exports = { getAllAdmissions, getAdmission, saveAdmission, updateAdmission }
+module.exports = { getAllAdmissions, getAdmission, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }
