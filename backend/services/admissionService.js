@@ -2,8 +2,8 @@ const AdmissionForm = require('../models/admissionForm.model.js')
 const IdSerializer = require('./idSerializer')
 
 const getAllAdmissions = async () => {
-    const admissionForms = await AdmissionForm.find({}).populate('attachments', { fileName: 1, whichFile: 1 })
-    /* Loki tässä ei tällä hetkellä toimi. Toisaalta tämä muutetaan jatkossa niin ,että getAll hakee vain esim. id:t
+    const admissionForms = await AdmissionForm.find({}).select('thlRequestId formState createdAt updatedAt')
+    /* tarvitseeko tähän lokitusta? 
     admissionForms.log({
         action: 'get_admission_form',
         category: 'admission_form',
@@ -11,7 +11,6 @@ const getAllAdmissions = async () => {
         message: '(all) admission forms were requested'
     })
     */
-    
     return admissionForms.map((admissionform) => admissionform.toJSON())
 }
 
