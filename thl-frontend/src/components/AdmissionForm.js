@@ -290,7 +290,12 @@ const AdmissionForm = ({ form, updateForms, fetchForms } ) => {
                         </TabPanel>
                         <TabPanel value="2">
 
-                            <EventHistory/>
+                            <EventHistory form={form}/>
+                            <DialogActions>
+                                <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
+                        Sulje
+                                </Button>
+                            </DialogActions>
 
                         </TabPanel>
                     </TabContext>
