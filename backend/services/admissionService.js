@@ -29,7 +29,8 @@ const saveAdmission = async (data) => {
         action: 'save_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was saved'
+        message: 'admission form was saved',
+        form_id: form.id
     })
 
     return form
@@ -42,7 +43,8 @@ const getAdmission = async (id) => {
         action: 'get_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was requested'
+        message: 'admission form was requested',
+        form_id: form.id
     })
     return form.toJSON()
 }
@@ -65,7 +67,8 @@ const updateAdmission = async (id, data) => {
         action: 'update_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was updated'
+        message: 'admission form was updated',
+        form_id: form.id
     })
 
     return form
