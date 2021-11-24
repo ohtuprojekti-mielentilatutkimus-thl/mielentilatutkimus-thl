@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField } from '@material-ui/core'
+import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import formService from '../services/formService'
 
@@ -8,7 +8,7 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
 
     const [message, setMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
-    const [researchUnit, setResearchUnit] = useState('')
+    const [researchUnit, setResearchUnit] = useState('Niuvanniemen sairaala')
     const [researchUnitInformation, setResearchUnitInformation] = useState('')
 
 
@@ -37,15 +37,27 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             })
     }
 
-
+    const selectResearchUnit = (event) => {
+        setResearchUnit(event.target.value)
+    }
 
     return (
         <DialogTitle disableTypography>
             <h4>{form.thlRequestId}</h4>
             <form onSubmit = {handleSend}>
                 <Grid>
-                    <TextField id='inputForResearchUnit'value={researchUnit} onChange= {(event) => setResearchUnit(event.target.value)}
-                        multiline rows={1} fullWidth label='Tutkimuspaikkayksikkö'/>
+                    <FormControl fullWidth label='Tutkimuspaikkayksikkö'>
+                        <Select
+                            value = {researchUnit}
+                            onChange={selectResearchUnit}>
+                            <MenuItem value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
+                            <MenuItem value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
+                            <MenuItem value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
+                            <MenuItem value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
+                            <MenuItem value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
+                            <MenuItem value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid>
                     <TextField id= 'inputForInfoForResearchUnit'value={researchUnitInformation} onChange= {(event) => setResearchUnitInformation(event.target.value)}

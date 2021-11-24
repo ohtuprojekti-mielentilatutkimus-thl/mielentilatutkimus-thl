@@ -28,4 +28,8 @@ const updateResearchUnit = (id, newObject) => {
     return axios.put(`${baseUrl}/thl/${id}/research_unit`, newObject)
 }
 
-export default { getAll, update, askForInfo, updateResearchUnit }
+const getByResearchUnit = (researchUnit) => {
+    return axios.get(`${baseUrl}/thl/research_unit/${researchUnit}`, researchUnit)
+}
+
+export default { getAll, update, askForInfo, updateResearchUnit, getByResearchUnit }

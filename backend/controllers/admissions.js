@@ -34,6 +34,7 @@ admissionsRouter.get('/admission_form/:id', async (req, res) => {
     res.json(await admissionService.getAdmission(req.params.id))
 })
 
+
 //GET SIGNLE ADMISSION FOR EDITING
 admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
     res.json(await admissionService.getAdmission(req.params.id))
@@ -63,6 +64,12 @@ admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
     } 
     const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
     res.json(updatedForm.toJSON())
+})
+
+//GET ADMISSIONS BY RESEARCH UNIT
+admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
+
+    res.json(await admissionService.getAdmissionsByResearchUnit(req.params.researchUnit))
 })
 
 //PUT FORMSTATE

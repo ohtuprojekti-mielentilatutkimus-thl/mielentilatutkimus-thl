@@ -32,15 +32,21 @@ const LoginForm = () => {
 
         loginUserService
             .login(loginUser)
+
         history.push('/thl-admissions')
     }
 
-    const setResearchUnit = (role) => {
+    const setResearchUnit = () => {
 
-        if (role === 'Tutkimusyksikkö') {
+        if(role === 'Tutkimusyksikkö') {
+            setRole('Niuvanniemen sairaala')
+        }
+        if (role === 'Niuvanniemen sairaala' || role === 'Vanhan Vaasan sairaala' || role === 'Psykiatrinen vankisairaala'
+        || role === 'Kellokosken sairaala' || role === 'Tampereen yliopistollinen sairaala' || role === 'Oulun yliopistollisen sairaala') {
 
             return (<FormControl fullWidth>
                 <Select
+                    value={role}
                     onChange={handleRoleChange}>
                     <MenuItem value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
                     <MenuItem value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
