@@ -3,7 +3,7 @@ const config = require('./config.js')
 const jwt = require('jsonwebtoken')
 
 const  verifyToken = (req, res, next) => {
-    let token = req.headers['x-access-token']
+    let token = req.headers['X-Access-Token']
     if (!token) {
         return res.status(403)
     }
