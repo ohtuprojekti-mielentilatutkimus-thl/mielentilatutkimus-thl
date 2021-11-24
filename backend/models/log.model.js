@@ -9,6 +9,7 @@ const LogSchema = new Schema({
     createdBy: { type: String, required: true },
     message: { type: String, required: true },
     diff: { type: Schema.Types.Mixed },
+    form_id: {type: String}
 },{
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 })
