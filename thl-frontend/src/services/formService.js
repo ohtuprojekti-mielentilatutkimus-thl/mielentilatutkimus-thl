@@ -14,11 +14,11 @@ const update = (id, newObject) => {
 
 const askForInfo = (infoObject) => {
 
-    return axios.post(`${baseUrl}/admission_form/request_additional_info/`, infoObject)
+    return axios.post(`${baseUrl}/admission_form/request_additional_info/`, infoObject, { headers: utils.getAccessToken() })
 }
 
 const updateResearchUnit = (id, newObject) => {
-    return axios.put(`${baseUrl}/thl/${id}/research_unit`, newObject)
+    return axios.put(`${baseUrl}/thl/${id}/research_unit`, newObject, { headers: utils.getAccessToken() })
 }
 
 export default { getAll, update, askForInfo, updateResearchUnit }
