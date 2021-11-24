@@ -9,33 +9,42 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import IconButton from '@material-ui/core/IconButton'
 
 const ThlAdmissions = () => {
-    const [forms, setForms] = useState([])
+    const [formHeaders, setFormHeaders] = useState([])
     const [ascending, setAscending] = useState(true)
     const [ascendingDate, setAscendingDate] = useState (false)
+    const [showInfo, setShowInfo] = useState(false)
+
+    const [form, setForm] = useState([])
 
     const classes = useStyles()
 
     useEffect(() => {
-        fetchForms()
+        fetchFormHeaders()
     }, [])
 
-    const fetchForms = async () => {
-        const forms = await formService.getAll()
-        setForms( forms )
+    const fetchFormHeaders = async () => {
+        const formHeaders = await formService.getAll()
+        setFormHeaders( formHeaders )
     }
 
-    const updateForms = async ( updateFormState ) => {
-        setForms(forms.map(form => form.id !== updateFormState.id ? form : updateFormState))
+    const fetchForm = async ( id ) => {
+        const form = await formService.getOne(id)
+        setForm(form)
+    }
+
+    const updateForm = async ( updateFormState ) => {
+        setForm(updateFormState)
+        fetchFormHeaders()
     }
 
     const sortFormsByState = async () => {
         const forms = await formService.getAll()
 
         if (ascending) {
-            setForms(forms.sort((a,b) => a.formState > b.formState ? 1 : -1))
+            setFormHeaders(forms.sort((a,b) => a.formState > b.formState ? 1 : -1))
             setAscending(false)
         } else {
-            setForms(forms.sort((a,b) => b.formState > a.formState ? 1 : -1))
+            setFormHeaders(forms.sort((a,b) => b.formState > a.formState ? 1 : -1))
             setAscending(true)
         }
     }
@@ -44,10 +53,10 @@ const ThlAdmissions = () => {
         const forms = await formService.getAll()
 
         if (ascendingDate) {
-            setForms(forms.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1))
+            setFormHeaders(forms.sort((a,b) => a.createdAt > b.createdAt ? 1 : -1))
             setAscendingDate(false)
         } else {
-            setForms(forms.sort((a,b) => b.createdAt > a.createdAt ? 1 : -1))
+            setFormHeaders(forms.sort((a,b) => b.createdAt > a.createdAt ? 1 : -1))
             setAscendingDate(true)
         }
     }
@@ -81,15 +90,25 @@ const ThlAdmissions = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {forms.slice().map(form => {
+                            {formHeaders.slice().map(formHeaders => {
                                 return (
-                                    <TableRow id='admissionsListRow' key={form.id}>
+                                    <TableRow id='admissionsListRow' key={formHeaders.id}>
                                         <TableCell>
-                                            <AdmissionForm key={form.id} form={form} updateForms={updateForms} fetchForms={fetchForms}> </AdmissionForm>
+                                            <div>
+                                                <a href='#' id='handleShowMoreInfo' onClick={async () =>  {
+                                                    await fetchForm(formHeaders.id)
+                                                    setShowInfo(true)
+                                                }}>
+                                                    {formHeaders.thlRequestId}
+                                                </a>
+                                            </div>
+                                            {showInfo &&
+                                                <AdmissionForm key={formHeaders.id} form={form} updateForm={updateForm} fetchForm={fetchForm} showInfo={showInfo} handleShowLessInfo={() => setShowInfo(false)}></AdmissionForm>
+                                            }
                                         </TableCell>
-                                        <TableCell align="left" id='createdAt'>{dayjs(form.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
-                                        <TableCell align="left" id='updatedAt'>{dayjs(form.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
-                                        <TableCell align="left" id='formState'>{form.formState}</TableCell>
+                                        <TableCell align="left" id='createdAt'>{dayjs(formHeaders.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left" id='updatedAt'>{dayjs(formHeaders.updatedAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left" id='formState'>{formHeaders.formState}</TableCell>
                                     </TableRow>
                                 )
                             })}

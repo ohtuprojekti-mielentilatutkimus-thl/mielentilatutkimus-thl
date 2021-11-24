@@ -113,3 +113,7 @@ Cypress.Commands.add('sendAttachment', ( { id, whichFile } ) => {
 
 
 })
+
+Cypress.Commands.overwrite('click', (originalFn, selector, options = {}) => {
+    options.force = true
+    return originalFn(selector, options) })

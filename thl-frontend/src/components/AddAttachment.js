@@ -6,7 +6,7 @@ import attachmentService from '../services/attachmentService'
 import { Alert } from '@material-ui/lab'
 
 
-const addAttachment = ({ form, fetchForms, handleClose }) => {
+const addAttachment = ({ form, fetchForm, handleClose }) => {
 
     const [message, setMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
@@ -58,7 +58,7 @@ const addAttachment = ({ form, fetchForms, handleClose }) => {
                 setMessage('Liitteet lisätty')
                 setTimeout(() => {
                     setMessage(null)
-                    fetchForms()
+                    fetchForm(AdmissionFormId)
                     handleClose()
 
                 }, 1000*5)
