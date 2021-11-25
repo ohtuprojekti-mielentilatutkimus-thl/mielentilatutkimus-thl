@@ -39,7 +39,7 @@ const FormState = ( { form, updateForms } ) => {
                         <MenuItem id='1' value={'Pyyntö tarkastelussa'}>Pyyntö tarkastelussa</MenuItem>
                         <MenuItem id='2' value={'Pyydetty lisätietoja'}>Pyydetty lisätietoja</MenuItem>
                         <MenuItem id='3' value={'Saatu lisätietoja'}>Saatu lisätietoja</MenuItem>
-                        <MenuItem id='4' value={'Pyyntö hyväksytty'}>Pyyntö hyväksytty</MenuItem>
+                        <MenuItem id='4' value={'Tutkimuspaikka pyydetty'}>Tutkimuspaikka pyydetty</MenuItem>
                         <MenuItem id='5' value={'Odottaa tarkistusta'}>Odottaa tarkistusta</MenuItem>
                     </Select>
                 </FormControl>
