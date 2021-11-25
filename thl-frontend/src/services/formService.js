@@ -8,6 +8,11 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
+const getOne = ( id ) => {
+    const request = axios.get(`${baseUrl}/admission_form/${id}`)
+    return request.then(response => response.data )
+}
+
 const update = (id, newObject) => {
     return axios.put(`${baseUrl}/thl/${id}`, newObject, { headers: utils.getAccessToken() })
 }
@@ -21,4 +26,8 @@ const updateResearchUnit = (id, newObject) => {
     return axios.put(`${baseUrl}/thl/${id}/research_unit`, newObject, { headers: utils.getAccessToken() })
 }
 
-export default { getAll, update, askForInfo, updateResearchUnit }
+const getByResearchUnit = (researchUnit) => {
+    return axios.get(`${baseUrl}/thl/research_unit/${researchUnit}`, researchUnit)
+}
+
+export default { getAll, getOne, update, askForInfo, updateResearchUnit, getByResearchUnit }

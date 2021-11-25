@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import loginUserService from '../services/loginUserService'
-import { Paper, Grid, Button, TextField, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Select, MenuItem } from '@material-ui/core'
 import { useStyles } from '../styles'
 import Typography from '@material-ui/core/Typography'
 import validator from 'validator'
@@ -32,8 +32,33 @@ const LoginForm = () => {
 
         loginUserService
             .login(loginUser)
+
         history.push('/thl-admissions')
     }
+
+    const setResearchUnit = () => {
+
+        if(role === 'Tutkimusyksikkö') {
+            setRole('Niuvanniemen sairaala')
+        }
+        if (role === 'Niuvanniemen sairaala' || role === 'Vanhan Vaasan sairaala' || role === 'Psykiatrinen vankisairaala'
+        || role === 'Kellokosken sairaala' || role === 'Tampereen yliopistollinen sairaala' || role === 'Oulun yliopistollisen sairaala') {
+
+            return (<FormControl fullWidth>
+                <Select
+                    value={role}
+                    onChange={handleRoleChange}>
+                    <MenuItem value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
+                    <MenuItem value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
+                    <MenuItem value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
+                    <MenuItem value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
+                    <MenuItem value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
+                    <MenuItem value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
+                </Select>
+            </FormControl>)
+        }
+    }
+
 
     const classes = useStyles()
 
@@ -84,9 +109,10 @@ const LoginForm = () => {
                                         name="controlled-radio-buttons-group"
                                         onChange={handleRoleChange}>
                                         <FormControlLabel value="THL" control={<Radio />} label="THL" />
-                                        <FormControlLabel value="Tutkimusyksikkö" control={<Radio />} label="Tutkimusyksikkö" />
                                         <FormControlLabel value="Poliisi" control={<Radio />} label="Poliisi" />
                                         <FormControlLabel value="Oikeuslaitos" control={<Radio />} label="Oikeuslaitos" />
+                                        <FormControlLabel value="Tutkimusyksikkö" control={<Radio />} label="Tutkimusyksikkö:" />
+                                        {setResearchUnit()}
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>

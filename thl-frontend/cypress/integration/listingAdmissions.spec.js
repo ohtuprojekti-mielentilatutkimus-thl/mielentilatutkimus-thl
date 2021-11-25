@@ -218,7 +218,11 @@ describe('Send to research unit', () => {
         cy.get('a').last().click()
         cy.get('#handleSendToOperatingUnit').click()
         cy.wait(1000)
-        cy.get('#inputForResearchUnit').type('Turun testitutkimusyksikkö')
+
+        cy.get('#selectResearchUnit').click()
+        cy.get('#0')
+            .click()
+
         cy.get('#inputForInfoForResearchUnit').type('Oikeuslaitos toivoo tutkimuksen suoritusta ennen 1.1.2022.')
         cy.get('#buttonSendToResearchUnit').click()
         cy.contains('Tutkimuspaikkapyyntö lähetetty onnistuneesti')
