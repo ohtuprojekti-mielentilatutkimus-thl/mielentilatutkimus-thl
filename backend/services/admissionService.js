@@ -29,7 +29,7 @@ const saveAdmission = async (data) => {
         action: 'save_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was saved',
+        message: 'Tutkimuspyyntö tallennettu',
         form_id: form.id
     })
 
@@ -43,7 +43,7 @@ const getAdmission = async (id) => {
         action: 'get_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was requested',
+        message: 'Tutkimuspyyntö avattu',
         form_id: form.id
     })
     return form.toJSON()
@@ -81,7 +81,7 @@ const updateAdmission = async (id, data) => {
         action: 'update_admission_form',
         category: 'admission_form',
         createdBy: 'userWouldGoHere',
-        message: 'admission form was updated',
+        message: 'Tutkimuspyyntö päivitetty',
         form_id: form.id
     })
 

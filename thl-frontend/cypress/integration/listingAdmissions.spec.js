@@ -231,3 +231,22 @@ describe('Send to research unit', () => {
     })
 }
 )
+
+describe('Event history', () => {
+    it('Event history can be viewed', function() {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').last().click()
+        cy.get('.MuiTab-wrapper').last().click()
+        cy.contains('Tapahtuma-aika')
+
+    })
+
+    it('Event history can be sorted by event time', function () {
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').last().click()
+        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu')
+        cy.get('#sortEventTime').click()
+        cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
+    })
+})
