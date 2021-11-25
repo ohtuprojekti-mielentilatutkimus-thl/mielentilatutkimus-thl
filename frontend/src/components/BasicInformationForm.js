@@ -66,7 +66,7 @@ const BasicInformationForm = () => {
                 .create(basicInformations)
                 .then(response => {
                     console.log(response.data)
-                    setMessage('Perustietojen lähettäminen onnistui!')
+                    setMessage(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`)
                     setTimeout(() => {
                         setMessage(null)
                     }, 1000*7)
