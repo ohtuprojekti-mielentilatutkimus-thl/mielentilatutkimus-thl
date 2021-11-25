@@ -38,7 +38,7 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
 
         if (duplicateFileName(file.name)) {
             setErrorMessage(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
-            window.scrollTo(0, 0)
+
             setTimeout(() => {
                 setErrorMessage(null)
             }, 1000*7)
@@ -76,8 +76,6 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
 
     const upload = async (event) => {
-        event.preventDefault()
-
         clearMessages()
 
         const filesInfoToSend = filesInfo.filter(fileInfo => fileInfo.disabled === false)
@@ -89,7 +87,7 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
                 setMessage('Liitteet lisätty')
                 setTimeout(() => {
                     setMessage(null)
-                    fetchForm()
+                    fetchForm(AdmissionFormId)
                     handleClose()
 
                 }, 1000*5)
@@ -110,14 +108,6 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
         <DialogTitle disableTypography>
             <h4>{form.thlRequestId}</h4>
             <div>
-                {(message && <Alert severity="success">
-                    {message} </Alert>
-                )}
-
-                {(errorMessage && <Alert severity="error">
-                    {errorMessage}</Alert>
-                )}
-
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -302,6 +292,22 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
                     </Paper>
                 </div>
             </div>
+            <Grid>
+                <div>
+                    {(message && <Alert severity="success">
+                        {message} </Alert>
+                    )}
+
+                </div>
+            </Grid>
+            <Grid>
+                <div>
+                    {(errorMessage && <Alert severity="error">
+                        {errorMessage} </Alert>
+                    )}
+
+                </div>
+            </Grid>
             <DialogActions>
                 <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
             </DialogActions>
