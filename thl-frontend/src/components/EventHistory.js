@@ -44,7 +44,7 @@ const EventHistory = ({ form }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Tapahtuma-aika
-                                <IconButton id="sortTime" onClick={sortEventsByDate} color="primary">
+                                <IconButton id="sortEventTime" onClick={sortEventsByDate} color="primary">
                                     <ArrowDropDownIcon />
                                 </IconButton>
                             </TableCell>
