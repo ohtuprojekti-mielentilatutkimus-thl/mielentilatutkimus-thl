@@ -100,12 +100,14 @@ const BasicInformationForm = () => {
 
 
             <div style={{
-                display: 'flex',
+                textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '5px'
             }}>
                 <Typography variant={'h4'}>Lähettäjän perustiedot</Typography>
+                <Typography variant={'body2'}>Lähetä perustiedot niin saat sähköpostiosoitteeseen linkin, jonka kautta pääset täyttämään mielentilatutkimuspyynnön.</Typography>
+
             </div>
 
             <div style={{
