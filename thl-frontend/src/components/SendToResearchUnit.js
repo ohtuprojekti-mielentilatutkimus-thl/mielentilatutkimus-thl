@@ -53,10 +53,13 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
                             id='selectResearchUnit'>
                             <MenuItem id='0' value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
                             <MenuItem id='1' value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
-                            <MenuItem id='2' value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
-                            <MenuItem id='3' value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
-                            <MenuItem id='4' value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
-                            <MenuItem id='5' value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
+                            <MenuItem id='2' value={'Psykiatrinen vankisairaala, Turun yksikkö'}>Psykiatrinen vankisairaala, Turun yksikkö</MenuItem>
+                            <MenuItem id='3' value={'Psykiatrinen vankisairaala, Vantaan yksikkö'}>Psykiatrinen vankisairaala, Vantaan yksikkö</MenuItem>
+                            <MenuItem id='4' value={'HUS Kellokosken sairaala'}>HUS Kellokosken sairaala</MenuItem>
+                            <MenuItem id='5' value={'OYS/Psykiatrian tulosalue, Oikeuspsykiatria'}>OYS/Psykiatrian tulosalue, Oikeuspsykiatria</MenuItem>
+                            <MenuItem id='6' value={'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14'}>Tays Pitkäniemen sairaala,
+                             Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14</MenuItem>
+                            <MenuItem id='7' value={'Tampereen yliopistollinen sairaala, EVA-yksikkö'}>Tampereen yliopistollinen sairaala, EVA-yksikkö</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

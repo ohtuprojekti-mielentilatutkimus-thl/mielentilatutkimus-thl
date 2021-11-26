@@ -38,27 +38,38 @@ const LoginForm = () => {
 
     const setResearchUnit = () => {
 
-        if(role === 'Tutkimusyksikkö') {
-            setRole('Niuvanniemen sairaala')
-        }
-        if (role === 'Niuvanniemen sairaala' || role === 'Vanhan Vaasan sairaala' || role === 'Psykiatrinen vankisairaala'
-        || role === 'Kellokosken sairaala' || role === 'Tampereen yliopistollinen sairaala' || role === 'Oulun yliopistollisen sairaala') {
+        var researchUnitRole = Boolean(false)
 
+        const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
+            'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
+            'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
+
+        if(role === 'Tutkimusyksikkö') {
+            setRole(reseachUnits[0])
+        }
+
+        for (let unit of reseachUnits) {
+            if (role === unit) {
+                researchUnitRole = Boolean(true)
+            }
+        }
+        if (researchUnitRole) {
             return (<FormControl fullWidth>
                 <Select
                     value={role}
                     onChange={handleRoleChange}>
-                    <MenuItem value={'Niuvanniemen sairaala'}>Niuvanniemen sairaala</MenuItem>
-                    <MenuItem value={'Vanhan Vaasan sairaala'}>Vanhan Vaasan sairaala</MenuItem>
-                    <MenuItem value={'Psykiatrinen vankisairaala'}>Psykiatrinen vankisairaala</MenuItem>
-                    <MenuItem value={'Kellokosken sairaala'}>Kellokosken sairaala</MenuItem>
-                    <MenuItem value={'Tampereen yliopistollinen sairaala'}>Tampereen yliopistollinen sairaala</MenuItem>
-                    <MenuItem value={'Oulun yliopistollisen sairaala'}>Oulun yliopistollisen sairaala</MenuItem>
+                    <MenuItem value={reseachUnits[0]}>Niuvanniemen sairaala</MenuItem>
+                    <MenuItem value={reseachUnits[1]}>Vanhan Vaasan sairaala</MenuItem>
+                    <MenuItem value={reseachUnits[2]}>Psykiatrinen vankisairaala, Turun yksikkö</MenuItem>
+                    <MenuItem value={reseachUnits[3]}>Psykiatrinen vankisairaala, Vantaan yksikkö</MenuItem>
+                    <MenuItem value={reseachUnits[4]}>HUS Kellokosken sairaala</MenuItem>
+                    <MenuItem value={reseachUnits[5]}>OYS/Psykiatrian tulosalue, Oikeuspsykiatria</MenuItem>
+                    <MenuItem value={reseachUnits[6]}>Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14</MenuItem>
+                    <MenuItem value={reseachUnits[7]}>Tampereen yliopistollinen sairaala, EVA-yksikkö</MenuItem>
                 </Select>
             </FormControl>)
         }
     }
-
 
     const classes = useStyles()
 
