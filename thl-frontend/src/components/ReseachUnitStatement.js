@@ -10,7 +10,6 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
     const [openConfirm, setConfirmOpen] = useState(false)
 
     const handleTitle1Change = (event) => {
-        console.log(form)
         setTitle1(event.target.value)
     }
 
