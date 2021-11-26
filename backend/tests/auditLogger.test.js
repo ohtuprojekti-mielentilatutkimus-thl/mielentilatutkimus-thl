@@ -1,13 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const helper = require('./test_helper')
 
-
-/* api not tested here atm
-const baseUrl = '/api/admissions'
-const api = supertest(app)
 const supertest = require('supertest')
 const app = require('../app')
-*/
+
+const helper = require('./test_helper')
+
+const baseUrl = '/api/admissions'
+const api = supertest(app)
+
 
 const admissionService = require('../services/admissionService')
 
