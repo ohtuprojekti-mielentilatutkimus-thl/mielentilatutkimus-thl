@@ -1,6 +1,6 @@
-/*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+/*eslint-disable no-unused-vars */
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
 import { Alert } from '@material-ui/lab'
@@ -16,6 +16,15 @@ const UploadForm = () => {
     const [filesInfo, setFilesInfo] = useState([])
     const [message, setMessage] = useState(null)
     const [selectedFiles, setSelectedFiles] = useState([])
+
+    useEffect(() => {
+        let filesInfoArray = sessionStorage.getItem('filesInfo')
+        let parsed = JSON.parse(filesInfoArray)
+
+        if (parsed) {
+            setFilesInfo(parsed)
+        }
+    }, [])
 
     const AdmissionFormId = useParams().id
 
@@ -53,6 +62,7 @@ const UploadForm = () => {
     }
 
     const disableSentChips = () => filesInfo.forEach(fileInfo => fileInfo.disabled = true)
+    const updateSessionStorage = () => sessionStorage.setItem('filesInfo', JSON.stringify(filesInfo))
 
     const removeFile = fileName => {
         setSelectedFiles(selectedFiles.filter(file => file.name !== fileName))
@@ -100,6 +110,8 @@ const UploadForm = () => {
         }
 
         disableSentChips()
+        // disableSentChips() sets disabled = true so these two need to be called in this order
+        updateSessionStorage()
         setSelectedFiles([])
     }
 
