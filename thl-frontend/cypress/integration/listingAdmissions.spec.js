@@ -235,7 +235,7 @@ describe('Send to research unit', () => {
 describe('Event history', () => {
     it('Event history can be viewed', function() {
         cy.visit('http://localhost:3002/thl/thl-admissions')
-        cy.get('a').eq(1).click()
+        cy.get('a').last().click()
         cy.get('.MuiTab-wrapper').eq(1).click()
         cy.contains('Tapahtuma-aika')
 
@@ -243,7 +243,7 @@ describe('Event history', () => {
 
     it('Event history can be sorted by event time', function () {
         cy.visit('http://localhost:3002/thl/thl-admissions')
-        cy.get('a').eq(1).click()
+        cy.get('a').last().click()
         cy.get('.MuiTab-wrapper').eq(1).click()
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu')
         cy.get('#sortEventTime').click()
