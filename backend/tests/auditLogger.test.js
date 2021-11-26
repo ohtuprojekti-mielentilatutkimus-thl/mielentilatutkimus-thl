@@ -7,13 +7,13 @@ const baseUrl = '/api/admissions'
 
 const api = supertest(app)
 
+const admissionService = require('../services/admissionService')
+
 const AdmissionForm = require('../models/admissionForm.model.js')
-const BasicInformationForm = require('../models/basicInformationForm.model.js')
 const Log = require('../models/log.model')
 
-const thisYearAsString = () => new Date().getFullYear().toString()
-
 const { getDiff } = require('../utils/logger')
+
 test('getDiff only returns difference between objects', async () => {
     const before = {
         Key: 'Value',
@@ -23,48 +23,90 @@ test('getDiff only returns difference between objects', async () => {
         Key: 'Value3',
         Key2: 'Value2'
     }
-    const difference = getDiff(before, after)
+
+    const difference = getDiff(after, before)
     expect(Object.keys(difference)).toHaveLength(1)
 
 })
 
-describe('PUT', () => {
-    beforeAll(async ()=> {
+describe('Save Admission', () => {
+    beforeAll(async () => {
         await AdmissionForm.deleteMany({})
-        await BasicInformationForm.deleteMany({})
         await Log.deleteMany({})
-    
-        const newBasicsForm = new BasicInformationForm(helper.basicInfoFormTestData)
-        await newBasicsForm.save()
+
+        await admissionService.saveAdmission({ ...helper.admissionFormTestData })
+        await new Promise((r) => setTimeout(r, 1000))  
+    })
+    test('saved admission is logged', async () => {
+        const latestLog = await helper.getLatestLog()
+
+        expect(latestLog.action).toBe('save_admission_form')
+        expect(latestLog.message).toBe('Tutkimuspyyntö tallennettu')
+
+    })
+
+    describe('Update Admission', () => {
+        beforeAll(async () => {
+            const savedAdmission = await helper.admissionsInDb()
+            await admissionService.updateAdmission(savedAdmission[0].id, { ...helper.admissionFormTestData, lastname: 'vaihtunutSukunimi'})
             
-        const newAdmissionForm = new AdmissionForm({ ...helper.admissionFormTestData,
-            formState: 'Pyydetty lisätietoja' })
-        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
-        const savedAdmissionForm = await newAdmissionForm.save()
+            await new Promise((r) => setTimeout(r, 1000))
+        })
 
-        await api
-            .put(baseUrl+`/admission_form/${savedAdmissionForm.id}/edit`)
-            .send({ ...helper.admissionFormTestData, lastname: 'vaihtunutSukunimi'})
-    
-    })
-    test('log includes: action, category, createdBy, message', async () => {
+        test('log includes "original/changed" versions of edited admission form', async () => {
+            const log = await helper.getLatestLog()
+
+            let before = log.diff.original
+            let after = log.diff.changed
+
+            // should not match since 'lastname' and 'updatedAt' were updated
+            expect(before).not.toMatchObject(after)
         
-    })
+            before = helper.omit(before, 'lastname', 'updatedAt')
+            after = helper.omit(after, 'lastname', 'updatedAt')
 
-    test('log includes "before/after" versions of edited admission form', async () => {
-        const log = await helper.getLog()
-        let before = log[0].diff.before
-        let after = log[0].diff.after
+            // should match since two updated values are excluded
+            expect(before).toMatchObject(after)
+        })
+        describe('Update Same Admission Twice', () => {
+            beforeAll(async () => {
+                const savedAdmission = await helper.admissionsInDb()
+                await admissionService.updateAdmission(savedAdmission[0].id, { ...helper.admissionFormTestData,
+                    lastname: 'vaihtunutSukunimi',
+                    name: 'vaihtunutEtunimi'})
+                
+                await new Promise((r) => setTimeout(r, 1000))
+            })
 
-        // should not match since 'lastname' and 'updatedAt' were updated
-        expect(before).not.toMatchObject(after)
+            test('diff.original contains the recent field change and diff.after only the new change', async () => {
+                const log = await helper.getLatestLog()
+
+                let before = log.diff.original
+                let after = log.diff.changed
+
+                // should not match since 'name' and 'updatedAt' were updated
+                expect(before).not.toMatchObject(after)
         
-        before = helper.omit(before, 'lastname', 'updatedAt')
-        after = helper.omit(after, 'lastname', 'updatedAt')
+                before = helper.omit(before, 'name', 'updatedAt')
+                after = helper.omit(after, 'name', 'updatedAt')
 
-        // should match since two updated values are excluded
-        expect(before).toMatchObject(after)
-
+                // should match since two updated values are excluded
+                expect(before).toMatchObject(after)
+            })
+        })
     })
+    describe('Get Admission', () => {
+        beforeAll(async () => {
+            const savedAdmission = await helper.admissionsInDb()
+            await admissionService.getAdmission(savedAdmission[0].id)
+            await new Promise((r) => setTimeout(r, 1000))
+        })
+
+        test('get request is logged', async () => {
+            const latestLog = await helper.getLatestLog()
     
+            expect(latestLog.action).toBe('get_admission_form')
+            expect(latestLog.message).toBe('Tutkimuspyyntö avattu')
+        })
+    })
 })
