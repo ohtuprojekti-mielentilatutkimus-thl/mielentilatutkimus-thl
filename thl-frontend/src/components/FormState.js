@@ -41,6 +41,7 @@ const FormState = ( { form, updateForms } ) => {
                         <MenuItem id='3' value={'Saatu lisätietoja'}>Saatu lisätietoja</MenuItem>
                         <MenuItem id='4' value={'Tutkimuspaikka pyydetty'}>Tutkimuspaikka pyydetty</MenuItem>
                         <MenuItem id='5' value={'Odottaa tarkistusta'}>Odottaa tarkistusta</MenuItem>
+                        <MenuItem id='6' value={'Lausunto saapunut'}>Lausunto saapunut</MenuItem>
                     </Select>
                 </FormControl>
             </div>
