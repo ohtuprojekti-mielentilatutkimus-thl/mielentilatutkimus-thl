@@ -49,8 +49,6 @@ const UploadForm = () => {
     const selectFile = (event) => {
         const file = event.target.files[0]
 
-        msg.clear()
-
         if (duplicateFileName(file.name)) {
             window.scrollTo(0, 0)
             msg.setErrorMsg(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
@@ -96,7 +94,7 @@ const UploadForm = () => {
         window.scrollTo(0, 0)
 
         if (res.status === 200) {
-            msg.setMsg('Liitteiden lähetys onnistui! Voit sulkea välilehden tai lähettää lisää liitteitä. Aiemmin lähettämäsi liitteet näkyvät häivytettynä eivätkä lähety uudestaan', 5)
+            msg.setMsg('Liitteiden lähetys onnistui! Voit sulkea välilehden tai lähettää lisää liitteitä. Aiemmin lähettämäsi liitteet näkyvät häivytettynä eivätkä lähety uudestaan')
         } else {
             msg.setErrorMsg('Liitteiden lähetys epäonnistui!')
         }

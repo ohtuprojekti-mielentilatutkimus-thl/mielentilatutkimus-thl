@@ -1,12 +1,13 @@
 import React from 'react'
 import { Alert } from '@material-ui/lab'
+import { Stack } from '@mui/material'
 
 const Messages = ({ msgArray, severity }) => (
-    <div>
+    <Stack spacing={1}>
         {msgArray.map(msg => (
             <Alert key={msg} severity={severity}>{msg}</Alert>
         ))}
-    </div>
+    </Stack>
 )
 
 export default Messages

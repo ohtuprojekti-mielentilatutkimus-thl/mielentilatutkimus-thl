@@ -5,7 +5,12 @@ const useMessage = () => {
     const [errorMessages, setErrorMessages] = useState([])
 
     const setMsg = (msg, duration = null) => {
+        if (messages.includes(msg)) {
+            return
+        }
+
         setMessages(messages.concat(msg))
+
         if (duration) {
             setTimeout(() => {
                 setMessages(messages.filter(msgInArray => msgInArray !== msg))
@@ -14,7 +19,12 @@ const useMessage = () => {
     }
 
     const setErrorMsg = (msg, duration = 10) => {
+        if (errorMessages.includes(msg)) {
+            return
+        }
+
         setErrorMessages(errorMessages.concat(msg))
+
         setTimeout(() => {
             setErrorMessages(errorMessages.filter(msgInArray => msgInArray !== msg))
         }, duration * 1000)
