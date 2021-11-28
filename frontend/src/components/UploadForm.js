@@ -122,7 +122,7 @@ const UploadForm = () => {
                     square={false}
                     align='center'
                     justify='center'
-                    spacing={30}
+                    spacing={3}
                 >
                     <h2>Lataa liitteitä</h2>
                     <br />
