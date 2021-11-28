@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useMessage = () => {
     const [messages, setMessages] = useState([])
@@ -9,7 +9,9 @@ const useMessage = () => {
             return
         }
 
-        setMessages(messages.concat(msg))
+        setMessages((prevMessages) => (
+            prevMessages.concat(msg)
+        ))
 
         if (duration) {
             setTimeout(() => {
@@ -23,7 +25,9 @@ const useMessage = () => {
             return
         }
 
-        setErrorMessages(errorMessages.concat(msg))
+        setErrorMessages((prevMessages) => (
+            prevMessages.concat(msg)
+        ))
 
         setTimeout(() => {
             setErrorMessages(errorMessages.filter(msgInArray => msgInArray !== msg))
