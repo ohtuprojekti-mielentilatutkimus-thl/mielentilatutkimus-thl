@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
 import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+//import { Alert } from '@material-ui/lab'
+import useMessage from '../utils/messageHook'
+import Messages from './Messages'
 
 
 const AdditionalInfo = ({ form, updateForms }) => {
 
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [additionalInfo, setAdditionalInfo] = useState ('')
+    /*
     const [message, setMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
-
+    */
+    const msg = useMessage()
 
     const handleCloseAdditionalInfo = () => {
         setShowAdditionalInfo(false)
@@ -31,7 +35,8 @@ const AdditionalInfo = ({ form, updateForms }) => {
             additional_info : additionalInfo
         }
 
-        setErrorMessage('')
+        //setErrorMessage('')
+        msg.clear()
 
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
 
@@ -42,21 +47,28 @@ const AdditionalInfo = ({ form, updateForms }) => {
             .then(response => {
                 console.log(response.data)
                 setAdditionalInfo('')
+                msg.setMsg('Muokkauspyyntö lähetetty', 7)
+                /*
                 setMessage('Muokkauspyyntö lähetetty')
                 setTimeout(() => {
                     setMessage(null)
                     setShowAdditionalInfo(false)
                 }, 1000*7)
+                */
             }
             )
             .catch(error => {
                 error = true
                 console.log(error)
+                msg.setErrorMsg('Muokkauspyynnön lähettämisessä tapahtui virhe!', 7)
+                /*
                 setErrorMessage('Muokkauspyynnön lähettämisessä tapahtui virhe!')
                 setTimeout(() => {
                     setErrorMessage(null)
                 }, 1000 * 7)
+                */
             })
+
 
         if(!error) {
             formService.update(updateFormState.id, updateFormState)
@@ -85,20 +97,10 @@ const AdditionalInfo = ({ form, updateForms }) => {
                             <TextField id='inputForAdditionalInfo' value={additionalInfo} onChange= {handleAdditionalInfoChange} multiline rows={10} fullWidth label='Pyydä lisätietoja...'/>
                         </Grid>
                         <Grid>
-                            <div>
-                                {(message && <Alert severity="success">
-                                    {message} </Alert>
-                                )}
-
-                            </div>
+                            {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
                         </Grid>
                         <Grid>
-                            <div>
-                                {(errorMessage && <Alert severity="error">
-                                    {errorMessage} </Alert>
-                                )}
-
-                            </div>
+                            {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
                         </Grid>
                         <Grid>
                             <Button variant='outlined' color='primary' type='submit' id='sendAdditionalInfo'>Lähetä</Button>
@@ -106,7 +108,6 @@ const AdditionalInfo = ({ form, updateForms }) => {
                         <DialogActions>
                             <Button variant = 'contained' color='primary' align='right' id='closeAdditionalInfo' onClick = {handleCloseAdditionalInfo}>Sulje</Button>
                         </DialogActions>
-
                     </form>
                 </DialogTitle>
             </Dialog>
@@ -119,5 +120,23 @@ const AdditionalInfo = ({ form, updateForms }) => {
     )
 
 }
+/*
+<Grid>
+    <div>
+        {(message && <Alert severity="success">
+            {message} </Alert>
+        )}
+
+    </div>
+</Grid>
+<Grid>
+    <div>
+        {(errorMessage && <Alert severity="error">
+            {errorMessage} </Alert>
+        )}
+
+    </div>
+</Grid>
+*/
 
 export default AdditionalInfo
