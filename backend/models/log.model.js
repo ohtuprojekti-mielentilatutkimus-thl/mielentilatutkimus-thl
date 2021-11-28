@@ -14,6 +14,15 @@ const LogSchema = new Schema({
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 })
 
+LogSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
+})
+
+
 LogSchema.index({ action: 1, category: 1 })
 
 module.exports = mongoose.model('Log', LogSchema)

@@ -35,6 +35,11 @@ const getLog = async () => {
     return log.map(a => a.toJSON())
 }
 
+const getLatestLog = async () => {
+    const log = await Log.findOne().sort({ createdAt: 'descending' })
+    return log.toJSON()
+}
+
 //https://dev.to/nas5w/how-to-select-or-omit-properties-from-an-object-in-javascript-3ina
 function omit(obj, ...props) {
     const result = { ...obj }
@@ -47,5 +52,5 @@ function omit(obj, ...props) {
 module.exports = {
     admissionFormTestData, basicInfoFormTestData, sendToResearchUnitData,
     admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
-    admissionInDb, omit, getLog
+    admissionInDb, omit, getLog, getLatestLog
 }

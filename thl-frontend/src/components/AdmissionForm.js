@@ -12,6 +12,7 @@ import AdditionalInfo from './AdditionalInfo'
 import FormState from './FormState'
 import { DisplayHazard, NotProsecuted, DisplayProsecuted } from './ExtraComponents'
 import EventHistory from './EventHistory'
+import ReseachUnitStatement from './ReseachUnitStatement'
 
 
 const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showInfo } ) => {
@@ -72,6 +73,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         <TabList onChange={handleTabChange} TabIndicatorProps={{ style: { backgroundColor: 'blue' } }}>
                             <Tab label="Tiedot" value="1" />
                             <Tab label="Tapahtumahistoria" value="2" />
+                            <Tab label="Lausunto" value="3" />
                         </TabList>
                     </Box>
 
@@ -287,6 +289,17 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         <DialogActions>
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
                         Sulje
+                            </Button>
+                        </DialogActions>
+
+                    </TabPanel>
+
+                    <TabPanel value="3">
+
+                        <ReseachUnitStatement form={form} formState={form.formState} updateForms={updateForm} />
+                        <DialogActions>
+                            <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
+Sulje
                             </Button>
                         </DialogActions>
 
