@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
-import { Alert } from '@material-ui/lab'
 import { Button, Grid, List, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Divider, Stack } from '@mui/material'
