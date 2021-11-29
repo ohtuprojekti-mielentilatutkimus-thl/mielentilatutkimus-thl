@@ -20,7 +20,7 @@ const middleware = require('./utils/middlewares')
 app.use(cors())
 app.use(express.json())
 
-app.use('*/api/admissions', middleware.authJwt.verifyToken)
+//app.use('*/api/admissions', middleware.authJwt.verifyToken)
 app.use('*/api/admissions', admissionsRouter)
 app.use('*/api/admissions', basinInformationsRouter)
 app.use('*/api/admissions', attachmentsRouter)
