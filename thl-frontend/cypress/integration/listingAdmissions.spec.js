@@ -1,11 +1,38 @@
 /* eslint-disable no-undef */
 var created_at = ''
 
+const login = (role) => {
+
+    if(role === 'THL') {
+
+        cy.loginAsThlRole()
+            .then((res) => {
+                console.log(res)
+            })
+        cy.wait(1000)
+    }
+
+    if(role === 'Toimintayksikkö') {
+        console.log()
+        // jatkan
+    }
+}
+
 before(function() {
     cy.emptyDatabase()
     cy.wait(1000)
 
+    cy.loginAsThlRole()
+        .then((res) => {
+            console.log(res)
+        })
+    cy.wait(1000)
+    console.log('!!!')
+    console.log(localStorage.user)
+    console.log('!!!')
+
     cy.sendBasicInformation()
+
     cy.wait(1000)
 
     cy.sendAdmissionForm({
@@ -36,10 +63,11 @@ before(function() {
     })
 })
 
-
 describe('All admissions can be viewed', () => {
 
     it('New admission can be viewed', function () {
+
+        login('THL')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.contains('Mielentilatutkimuspyynnöt')
@@ -56,6 +84,9 @@ describe('All admissions can be viewed', () => {
     )
 
     it('If prosecuted is false extra fields are shown',function() {
+
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').first().click()
 
@@ -64,6 +95,9 @@ describe('All admissions can be viewed', () => {
     })
 
     it('If prosecuted is true extra fields are hidden', function() {
+
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
         cy.get('prosecutionDeadLine').should('not.exist')
@@ -74,6 +108,8 @@ describe('All admissions can be viewed', () => {
 
 describe('Sorting forms', () => {
     it('Sort by state sorts correctly', function () {
+
+        login('THL')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
@@ -92,6 +128,8 @@ describe('Sorting forms', () => {
 
     it('Sort by time sorts correctly', function () {
 
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
         cy.contains(created_at)
@@ -106,6 +144,8 @@ describe('Sorting forms', () => {
     })
 
     it('The state of the form can be changed', function () {
+
+        login('THL')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
@@ -132,6 +172,8 @@ describe('Sorting forms', () => {
     })
 
     it('Listing view shows states correctly', function () {
+
+        login('THL')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
@@ -160,6 +202,9 @@ describe('Sorting forms', () => {
 
 describe('Asking for additional information from form sender', () => {
     it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
+
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.contains('Mielentilatutkimuspyynnöt')
 
@@ -179,6 +224,8 @@ describe('Asking for additional information from form sender', () => {
 describe('Attachments', () => {
     it('Pdf attachments are listed and can be opened', function ()  {
 
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
         cy.get('a').last().click()
@@ -197,6 +244,9 @@ describe('Attachments', () => {
     })
 
     it('A new attachements can be added to the form', function () {
+
+        login('THL')
+
         const testAttachment = 'test_pdf.pdf'
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
@@ -212,6 +262,8 @@ describe('Attachments', () => {
 
 describe('Send to research unit', () => {
     it('Sending a request to research unit can be done and it changes form state to "Tutkimuspaikka pyydetty"', function ()  {
+
+        login('THL')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
 
@@ -234,19 +286,27 @@ describe('Send to research unit', () => {
 
 describe('Event history', () => {
     it('Event history can be viewed', function() {
+
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').eq(1).click()
+        cy.get('.MuiTab-wrapper').last().click()
+        cy.wait(1000)
         cy.contains('Tapahtuma-aika')
 
     })
 
     it('Event history can be sorted by event time', function () {
+
+        login('THL')
+
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').eq(1).click()
+        cy.get('.MuiTab-wrapper').last().click()
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu')
         cy.get('#sortEventTime').click()
+        cy.wait(1000)
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
 })

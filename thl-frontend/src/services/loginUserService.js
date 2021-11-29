@@ -20,6 +20,11 @@ const logout = () => {
 }
 
 const getUser = () => {
+
+    console.log('lol1')
+    console.log(JSON.parse(localStorage.getItem('user')))
+    console.log('lol2')
+
     return JSON.parse(localStorage.getItem('user'))
 }
 
