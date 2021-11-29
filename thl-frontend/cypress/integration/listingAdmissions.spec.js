@@ -27,9 +27,6 @@ before(function() {
             console.log(res)
         })
     cy.wait(1000)
-    console.log('!!!')
-    console.log(localStorage.user)
-    console.log('!!!')
 
     cy.sendBasicInformation()
 
