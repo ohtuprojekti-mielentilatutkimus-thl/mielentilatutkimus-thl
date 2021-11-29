@@ -114,6 +114,25 @@ Cypress.Commands.add('sendAttachment', ( { id, whichFile } ) => {
 
 })
 
+Cypress.Commands.add('loginAsThlRole', () => {
+
+    const loggedInUser = { username: 'Tero Testaaja', role: 'THL' }
+
+    return cy.request({
+        url: 'http://localhost:3001/api/auth/login',
+        method: 'POST',
+        body: { ...loggedInUser },
+    }).then(res => {
+        localStorage.setItem('user', JSON.stringify(res.body))
+
+        if(res.body.accessToken) {
+            localStorage.setItem('user', JSON.stringify(res.body))
+        }
+        return res.body
+    }
+    )
+})
+
 Cypress.Commands.overwrite('click', (originalFn, selector, options = {}) => {
     options.force = true
     return originalFn(selector, options) })
