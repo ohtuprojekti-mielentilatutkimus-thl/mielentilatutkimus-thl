@@ -13,6 +13,7 @@ import FormState from './FormState'
 import { DisplayHazard, NotProsecuted, DisplayProsecuted } from './ExtraComponents'
 import EventHistory from './EventHistory'
 import ReseachUnitStatement from './ReseachUnitStatement'
+import loginUserService from '../services/loginUserService'
 
 
 const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showInfo } ) => {
@@ -37,6 +38,24 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue)
+    }
+
+    const getTabsByRole = () => {
+
+        const user = loginUserService.getUser()
+
+        const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
+            'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
+            'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
+
+        if(user.role === 'THL') {
+            return(
+                <Tab label="Tapahtumahistoria" value="2" />
+            )
+        }
+        if (reseachUnits.includes(user.role)) {
+            return (<Tab label="Lausunto" value="3" />)
+        }
     }
 
     return (
@@ -72,8 +91,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleTabChange} TabIndicatorProps={{ style: { backgroundColor: 'blue' } }}>
                             <Tab label="Tiedot" value="1" />
-                            <Tab label="Tapahtumahistoria" value="2" />
-                            <Tab label="Lausunto" value="3" />
+                            {getTabsByRole()}
                         </TabList>
                     </Box>
 
