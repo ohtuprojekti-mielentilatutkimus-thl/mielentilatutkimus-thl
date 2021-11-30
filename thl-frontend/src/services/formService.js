@@ -27,7 +27,8 @@ const updateResearchUnit = (id, newObject) => {
 }
 
 const getByResearchUnit = (researchUnit) => {
-    return axios.get(`${baseUrl}/thl/research_unit/${researchUnit}`, researchUnit)
+    const request = axios.get(`${baseUrl}/thl/research_unit/${researchUnit}`, researchUnit, { headers: utils.getAccessToken() })
+    return request.then(response => response.data)
 }
 
 export default { getAll, getOne, update, askForInfo, updateResearchUnit, getByResearchUnit }

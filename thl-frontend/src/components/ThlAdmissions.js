@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core'
 import AdmissionForm from './AdmissionForm'
 import formService from '../services/formService'
+import loginUserService from '../services/loginUserService'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 
@@ -13,7 +14,6 @@ const ThlAdmissions = () => {
     const [ascending, setAscending] = useState(true)
     const [ascendingDate, setAscendingDate] = useState (false)
     const [showInfo, setShowInfo] = useState(false)
-
     const [form, setForm] = useState([])
 
     const classes = useStyles()
@@ -23,7 +23,21 @@ const ThlAdmissions = () => {
     }, [])
 
     const fetchFormHeaders = async () => {
-        const formHeaders = await formService.getAll()
+
+        const user = await loginUserService.getUser()
+
+        const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
+            'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
+            'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
+
+        var formHeaders = ''
+
+        if(user.role === 'THL') {
+            formHeaders = await formService.getAll()
+        }
+        else if (reseachUnits.includes(user.role)) {
+            formHeaders = await formService.getByResearchUnit(user.role)
+        }
         setFormHeaders( formHeaders )
     }
 

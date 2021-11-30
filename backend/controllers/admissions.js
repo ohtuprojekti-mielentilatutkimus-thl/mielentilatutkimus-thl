@@ -7,6 +7,11 @@ const admissionService = require('../services/admissionService')
 admissionsRouter.get('/', async (req, res) => {
     res.json(await admissionService.getAllAdmissions())
 })
+
+//GET ADMISSIONS BY RESEARCH UNIT
+admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
+    res.json(await admissionService.getAdmissionsByResearchUnit(req.params.researchUnit))
+})
   
 //POST ADMISSION
 admissionsRouter.post('/admission_form', async (req, res) => {
@@ -64,12 +69,6 @@ admissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
     } 
     const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
     res.json(updatedForm.toJSON())
-})
-
-//GET ADMISSIONS BY RESEARCH UNIT
-admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
-
-    res.json(await admissionService.getAdmissionsByResearchUnit(req.params.researchUnit))
 })
 
 //PUT FORMSTATE
