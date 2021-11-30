@@ -23,6 +23,9 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
     const [showSendResearchUnit, setShowSendToResearchUnit] = useState(false)
     const [showAddAttachment, setShowAddAttachment] = useState(false)
     const [tabValue, setTabValue] = useState('1')
+    //const [thlRole, setThlRole] = useState(false)
+    //const [reseachUnitRole, setReseachUnitRole] = useState(false)
+
 
     const handleAttachment = ( id ) => {
         attachmentService.getOne(id).then(res => {
@@ -34,6 +37,28 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
         })
     }
 
+
+    const thlRoleUser = () => {
+
+        const user = loginUserService.getUser()
+
+        if(user.role === 'THL'){
+            return true
+        }
+    }
+
+    const reseachUnitRoleUser = () => {
+
+        const user = loginUserService.getUser()
+        const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
+            'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
+            'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
+
+        if (reseachUnits.includes(user.role)) {
+            return true
+        }
+    }
+
     const classes = useStyles()
 
     const handleTabChange = (event, newValue) => {
@@ -42,21 +67,18 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
 
     const getTabsByRole = () => {
 
-        const user = loginUserService.getUser()
-
-        const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
-            'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
-            'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
-
-        if(user.role === 'THL') {
+        if(thlRoleUser()) {
             return(
                 <Tab label="Tapahtumahistoria" value="2" />
             )
         }
-        if (reseachUnits.includes(user.role)) {
-            return (<Tab label="Lausunto" value="3" />)
+        if (reseachUnitRoleUser()) {
+            return (<Tab label="Lausunto" value="3" />
+            )
         }
     }
+
+    const thlUser = thlRoleUser()
 
     return (
         <div>
@@ -98,6 +120,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     <TabPanel value="1">
                         <DialogTitle disableTypography>
                             <h1>{form.thlRequestId}</h1>
+
                             <Grid
                                 container
                                 spacing={1}
@@ -112,14 +135,20 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                     <div id='showState' className={classes.text}>{form.formState}</div>
                                 </Grid>
 
-                                <Grid item xs={4}>
-                                    <div className={classes.textLabel}>Päivitä lomakkeen tilaa:</div>
-                                    <FormState form={form} formState={form.formState} updateForms={updateForm} />
+                                {thlUser ? (
+                                    <Grid item xs={4}>
+                                        <div className={classes.textLabel}>Päivitä lomakkeen tilaa:</div>
+                                        <FormState form={form} formState={form.formState} updateForms={updateForm} />
+                                    </Grid>
+                                ) : ('')}
+
+                            </Grid>
+
+                            {thlUser ? (
+                                <Grid>
+                                    <AdditionalInfo form={form} updateForms={updateForm}/>
                                 </Grid>
-                            </Grid>
-                            <Grid>
-                                <AdditionalInfo form={form} updateForms={updateForm}/>
-                            </Grid>
+                            ) : ('')}
 
 
                         </DialogTitle>
@@ -293,9 +322,15 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                             <Button color='primary' id='handleAddAttachment' variant='contained' onClick={() => setShowAddAttachment(true)}>
                         Lisää liitteitä
                             </Button>
-                            <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
+
+                            <div>
+                                {thlUser ? (
+                                    <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
                         Lähetä tutkimuspaikkapyyntö
-                            </Button>
+                                    </Button>
+                                ) : ('')}
+                            </div>
+
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
                         Sulje
                             </Button>
