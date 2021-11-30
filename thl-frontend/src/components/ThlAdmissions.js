@@ -25,21 +25,22 @@ const ThlAdmissions = () => {
     const fetchFormHeaders = async () => {
 
         const user = await loginUserService.getUser()
+        const role = user.role
+        var formHeaders = ''
 
         const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
             'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
             'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
 
-        var formHeaders = ''
-
-        if(user.role === 'THL') {
+        if(role === 'THL') {
             formHeaders = await formService.getAll()
         }
-        else if (reseachUnits.includes(user.role)) {
-            formHeaders = await formService.getByResearchUnit(user.role)
+        else if (reseachUnits.includes(role)) {
+            formHeaders = await formService.getByResearchUnit(role)
         }
         setFormHeaders( formHeaders )
     }
+
 
     const fetchForm = async ( id ) => {
         const form = await formService.getOne(id)
