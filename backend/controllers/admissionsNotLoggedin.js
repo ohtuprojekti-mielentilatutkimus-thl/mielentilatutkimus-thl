@@ -40,10 +40,9 @@ sendAdmissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
             res.sendStatus(500)
         }
     } 
-    await admissionService.updateAdmission(req.params.id, req.body)
-    res.json({
-        message: 'ok'
-    })
+    const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
+    //Change this
+    res.json(updatedForm.toJSON())
 })
    
 module.exports = sendAdmissionsRouter
