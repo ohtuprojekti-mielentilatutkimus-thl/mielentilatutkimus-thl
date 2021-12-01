@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { Grid, Dialog, DialogTitle, DialogActions, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+import { Grid, DialogTitle, DialogActions, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
 import formService from '../services/formService'
+import Messages from './Messages'
+import useMessage from '../utils/messageHook'
 
 const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
 
-    const [message, setMessage] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
     const [researchUnit, setResearchUnit] = useState('Niuvanniemen sairaala')
     const [researchUnitInformation, setResearchUnitInformation] = useState('')
 
+    const msg = useMessage()
 
     const handleSend = (event) => {
         event.preventDefault()
@@ -22,18 +22,11 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             ( newForm ) => {
                 setResearchUnit('')
                 setResearchUnitInformation('')
-                setMessage('Tutkimuspaikkapyyntö lähetetty onnistuneesti')
+                msg.setMsg('Tutkimuspaikkapyyntö lähetetty onnistuneesti', 5, handleClose)
                 updateForms(newForm.data)
-                setTimeout(() => {
-                    setMessage(null)
-                    handleClose()
-                }, 1000*5)
             })
             .catch(error => {
-                setErrorMessage('Tutkimuspaikkapyynnön lähettämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 5)
+                msg.setErrorMsg('Tutkimuspaikkapyynnön lähettämisessä tapahtui virhe!', 5)
             })
     }
 
@@ -70,22 +63,10 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
                 <Grid>
                     <Button id= 'buttonSendToResearchUnit'variant='outlined' color='primary' type='submit'>Lähetä</Button>
                 </Grid>
-                <Grid>
-                    <div>
-                        {(message && <Alert severity="success">
-                            {message} </Alert>
-                        )}
 
-                    </div>
-                </Grid>
-                <Grid>
-                    <div>
-                        {(errorMessage && <Alert severity="error">
-                            {errorMessage} </Alert>
-                        )}
+                {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+                {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
 
-                    </div>
-                </Grid>
                 <DialogActions>
                     <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
                 </DialogActions>
