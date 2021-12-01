@@ -26,11 +26,10 @@ admissionsRouter.post('/admission_form', async (req, res) => {
 
     } else {
         const savedForm = await admissionService.saveAdmission(data)
-        
+        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
+    
         //Tarviiko lähettää takaisin tallennettua lomaketta?
         res.json(savedForm)
-
-        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
     }
 })
 

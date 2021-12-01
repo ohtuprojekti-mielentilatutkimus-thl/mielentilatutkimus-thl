@@ -6,6 +6,7 @@ import 'cypress-file-upload'
 describe('From posting basic informations to police adding attachments', function() {
 
     var admissionId = ''
+    var senders_id = ''
 
     it('adding admission', function(){
 
@@ -19,22 +20,45 @@ describe('From posting basic informations to police adding attachments', functio
                 sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber
 
             }).then(() => {
+
                 cy.wait(1000)
-                cy.request('POST', 'http://localhost:3000/api/admissions/admission_form', {
-                    name: helper.admission_form_input.name,
-                    lastname: helper.admission_form_input.lastname,
-                    diaariNumber: helper.admission_form_input.diaariNumber,
-                    formSender: 'leo.lahettaja@helsinki.fi',
+                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                    const parts = emails.body[0].text.split('/')
+                    const id_from_email = parts[parts.length-1].replace('\n','')
+                    localStorage.setItem('sender_id', JSON.stringify(id_from_email))
+                    const sender_id = localStorage.sender_id
+                    senders_id = sender_id.replace(/['"]+/g,'')
+
+                }).then(() => {
+
+                    cy.wait(1000)
+                    cy.request('POST', 'http://localhost:3000/api/admissions/admission_form', {
+                        name: helper.admission_form_input.name,
+                        lastname: helper.admission_form_input.lastname,
+                        diaariNumber: helper.admission_form_input.diaariNumber,
+                        sendersEmail: 'leo.lahettaja@helsinki.fi',
+                        basicInformationId: senders_id,
+                        admissionNoteSenderOrganization: helper.basic_information_input.admissionNoteSenderOrganization,
+                        admissionNoteSender: helper.basic_information_input.admissionNoteSender,
+                        sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber,
+                        assistantsEmail: helper.admission_form_input.assistantsEmail,
+                        legalGuardianEmail: helper.admission_form_input.legalGuardianEmail,
+                        formSender: 'leo.lahettaja@helsinki.fi',
+
+                    }).then(() => {
+
+                        cy.wait(1000)
+                        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                            const parts = emails.body[1].text.split('/')
+                            const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
+                            admissionId = id_from_email
+                        })
+                    })
                 })
             })
         })
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
-
-            const parts = emails.body[1].text.split('/')
-            const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
-            admissionId = id_from_email
-        })
     })
+
 
     it('police getting email for adding attachments', function(){
 
