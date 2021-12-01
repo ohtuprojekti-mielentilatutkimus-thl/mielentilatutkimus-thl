@@ -10,6 +10,7 @@ const mongoose = require('mongoose')
 mongoose.plugin(require('./utils/diff-plugin'))
 
 const admissionsNotLoggedInRouter = require('./controllers/admissionsNotLoggedin')
+const attachmentsNotLoggedInRouter = require('./controllers/attachmentsNotLoggedIn')
 const admissionsRouter = require('./controllers/admissions')
 const basinInformationsRouter = require('./controllers/basicInformations')
 const attachmentsRouter = require('./controllers/attachments')
@@ -22,6 +23,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('*/api/admissions', admissionsNotLoggedInRouter)
+app.use('*/api/admissions', attachmentsNotLoggedInRouter)
 
 //app.use('*/api/admissions', middleware.authJwt.verifyToken)
 app.use('*/api/admissions', admissionsRouter)
