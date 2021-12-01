@@ -25,9 +25,6 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
     const [showAddAttachment, setShowAddAttachment] = useState(false)
     const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [tabValue, setTabValue] = useState('1')
-    //const [thlRole, setThlRole] = useState(false)
-    //const [reseachUnitRole, setReseachUnitRole] = useState(false)
-
 
     const handleAttachment = ( id ) => {
         attachmentService.getOne(id).then(res => {
@@ -38,7 +35,6 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
             setShowAttachment(true)
         })
     }
-
 
     const thlRoleUser = () => {
 

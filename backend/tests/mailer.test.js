@@ -52,10 +52,10 @@ test('Link for police to adding attachments is sent', async () => {
 
     const infoObject= {
         email: 'pekka.pekkanen@poliisi.fi',
-        value: 'R 20 / 123',
+        value: '616014ea275e2df3c553b958',
     }
 
-    Mailer.sendLinkToAddingAttachments(infoObject.email, '616014ea275e2df3c553b958', 'diaarinumero: R 20 / 123')
+    Mailer.sendLinkToAddingAttachments(infoObject.email, '616014ea275e2df3c553b958', 'THL-id: 616014ea275e2df3c553b958')
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
         expect(err).toBeNull()
@@ -63,7 +63,7 @@ test('Link for police to adding attachments is sent', async () => {
         email = emails[0]
         expect(email.to).toStrictEqual([{ address: infoObject.email, name: '' }])
         expect(email.text.includes('616014ea275e2df3c553b958')).toBe(true)
-        expect(email.text.includes('voit lähettää liitteitä koskien tapausta (diaarinumero: R 20 / 123)')).toBe(true)
+        expect(email.text.includes('voit lähettää liitteitä koskien tapausta (THL-id: 616014ea275e2df3c553b958')).toBe(true)
     })
 })
 
