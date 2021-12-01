@@ -9,7 +9,7 @@ const getAll = () => {
 }
 
 const getOne = ( id ) => {
-    const request = axios.get(`${baseUrl}/admission_form/${id}`)
+    const request = axios.get(`${baseUrl}/admission_form/${id}`, { headers: utils.getAccessToken() })
     return request.then(response => response.data )
 }
 
