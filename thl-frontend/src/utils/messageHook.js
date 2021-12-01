@@ -4,7 +4,7 @@ const useMessage = () => {
     const [messages, setMessages] = useState([])
     const [errorMessages, setErrorMessages] = useState([])
 
-    const setMsg = (msg, duration = null) => {
+    const setMsg = (msg, duration = null, afterMsgFunc = null) => {
         if (messages.includes(msg)) {
             return
         }
@@ -16,11 +16,12 @@ const useMessage = () => {
         if (duration) {
             setTimeout(() => {
                 setMessages(messages.filter(msgInArray => msgInArray !== msg))
+                afterMsgFunc()
             }, duration * 1000)
         }
     }
 
-    const setErrorMsg = (msg, duration = 10) => {
+    const setErrorMsg = (msg, duration = 10, afterMsgFunc = null) => {
         if (errorMessages.includes(msg)) {
             return
         }
@@ -31,6 +32,7 @@ const useMessage = () => {
 
         setTimeout(() => {
             setErrorMessages(errorMessages.filter(msgInArray => msgInArray !== msg))
+            afterMsgFunc()
         }, duration * 1000)
     }
 
