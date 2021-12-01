@@ -48,11 +48,10 @@ const LoginForm = () => {
             setRole(reseachUnits[0])
         }
 
-        for (let unit of reseachUnits) {
-            if (role === unit) {
-                researchUnitRole = Boolean(true)
-            }
+        if(reseachUnits.includes(role)){
+            researchUnitRole = Boolean(true)
         }
+
         if (researchUnitRole) {
             return (<FormControl fullWidth>
                 <Select
@@ -120,8 +119,6 @@ const LoginForm = () => {
                                         name="controlled-radio-buttons-group"
                                         onChange={handleRoleChange}>
                                         <FormControlLabel value="THL" control={<Radio />} label="THL" />
-                                        <FormControlLabel value="Poliisi" control={<Radio />} label="Poliisi" />
-                                        <FormControlLabel value="Oikeuslaitos" control={<Radio />} label="Oikeuslaitos" />
                                         <FormControlLabel value="Tutkimusyksikkö" control={<Radio />} label="Tutkimusyksikkö:" />
                                         {setResearchUnit()}
                                     </RadioGroup>

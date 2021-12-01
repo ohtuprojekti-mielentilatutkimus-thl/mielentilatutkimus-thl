@@ -14,6 +14,19 @@ const getAllAdmissions = async () => {
     return admissionForms.map((admissionform) => admissionform.toJSON())
 }
 
+const getAdmissionsByResearchUnit = async (researchUnit) => {
+
+    const admissionForms = await AdmissionForm.find({researchUnit: (researchUnit), formState: ('Tutkimuspaikka pyydetty')}).select('thlRequestId formState createdAt updatedAt')
+    /* tarvitseeko tähänkään lokitusta? 
+    admissionForms.log({
+        action: 'get_admission_form',
+        category: 'admission_form',
+        createdBy: 'userWouldGoHere',
+        message: `admissions where research unit is '${researchUnit}' was requested`
+    }) */
+    return admissionForms.map((admissionform) => admissionform.toJSON())
+}
+
 const saveAdmission = async (data) => {
     const form = new AdmissionForm(
         { ...data }
@@ -45,20 +58,6 @@ const getAdmission = async (id) => {
         message: 'Tutkimuspyyntö avattu'
     })
     return form.toJSON()
-}
-
-const getAdmissionsByResearchUnit = async (researchUnit) => {
-
-    const forms = await AdmissionForm.find({researchUnit: (researchUnit)}).populate('attachments', { fileName: 1, whichFile: 1 })
-
-    /*forms.log({
-        action: 'get_admission_form',
-        category: 'admission_form',
-        createdBy: 'userWouldGoHere',
-        message: `admissions where research unit is '${researchUnit}' was requested`
-    }) */
-
-    return forms.map((admissionform) => admissionform.toJSON())
 }
 
 const updateAdmission = async (id, data) => {
