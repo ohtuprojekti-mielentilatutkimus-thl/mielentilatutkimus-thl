@@ -3,19 +3,21 @@
 import React, { useEffect, useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
-import { Alert } from '@material-ui/lab'
 import { Button, Grid, List, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Divider, Stack } from '@mui/material'
 
+import useMessage from '../utils/messageHook'
+
 import FileChip from './FileChip'
+import Messages from './Messages'
 
 const UploadForm = () => {
 
-    const [errorMessage, setErrorMessage] = useState(null)
     const [filesInfo, setFilesInfo] = useState([])
-    const [message, setMessage] = useState(null)
     const [selectedFiles, setSelectedFiles] = useState([])
+
+    const msg = useMessage()
 
     useEffect(() => {
         let filesInfoArray = sessionStorage.getItem('filesInfo')
@@ -46,14 +48,9 @@ const UploadForm = () => {
     const selectFile = (event) => {
         const file = event.target.files[0]
 
-        clearMessages()
-
         if (duplicateFileName(file.name)) {
-            setErrorMessage(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
             window.scrollTo(0, 0)
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
             return
         }
 
@@ -81,17 +78,12 @@ const UploadForm = () => {
         )
     }
 
-    const clearMessages = () => {
-        setErrorMessage(null)
-        setMessage(null)
-    }
-
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
 
     const upload = async (event) => {
         event.preventDefault()
 
-        clearMessages()
+        msg.clear()
 
         const filesInfoToSend = filesInfo.filter(fileInfo => fileInfo.disabled === false)
         const filesInfoDisabledPropRemoved = filesInfoToSend.map(({ disabled, ...fileInfo }) => fileInfo)
@@ -101,12 +93,9 @@ const UploadForm = () => {
         window.scrollTo(0, 0)
 
         if (res.status === 200) {
-            setMessage('Liitteiden lähetys onnistui! Voit sulkea välilehden tai lähettää lisää liitteitä. Aiemmin lähettämäsi liitteet näkyvät häivytettynä eivätkä lähety uudestaan')
+            msg.setMsg('Liitteiden lähetys onnistui! Voit sulkea välilehden tai lähettää lisää liitteitä. Aiemmin lähettämäsi liitteet näkyvät häivytettynä eivätkä lähety uudestaan')
         } else {
-            setErrorMessage('Liitteiden lähetys epäonnistui!')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg('Liitteiden lähetys epäonnistui!')
         }
 
         disableSentChips()
@@ -118,13 +107,8 @@ const UploadForm = () => {
     return (
         <div className={classes.page}>
 
-            {(message && <Alert severity="success">
-                {message} </Alert>
-            )}
-
-            {(errorMessage && <Alert severity="error">
-                {errorMessage}</Alert>
-            )}
+            {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+            {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
 
             <div style={{
                 display: 'flex',
@@ -313,4 +297,5 @@ const UploadForm = () => {
     )
 
 }
+
 export default UploadForm

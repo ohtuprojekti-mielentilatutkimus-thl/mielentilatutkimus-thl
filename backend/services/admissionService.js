@@ -38,29 +38,32 @@ const saveAdmission = async (data) => {
 
     await form.save()
 
+    
     form.log({
         action: 'save_admission_form',
         category: 'admission_form',
-        createdBy: 'userWouldGoHere',
+        createdBy: data.formSender ? data.formSender : 'undefined',
+        createdByRole: 'undefined' /* Tähän voisi laittaa lähettäjän organisaation? */,
         message: 'Tutkimuspyyntö tallennettu',
     })
 
     return form
 }
 
-const getAdmission = async (id) => {
+const getAdmission = async (id, user) => {
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
 
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: 'userWouldGoHere',
+        createdBy: user ? user.username : 'anonymous',
+        createdByRole: user ? user.role : 'undefined',
         message: 'Tutkimuspyyntö avattu'
     })
     return form.toJSON()
 }
 
-const updateAdmission = async (id, data) => {
+const updateAdmission = async (id, data, user) => {
 
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
    
@@ -73,7 +76,8 @@ const updateAdmission = async (id, data) => {
     form.log({
         action: 'update_admission_form',
         category: 'admission_form',
-        createdBy: 'userWouldGoHere',
+        createdBy: user ? user.username : 'anonymous',
+        createdByRole: user ? user.role : 'undefined',
         message: 'Tutkimuspyyntö päivitetty',
     })
 

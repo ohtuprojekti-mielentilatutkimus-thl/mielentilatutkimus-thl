@@ -207,7 +207,7 @@ describe('Asking for additional information from form sender', () => {
 
         cy.get('#formState').last().contains('Saatu lisätietoja')
         cy.get('a').last().click()
-        cy.get('#askAdditionalInfo').click()
+        cy.get('#handleAdditionalInfo').click()
         cy.get('#inputForAdditionalInfo').type('Lisätietoja kaivataan tutkinnan suorittavasta poliisilaitoksesta.')
         cy.get('#sendAdditionalInfo').click()
         cy.wait(200)

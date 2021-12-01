@@ -3,16 +3,17 @@ import React, { useState } from 'react'
 import { Grid, DialogTitle, List, Button, Paper, DialogActions } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import attachmentService from '../services/attachmentService'
-import { Alert } from '@material-ui/lab'
 import FileChip from './FileChip'
 import { Divider, Stack } from '@mui/material'
+import Messages from './Messages'
+import useMessage from '../utils/messageHook'
 
 const addAttachment = ({ form, fetchForm, handleClose }) => {
 
-    const [errorMessage, setErrorMessage] = useState(null)
     const [filesInfo, setFilesInfo] = useState([])
-    const [message, setMessage] = useState(null)
     const [selectedFiles, setSelectedFiles] = useState([])
+
+    const msg = useMessage()
 
     const AdmissionFormId = form.id
 
@@ -34,14 +35,10 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
     const selectFile = (event) => {
         const file = event.target.files[0]
 
-        clearMessages()
+        msg.clear()
 
         if (duplicateFileName(file.name)) {
-            setErrorMessage(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
-
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg(`Tiedosto nimellä ${file.name} on jo valittu lähetettäväksi tai lähetetty, ei samannimisiä tiedostoja kahdesti`)
             return
         }
 
@@ -68,15 +65,10 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
         )
     }
 
-    const clearMessages = () => {
-        setErrorMessage(null)
-        setMessage(null)
-    }
-
     const duplicateFileName = name => filesInfo.find(fileInfo => fileInfo.name === name)
 
     const upload = async (event) => {
-        clearMessages()
+        msg.clear()
 
         const filesInfoToSend = filesInfo.filter(fileInfo => fileInfo.disabled === false)
         const filesInfoDisabledPropRemoved = filesInfoToSend.map(({ disabled, ...fileInfo }) => fileInfo)
@@ -84,20 +76,12 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
         await attachmentService.upload(selectedFiles, AdmissionFormId, filesInfoDisabledPropRemoved)
             .then(response => {
                 console.log(response.data)
-                setMessage('Liitteet lisätty')
-                setTimeout(() => {
-                    setMessage(null)
-                    fetchForm(AdmissionFormId)
-                    handleClose()
-
-                }, 1000*5)
+                fetchForm(AdmissionFormId)
+                msg.setMsg('Liitteet lisätty', 5, handleClose)
             }
             )
             .catch(error => {
-                setErrorMessage('Liitteiden lisäämisessä tapahtui virhe!')
-                setTimeout(() => {
-                    setErrorMessage(null)
-                }, 1000 * 5)
+                msg.setErrorMsg('Liitteiden lisäämisessä tapahtui virhe!', 5)
             })
 
         disableSentChips()
@@ -293,25 +277,14 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
                     </Paper>
                 </div>
             </div>
-            <Grid>
-                <div>
-                    {(message && <Alert severity="success">
-                        {message} </Alert>
-                    )}
 
-                </div>
-            </Grid>
-            <Grid>
-                <div>
-                    {(errorMessage && <Alert severity="error">
-                        {errorMessage} </Alert>
-                    )}
-
-                </div>
-            </Grid>
             <DialogActions>
                 <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
             </DialogActions>
+
+            {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+            {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
+
         </DialogTitle>
     )
 

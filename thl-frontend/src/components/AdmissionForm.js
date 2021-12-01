@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import attachmentService from '../services/attachmentService'
 import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Box, Tab } from '@material-ui/core'
@@ -22,6 +23,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
     const [showAttachment, setShowAttachment] = useState(false)
     const [showSendResearchUnit, setShowSendToResearchUnit] = useState(false)
     const [showAddAttachment, setShowAddAttachment] = useState(false)
+    const [showAdditionalInfo, setShowAdditionalInfo] = useState(false)
     const [tabValue, setTabValue] = useState('1')
 
     const handleAttachment = ( id ) => {
@@ -93,6 +95,10 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                 <PdfViewer pdf={attachment} />
             </Dialog>
 
+            <Dialog open={showAdditionalInfo} onClose={() => setShowAdditionalInfo(false)} classes={{ paper: classes.dialogPopUp }} fullWidth>
+                <AdditionalInfo form={form} handleClose={() => setShowAdditionalInfo(false)} updateForms={updateForm}/>
+            </Dialog>
+
             <Dialog open={showInfo} onClose={handleShowLessInfo} maxWidth="md"  PaperProps={{
                 style: {
                     backgroundColor: 'white',
@@ -138,15 +144,14 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                     </Grid>
                                 ) : ('')}
 
+                                {thlUser ? (
+                                    <Grid>
+                                        <Button color='primary' id='handleAdditionalInfo' variant='outlined' onClick={() => setShowAdditionalInfo(true)}>
+                                            Pyydä lisätietoja
+                                        </Button>
+                                    </Grid>
+                                ) : ('')}
                             </Grid>
-
-                            {thlUser ? (
-                                <Grid>
-                                    <AdditionalInfo form={form} updateForms={updateForm}/>
-                                </Grid>
-                            ) : ('')}
-
-
                         </DialogTitle>
 
                         <DialogContent>
@@ -316,9 +321,8 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         </DialogContent>
                         <DialogActions>
                             <Button color='primary' id='handleAddAttachment' variant='contained' onClick={() => setShowAddAttachment(true)}>
-                        Lisää liitteitä
+                                Lisää liitteitä
                             </Button>
-
                             <div>
                                 {thlUser ? (
                                     <Button color="primary" id='handleSendToOperatingUnit' variant="contained" onClick={() => setShowSendToResearchUnit(true)}>
@@ -326,9 +330,8 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                     </Button>
                                 ) : ('')}
                             </div>
-
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
-                        Sulje
+                                Sulje
                             </Button>
                         </DialogActions>
                     </TabPanel>
@@ -337,7 +340,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         <EventHistory form={form}/>
                         <DialogActions>
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
-                        Sulje
+                                Sulje
                             </Button>
                         </DialogActions>
 
@@ -348,7 +351,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         <ReseachUnitStatement form={form} formState={form.formState} updateForms={updateForm} />
                         <DialogActions>
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
-Sulje
+                                Sulje
                             </Button>
                         </DialogActions>
 

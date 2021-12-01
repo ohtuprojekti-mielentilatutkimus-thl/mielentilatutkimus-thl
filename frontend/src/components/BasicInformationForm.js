@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField, Typography } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
 import validator from 'validator'
 import { useStyles } from '../styles'
+
+import useMessage from '../utils/messageHook'
+import Messages from './Messages'
 
 const BasicInformationForm = () => {
 
@@ -11,8 +13,8 @@ const BasicInformationForm = () => {
     const [admissionNoteSender, setAdmissionNoteSender] = useState('')
     const [sendersEmail, setSendersEmail] = useState('')
     const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
-    const [message, setMessage] = useState(null)
-    const [errorMessage, setErrorMessage] = useState(null)
+
+    const msg = useMessage()
 
     const handleAdmissionNoteSenderOrganizationChange = (event) => {
         setAdmissionNoteSenderOrganization(event.target.value)
@@ -30,10 +32,7 @@ const BasicInformationForm = () => {
     const validateSendersEmail = () => {
         if (!validator.isEmail(sendersEmail)) {
             console.log('virheellinen email')
-            setErrorMessage('Virheellinen sähköpostiosoite!')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg('Virheellinen sähköpostiosoite!', 7)
             return false
         }
         return true
@@ -61,22 +60,16 @@ const BasicInformationForm = () => {
             return
         }
 
-        if (errorMessage === null) {
+        if (!msg.errorMessagesNotEmpty()) {
             basicInformationService
                 .create(basicInformations)
                 .then(response => {
                     console.log(response.data)
-                    setMessage(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`)
-                    setTimeout(() => {
-                        setMessage(null)
-                    }, 1000*7)
+                    msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`, 7)
                 })
                 .catch(error => {
                     console.log(error)
-                    setErrorMessage('Perustietojen lähettämisessä tapahtui virhe!')
-                    setTimeout(() => {
-                        setErrorMessage(null)
-                    }, 1000*7)
+                    msg.setErrorMsg('Perustietojen lähettämisessä tapahtui virhe!', 7)
                 })
         }
         setAdmissionNoteSenderOrganization('')
@@ -88,16 +81,10 @@ const BasicInformationForm = () => {
     const classes = useStyles()
 
     return (
-
         <div className={classes.page}>
-            {(message && <Alert severity="success">
-                {message} </Alert>
-            )}
 
-            {(errorMessage && <Alert severity="error">
-                {errorMessage}</Alert>
-            )}
-
+            {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+            {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
 
             <div style={{
                 textAlign: 'center',
