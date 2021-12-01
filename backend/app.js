@@ -9,6 +9,7 @@ require('express-async-errors')
 const mongoose = require('mongoose')
 mongoose.plugin(require('./utils/diff-plugin'))
 
+const sendAdmissionsRouter = require('./controllers/sendAdmissions')
 const admissionsRouter = require('./controllers/admissions')
 const basinInformationsRouter = require('./controllers/basicInformations')
 const attachmentsRouter = require('./controllers/attachments')
@@ -19,6 +20,8 @@ const middleware = require('./utils/middlewares')
 
 app.use(cors())
 app.use(express.json())
+
+app.use('*/api/admissions', sendAdmissionsRouter)
 
 //app.use('*/api/admissions', middleware.authJwt.verifyToken)
 app.use('*/api/admissions', admissionsRouter)
