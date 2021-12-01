@@ -32,17 +32,22 @@ test('Link for police to adding attachments is sent after POST request', async (
 
     await api
         .post(baseUrl+'/admission_form')
-        .send(admission_form)   
+        .send(admission_form)        
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    await new Promise((t) => setTimeout(t, 1000))
+    const admissionsInDb = await helper.admissionsInDb()
+    expect(admissionsInDb.length).toBe(1)
 
     const infoObject= {
         email: 'pekka.polliisi@poliisi.fi',
-        value: 'R 20 / 123'
+        value: admissionsInDb[0].id,
     }
     await api
         .post(baseUrl+'/upload_form')
         .send(infoObject)        
         .expect(200) 
-        .expect('Content-Type', /application\/json/)
     
     await new Promise((t) => setTimeout(t, 1000))
     maildev.getAllEmail(function (err, emails) {
@@ -50,7 +55,7 @@ test('Link for police to adding attachments is sent after POST request', async (
         expect(emails.length).toBe(2)
         email = emails[1]
         expect(email.to).toStrictEqual([{ address: infoObject.email, name: '' }])
-        expect(email.text.includes(admission_form.diaariNumber)).toBe(true)
+        expect(email.text.includes(admissionsInDb[0].id)).toBe(true)
     }) 
 })
 
