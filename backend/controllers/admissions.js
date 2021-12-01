@@ -11,29 +11,6 @@ admissionsRouter.get('/', async (req, res) => {
 admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
     res.json(await admissionService.getAdmissionsByResearchUnit(req.params.researchUnit))
 })
-<<<<<<< HEAD
-=======
-  
-//POST ADMISSION
-admissionsRouter.post('/admission_form', async (req, res) => {
-    const data = req.body
-
-    if (!HelperFunctions.validateAdmissionFormData(data)) {
-        res.sendStatus(500)
-    } 
-    if (data.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(data) || 
-    (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {
-        res.sendStatus(500)
-
-    } else {
-        const savedForm = await admissionService.saveAdmission(data)
-        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
-    
-        //Tarviiko lähettää takaisin tallennettua lomaketta?
-        res.json(savedForm)
-    }
-})
->>>>>>> main
 
 //GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
