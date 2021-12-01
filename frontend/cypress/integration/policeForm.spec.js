@@ -2,10 +2,10 @@
 const helper = require('./test_helper')
 import 'cypress-file-upload'
 
+var admissionId = ''
 
 describe('From posting basic informations to police adding attachments', function() {
 
-    var admissionId = ''
     var senders_id = ''
 
     it('adding admission', function(){
@@ -51,7 +51,9 @@ describe('From posting basic informations to police adding attachments', functio
                         cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
                             const parts = emails.body[1].text.split('/')
                             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
-                            admissionId = id_from_email
+                            localStorage.setItem('admission_id', JSON.stringify(id_from_email))
+                            admissionId = localStorage.admission_id
+                            admissionId = admissionId.replace(/['"]+/g, '')
                         })
                     })
                 })
@@ -95,7 +97,9 @@ describe('From posting basic informations to police adding attachments', functio
 
     it('police adding attachments', function(){
 
+
         cy.visit(`http://localhost:3000/upload_form/${admissionId}`)
+        cy.wait(1000)
         cy.contains('Lataa liitteitä')
 
         const attachments = ['valituomio', 'poytakirja', 'haastehakemus', 'rikosrekisteriote', 'esitutkintapoytakirja', 'vangitsemispaatos']
