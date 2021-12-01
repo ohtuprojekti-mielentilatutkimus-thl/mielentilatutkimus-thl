@@ -58,7 +58,7 @@ const PoliceViewForm = () => {
                 justifyContent: 'center',
                 padding: '20px'
             }}>
-                <Typography variant={'h5'}>Syötä ensin sähköposti, jonne haluat linkin, sekä tapauksen diaarinumeron tai THL-id:n</Typography>
+                <Typography variant={'h6'}>Syötä sähköposti, jonne haluat vastaanottaa linkin, sekä tapauksen THL-id:n</Typography>
             </div>
 
             <div style={{
@@ -88,7 +88,7 @@ const PoliceViewForm = () => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField value={value} id='value' onChange={handleValueChange}
-                                    label='Diaarinumero/THL-id' variant='standard' margin='normal'
+                                    label='THL-id' variant='standard' margin='normal'
                                 />
                             </Grid>
                             <br></br>
