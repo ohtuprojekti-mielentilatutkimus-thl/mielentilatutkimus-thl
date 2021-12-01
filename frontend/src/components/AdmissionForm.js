@@ -1,16 +1,17 @@
-import React, { /*useEffect,*/ useState } from 'react'
+import React, { useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
 import { Paper, Grid, Button, TextField, FormControl, Select, MenuItem, Typography, FormHelperText } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
 import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import validator from 'validator'
 import { useStyles } from '../styles'
+import useMessage from '../utils/messageHook'
+import Messages from './Messages'
 
 const NotProsecuted = (props) => {
     if (props.prosecuted === false){
@@ -56,7 +57,8 @@ const Form = () => {
     const showWhenVisible = { display: formVisible ? '' : 'none' }
 
     const toggleVisibility = () => {
-        if(errorMessage === null){
+        if(!msg.errorMessagesNotEmpty()){
+            console.log('setFormVisible saa arvon ', (!formVisible))
             setFormVisible(!formVisible)
         }
     }
@@ -118,7 +120,8 @@ const Form = () => {
     const [legalGuardianAddress, setLegalGuardianAddress] = useState('')
     const [legalGuardianInstitute, setLegalGuardianInstitute] = useState('')
     const [appealedDecision, setAppealedDecision] = useState('')
-    const [errorMessage, setErrorMessage] = useState(null)
+
+    const msg = useMessage()
 
     const handleNameChange = (event) => {
         setName(event.target.value)
@@ -206,10 +209,7 @@ const Form = () => {
     const validateAssistantsEmail = () => {
         if (!validator.isEmail(assistantsEmail) && assistantsEmail.length>0) {
             console.log('virheellinen email')
-            setErrorMessage('Avustajan sähköpostiosoite on virheellinen!')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg('Avustajan sähköpostiosoite on virheellinen!', 7)
             return true
         } else {
             return false
@@ -219,10 +219,7 @@ const Form = () => {
     const validateLegalGuardianEmail = () => {
         if (!validator.isEmail(legalGuardianEmail) && legalGuardianEmail.length>0) {
             console.log('virheellinen email')
-            setErrorMessage('Alaikäisen huoltajan/sosiaalitoimen sähköpostiosoite on virheellinen!')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000*7)
+            msg.setErrorMsg('Alaikäisen huoltajan/sosiaalitoimen sähköpostiosoite on virheellinen!', 7)
             return true
         } else {
             return false
@@ -292,17 +289,11 @@ const Form = () => {
                     })
                     .catch(error => {
                         console.log(error)
-                        setErrorMessage('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!')
-                        setTimeout(() => {
-                            setErrorMessage(null)
-                        }, 1000 * 7)
+                        msg.setErrorMsg('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!', 7)
                     })
             }
         } else {
-            setErrorMessage('Lisätietoja ei olla pyydetty')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 1000 * 7)
+            msg.setErrorMsg('Lisätietoja ei olla pyydetty', 7)
         }
     }
 
@@ -361,6 +352,9 @@ const Form = () => {
             const assistantError = validateAssistantsEmail()
             const guardianError = validateLegalGuardianEmail()
 
+            console.log('assistantError ', assistantError)
+            console.log('guardianError ', guardianError)
+
             if (!assistantError && !guardianError) {
                 admissionService
                     .create(createAdmission)
@@ -399,10 +393,7 @@ const Form = () => {
                     })
                     .catch(error => {
                         console.log(error)
-                        setErrorMessage('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!')
-                        setTimeout(() => {
-                            setErrorMessage(null)
-                        }, 1000 * 7)
+                        msg.setErrorMsg('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!', 7)
                     })
             }
         }
@@ -646,9 +637,9 @@ const Form = () => {
                                         onChange={handleAppealedDecisionChange} variant='outlined' margin='normal' />
                                 </Grid>
                             </Grid>
-                            {(errorMessage && <Alert severity="error">
-                                {errorMessage}</Alert>
-                            )}
+
+                            {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
+
                             <Button variant='contained' color='primary' id='createPersonButton' type="submit">Lähetä</Button>
                             <p></p>
                             <p></p>
