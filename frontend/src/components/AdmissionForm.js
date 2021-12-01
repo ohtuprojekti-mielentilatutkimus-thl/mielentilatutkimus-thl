@@ -1,4 +1,4 @@
-import React, { /*useEffect,*/ useState } from 'react'
+import React, { useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -57,7 +57,8 @@ const Form = () => {
     const showWhenVisible = { display: formVisible ? '' : 'none' }
 
     const toggleVisibility = () => {
-        if(!msg.errorMessagesNotEmpty){
+        if(!msg.errorMessagesNotEmpty()){
+            console.log('setFormVisible saa arvon ', (!formVisible))
             setFormVisible(!formVisible)
         }
     }
