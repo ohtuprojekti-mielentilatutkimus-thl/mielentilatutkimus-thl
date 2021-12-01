@@ -2,11 +2,10 @@
 const helper = require('./test_helper')
 import 'cypress-file-upload'
 
-var admissionId = ''
-
 describe('From posting basic informations to police adding attachments', function() {
 
     var senders_id = ''
+    var admissionId = ''
 
     it('adding admission', function(){
 
@@ -52,8 +51,7 @@ describe('From posting basic informations to police adding attachments', functio
                             const parts = emails.body[1].text.split('/')
                             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
                             localStorage.setItem('admission_id', JSON.stringify(id_from_email))
-                            admissionId = localStorage.admission_id
-                            admissionId = admissionId.replace(/['"]+/g, '')
+                            admissionId = localStorage.admission_id.replace(/['"]+/g,'')
                         })
                     })
                 })
@@ -63,6 +61,8 @@ describe('From posting basic informations to police adding attachments', functio
 
 
     it('police getting email for adding attachments', function(){
+
+        console.log(admissionId)
 
         cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
             expect(res.status).equal(200)
@@ -96,6 +96,8 @@ describe('From posting basic informations to police adding attachments', functio
     })
 
     it('police adding attachments', function(){
+
+        console.log('!!!', admissionId)
 
 
         cy.visit(`http://localhost:3000/upload_form/${admissionId}`)
@@ -135,6 +137,9 @@ describe('From posting basic informations to police adding attachments', functio
     })
 
     it('if the senders domain is not @poliisi.fi, email is not received even though THL-id exists', function(){
+
+        console.log('!!!', admissionId)
+
 
         cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
             expect(res.status).equal(200)
