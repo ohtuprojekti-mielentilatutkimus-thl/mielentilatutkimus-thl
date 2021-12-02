@@ -14,6 +14,8 @@ const path = require('path')
 
 let testAdmissionId
 
+let token = ''
+
 beforeAll(async () => {
     await AdmissionForm.deleteMany({})
 
@@ -22,6 +24,9 @@ beforeAll(async () => {
 
     const admissionsInDb = await helper.admissionsInDb()
     testAdmissionId = admissionsInDb[0].id
+
+    const res = await api.post('/api/auth/login').send({username: 'thluser', role: 'THL'}).then()
+    token = res.body.accessToken
 })
 
 beforeEach(async () => {
@@ -47,7 +52,7 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+'/admission_form_attachment')
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png'))).set('X-Access-Token', token)
     
         const attachmentsInDb = await helper.attachmentsInDb()
         
@@ -104,7 +109,7 @@ describe('on requesting an attachment with get-request,', () => {
         const testPdf = await AttachmentForm.findOne({ fileName: 'test_pdf.pdf' })
     
         await api
-            .get(baseUrl+`/admission_form_attachment/${testPdf.id}`)
+            .get(baseUrl+`/admission_form_attachment/${testPdf.id}`).set('X-Access-Token', token)
             .expect(200)
             .expect('Content-Type', /application\/pdf/)
     })

@@ -35,6 +35,13 @@ const invalid_emails = [
     'fg34jhm@'
 ]
 
+let token = ''
+
+beforeAll(async () => {
+    const res = await api.post('/api/auth/login').send({username: 'thluser', role: 'THL'}).then()
+    token = res.body.accessToken
+})
+
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
@@ -70,7 +77,7 @@ describe('when db is initialized with data', () => {
             const basicsInDb = await helper.basicsInDb()
             const idOfItemInDb = basicsInDb[0].id
 
-            const response = await api.get(baseUrl+'/basic_information/'+idOfItemInDb)
+            const response = await api.get(baseUrl+'/basic_information/'+idOfItemInDb).set('X-Access-Token', token)
         
             const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 1
             expect(Object.keys(response.body[0])).toHaveLength(lengthOfInputFields)
@@ -94,7 +101,7 @@ describe('when db is initialized with data', () => {
 
         test('can be retrieved with GET', async () => {
             const admissionsInDb = await helper.admissionsInDb()
-            const response = await api.get(baseUrl+'/')
+            const response = await api.get(baseUrl+'/').set('X-Access-Token', token)
         
             const lengthOfItems = admissionsInDb.length 
             expect(response.body).toHaveLength(lengthOfItems)
@@ -109,7 +116,7 @@ describe('when db is initialized with data', () => {
 
             await api
                 .put(baseUrl+'/thl/'+idOfItemInDb)
-                .send(changedAdmissionForm)
+                .send(changedAdmissionForm).set('X-Access-Token', token)
 
             const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
@@ -192,7 +199,7 @@ describe('when db is initialized with data', () => {
 
             await api 
                 .put(baseUrl+'/thl/'+ItemInDb.id+'/research_unit')
-                .send(researchUnitData)
+                .send(researchUnitData).set('X-Access-Token', token)
 
             const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
             
