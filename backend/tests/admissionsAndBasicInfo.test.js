@@ -42,6 +42,12 @@ beforeAll(async () => {
     token = res.body.accessToken
 })
 
+/*
+const loginAsReseachUnitUser = async () => {
+    const res = await api.post('/api/auth/login').send({username: 'reseachUnitUser', role: 'Niuvanniemen sairaala'}).then()
+    token = res.body.accessToken
+}   */
+
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
@@ -106,6 +112,22 @@ describe('when db is initialized with data', () => {
             const lengthOfItems = admissionsInDb.length 
             expect(response.body).toHaveLength(lengthOfItems)
         })
+
+        
+        test('can be retrieved by reseach unit with GET ', async () => {
+
+            const reseachUnit = 'Niuvanniemen sairaala'
+
+            const responseWhenReseachUnitIsNotSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            expect(responseWhenReseachUnitIsNotSet.body).toHaveLength(0)
+
+            const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData2)
+            newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
+            await newAdmissionForm.save()
+            
+            const responseWhenReseachUnitIsSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            expect(responseWhenReseachUnitIsSet.body).toHaveLength(1)
+        }) 
 
         test('field ´formState´ can be changed with PUT', async () => {
             let admissionsInDb = await helper.admissionsInDb()

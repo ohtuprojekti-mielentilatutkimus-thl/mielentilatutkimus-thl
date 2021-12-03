@@ -5,6 +5,7 @@ const testData = require('./test_data.json')
 const Log = require('../models/log.model')
 
 let admissionFormTestData = testData.admission_forms[0]
+let admissionFormTestData2 = testData.admission_forms[1]
 let basicInfoFormTestData = testData.basic_info_forms[0]
 let sendToResearchUnitData = testData.send_to_research_unit_form[0]
 
@@ -50,7 +51,7 @@ function omit(obj, ...props) {
 }
 
 module.exports = {
-    admissionFormTestData, basicInfoFormTestData, sendToResearchUnitData,
+    admissionFormTestData, admissionFormTestData2, basicInfoFormTestData, sendToResearchUnitData,
     admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
     admissionInDb, omit, getLog, getLatestLog
 }

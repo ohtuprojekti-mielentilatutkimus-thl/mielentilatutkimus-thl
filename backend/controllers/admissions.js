@@ -60,6 +60,7 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
     if (data.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
+
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
 
     res.json(updatedForm.toJSON()) 

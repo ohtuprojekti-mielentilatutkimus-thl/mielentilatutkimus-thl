@@ -97,7 +97,8 @@
             "preliminaryInvestigationsAttachmentsAreReady": true,
             "decisionOnDetentionIsReady": true,
             "imprisonmentRequirementReady": true,
-            "researchUnit": "",
+            "researchUnit": "Niuvanniemen sairaala",
+            "formState": "Tutkimuspaikka pyydetty",
             "researchUnitInformation": ""
         },
         {
