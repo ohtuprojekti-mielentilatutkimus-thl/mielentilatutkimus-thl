@@ -21,7 +21,7 @@ admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
 
 //GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
-    const admission = await admissionService.getAdmission(req.params.id, req.user)
+    const admission = await admissionService.getAdmission(req.params.id, req.username, req.role)
     if (admission.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
@@ -42,7 +42,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
     const data = {
         formState: req.body.formState
     }
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
     if (updatedForm.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
@@ -60,7 +60,9 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
     if (data.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
+
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+
     res.json(updatedForm.toJSON()) 
 })
    
