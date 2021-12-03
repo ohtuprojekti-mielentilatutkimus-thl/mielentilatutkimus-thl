@@ -13,19 +13,17 @@ const login = (role) => {
     }
 
     if(role === 'Toimintayksikkö') {
-        console.log()
-        // jatkan
+
+        cy.loginAsReseachUnitRole()
+            .then((res) => {
+                console.log(res)
+            })
+        cy.wait(1000)
     }
 }
 
 before(function() {
     cy.emptyDatabase()
-    cy.wait(1000)
-
-    cy.loginAsThlRole()
-        .then((res) => {
-            console.log(res)
-        })
     cy.wait(1000)
 
     cy.sendBasicInformation()
@@ -281,7 +279,7 @@ describe('Send to research unit', () => {
 }
 )
 
-describe('Event history', () => {
+describe('Event history can be viewed when role is "THL"', () => {
     it('Event history can be viewed', function() {
 
         login('THL')
@@ -307,3 +305,39 @@ describe('Event history', () => {
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
 })
+
+describe('Statement view can be viewed when role is some reseach unit', () => {
+    it('Statement can be viewed', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-wrapper').last().click()
+        cy.wait(1000)
+        cy.contains('Lausunto')
+
+    })
+})
+
+describe('Form view is limited when role is reseach unit', () => {
+    it('Some options are hidden', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').last().click()
+
+        cy.get('Päivitä lomakkeen tilaa:').should('not.exist')
+
+        cy.get('Pyydä lisätietoja').should('not.exist')
+        cy.get('#handleAdditionalInfo').should('not.exist')
+
+        cy.get('Lähetä tutkimuspaikkapyyntö').should('not.exist')
+        cy.get('#handleSendToOperatingUnit').should('not.exist')
+    })
+})
+

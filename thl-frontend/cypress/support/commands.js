@@ -123,8 +123,23 @@ Cypress.Commands.add('loginAsThlRole', () => {
         method: 'POST',
         body: { ...loggedInUser },
     }).then(res => {
-        localStorage.setItem('user', JSON.stringify(res.body))
+        if(res.body.accessToken) {
+            localStorage.setItem('user', JSON.stringify(res.body))
+        }
+        return res.body
+    }
+    )
+})
 
+Cypress.Commands.add('loginAsReseachUnitRole', () => {
+
+    const loggedInUser = { username: 'Tiina Testaaja', role: 'Niuvanniemen sairaala' }
+
+    return cy.request({
+        url: 'http://localhost:3001/api/auth/login',
+        method: 'POST',
+        body: { ...loggedInUser },
+    }).then(res => {
         if(res.body.accessToken) {
             localStorage.setItem('user', JSON.stringify(res.body))
         }
