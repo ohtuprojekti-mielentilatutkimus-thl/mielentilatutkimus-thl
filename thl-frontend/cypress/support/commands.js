@@ -131,6 +131,7 @@ Cypress.Commands.add('loginAsThlRole', () => {
     )
 })
 
+
 Cypress.Commands.add('loginAsReseachUnitRole', () => {
 
     const loggedInUser = { username: 'Tiina Testaaja', role: 'Niuvanniemen sairaala' }

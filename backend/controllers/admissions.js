@@ -61,7 +61,6 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
         return res.sendStatus(403)
     }
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
-
     res.json(updatedForm.toJSON()) 
 })
    

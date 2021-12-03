@@ -42,10 +42,11 @@ beforeAll(async () => {
     token = res.body.accessToken
 })
 
+/*
 const loginAsReseachUnitUser = async () => {
     const res = await api.post('/api/auth/login').send({username: 'reseachUnitUser', role: 'Niuvanniemen sairaala'}).then()
     token = res.body.accessToken
-} 
+}   */
 
 describe('when db is initialized with data', () => {
 
@@ -112,9 +113,9 @@ describe('when db is initialized with data', () => {
             expect(response.body).toHaveLength(lengthOfItems)
         })
 
+        
         test('can be retrieved by reseach unit with GET ', async () => {
 
-            loginAsReseachUnitUser()
             const reseachUnit = 'Niuvanniemen sairaala'
 
             const responseWhenReseachUnitIsNotSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
@@ -126,7 +127,7 @@ describe('when db is initialized with data', () => {
             
             const responseWhenReseachUnitIsSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
             expect(responseWhenReseachUnitIsSet.body).toHaveLength(1)
-        })
+        }) 
 
         test('field ´formState´ can be changed with PUT', async () => {
             let admissionsInDb = await helper.admissionsInDb()
@@ -223,6 +224,9 @@ describe('when db is initialized with data', () => {
                 .send(researchUnitData).set('X-Access-Token', token)
 
             const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
+
+            console.log('HALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+            console.log(updatedAdmission)
             
             expect(updatedAdmission.researchUnit).toBe(researchUnitData.researchUnit)
             expect(updatedAdmission.researchUnitInformation).toBe(researchUnitData.researchUnitInformation)
