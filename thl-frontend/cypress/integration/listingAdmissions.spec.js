@@ -305,7 +305,7 @@ describe('Event history can be viewed when role is "THL"', () => {
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
 })
-
+/*
 describe('Statement view can be viewed when role is some reseach unit', () => {
     it('Statement can be viewed', function() {
 
@@ -339,5 +339,5 @@ describe('Form view is limited when role is reseach unit', () => {
         cy.get('Lähetä tutkimuspaikkapyyntö').should('not.exist')
         cy.get('#handleSendToOperatingUnit').should('not.exist')
     })
-})
+})*/
 
