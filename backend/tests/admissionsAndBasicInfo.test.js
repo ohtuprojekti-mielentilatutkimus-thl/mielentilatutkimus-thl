@@ -224,9 +224,6 @@ describe('when db is initialized with data', () => {
                 .send(researchUnitData).set('X-Access-Token', token)
 
             const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
-
-            console.log('HALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
-            console.log(updatedAdmission)
             
             expect(updatedAdmission.researchUnit).toBe(researchUnitData.researchUnit)
             expect(updatedAdmission.researchUnitInformation).toBe(researchUnitData.researchUnitInformation)
