@@ -105,7 +105,8 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     boxShadow: 'none',
                     elevation:'3',
                     square:'false',
-                    align:'left'
+                    align:'left',
+                    height: '100%'
                 },
             }} fullWidth>
                 { !form &&
@@ -336,8 +337,14 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         </DialogActions>
                     </TabPanel>
                     <TabPanel value="2">
-
-                        <EventHistory form={form}/>
+                        <DialogTitle disableTypography>
+                            <h2>
+                            Tapahtumahistoria
+                            </h2>
+                        </DialogTitle>
+                        <DialogContent>
+                            <EventHistory form={form}/>
+                        </DialogContent>
                         <DialogActions>
                             <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
                                 Sulje
