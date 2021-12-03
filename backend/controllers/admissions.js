@@ -21,7 +21,7 @@ admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
 
 //GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
-    const admission = await admissionService.getAdmission(req.params.id)
+    const admission = await admissionService.getAdmission(req.params.id, req.user)
     if (admission.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
@@ -34,7 +34,7 @@ admissionsRouter.post('/admission_form/request_additional_info', async (req, res
         return res.sendStatus(403)
     }
     const data = req.body
-    res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
+    res.json(Mailer.requestAdditionalInfoFromSender(data.sender, data.id, data.additional_info))
 })
 
 //PUT FORMSTATE
@@ -42,8 +42,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
     const data = {
         formState: req.body.formState
     }
-
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
     if (updatedForm.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
@@ -57,10 +56,11 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
         researchUnitInformation: req.body.researchUnitInformation,
         formState: req.body.formState
     }
+
     if (data.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
 
     res.json(updatedForm.toJSON()) 
 })

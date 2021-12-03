@@ -1,9 +1,7 @@
-backend/builds/mielentilatutkimus/build
-backend/builds/thl/build
+backend/builds/
 node_modules/
 .history/
 backend/request/
-backend/build/
 .env
 backend/coverage/
 tmp/
