@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import eventService from '../services/eventService'
-import { TableCell, TableRow, TableContainer, TableHead, TableBody } from '@material-ui/core'
+import { Table, TableCell, TableRow, TableContainer, TableHead, TableBody } from '@material-ui/core'
 import dayjs from 'dayjs'
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
@@ -35,36 +35,35 @@ const EventHistory = ({ form }) => {
 
     return (
         <div>
-            <h2>
-            Tapahtumahistoria
-            </h2>
             <h3>
                 {form.thlRequestId}
                 <TableContainer>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Tapahtuma-aika
-                                <IconButton id="sortEventTime" onClick={sortEventsByDate} color="primary">
-                                    <ArrowDropDownIcon />
-                                </IconButton>
-                            </TableCell>
-                            <TableCell align="left">Käyttäjä
-                            </TableCell>
-                            <TableCell align="left">Tapahtuma
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {eventsById.slice().map(eventById => {
-                            return (
-                                <TableRow id='eventListRow' key={eventById.id}>
-                                    <TableCell align='left' id='createdAt'> {dayjs(eventById.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
-                                    <TableCell align="left" id='createdBy'> {eventById.createdBy}</TableCell>
-                                    <TableCell align="left" id='message'>{eventById.message}</TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left">Tapahtuma-aika
+                                    <IconButton id="sortEventTime" onClick={sortEventsByDate} color="primary">
+                                        <ArrowDropDownIcon />
+                                    </IconButton>
+                                </TableCell>
+                                <TableCell align="left">Käyttäjä
+                                </TableCell>
+                                <TableCell align="left">Tapahtuma
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {eventsById.slice().map(eventById => {
+                                return (
+                                    <TableRow id='eventListRow' key={eventById.id}>
+                                        <TableCell align='left' id='createdAt'> {dayjs(eventById.createdAt).format('DD.MM.YYYY HH:mm:ss')}</TableCell>
+                                        <TableCell align="left" id='createdBy'> {eventById.createdBy}</TableCell>
+                                        <TableCell align="left" id='message'>{eventById.message}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
                 </TableContainer>
             </h3>
         </div>
