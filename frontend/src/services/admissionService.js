@@ -23,6 +23,12 @@ const get = async (  id  ) => {
     return request.data
 }
 
+const getForEdit = async (  id  ) => {
+    const request = await axios.get(`${baseUrl}/admission_form/${id}/edit`)
+    return request.data
+}
+
+
 const upload = async (files, id, filesInfo) => {
     const formData = new FormData()
 
@@ -32,4 +38,4 @@ const upload = async (files, id, filesInfo) => {
     return await axios.post(baseUrl+`/admission_form_attachment/${id}`, formData)
 }
 
-export default { getAll, create, update, get, upload }
+export default { getAll, create, update, get, getForEdit, upload }

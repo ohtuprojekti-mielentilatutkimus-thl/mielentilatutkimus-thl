@@ -56,11 +56,27 @@ const getAdmission = async (id, user) => {
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: user ? user.username : 'anonymous',
+        createdBy: user ? user.username : form.formSender,
         createdByRole: user ? user.role : 'undefined',
         message: 'Tutkimuspyyntö avattu'
     })
     return form.toJSON()
+}
+
+const getAdmissionForEdit = async (id) => {
+    const form = await AdmissionForm.findById(id)
+        .select('admissionNoteSenderOrganization admissionNoteSender sendersEmail sendersPhoneNumber formState')
+
+    form.log({
+        action: 'get_admission_form',
+        category: 'admission_form',
+        createdBy: form ? form.admissionNoteSender : 'user not found',
+        createdByRole: form ? form.admissionNoteSenderOrganization : 'undefined',
+        message: 'Tutkimuspyynnön lähettäjän tiedot haettu lisätietojen täydennystä varten'
+    })
+
+    return form.toJSON()
+    
 }
 
 const updateAdmission = async (id, data, user) => {
@@ -85,4 +101,4 @@ const updateAdmission = async (id, data, user) => {
 
 }
 
-module.exports = { getAllAdmissions, getAdmission, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }
+module.exports = { getAllAdmissions, getAdmission, getAdmissionForEdit, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }

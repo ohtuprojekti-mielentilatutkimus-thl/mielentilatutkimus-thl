@@ -14,19 +14,13 @@ admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
 
 //GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
-    res.json(await admissionService.getAdmission(req.params.id))
-})
-
-
-//GET SIGNLE ADMISSION FOR EDITING
-admissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
-    res.json(await admissionService.getAdmission(req.params.id))
+    res.json(await admissionService.getAdmission(req.params.id, req.user))
 })
 
 // ?
 admissionsRouter.post('/admission_form/request_additional_info', async (req, res) => {
     const data = req.body
-    res.json(Mailer.requestAdditionalInfoFromSender(data.sender,data.id, data.additional_info))
+    res.json(Mailer.requestAdditionalInfoFromSender(data.sender, data.id, data.additional_info))
 })
 
 //PUT FORMSTATE
@@ -35,7 +29,7 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         formState: req.body.formState
     }
 
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
 
     res.json(updatedForm.toJSON()) 
 })
@@ -47,7 +41,7 @@ admissionsRouter.put('/thl/:id/research_unit', async (req, res) => {
         researchUnitInformation: req.body.researchUnitInformation,
         formState: req.body.formState
     }
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.user)
 
     res.json(updatedForm.toJSON()) 
 })
