@@ -23,6 +23,12 @@ sendAdmissionsRouter.post('/admission_form', async (req, res) => {
     }
 })
 
+//GET SIGNLE ADMISSION FOR EDITING
+sendAdmissionsRouter.get('/admission_form/:id/edit', async (req,res) => {
+    res.json(await admissionService.getAdmission(req.params.id))
+})
+
+
 //PUT ALL FIELDS
 sendAdmissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
 
