@@ -19,6 +19,8 @@ RUN cd ./thl-frontend && \
     PUBLIC_URL=$PUBLIC_URL_THL npm run build
 
 RUN cd ./backend && \
+    mkdir -p builds/mielentilatutkimus && \
+    mkdir -p builds/thl && \
     cp -r ../frontend/build builds/mielentilatutkimus && \
     cp -r ../thl-frontend/build builds/thl && \
     rm -rf ../frontend && \
