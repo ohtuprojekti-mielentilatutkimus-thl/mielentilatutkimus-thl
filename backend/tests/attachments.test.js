@@ -39,7 +39,7 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/selenium-screenshot-62.png')))
             .expect(200)
           
         const attachmentsInDb = await helper.attachmentsInDb()
@@ -52,7 +52,7 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+'/admission_form_attachment')
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png'))).set('X-Access-Token', token)
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/selenium-screenshot-62.png'))).set('X-Access-Token', token)
     
         const attachmentsInDb = await helper.attachmentsInDb()
         
@@ -64,7 +64,7 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/selenium-screenshot-62.png')))
             .expect(200)
           
         const attachmentsInDb = await helper.attachmentsInDb()
@@ -77,8 +77,8 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}, {"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/test_pdf.pdf')))
             .expect(200)
 
         const attachmentsInDb = await helper.attachmentsInDb()
@@ -91,8 +91,8 @@ describe('when sending an attachment with post-request', () => {
         await api
             .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
             .field('filesInfo', '[{"name": "selenium-screenshot-62.png", "whichFile": "poytakirja"}, {"name": "test_pdf.pdf", "whichFile": "poytakirja"}]')
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/selenium-screenshot-62.png')))
-            .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/selenium-screenshot-62.png')))
+            .attach('files', fs.createReadStream(path.join(__dirname, './attachments/test_pdf.pdf')))
             .expect(200)
 
         const attachmentsInDb = await helper.attachmentsInDb()
@@ -130,7 +130,7 @@ describe('on requesting an attachment with get-request,', () => {
 const postTestPdf = async () => {
     await api
         .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
-        .attach('files', fs.createReadStream(path.join(__dirname, '../attachments/test_pdf.pdf')))
+        .attach('files', fs.createReadStream(path.join(__dirname, './attachments/test_pdf.pdf')))
         .field('filesInfo', '[{"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
         .field('originalname', 'test_pdf.pdf')
         .expect(200)
