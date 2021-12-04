@@ -26,4 +26,6 @@ module.exports =  async () => {
     }
 
     await mongoose.connection.close()
+
+    console.log('teardown complete')
 }
