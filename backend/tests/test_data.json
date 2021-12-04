@@ -21,7 +21,6 @@
     ],
     "admission_forms": [
         {
-            "basicInformationId": "123",
             "formSender": "tomi.tuomari@example.com",
             "name": "Reijo",
             "lastname": "Rikollinen",
@@ -61,7 +60,6 @@
             "researchUnitInformation": ""
         },
         {
-            "basicInformationId": "000",
             "formSender": "yrjo_ylituomari@example.com",
             "name": "Saara",
             "lastname": "Syytetty",
@@ -102,7 +100,6 @@
             "researchUnitInformation": ""
         },
         {
-            "basicInformationId": "000",
             "formSender": "ville@example.com",
             "name": "Ronja",
             "lastname": "Ruotsista",
