@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles --runInBand",
+    "test:actions": "NODE_ENV=test GITHUB_ACTIONS=true jest --verbose --detectOpenHandles --runInBand",
     "lint": "eslint .",
     "dev": "NODE_ENV=dev node index.js",
     "prod": "NODE_ENV=production node index.js",
