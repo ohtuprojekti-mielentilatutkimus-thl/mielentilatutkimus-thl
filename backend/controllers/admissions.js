@@ -22,7 +22,7 @@ admissionsRouter.get('/thl/research_unit/:researchUnit', async (req, res) => {
 //GET SINGLE ADMISSION
 admissionsRouter.get('/admission_form/:id', async (req, res) => {
     const admission = await admissionService.getAdmission(req.params.id, req.username, req.role)
-    if (admission.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
+    if (!users.isFromResearchUnit(req, admission.researchUnit) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
     res.json(admission)

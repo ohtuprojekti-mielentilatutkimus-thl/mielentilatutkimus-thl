@@ -31,7 +31,6 @@ const ThlAdmissions = () => {
         const reseachUnits = ['Niuvanniemen sairaala', 'Vanhan Vaasan sairaala', 'Psykiatrinen vankisairaala, Turun yksikkö',
             'Psykiatrinen vankisairaala, Vantaan yksikkö', 'HUS Kellokosken sairaala', 'OYS/Psykiatrian tulosalue, Oikeuspsykiatria',
             'Tays Pitkäniemen sairaala, Tehostetun psykoosihoidon vastuuyksikkö (PTHP), Talo 14', 'Tampereen yliopistollinen sairaala, EVA-yksikkö']
-
         if(role === 'THL') {
             formHeaders = await formService.getAll()
         }

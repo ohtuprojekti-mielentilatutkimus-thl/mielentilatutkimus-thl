@@ -61,7 +61,6 @@ const Form = () => {
 
     const toggleVisibility = () => {
         if(!msg.errorMessagesNotEmpty()){
-            console.log('setFormVisible saa arvon ', (!formVisible))
             setFormVisible(!formVisible)
         }
     }
@@ -74,7 +73,6 @@ const Form = () => {
             admissionService.getForEdit(paramFormId).then(res => {
                 setSenderInfo(res)
                 setFormState(res.formState)
-                console.log('senderInfo on editissä: ', senderInfo.sendersEmail)
             })
         }, [])
 
@@ -83,7 +81,6 @@ const Form = () => {
             basicInformationService.get(basicInformationId).then(res => {
                 setSenderInfo(res[0])
             })
-            console.log('senderInfo on: ', senderInfo)
         }, [])
     }
     sender = {
@@ -348,14 +345,11 @@ const Form = () => {
                 appealedDecision: appealedDecision,
             }
 
-            console.log('Createadmission olio on:', createAdmission)
+            //console.log('Createadmission olio on:', createAdmission)
 
 
             const assistantError = validateAssistantsEmail()
             const guardianError = validateLegalGuardianEmail()
-
-            console.log('assistantError ', assistantError)
-            console.log('guardianError ', guardianError)
 
             if (!assistantError && !guardianError) {
                 admissionService
