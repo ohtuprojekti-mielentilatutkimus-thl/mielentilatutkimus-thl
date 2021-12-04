@@ -242,15 +242,24 @@ describe('Attachments', () => {
 
         login('THL')
 
-        const testAttachment = 'test_pdf.pdf'
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
         cy.get('#handleAddAttachment').click()
-        cy.get('input[type="file"]').eq(3).attachFile(testAttachment)
+        cy.fixture('test_pdf.pdf', 'binary')
+            .then(Cypress.Blob.binaryStringToBlob)
+            .then(fileContent => {
+                cy.get('input[type="file"]').eq(3).attachFile({
+                    fileContent,
+                    fileName: 'test_pdf.pdf',
+                    whichFile: 'Rikosrekisteriote'
+                })
+            })
+
         cy.get('#uploadFiles').click()
         cy.contains('Liitteet lisätty')
         cy.wait(1000*7)
         cy.get('.MuiButton-label').contains('rikosrekisteriote')
+
     })
 }
 )
