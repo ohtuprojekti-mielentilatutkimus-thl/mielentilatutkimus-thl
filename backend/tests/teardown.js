@@ -7,6 +7,10 @@ const helper = require('./test_helper')
 const api = supertest(app)
 
 module.exports =  async () => { 
+    if (process.env.GITHUB_ACTIONS === true || process.env.NODE_ENV !== 'test') {
+        return
+    }
+
     console.log('teardown - clearing test database and initializing it with some data')
     await mongoose.connection.dropDatabase()
 
