@@ -43,27 +43,43 @@ const saveAdmission = async (data) => {
         action: 'save_admission_form',
         category: 'admission_form',
         createdBy: data.formSender ? data.formSender : 'undefined',
-        createdByRole: 'undefined' /* Tähän voisi laittaa lähettäjän organisaation? */,
+        createdByRole: data.admissionNoteSenderOrganization ? data.admissionNoteSenderOrganization : 'undefined',
         message: 'Tutkimuspyyntö tallennettu',
     })
 
     return form
 }
 
-const getAdmission = async (id, user) => {
+const getAdmission = async (id, username, role) => {
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
 
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: user ? user.username : 'anonymous',
-        createdByRole: user ? user.role : 'undefined',
+        createdBy: username ? username : form.formSender,
+        createdByRole: role ? role : 'undefined',
         message: 'Tutkimuspyyntö avattu'
     })
     return form.toJSON()
 }
 
-const updateAdmission = async (id, data, user) => {
+const getAdmissionForEdit = async (id) => {
+    const form = await AdmissionForm.findById(id)
+        .select('admissionNoteSenderOrganization admissionNoteSender sendersEmail sendersPhoneNumber formState')
+
+    form.log({
+        action: 'get_admission_form',
+        category: 'admission_form',
+        createdBy: form ? form.admissionNoteSender : 'user not found',
+        createdByRole: form ? form.admissionNoteSenderOrganization : 'undefined',
+        message: 'Tutkimuspyynnön lähettäjän tiedot haettu lisätietojen täydennystä varten'
+    })
+
+    return form.toJSON()
+    
+}
+
+const updateAdmission = async (id, data, username, role) => {
 
     const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
    
@@ -76,8 +92,8 @@ const updateAdmission = async (id, data, user) => {
     form.log({
         action: 'update_admission_form',
         category: 'admission_form',
-        createdBy: user ? user.username : 'anonymous',
-        createdByRole: user ? user.role : 'undefined',
+        createdBy: username ? username : 'anonymous',
+        createdByRole: role ? role : 'undefined',
         message: 'Tutkimuspyyntö päivitetty',
     })
 
@@ -85,4 +101,4 @@ const updateAdmission = async (id, data, user) => {
 
 }
 
-module.exports = { getAllAdmissions, getAdmission, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }
+module.exports = { getAllAdmissions, getAdmission, getAdmissionForEdit, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }

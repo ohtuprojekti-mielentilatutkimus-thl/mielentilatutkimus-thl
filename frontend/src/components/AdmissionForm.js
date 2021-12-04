@@ -70,13 +70,12 @@ const Form = () => {
     var sender = ''
 
     if (window.location.toString().includes('edit')){
-
         useEffect(() => {
-            admissionService.get(paramFormId).then(res => {
+            admissionService.getForEdit(paramFormId).then(res => {
                 setSenderInfo(res)
                 setFormState(res.formState)
+                console.log('senderInfo on editissä: ', senderInfo.sendersEmail)
             })
-            console.log('senderInfo on editissä: ', senderInfo.sendersEmail)
         }, [])
 
     } else {

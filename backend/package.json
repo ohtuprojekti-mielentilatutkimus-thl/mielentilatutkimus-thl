@@ -9,9 +9,9 @@
     "lint": "eslint .",
     "dev": "NODE_ENV=dev node index.js",
     "prod": "NODE_ENV=production node index.js",
-    "build:thl": "cd ../thl-frontend && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/thl npm run build && cp -r build ../backend/builds/thl",
-    "build:ui": "cd ../frontend/ && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/mielentilatutkimus npm run build && cp -r build ../backend/builds/mielentilatutkimus",
-    "build:both": "cd ../scripts && sh build_frontends.sh",
+    "build:thl": "mkdir -p builds/thl && cd ../thl-frontend && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/thl npm run build && cp -r build ../backend/builds/thl",
+    "build:ui": "mkdir -p builds/mielentilatutkimus && cd ../frontend/ && REACT_APP_LOCAL_RUN=TRUE PUBLIC_URL=/mielentilatutkimus npm run build && cp -r build ../backend/builds/mielentilatutkimus",
+    "build:both": "mkdir -p builds/thl && mkdir -p builds/mielentilatutkimus && cd ../scripts && sh build_frontends.sh",
     "start:cypress": "cross-env NODE_ENV=test node index.js"
   },
   "author": "",
@@ -26,7 +26,6 @@
     "express-jwt": "^6.1.0",
     "form-data": "^3.0.1",
     "lodash": "^4.17.21",
-    "maildev": "^1.1.0",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
@@ -35,6 +34,7 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "jest": "^27.3.1",
+    "maildev": "^1.1.0",
     "supertest": "^6.1.6"
   },
   "jest": {

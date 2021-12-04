@@ -17,7 +17,10 @@ const plugin = function (schema) {
             originalToJson.id = originalToJson._id.toString()
             delete originalToJson._id
             delete originalToJson.__v
-            
+
+            // 'depopulate' attachments 
+            this.attachments = this.attachments.map(a => a.id)
+
             this._diff = getDiff(JSON.parse(JSON.stringify(this)), originalToJson)
             next()
         }
