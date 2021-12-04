@@ -25,10 +25,13 @@ const NotProsecuted = (props) => {
                 <Grid item xs={5,5}>
                     <LocalizationProvider dateAdapter={DateAdapter}>
                         <DesktopDatePicker
+                            InputProps={{
+                                disableUnderline: true,
+                            }}
                             inputFormat="DD/MM/YYYY"
                             value={props.deadlineForProsecution}
                             onChange={props.handleDeadlineForProsecutionChange}
-                            renderInput={(params) => <TextField id='deadlineDate' {...params} />}
+                            renderInput={(params) => <TextField id='deadlineDate' variant='filled' {...params} />}
                         />
                         <FormHelperText>Syytteen nostamisen määräaika</FormHelperText>
                     </LocalizationProvider>
@@ -58,7 +61,6 @@ const Form = () => {
 
     const toggleVisibility = () => {
         if(!msg.errorMessagesNotEmpty()){
-            console.log('setFormVisible saa arvon ', (!formVisible))
             setFormVisible(!formVisible)
         }
     }
@@ -71,7 +73,6 @@ const Form = () => {
             admissionService.getForEdit(paramFormId).then(res => {
                 setSenderInfo(res)
                 setFormState(res.formState)
-                console.log('senderInfo on editissä: ', senderInfo.sendersEmail)
             })
         }, [])
 
@@ -80,7 +81,6 @@ const Form = () => {
             basicInformationService.get(basicInformationId).then(res => {
                 setSenderInfo(res[0])
             })
-            console.log('senderInfo on: ', senderInfo)
         }, [])
     }
     sender = {
@@ -345,14 +345,11 @@ const Form = () => {
                 appealedDecision: appealedDecision,
             }
 
-            console.log('Createadmission olio on:', createAdmission)
+            //console.log('Createadmission olio on:', createAdmission)
 
 
             const assistantError = validateAssistantsEmail()
             const guardianError = validateLegalGuardianEmail()
-
-            console.log('assistantError ', assistantError)
-            console.log('guardianError ', guardianError)
 
             if (!assistantError && !guardianError) {
                 admissionService
@@ -522,10 +519,13 @@ const Form = () => {
                                 <Grid item xs={5,5}>
                                     <LocalizationProvider dateAdapter={DateAdapter}>
                                         <DesktopDatePicker
+                                            InputProps={{
+                                                disableUnderline: true,
+                                            }}
                                             inputFormat="DD/MM/YYYY"
                                             value={datePrescribedForPsychiatricAssesment}
                                             onChange={handleDatePrescribedForPsychiatricAssesmentChange}
-                                            renderInput={(params) => <TextField id='date-picker' {...params} />}
+                                            renderInput={(params) => <TextField id='date-picker' variant='filled' {...params} />}
                                         />
                                         <FormHelperText>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen</FormHelperText>
                                     </LocalizationProvider>

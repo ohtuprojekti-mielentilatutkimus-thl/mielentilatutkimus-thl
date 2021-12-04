@@ -32,8 +32,15 @@ const LoginForm = () => {
 
         loginUserService
             .login(loginUser)
+            .then(response => {
+                if (response){
+                    history.push('/thl-admissions')
+                }
 
-        history.push('/thl-admissions')
+            })
+            .catch(error => {
+                console.log('Kirjautuminen epäonnistui: ',error)
+            })
     }
 
     const setResearchUnit = () => {

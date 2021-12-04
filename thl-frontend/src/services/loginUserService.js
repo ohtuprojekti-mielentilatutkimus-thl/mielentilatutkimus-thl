@@ -6,7 +6,6 @@ const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/auth' : process.env.PUBL
 
 const login = loggedInUser => {
 
-    console.log(loggedInUser)
     return axios.post(`${baseUrl}/login`, loggedInUser).then(res => {
         if(res.data.accessToken) {
             localStorage.setItem('user', JSON.stringify(res.data))
