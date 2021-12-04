@@ -25,10 +25,13 @@ const NotProsecuted = (props) => {
                 <Grid item xs={5,5}>
                     <LocalizationProvider dateAdapter={DateAdapter}>
                         <DesktopDatePicker
+                            InputProps={{
+                                disableUnderline: true,
+                            }}
                             inputFormat="DD/MM/YYYY"
                             value={props.deadlineForProsecution}
                             onChange={props.handleDeadlineForProsecutionChange}
-                            renderInput={(params) => <TextField id='deadlineDate' {...params} />}
+                            renderInput={(params) => <TextField id='deadlineDate' variant='filled' {...params} />}
                         />
                         <FormHelperText>Syytteen nostamisen määräaika</FormHelperText>
                     </LocalizationProvider>
@@ -523,10 +526,13 @@ const Form = () => {
                                 <Grid item xs={5,5}>
                                     <LocalizationProvider dateAdapter={DateAdapter}>
                                         <DesktopDatePicker
+                                            InputProps={{
+                                                disableUnderline: true,
+                                            }}
                                             inputFormat="DD/MM/YYYY"
                                             value={datePrescribedForPsychiatricAssesment}
                                             onChange={handleDatePrescribedForPsychiatricAssesmentChange}
-                                            renderInput={(params) => <TextField id='date-picker' {...params} />}
+                                            renderInput={(params) => <TextField id='date-picker' variant='filled' {...params} />}
                                         />
                                         <FormHelperText>Päivämäärä, jolla oikeus on määrännyt tutkittavan mielentilatutkimukseen</FormHelperText>
                                     </LocalizationProvider>
