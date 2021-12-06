@@ -1,5 +1,6 @@
 
-import { makeStyles, createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 const bg_color = '#F8F8F8'
 const primary_color = '#24242E'

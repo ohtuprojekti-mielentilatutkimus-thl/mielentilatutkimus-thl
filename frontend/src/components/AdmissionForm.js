@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import BasicInformation from './BasicInformation'
 import basicInformationService from '../services/basicInformationService'
-import { Paper, Grid, Button, TextField, FormControl, Select, MenuItem, Typography, FormHelperText } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, FormControl, Select, MenuItem, Typography, FormHelperText } from '@mui/material'
 import DateAdapter from '@mui/lab/AdapterDayjs'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
@@ -419,7 +419,6 @@ const Form = () => {
                     <Paper
                         className={classes.form}
                         variant='outlined'
-                        elevation={3}
                         square={false}
                         align='left'
                         justify='center'
@@ -658,7 +657,6 @@ const Form = () => {
                     <Paper
                         className={classes.form}
                         variant='outlined'
-                        elevation={3}
                         square={false}
                         align='center'
                         justify='center'

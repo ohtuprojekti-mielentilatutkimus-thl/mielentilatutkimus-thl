@@ -1,6 +1,5 @@
 import React from 'react'
-import { Chip } from '@material-ui/core'
-import { styled } from '@material-ui/core'
+import { Chip, styled } from '@mui/material'
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(1),
@@ -13,8 +12,8 @@ const FileChip = ({ fileInfo, removeFile }) => (
             label={fileInfo.name}
             variant='outlined'
             onDelete={() => removeFile(fileInfo.name)}
-            fileName={fileInfo.name}
-            attachmentType={fileInfo.whichFile}
+            filename={fileInfo.name}
+            attachmenttype={fileInfo.whichFile}
         />
     </ListItem>
 )
