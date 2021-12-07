@@ -314,9 +314,10 @@ describe('Event history can be viewed when role is "THL"', () => {
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
 })
-/*
-describe('Statement view can be viewed when role is some reseach unit', () => {
-    it('Statement can be viewed', function() {
+
+describe('Reseach unit role', () => {
+
+    it('Statement view can be viewed', function() {
 
         login('Toimintayksikkö')
 
@@ -326,27 +327,37 @@ describe('Statement view can be viewed when role is some reseach unit', () => {
         cy.get('a').last().click()
         cy.get('.MuiTab-wrapper').last().click()
         cy.wait(1000)
-        cy.contains('Lausunto')
 
+        cy.contains('Mielentilalausunto:')
     })
-})
 
-describe('Form view is limited when role is reseach unit', () => {
-    it('Some options are hidden', function() {
+    it('Some options are limited', function() {
 
         login('Toimintayksikkö')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.should('not.contain', 'Päivitä lomakkeen tilaa:')
+        cy.should('not.contain', 'Pyydä lisätietoja')
+        cy.should('not.contain', 'Lähetä tutkimuspaikkapyyntö')
+
+        cy.get('#handleAdditionalInfo').should('not.exist')
+        cy.get('#handleSendToOperatingUnit').should('not.exist')
+    })
+
+    it('Form listing view only shows the forms for a specific research unit', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
 
         cy.get('a').last().click()
 
-        cy.get('Päivitä lomakkeen tilaa:').should('not.exist')
-
-        cy.get('Pyydä lisätietoja').should('not.exist')
-        cy.get('#handleAdditionalInfo').should('not.exist')
-
-        cy.get('Lähetä tutkimuspaikkapyyntö').should('not.exist')
-        cy.get('#handleSendToOperatingUnit').should('not.exist')
+        // päivitän, kun lomakkeisiin on lisätty tutkimusyksikkö-kenttä
+        // cy.contains('Toimintayksikkö:')
+        // cy.contains('Niuvanniemen sairaala')
     })
-})*/
-
+})
