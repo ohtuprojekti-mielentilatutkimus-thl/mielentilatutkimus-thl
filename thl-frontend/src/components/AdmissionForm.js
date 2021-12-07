@@ -146,10 +146,17 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                 ) : ('')}
 
                                 {thlUser ? (
-                                    <Grid>
+                                    <Grid xs={4}>
                                         <Button color='primary' id='handleAdditionalInfo' variant='outlined' onClick={() => setShowAdditionalInfo(true)}>
                                             Pyydä lisätietoja
                                         </Button>
+                                    </Grid>
+                                ) : ('')}
+
+                                {thlUser ? (
+                                    <Grid xs={4}>
+                                        <div className={classes.textLabel}>Tutkimuspaikka:</div>
+                                        <div className={classes.text}>{form.researchUnit ? form.researchUnit : 'Ei määrätty'}</div>
                                     </Grid>
                                 ) : ('')}
                             </Grid>
