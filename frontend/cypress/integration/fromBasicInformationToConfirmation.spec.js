@@ -36,7 +36,7 @@ describe('From posting basic information to confirmation email', function() {
                 cy.contains('Tutkimuspyynnön lähettäjän tiedot')
 
                 for (const i in helper.admission_form_input) {
-                    if (['basicInformationId', 'formSender', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
+                    if (['basicInformationId', 'formSender', 'sendersEmail', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
                     i.includes('Ready')) {
                         continue
                     }
