@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import policeInformationService from '../services/policeInformationService'
-import { Paper, Grid, Button, TextField, Typography } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, Typography } from '@mui/material'
 import { useStyles } from '../styles'
 
 const PoliceViewForm = () => {
@@ -70,7 +70,6 @@ const PoliceViewForm = () => {
                 <Paper
                     className={classes.form}
                     variant='outlined'
-                    elevation={3}
                     square={false}
                     align='center'
                     justify='center'

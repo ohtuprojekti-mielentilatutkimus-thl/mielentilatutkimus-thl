@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import admissionService from '../services/admissionService'
 import { useParams } from 'react-router-dom'
-import { Button, Grid, List, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Button, Grid, List, Paper } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Divider, Stack } from '@mui/material'
 
 import useMessage from '../utils/messageHook'
@@ -118,7 +118,6 @@ const UploadForm = () => {
                 <Paper
                     className={classes.form}
                     variant='outlined'
-                    elevation={3}
                     square={false}
                     align='center'
                     justify='center'
