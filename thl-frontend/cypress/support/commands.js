@@ -149,6 +149,19 @@ Cypress.Commands.add('loginAsReseachUnitRole', () => {
     )
 })
 
+Cypress.Commands.add('sendEditedForm', ( data ) => {
+
+    return cy.request({
+        url: `http://localhost:3001/api/admissions/admission_form/${data.id}/edit`,
+        method: 'PUT',
+        id: data.id,
+        body: data.updatedForm,
+    }).then(response => {
+        return response
+    }
+    )
+})
+
 Cypress.Commands.overwrite('click', (originalFn, selector, options = {}) => {
     options.force = true
     return originalFn(selector, options) })

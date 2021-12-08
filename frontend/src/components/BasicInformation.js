@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import Popover from '@material-ui/core/Popover'
+import { Button } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Popover from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 
@@ -27,7 +27,7 @@ const BasicInformation = ( { sender } ) => {
                         }}
                     >
                         <Box m={1}>
-                            <Typography>
+                            <Typography component={'span'}>
                                 <p>Nimi: {sender.admissionNoteSender}</p>
                                 <p>Organisaatio: {sender.admissionNoteSenderOrganization}</p>
                                 <p>Sähköposti: {sender.sendersEmail}</p>

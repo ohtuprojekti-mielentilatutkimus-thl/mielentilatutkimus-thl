@@ -3,25 +3,21 @@ const Attachment = require('../services/attachment.js')
 const HelperFunctions = require('../utils/helperFunctions.js')
 const uploadFile = require('../utils/upload.js')
 const attachmentsRouter = require('express').Router()
-const AdmissionForm = require('../models/admissionForm.model.js')
 
 //const AttachmentForm = require('../models/attachmentForm.model.js')
 
 const FileHandler = require('../services/fileHandler')
-
+const AttachmentForm = require('../models/attachmentForm.model')
+const AdmissionForm = require('../models/admissionForm.model')
 const path = require('path')
 
-attachmentsRouter.post('/upload_form', async (req, res) => {
-
-    const data = req.body
-
-    if (!HelperFunctions.validatePoliceEmailAddress(data.email)) {
-        res.sendStatus(500)
-
-    } else {
-
-        var id = null
-        var formInfo = null
+attachmentsRouter.get('/admission_form_attachment/:attachmentId', async (req, res) => {
+    const attachmentsForm = await AdmissionForm.find({attachments:{_id: (req.params.attachmentId) }}).select('researchUnit')
+    const attachmentsResearchUnit = (attachmentsForm[0].researchUnit)
+    if (!users.isFromTHL(req) && !users.isFromResearchUnit(req, attachmentsResearchUnit)) {
+        return res.sendStatus(403)
+    }
+    const attachmentFile = await AttachmentForm.findById(req.params.attachmentId).catch((err) => {console.log(err)})
 
         var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
         var form_by_diaariNumber = forms.filter(d => d.diaariNumber === data.value)

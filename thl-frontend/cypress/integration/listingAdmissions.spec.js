@@ -43,7 +43,7 @@ before(function() {
 
     cy.sendAdmissionForm({
         formState: 'Saatu lisätietoja',
-        prosecuted : true
+        prosecuted: true,
     }).then((res) => {
         const createdAt = localStorage.createdAt
         created_at = createdAt
@@ -100,6 +100,7 @@ describe('All admissions can be viewed', () => {
     })
 
 })
+
 
 describe('Sorting forms', () => {
     it('Sort by state sorts correctly', function () {
@@ -196,23 +197,61 @@ describe('Sorting forms', () => {
 })
 
 describe('Asking for additional information from form sender', () => {
-    it('Additional information can be asked and it changes form state automatically to "pyydetty lisätietoja"', function () {
+    it('Additional information can be asked', function () {
+
+        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+            expect(res.status).equal(200)
+        })
 
         login('THL')
-
         cy.visit('http://localhost:3002/thl/thl-admissions')
-        cy.contains('Mielentilatutkimuspyynnöt')
 
-        cy.get('#formState').last().contains('Saatu lisätietoja')
-        cy.get('a').last().click()
+        cy.get('a').first().click()
         cy.get('#handleAdditionalInfo').click()
-        cy.get('#inputForAdditionalInfo').type('Lisätietoja kaivataan tutkinnan suorittavasta poliisilaitoksesta.')
+        cy.get('#inputForAdditionalInfo').type('Diaarinumero, sijainti sekä prosessiosoite ovat virheellisessä muodossa')
         cy.get('#sendAdditionalInfo').click()
-        cy.wait(200)
-        cy.get('#sortState').click()
-        cy.wait(200)
-        cy.get('#formState').first().contains('Pyydetty lisätietoja')
+        cy.wait(1000)
+        cy.contains('Muokkauspyyntö lähetetty')
+    })
 
+    it('Additional information can be added', function () {
+
+        cy.wait(1000)
+        login('THL')
+
+        var admissionId = ''
+
+        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+            assert.equal(emails.body[0].subject, 'Mielentilatutkimuspyyntö vaatii lisätietoja')
+            expect(emails.body[0].text.includes('Diaarinumero, sijainti sekä prosessiosoite ovat virheellisessä muodossa'))
+
+            const parts = emails.body[0].text.split('/')
+            const id_from_email = parts[parts.length-2].replace('\n','').replace('edit','').replace(/['"]+/g,'').trim()
+            localStorage.setItem('admission_id', JSON.stringify(id_from_email))
+            admissionId = localStorage.admission_id.replace(/['"]+/g,'')
+
+        }).then(() => {
+
+            const updatedForm = { diaariNumber: '119/10/22', location: 'Kouvola', processAddress: 'Koulutie 4A' }
+
+            cy.sendEditedForm({
+                id: admissionId,
+                updatedForm: updatedForm,
+            })
+            cy.wait(1000)
+        })
+    })
+
+    it('THL can see updated form', function(){
+
+        login('THL')
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+
+        cy.get('a').first().click()
+        cy.contains('119/10/22')
+        cy.contains('Kouvola')
+        cy.contains('Koulutie 4A')
+        cy.wait(2000)
     })
 })
 
@@ -314,9 +353,10 @@ describe('Event history can be viewed when role is "THL"', () => {
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
 })
-/*
-describe('Statement view can be viewed when role is some reseach unit', () => {
-    it('Statement can be viewed', function() {
+
+describe('Reseach unit role', () => {
+
+    it('Statement view can be viewed', function() {
 
         login('Toimintayksikkö')
 
@@ -326,27 +366,39 @@ describe('Statement view can be viewed when role is some reseach unit', () => {
         cy.get('a').last().click()
         cy.get('.MuiTab-wrapper').last().click()
         cy.wait(1000)
-        cy.contains('Lausunto')
 
+        cy.contains('Mielentilalausunto:')
     })
-})
 
-describe('Form view is limited when role is reseach unit', () => {
-    it('Some options are hidden', function() {
+    it('Some options are limited', function() {
 
         login('Toimintayksikkö')
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
 
         cy.get('a').last().click()
+        cy.should('not.contain', 'Päivitä lomakkeen tilaa:')
+        cy.should('not.contain', 'Pyydä lisätietoja')
+        cy.should('not.contain', 'Lähetä tutkimuspaikkapyyntö')
 
-        cy.get('Päivitä lomakkeen tilaa:').should('not.exist')
-
-        cy.get('Pyydä lisätietoja').should('not.exist')
         cy.get('#handleAdditionalInfo').should('not.exist')
-
-        cy.get('Lähetä tutkimuspaikkapyyntö').should('not.exist')
         cy.get('#handleSendToOperatingUnit').should('not.exist')
     })
-})*/
 
+    it('Form listing view only shows the forms for a specific research unit', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').first().click()
+        cy.contains('Tutkimuspaikka:')
+        cy.contains('Niuvanniemen sairaala')
+
+        cy.get('a').last().click()
+        cy.contains('Tutkimuspaikka:')
+        cy.contains('Niuvanniemen sairaala')
+    })
+})

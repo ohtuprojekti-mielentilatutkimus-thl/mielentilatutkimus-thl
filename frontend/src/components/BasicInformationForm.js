@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import basicInformationService from '../services/basicInformationService'
-import { Paper, Grid, Button, TextField, Typography } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, Typography } from '@mui/material'
 import validator from 'validator'
 import { useStyles } from '../styles'
 
@@ -106,7 +106,6 @@ const BasicInformationForm = () => {
                 <Paper
                     className={classes.form}
                     variant='outlined'
-                    elevation={3}
                     square={false}
                     align='center'
                     justify='center'

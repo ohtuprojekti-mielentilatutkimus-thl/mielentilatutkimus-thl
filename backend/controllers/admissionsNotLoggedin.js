@@ -18,7 +18,6 @@ sendAdmissionsRouter.post('/admission_form', async (req, res) => {
         const savedForm = await admissionService.saveAdmission(data)
         Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
 
-        //Tarviiko lähettää takaisin tallennettua lomaketta?
         res.json(savedForm)
     }
 })
@@ -44,9 +43,8 @@ sendAdmissionsRouter.put('/admission_form/:id/edit', async (req, res) => {
             res.sendStatus(500)
         }
     } 
-    const updatedForm = await admissionService.updateAdmission(req.params.id, req.body)
-    //Change this
-    res.json(updatedForm.toJSON())
+    await admissionService.updateAdmission(req.params.id, req.body)
+    res.json({message: 'ok'})
 })
    
 module.exports = sendAdmissionsRouter
