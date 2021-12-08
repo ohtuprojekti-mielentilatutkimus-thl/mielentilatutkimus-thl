@@ -50,7 +50,7 @@ const NotProsecuted = (props) => {
 const Form = () => {
     const basicInformationId = useParams().id
     const paramFormId = useParams().id
-    const [senderInfo, setSenderInfo] = useState([])
+    const [senderInfo, setSenderInfo] = useState(null)
     const [formVisible, setFormVisible] = useState(true)
     const [formId, setFormId] = useState('')
     const [formState, setFormState] = useState(null)
@@ -66,7 +66,6 @@ const Form = () => {
     }
 
     const classes = useStyles()
-    var sender = ''
 
     if (window.location.toString().includes('edit')){
         useEffect(() => {
@@ -79,15 +78,10 @@ const Form = () => {
     } else {
         useEffect(() => {
             basicInformationService.get(basicInformationId).then(res => {
-                setSenderInfo(res[0])
+                console.log('res ', res)
+                setSenderInfo(res)
             })
         }, [])
-    }
-    sender = {
-        admissionNoteSenderOrganization: senderInfo.admissionNoteSenderOrganization,
-        admissionNoteSender: senderInfo.admissionNoteSender,
-        sendersEmail: senderInfo.sendersEmail,
-        sendersPhoneNumber: senderInfo.sendersPhoneNumber
     }
 
 
@@ -311,7 +305,6 @@ const Form = () => {
             const createAdmission = {
                 //  oldId: old_id,
                 formState : 'Odottaa tarkistusta',
-                formSender: sender.sendersEmail,
                 name: name,
                 lastname: lastname,
                 identificationNumber: identificationNumber,
@@ -320,10 +313,6 @@ const Form = () => {
                 processAddress: processAddress,
                 trustee: trustee,
                 citizenship: citizenship,
-                admissionNoteSenderOrganization: sender.admissionNoteSenderOrganization,
-                admissionNoteSender: sender.admissionNoteSender,
-                sendersEmail: sender.sendersEmail,
-                sendersPhoneNumber: sender.sendersPhoneNumber,
                 hazardAssesment: hazardAssesment,
                 diaariNumber: diaariNumber,
                 datePrescribedForPsychiatricAssesment: datePrescribedForPsychiatricAssesment,
@@ -343,6 +332,9 @@ const Form = () => {
                 legalGuardianAddress: legalGuardianAddress,
                 legalGuardianInstitute: legalGuardianInstitute,
                 appealedDecision: appealedDecision,
+                basicInformation: {
+                    ...senderInfo
+                }
             }
 
             //console.log('Createadmission olio on:', createAdmission)
@@ -436,7 +428,7 @@ const Form = () => {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'left' }}>
-                            {(sender && <BasicInformation sender={sender} />)} </div>
+                            {(senderInfo && <BasicInformation basicInformation={senderInfo} />)} </div>
                         <br></br>
                         <br></br>
 

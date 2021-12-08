@@ -6,7 +6,9 @@ import Popover from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 
-const BasicInformation = ( { sender } ) => {
+const BasicInformation = ( { basicInformation } ) => {
+
+    console.log('basicInfo BasicInformationissa ', basicInformation)
 
     return (
         <PopupState variant="popover" popupId="demo-popup-popover">
@@ -28,10 +30,10 @@ const BasicInformation = ( { sender } ) => {
                     >
                         <Box m={1}>
                             <Typography component={'span'}>
-                                <p>Nimi: {sender.admissionNoteSender}</p>
-                                <p>Organisaatio: {sender.admissionNoteSenderOrganization}</p>
-                                <p>Sähköposti: {sender.sendersEmail}</p>
-                                <p>Puhelinnumero: {sender.sendersPhoneNumber}</p>
+                                <p>Nimi: {basicInformation.sender}</p>
+                                <p>Organisaatio: {basicInformation.organization}</p>
+                                <p>Sähköposti: {basicInformation.email}</p>
+                                <p>Puhelinnumero: {basicInformation.phoneNumber}</p>
                             </Typography>
                         </Box>
                     </Popover>
