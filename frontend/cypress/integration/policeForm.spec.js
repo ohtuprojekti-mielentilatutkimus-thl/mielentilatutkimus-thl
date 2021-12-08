@@ -55,8 +55,6 @@ describe('From posting basic informations to police adding attachments', functio
 
         cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
 
-            console.log('moi')
-
             const parts = emails.body[1].text.split('/')
             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
             localStorage.setItem('admission_id', JSON.stringify(id_from_email))
