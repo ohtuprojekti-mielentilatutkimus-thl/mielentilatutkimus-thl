@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStyles } from '../styles'
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import dayjs from 'dayjs'
 
 const NotProsecuted = ({ form }) => {

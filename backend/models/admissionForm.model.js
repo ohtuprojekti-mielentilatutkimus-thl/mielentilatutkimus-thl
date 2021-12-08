@@ -68,4 +68,7 @@ admissionSchema.set('toJSON', {
     }
 })
 
+
+admissionSchema.plugin(require('../utils/admissionLog-plugin'))
+
 module.exports = mongoose.model('admissionForm', admissionSchema)

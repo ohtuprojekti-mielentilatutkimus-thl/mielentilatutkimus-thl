@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { Grid, DialogTitle, DialogActions, Button, TextField, FormControl, Select, MenuItem } from '@material-ui/core'
+import { Grid, DialogTitle, DialogActions, Button, TextField, FormControl, Select, MenuItem } from '@mui/material'
 import formService from '../services/formService'
 import Messages from './Messages'
 import useMessage from '../utils/messageHook'
@@ -35,7 +35,7 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
     }
 
     return (
-        <DialogTitle disableTypography>
+        <DialogTitle>
             <h4>{form.thlRequestId}</h4>
             <form onSubmit = {handleSend}>
                 <Grid>

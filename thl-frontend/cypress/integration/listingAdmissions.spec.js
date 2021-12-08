@@ -28,6 +28,8 @@ before(function() {
 
     cy.sendBasicInformation()
 
+    login('THL')
+
     cy.wait(1000)
 
     cy.sendAdmissionForm({
@@ -199,7 +201,7 @@ describe('Sorting forms', () => {
 describe('Asking for additional information from form sender', () => {
     it('Additional information can be asked', function () {
 
-        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+        cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
         })
 
@@ -221,7 +223,7 @@ describe('Asking for additional information from form sender', () => {
 
         var admissionId = ''
 
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+        cy.request('GET', 'http://localhost:1080/email').then((emails) => {
             assert.equal(emails.body[0].subject, 'Mielentilatutkimuspyyntö vaatii lisätietoja')
             expect(emails.body[0].text.includes('Diaarinumero, sijainti sekä prosessiosoite ovat virheellisessä muodossa'))
 
@@ -297,7 +299,7 @@ describe('Attachments', () => {
         cy.get('#uploadFiles').click()
         cy.contains('Liitteet lisätty')
         cy.wait(1000*7)
-        cy.get('.MuiButton-label').contains('rikosrekisteriote')
+        cy.get('.MuiButton-root').contains('rikosrekisteriote')
 
     })
 }
@@ -334,7 +336,7 @@ describe('Event history can be viewed when role is "THL"', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
         cy.contains('Tapahtuma-aika')
 
@@ -346,7 +348,7 @@ describe('Event history can be viewed when role is "THL"', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu')
         cy.get('#sortEventTime').click()
         cy.wait(1000)
@@ -364,7 +366,7 @@ describe('Reseach unit role', () => {
         cy.wait(1000)
 
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
 
         cy.contains('Mielentilalausunto:')

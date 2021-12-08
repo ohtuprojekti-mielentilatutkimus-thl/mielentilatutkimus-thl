@@ -7,12 +7,19 @@ const app = require('../app')
 const helper = require('./test_helper')
 
 const baseUrl = '/api/admissions'
-const api = supertest(app)
+const thlBaseUrl = '/api/thl/admissions'
 
+const fs = require('fs')
+const path = require('path')
+
+const Attachment = require('../services/attachment')
+
+const api = supertest(app)
 
 const admissionService = require('../services/admissionService')
 
 const AdmissionForm = require('../models/admissionForm.model.js')
+const AttachmentForm = require('../models/attachmentForm.model')
 const Log = require('../models/log.model')
 
 const { getDiff } = require('../utils/logger')
@@ -32,26 +39,115 @@ test('getDiff only returns difference between objects', async () => {
 
 })
 
+const testUsername = 'testUsername'
+const testRole = 'testRole'
+
+let admissionId
+let token
+
 describe('Save Admission', () => {
+
+
     beforeAll(async () => {
         await AdmissionForm.deleteMany({})
         await Log.deleteMany({})
+        await AttachmentForm.deleteMany({})
 
         await admissionService.saveAdmission({ ...helper.admissionFormTestData })
-        await new Promise((r) => setTimeout(r, 1000))  
+        await new Promise((r) => setTimeout(r, 500))
+        
+        const admissions = await helper.admissionsInDb()
+        admissionId = admissions[0].id
+
     })
-    test('saved admission is logged', async () => {
+
+    test('saved admission is logged with proper category, message and admission id', async () => {
         const latestLog = await helper.getLatestLog()
 
         expect(latestLog.action).toBe('save_admission_form')
         expect(latestLog.message).toBe('Tutkimuspyyntö tallennettu')
+        expect(latestLog.formId.toString()).toBe(admissionId)
 
+    })
+
+    describe('Save Attachment', () => {
+
+        let attachmentId
+
+        beforeAll(async () => {
+            await helper.postTestPdf(api, admissionId)
+        
+            const attachments = await helper.attachmentsInDb()
+            attachmentId = attachments[0].id
+            await new Promise((r) => setTimeout(r, 500))
+        
+        })
+        
+        test('saved attachment is logged with proper category, message, form id and attachment id', async () => {
+            const latestLog = await helper.getLatestLog()
+
+            expect(latestLog.action).toBe('save_attachment')
+            expect(latestLog.message).toBe('Liitetiedosto tallennettu')
+            expect(latestLog.formId.toString()).toBe(admissionId)
+            expect(latestLog.attachmentId.toString()).toBe(attachmentId)
+        })
+
+        describe('Get Attachment', () => {
+            let attachment
+
+            beforeAll(async () => {
+                Attachment.getFile(attachmentId, testUsername, testRole)
+
+                const attachments = await helper.attachmentsInDb()
+                attachment = attachments[0]
+                attachmentId = attachments[0].id
+                await new Promise((r) => setTimeout(r, 500))
+        
+            })
+
+            test('get attachment is logged with proper category, message, form id and attachment id', async () => {
+                const latestLog = await helper.getLatestLog()
+
+
+
+                expect(latestLog.action).toBe('get_attachment')
+                expect(latestLog.message).toBe(`Liitetiedosto '${attachment.fileName}' avattu`)
+                expect(latestLog.formId.toString()).toBe(admissionId)
+                expect(latestLog.attachmentId.toString()).toBe(attachmentId)
+                    
+            })
+        })
+
+    })
+
+    describe('Get Admission', () => {
+        beforeAll(async () => {
+            await admissionService.getAdmission(admissionId, testUsername , testRole)
+            await new Promise((r) => setTimeout(r, 1000))
+        })
+
+        test('get request is logged with proper category and message', async () => {
+            const latestLog = await helper.getLatestLog()
+    
+            expect(latestLog.action).toBe('get_admission_form')
+            expect(latestLog.message).toBe('Tutkimuspyyntö avattu')
+        })
+
+        test('log includes username and role specified in the method parameters', async () => {
+            const latestLog = await helper.getLatestLog()
+
+            expect(latestLog.createdBy).toBe(testUsername)
+            expect(latestLog.createdByRole).toBe(testRole)
+        })
+        
     })
 
     describe('Update Admission', () => {
         beforeAll(async () => {
             const savedAdmission = await helper.admissionsInDb()
-            await admissionService.updateAdmission(savedAdmission[0].id, { ...helper.admissionFormTestData, lastname: 'vaihtunutSukunimi'})
+            await admissionService.updateAdmission(savedAdmission[0].id, 
+                { ...helper.admissionFormTestData, lastname: 'vaihtunutSukunimi'},
+                testUsername , testRole)
             
             await new Promise((r) => setTimeout(r, 1000))
         })
@@ -65,12 +161,23 @@ describe('Save Admission', () => {
             // should not match since 'lastname' and 'updatedAt' were updated
             expect(before).not.toMatchObject(after)
         
-            before = helper.omit(before, 'lastname', 'updatedAt')
+            // should only have the two fields that changed
+            expect(Object.keys(after)).toHaveLength(2)
+
             after = helper.omit(after, 'lastname', 'updatedAt')
 
             // should match since two updated values are excluded
-            expect(before).toMatchObject(after)
+            expect(after).toMatchObject({})
+
         })
+
+        test('log includes username and role specified in the method parameters', async () => {
+            const latestLog = await helper.getLatestLog()
+
+            expect(latestLog.createdBy).toBe(testUsername)
+            expect(latestLog.createdByRole).toBe(testRole)
+        })
+        
         describe('Update Same Admission Twice', () => {
             beforeAll(async () => {
                 const savedAdmission = await helper.admissionsInDb()
@@ -81,7 +188,7 @@ describe('Save Admission', () => {
                 await new Promise((r) => setTimeout(r, 1000))
             })
 
-            test('diff.original contains the recent field change and diff.after only the new change', async () => {
+            test('diff.original contains the document before changes and diff.after only the new change', async () => {
                 const log = await helper.getLatestLog()
 
                 let before = log.diff.original
@@ -90,26 +197,14 @@ describe('Save Admission', () => {
                 // should not match since 'name' and 'updatedAt' were updated
                 expect(before).not.toMatchObject(after)
         
-                before = helper.omit(before, 'name', 'updatedAt')
+                // should only have the two fields that changed
+                expect(Object.keys(after)).toHaveLength(2)
+
                 after = helper.omit(after, 'name', 'updatedAt')
 
                 // should match since two updated values are excluded
-                expect(before).toMatchObject(after)
+                expect(after).toMatchObject({})
             })
         })
-    })
-    describe('Get Admission', () => {
-        beforeAll(async () => {
-            const savedAdmission = await helper.admissionsInDb()
-            await admissionService.getAdmission(savedAdmission[0].id)
-            await new Promise((r) => setTimeout(r, 1000))
-        })
-
-        test('get request is logged', async () => {
-            const latestLog = await helper.getLatestLog()
-    
-            expect(latestLog.action).toBe('get_admission_form')
-            expect(latestLog.message).toBe('Tutkimuspyyntö avattu')
-        })
-    })
+    })    
 })

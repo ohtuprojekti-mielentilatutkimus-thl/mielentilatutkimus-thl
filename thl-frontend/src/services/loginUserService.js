@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/auth' : process.env.PUBLIC_URL + '/api/auth'
+const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/thl/auth' : process.env.PUBLIC_URL + '/api/thl/auth'
 
 const login = loggedInUser => {
 

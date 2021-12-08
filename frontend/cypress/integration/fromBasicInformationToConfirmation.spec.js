@@ -5,7 +5,7 @@ import 'cypress-file-upload'
 describe('From posting basic information to confirmation email', function() {
 
     it('From posting basic information to confirmation email', function(){
-        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+        cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
             cy.visit('http://localhost:3000/mielentilatutkimus/basic_information_form')
 
@@ -19,7 +19,7 @@ describe('From posting basic information to confirmation email', function() {
             cy.contains('Perustietojen lähettäminen onnistui!')
 
             cy.wait(1000)
-            cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+            cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                 expect(emails.status).equal(200)
                 const email_id = emails.body[0].id
                 const parts = emails.body[0].text.split('/')
@@ -28,7 +28,7 @@ describe('From posting basic information to confirmation email', function() {
                 const sender_id = localStorage.sender_id
                 const senders_id = sender_id.replace(/['"]+/g,'')
 
-                cy.request('DELETE', `http://127.0.0.1:1080/email/${email_id}`).then((res) => {
+                cy.request('DELETE', `http://localhost:1080/email/${email_id}`).then((res) => {
                     expect(res.status).equal(200)
                 })
 
@@ -75,7 +75,7 @@ describe('From posting basic information to confirmation email', function() {
             })
         }).then(() => {
             cy.wait(1000)
-            cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+            cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                 expect(emails.status).equal(200)
                 assert.equal(emails.body[0].headers.to, helper.basic_information_input.sendersEmail)
                 assert.equal(emails.body[0].subject, 'Vahvistus')

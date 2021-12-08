@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { Grid, TextField, Button, Typography, Dialog, DialogContentText, DialogActions, DialogTitle, DialogContent } from '@material-ui/core'
+import { Grid, TextField, Button, Typography, Dialog, DialogContentText, DialogActions, DialogTitle, DialogContent } from '@mui/material'
 import formService from '../services/formService'
 
 const ReseachUnitStatement = ({ form, formState, updateForms }) => {
