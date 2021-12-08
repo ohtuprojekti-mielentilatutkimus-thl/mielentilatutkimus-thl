@@ -393,10 +393,12 @@ describe('Reseach unit role', () => {
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.wait(1000)
 
-        cy.get('a').last().click()
+        cy.get('a').first().click()
+        cy.contains('Tutkimuspaikka:')
+        cy.contains('Niuvanniemen sairaala')
 
-        // päivitän, kun lomakkeisiin on lisätty tutkimusyksikkö-kenttä
-        // cy.contains('Toimintayksikkö:')
-        // cy.contains('Niuvanniemen sairaala')
+        cy.get('a').last().click()
+        cy.contains('Tutkimuspaikka:')
+        cy.contains('Niuvanniemen sairaala')
     })
 })
