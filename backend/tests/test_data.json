@@ -22,6 +22,7 @@
     "admission_forms": [
         {
             "formSender": "tomi.tuomari@example.com",
+            "sendersEmail": "tomi.tuomari@example.com",
             "name": "Reijo",
             "lastname": "Rikollinen",
             "identificationNumber": "101010-0000",
