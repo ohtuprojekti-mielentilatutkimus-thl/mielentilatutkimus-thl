@@ -56,7 +56,7 @@ admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
     const data = {
         statement: req.body.statement
     }
-
+    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
     if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
@@ -70,9 +70,7 @@ admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
     const data = {
         statement_draft: req.body
     }
-
-    //tsekkaa viel tää !
-
+    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
     if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
