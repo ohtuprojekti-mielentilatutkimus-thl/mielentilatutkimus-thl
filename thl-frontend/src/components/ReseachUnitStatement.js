@@ -20,6 +20,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
     const [field14, setField14] = useState(form.statement_draft[13])
 
     const [openConfirm, setConfirmOpen] = useState(false)
+    const [previewWindow, setPreviewWindowOpen] = useState(false)
 
     const handleField1Change = (event) => {
         setField1(event.target.value)
@@ -67,7 +68,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
     const getStatus = () => {
         if (formState !== 'Lausunto saapunut') {
             return (
-                <Typography variant="h4" color="error" > LUONNOS </Typography>
+                <Typography variant="h5" color="error" > LUONNOS </Typography>
             )
         }
     }
@@ -81,7 +82,6 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         if(state.button === 1) {
 
             const statement_draft = []
-
             statement_draft.push(field1)
             statement_draft.push(field2)
             statement_draft.push(field3)
@@ -97,13 +97,15 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             statement_draft.push(field13)
             statement_draft.push(field14)
 
-
             formService.addStatementDraft(form.id, statement_draft)
                 .then(response => {
                     console.log(response.data)
                 })
-        } else {
+        } if(state.button === 2) {
             handleClickOpen()
+        }
+        if (state.button === 3) {
+            handleClickOpenPreview()
         }
     }
 
@@ -116,12 +118,11 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
     const handleCloseAndSend = () => {
         setConfirmOpen(false)
 
-        const statement = []
-        statement.push(`  
+        const statement = { statement : `  
         Diagnoosikoodi: ${field1}\n\n
         Oikeuden asiakirjatiedot: ${field2}\n\n
-        Syytteenalainen teko ${field3}\n\n
-        Esitutkintatiedot ${field4}\n\n
+        Syytteenalainen teko: ${field3}\n\n
+        Esitutkintatiedot: ${field4}\n\n
         Muualta saadut tiedot: ${field5}\n\n
         Tutkittavan antamat tiedot (sosiaalityöntekijä ja tutkiva lääkäri): ${field6}\n\n
         Somaattinen tutkimus: ${field7}\n\n
@@ -131,7 +132,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         Toimintaterapeutti: ${field11}\n\n
         Yhteenveto: ${field12}\n\n
         Johtopäätökset: ${field13}\n\n
-        Ponnet: ${field14}`)
+        Ponnet: ${field14}` }
 
         const updateFormState = { ...form, formState: 'Lausunto saapunut' }
 
@@ -145,11 +146,18 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             })
     }
 
+    const handleClickOpenPreview = () => {
+        setPreviewWindowOpen(true)
+    }
+    const handleClosePreview = () => {
+        setPreviewWindowOpen(false)
+    }
+
     return (
         <div>
-            <h2>
+            <h1>
            Mielentilalausunto:
-            </h2>
+            </h1>
             {getStatus()}
             <p></p>
             <form onSubmit={save}>
@@ -209,13 +217,46 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                     <TextField fullWidth value={field14} multiline minRows={4}onChange={handleField14Change} label="Ponnet"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
-                <Grid item xs={10}>
+                <br></br>
+                <Grid item xs={10}>  &nbsp;
+                    <Button variant='outlined' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
+                    &nbsp;
                     <Button variant='outlined' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
                     &nbsp;
                     <Button variant='contained' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
                 </Grid>
             </form>
             <div>
+                <Dialog
+                    open={previewWindow}
+                    onClose={handleClosePreview}
+                    aria-labelledby="draggable-dialog-title"
+                >
+                    <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          Mielentilalausunto:
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <div dangerouslySetInnerHTML={{ __html: `
+                                <b> Diagnoosikoodi: </b> ${field1} <br> </br>
+                                <b> Oikeuden asiakirjatiedot: </b> ${field2} <br> </br>
+                                <b> Syytteenalainen teko: </b> ${field3} <br> </br>
+                                <b> Esitutkintatiedot: </b> ${field4} <br> </br>
+                                <b> Muualta saadut tiedot: </b> ${field5} <br> </br>
+                                <b> Tutkittavan antamat tiedot (sosiaalityöntekijä ja tutkiva lääkäri): </b> ${field6} <br> </br>
+                                <b> Somaattinen tutkimus: </b> ${field7} <br> </br>
+                                <b> Psykiatrinen tutkimus: </b> ${field8} <br> </br>
+                                <b> Psykologinen ja neuropsykologinen tutkimusveto: </b> ${field9} <br> </br>
+                                <b> Osastohavainnot: </b> ${field10} <br> </br>
+                                <b> Toimintaterapeutti: </b> ${field11} <br> </br>
+                                <b> Yhteenveto: </b> ${field12} <br> </br>
+                                <b> Johtopäätökset: </b> ${field13} <br> </br>
+                                <b> Ponnet: </b> ${field14} <br> </br>
+                            ` }} />
+                        </DialogContentText>
+                    </DialogContent>
+                </Dialog>
+
                 <Dialog
                     open={openConfirm}
                     onClose={handleClose}
@@ -231,7 +272,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                     </DialogContent>
                     <DialogActions>
                         <Button autoFocus color='primary' onClick={handleCloseAndSend}>Lähetä</Button>
-                        <Button color='secondary' onClick={handleClose}>Kumoa</Button>
+                        <Button color='error' onClick={handleClose}>Kumoa</Button>
                     </DialogActions>
                 </Dialog>
             </div>
