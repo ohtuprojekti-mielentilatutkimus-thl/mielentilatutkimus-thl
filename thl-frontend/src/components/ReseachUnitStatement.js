@@ -162,68 +162,68 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             <p></p>
             <form onSubmit={save}>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field1} multiline minRows={1} onChange={handleField1Change} label="Diagnoosikoodi"
+                    <TextField id='1' fullWidth value={field1} multiline minRows={1} onChange={handleField1Change} label="Diagnoosikoodi"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field2} multiline minRows={3} onChange={handleField2Change} label="Oikeuden asiakirjatiedot"
+                    <TextField id='2' fullWidth value={field2} multiline minRows={3} onChange={handleField2Change} label="Oikeuden asiakirjatiedot"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field3} multiline minRows={4}onChange={handleField3Change} label="Syytteenalainen teko"
+                    <TextField id='3' fullWidth value={field3} multiline minRows={4}onChange={handleField3Change} label="Syytteenalainen teko"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field4} multiline minRows={4}onChange={handleField4Change} label="Esitutkintatiedot"
+                    <TextField id='4' fullWidth value={field4} multiline minRows={4}onChange={handleField4Change} label="Esitutkintatiedot"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field5} multiline minRows={4}onChange={handleField5Change} label="Muualta saadut tiedot"
+                    <TextField id='5' fullWidth value={field5} multiline minRows={4}onChange={handleField5Change} label="Muualta saadut tiedot"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field6} multiline minRows={4}onChange={handleField6Change} label="Tutkittavan antamat tiedot (sosiaalityöntekijä ja tutkiva lääkäri)"
+                    <TextField id='6' fullWidth value={field6} multiline minRows={4}onChange={handleField6Change} label="Tutkittavan antamat tiedot (sosiaalityöntekijä ja tutkiva lääkäri)"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field7} multiline minRows={4}onChange={handleField7Change} label="Somaattinen tutkimus"
+                    <TextField id='7' fullWidth value={field7} multiline minRows={4}onChange={handleField7Change} label="Somaattinen tutkimus"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field8} multiline minRows={4}onChange={handleField8Change} label="Psykiatrinen tutkimus"
+                    <TextField id='8' fullWidth value={field8} multiline minRows={4}onChange={handleField8Change} label="Psykiatrinen tutkimus"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field9} multiline minRows={4}onChange={handleField9Change} label="Psykologinen ja neuropsykologinen tutkimusveto"
+                    <TextField id='9'fullWidth value={field9} multiline minRows={4}onChange={handleField9Change} label="Psykologinen ja neuropsykologinen tutkimusveto"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field10} multiline minRows={4}onChange={handleField10Change} label="Osastohavainnot"
+                    <TextField id='10' fullWidth value={field10} multiline minRows={4}onChange={handleField10Change} label="Osastohavainnot"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field11} multiline minRows={4}onChange={handleField11Change} label="Toimintaterapeutti"
+                    <TextField id='11' fullWidth value={field11} multiline minRows={4}onChange={handleField11Change} label="Toimintaterapeutti"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field12} multiline minRows={4}onChange={handleField12Change} label="Yhteenveto"
+                    <TextField id='12' fullWidth value={field12} multiline minRows={4}onChange={handleField12Change} label="Yhteenveto"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field13} multiline minRows={4}onChange={handleField13Change} label="Johtopäätökset"
+                    <TextField id='13' fullWidth value={field13} multiline minRows={4}onChange={handleField13Change} label="Johtopäätökset"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField fullWidth value={field14} multiline minRows={4}onChange={handleField14Change} label="Ponnet"
+                    <TextField id='14' fullWidth value={field14} multiline minRows={4}onChange={handleField14Change} label="Ponnet"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <br></br>
                 <Grid item xs={10}>  &nbsp;
-                    <Button variant='outlined' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
+                    <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
                     &nbsp;
-                    <Button variant='outlined' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
+                    <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
                     &nbsp;
-                    <Button variant='contained' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
+                    <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
                 </Grid>
             </form>
             <div>
@@ -271,8 +271,8 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button autoFocus color='primary' onClick={handleCloseAndSend}>Lähetä</Button>
-                        <Button color='error' onClick={handleClose}>Kumoa</Button>
+                        <Button autoFocus id='confirmSending' color='primary' onClick={handleCloseAndSend}>Lähetä</Button>
+                        <Button color='error' id='abortSending' onClick={handleClose}>Kumoa</Button>
                     </DialogActions>
                 </Dialog>
             </div>
