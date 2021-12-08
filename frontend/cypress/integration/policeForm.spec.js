@@ -121,10 +121,11 @@ describe('From posting basic informations to police adding attachments', functio
     it('police will not receive email if the THL-id  does not exist', function(){
 
 
-        cy.request('POST', 'http://localhost:3000/api/admissions/upload_form', {
+        cy.request({ failOnStatusCode: false, method: 'POST', url: 'http://localhost:3000/api/admissions/upload_form' }, {
             email: 'pasi.polliisi@poliisi.fi',
             value: 'ABCDE 123'
-        }).then(() => {
+        }).then((res) => {
+            expect(res.status).equal(500)
             cy.wait(1000)
 
             cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
