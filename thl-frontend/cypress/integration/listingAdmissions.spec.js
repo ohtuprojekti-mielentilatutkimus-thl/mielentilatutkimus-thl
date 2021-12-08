@@ -103,7 +103,7 @@ describe('All admissions can be viewed', () => {
 
 })
 
-/*
+
 describe('Sorting forms', () => {
     it('Sort by state sorts correctly', function () {
 
@@ -304,7 +304,7 @@ describe('Attachments', () => {
     })
 }
 )
-*/
+
 describe('Send to research unit', () => {
     it('Sending a request to research unit can be done and it changes form state to "Tutkimuspaikka pyydetty"', function ()  {
 
@@ -329,7 +329,7 @@ describe('Send to research unit', () => {
 }
 )
 
-/*
+
 describe('Event history can be viewed when role is "THL"', () => {
     it('Event history can be viewed', function() {
 
@@ -355,7 +355,7 @@ describe('Event history can be viewed when role is "THL"', () => {
         cy.wait(1000)
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu').should('not.exist')
     })
-}) */
+})
 
 describe('Reseach unit role', () => {
 
