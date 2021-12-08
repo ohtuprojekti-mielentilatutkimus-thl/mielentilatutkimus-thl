@@ -4,6 +4,7 @@ const app = require('../app')
 const helper = require('./test_helper')
 
 const baseUrl = '/api/admissions'
+const thlBaseUrl = '/api/thl/admissions'
 
 const api = supertest(app)
 
@@ -38,7 +39,7 @@ const invalid_emails = [
 let token = ''
 
 beforeAll(async () => {
-    const res = await api.post('/api/auth/login').send({username: 'thluser', role: 'THL'}).then()
+    const res = await api.post('/api/thl/auth/login').send({username: 'thluser', role: 'THL'}).then()
     token = res.body.accessToken
 })
 
@@ -107,7 +108,7 @@ describe('when db is initialized with data', () => {
 
         test('can be retrieved with GET', async () => {
             const admissionsInDb = await helper.admissionsInDb()
-            const response = await api.get(baseUrl+'/').set('X-Access-Token', token)
+            const response = await api.get(thlBaseUrl+'/').set('X-Access-Token', token)
         
             const lengthOfItems = admissionsInDb.length 
             expect(response.body).toHaveLength(lengthOfItems)
@@ -118,14 +119,14 @@ describe('when db is initialized with data', () => {
 
             const reseachUnit = 'Niuvanniemen sairaala'
 
-            const responseWhenReseachUnitIsNotSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            const responseWhenReseachUnitIsNotSet = await api.get(thlBaseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
             expect(responseWhenReseachUnitIsNotSet.body).toHaveLength(0)
 
             const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData2)
             newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
             await newAdmissionForm.save()
             
-            const responseWhenReseachUnitIsSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            const responseWhenReseachUnitIsSet = await api.get(thlBaseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
             expect(responseWhenReseachUnitIsSet.body).toHaveLength(1)
         }) 
 
@@ -137,7 +138,7 @@ describe('when db is initialized with data', () => {
                 formState: 'muutettu prosessin tila'}
 
             await api
-                .put(baseUrl+'/thl/'+idOfItemInDb)
+                .put(thlBaseUrl+'/thl/'+idOfItemInDb)
                 .send(changedAdmissionForm).set('X-Access-Token', token)
 
             const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
@@ -220,7 +221,7 @@ describe('when db is initialized with data', () => {
             const ItemInDb = admissionsInDb[0]
 
             await api 
-                .put(baseUrl+'/thl/'+ItemInDb.id+'/research_unit')
+                .put(thlBaseUrl+'/thl/'+ItemInDb.id+'/research_unit')
                 .send(researchUnitData).set('X-Access-Token', token)
 
             const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
