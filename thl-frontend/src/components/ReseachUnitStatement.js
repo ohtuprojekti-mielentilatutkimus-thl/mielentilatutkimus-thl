@@ -4,27 +4,26 @@ import formService from '../services/formService'
 
 const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
-    const [field1, setField1] = useState('')
-    const [field2, setField2] = useState('')
-    const [field3, setField3] = useState('')
-    const [field4, setField4] = useState('')
-    const [field5, setField5] = useState('')
-    const [field6, setField6] = useState('')
-    const [field7, setField7] = useState('')
-    const [field8, setField8] = useState('')
-    const [field9, setField9] = useState('')
-    const [field10, setField10] = useState('')
-    const [field11, setField11] = useState('')
-    const [field12, setField12] = useState('')
-    const [field13, setField13] = useState('')
-    const [field14, setField14] = useState('')
+    const [field1, setField1] = useState(form.statement_draft[0])
+    const [field2, setField2] = useState(form.statement_draft[1])
+    const [field3, setField3] = useState(form.statement_draft[2])
+    const [field4, setField4] = useState(form.statement_draft[3])
+    const [field5, setField5] = useState(form.statement_draft[4])
+    const [field6, setField6] = useState(form.statement_draft[5])
+    const [field7, setField7] = useState(form.statement_draft[6])
+    const [field8, setField8] = useState(form.statement_draft[7])
+    const [field9, setField9] = useState(form.statement_draft[8])
+    const [field10, setField10] = useState(form.statement_draft[9])
+    const [field11, setField11] = useState(form.statement_draft[10])
+    const [field12, setField12] = useState(form.statement_draft[11])
+    const [field13, setField13] = useState(form.statement_draft[12])
+    const [field14, setField14] = useState(form.statement_draft[13])
 
     const [openConfirm, setConfirmOpen] = useState(false)
 
     const handleField1Change = (event) => {
         setField1(event.target.value)
     }
-
     const handleField2Change = (event) => {
         setField2(event.target.value)
     }
@@ -80,32 +79,29 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         event.preventDefault()
 
         if(state.button === 1) {
-            console.log('tallennetaan luonnos')
-            // luonnoksen tallennuksen
 
-            const statement = []
-            statement.push(field1)
-            statement.push(field2)
-            statement.push(field3)
-            statement.push(field4)
-            statement.push(field5)
-            statement.push(field6)
-            statement.push(field7)
-            statement.push(field8)
-            statement.push(field9)
-            statement.push(field10)
-            statement.push(field11)
-            statement.push(field12)
-            statement.push(field13)
-            statement.push(field14)
+            const statement_draft = []
 
-            formService.addStatement(form.id, statement)
+            statement_draft.push(field1)
+            statement_draft.push(field2)
+            statement_draft.push(field3)
+            statement_draft.push(field4)
+            statement_draft.push(field5)
+            statement_draft.push(field6)
+            statement_draft.push(field7)
+            statement_draft.push(field8)
+            statement_draft.push(field9)
+            statement_draft.push(field10)
+            statement_draft.push(field11)
+            statement_draft.push(field12)
+            statement_draft.push(field13)
+            statement_draft.push(field14)
+
+
+            formService.addStatementDraft(form.id, statement_draft)
                 .then(response => {
                     console.log(response.data)
                 })
-            // lausunnon lähettäminen
-
-
         } else {
             handleClickOpen()
         }

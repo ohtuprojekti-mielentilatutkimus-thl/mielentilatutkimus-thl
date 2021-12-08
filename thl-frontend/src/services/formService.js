@@ -35,4 +35,8 @@ const addStatement = (id, statement) => {
     return axios.put(`${baseUrl}/thl/${id}/add_statement`, statement, { headers: utils.getAccessToken() })
 }
 
-export default { getAll, getOne, update, askForInfo, updateResearchUnit, getByResearchUnit, addStatement }
+const addStatementDraft = (id, statement_draft) => {
+    return axios.put(`${baseUrl}/thl/${id}/add_statement_draft`, statement_draft, { headers: utils.getAccessToken() })
+}
+
+export default { getAll, getOne, update, askForInfo, updateResearchUnit, getByResearchUnit, addStatement, addStatementDraft }
