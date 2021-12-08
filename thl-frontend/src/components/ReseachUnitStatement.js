@@ -115,34 +115,34 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
     }
     const handleCloseAndSend = () => {
         setConfirmOpen(false)
-        console.log('lähetetään lausunto')
+
+        const statement = []
+        statement.push(`  
+        Diagnoosikoodi: ${field1}\n\n
+        Oikeuden asiakirjatiedot: ${field2}\n\n
+        Syytteenalainen teko ${field3}\n\n
+        Esitutkintatiedot ${field4}\n\n
+        Muualta saadut tiedot: ${field5}\n\n
+        Tutkittavan antamat tiedot (sosiaalityöntekijä ja tutkiva lääkäri): ${field6}\n\n
+        Somaattinen tutkimus: ${field7}\n\n
+        Psykiatrinen tutkimus: ${field8}\n\n
+        Psykologinen ja neuropsykologinen tutkimusveto: ${field9}\n\n
+        Osastohavainnot: ${field10}\n\n
+        Toimintaterapeutti: ${field11}\n\n
+        Yhteenveto: ${field12}\n\n
+        Johtopäätökset: ${field13}\n\n
+        Ponnet: ${field14}`)
+
         const updateFormState = { ...form, formState: 'Lausunto saapunut' }
-        formService.update(updateFormState.id, updateFormState)
+
+        formService
+            .addStatement(updateFormState.id, statement)
+
+        formService
+            .update(updateFormState.id, updateFormState)
             .then(response => {
                 updateForms(response.data)
             })
-
-        const statement = []
-        statement.push(field1)
-        statement.push(field2)
-        statement.push(field3)
-        statement.push(field4)
-        statement.push(field5)
-        statement.push(field6)
-        statement.push(field7)
-        statement.push(field8)
-        statement.push(field9)
-        statement.push(field10)
-        statement.push(field11)
-        statement.push(field12)
-        statement.push(field13)
-        statement.push(field14)
-
-        formService.addStatement(updateFormState.id, statement)
-            .then(response => {
-                console.log(response.data)
-            })
-        // lausunnon lähettäminen
     }
 
     return (

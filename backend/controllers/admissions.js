@@ -56,10 +56,20 @@ admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
     const data = {
         statement: req.body
     }
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+
+    const data2 = {
+        statement: data.statement[0]
+    }
+
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data2, req.username, req.role)
     if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
     }
+    console.log(updatedForm)
+    console.log('***')
+    console.log(updatedForm.statement)
+    console.log('***')
+
     res.json(updatedForm.toJSON()) 
 })
 
@@ -69,8 +79,6 @@ admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
     const data = {
         statement_draft: req.body
     }
-
-    console.log('täällä, ', data)
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
     if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
