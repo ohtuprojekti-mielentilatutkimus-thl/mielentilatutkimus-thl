@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import loginUserService from '../services/loginUserService'
-import { Paper, Grid, Button, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Select, MenuItem } from '@material-ui/core'
+import { Paper, Grid, Button, TextField, FormControl, RadioGroup, FormControlLabel, Radio, Select, MenuItem } from '@mui/material'
 import { useStyles } from '../styles'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import validator from 'validator'
 import { useHistory } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from '@material-ui/lab'
+import { Alert } from '@mui/material'
 import { Stack } from '@mui/material'
 
 const Messages = ({ msgArray, severity }) => (
