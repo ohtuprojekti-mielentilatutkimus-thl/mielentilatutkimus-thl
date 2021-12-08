@@ -4,6 +4,10 @@ const AttachmentForm = require('../models/attachmentForm.model.js')
 const testData = require('./test_data.json')
 const Log = require('../models/log.model')
 
+const fs = require('fs')
+const path = require('path')
+const baseUrl = '/api/admissions'
+
 let admissionFormTestData = testData.admission_forms[0]
 let admissionFormTestData2 = testData.admission_forms[1]
 let basicInfoFormTestData = testData.basic_info_forms[0]
@@ -53,8 +57,17 @@ function omit(obj, ...props) {
     return result
 }
 
+const postTestPdf = async (api, admissionId) => {
+    await api
+        .post(baseUrl+`/admission_form_attachment/${admissionId}`)
+        .attach('files', fs.createReadStream(path.join(__dirname, './attachments/test_pdf.pdf')))
+        .field('filesInfo', '[{"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
+        .field('originalname', 'test_pdf.pdf')
+        .expect(200)
+}
+
 module.exports = {
     admissionFormTestData, admissionFormTestData2, basicInfoFormTestData, sendToResearchUnitData, allBasicInfoJsons, allAdmissionJsons,
     admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
-    admissionInDb, omit, getLog, getLatestLog
+    admissionInDb, omit, getLog, getLatestLog, postTestPdf
 }

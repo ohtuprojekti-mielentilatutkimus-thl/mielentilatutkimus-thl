@@ -3,6 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
 const baseUrl = '/api/admissions'
+const thlBaseUrl = '/api/thl/admissions'
 
 const api = supertest(app)
 
@@ -25,7 +26,7 @@ beforeAll(async () => {
     const admissionsInDb = await helper.admissionsInDb()
     testAdmissionId = admissionsInDb[0].id
 
-    const res = await api.post('/api/auth/login').send({username: 'thluser', role: 'THL'}).then()
+    const res = await api.post('/api/thl/auth/login').send({username: 'thluser', role: 'THL'})
     token = res.body.accessToken
 })
 
@@ -105,11 +106,11 @@ describe('when sending an attachment with post-request', () => {
 describe('on requesting an attachment with get-request,', () => {
 
     test('pdf file can be sent to requesting client', async () => {
-        await postTestPdf()
+        await helper.postTestPdf(api, testAdmissionId)
         const testPdf = await AttachmentForm.findOne({ fileName: 'test_pdf.pdf' })
     
         await api
-            .get(baseUrl+`/admission_form_attachment/${testPdf.id}`).set('X-Access-Token', token)
+            .get(thlBaseUrl+`/admission_form_attachment/${testPdf.id}`).set('x-access-token', token)
             .expect(200)
             .expect('Content-Type', /application\/pdf/)
     })
@@ -126,12 +127,3 @@ describe('on requesting an attachment with get-request,', () => {
         })
     })  
 })
-
-const postTestPdf = async () => {
-    await api
-        .post(baseUrl+`/admission_form_attachment/${testAdmissionId}`)
-        .attach('files', fs.createReadStream(path.join(__dirname, './attachments/test_pdf.pdf')))
-        .field('filesInfo', '[{"name": "test_pdf.pdf", "whichFile": "valituomio"}]')
-        .field('originalname', 'test_pdf.pdf')
-        .expect(200)
-}
