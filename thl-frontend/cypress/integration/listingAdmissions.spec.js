@@ -199,7 +199,7 @@ describe('Sorting forms', () => {
 describe('Asking for additional information from form sender', () => {
     it('Additional information can be asked', function () {
 
-        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+        cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
         })
 
@@ -221,7 +221,7 @@ describe('Asking for additional information from form sender', () => {
 
         var admissionId = ''
 
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+        cy.request('GET', 'http://localhost:1080/email').then((emails) => {
             assert.equal(emails.body[0].subject, 'Mielentilatutkimuspyyntö vaatii lisätietoja')
             expect(emails.body[0].text.includes('Diaarinumero, sijainti sekä prosessiosoite ovat virheellisessä muodossa'))
 

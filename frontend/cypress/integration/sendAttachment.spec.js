@@ -6,7 +6,7 @@ import 'cypress-file-upload'
 describe('Attach files in  Admission Form', function() {
 
     it('Post basic information form to get the id', function(){
-        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+        cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
             cy.request('POST', 'http://localhost:3000/api/admissions/basic_information_form', {
                 admissionNoteSender: helper.basic_information_input.admissionNoteSender,
@@ -15,7 +15,7 @@ describe('Attach files in  Admission Form', function() {
                 sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber
             }).then(() => {
                 cy.wait(1000)
-                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                     expect(emails.status).equal(200)
                     //expect(emails.body.length).equal(1)
                     const email_id = emails.body[0].id
@@ -25,7 +25,7 @@ describe('Attach files in  Admission Form', function() {
                     const sender_id = localStorage.sender_id
                     const senders_id = sender_id.replace(/['"]+/g,'')
 
-                    cy.request('DELETE', `http://127.0.0.1:1080/email/${email_id}`).then((res) => {
+                    cy.request('DELETE', `http://localhost:1080/email/${email_id}`).then((res) => {
                         expect(res.status).equal(200)
                     })
 
