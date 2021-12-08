@@ -153,12 +153,10 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                     </Grid>
                                 ) : ('')}
 
-                                {thlUser ? (
-                                    <Grid xs={4}>
-                                        <div className={classes.textLabel}>Tutkimuspaikka:</div>
-                                        <div className={classes.text}>{form.researchUnit ? form.researchUnit : 'Ei määrätty'}</div>
-                                    </Grid>
-                                ) : ('')}
+                                <Grid xs={4}>
+                                    <div className={classes.textLabel}>Tutkimuspaikka:</div>
+                                    <div className={classes.text}>{form.researchUnit ? form.researchUnit : 'Ei määrätty'}</div>
+                                </Grid>
                             </Grid>
                         </DialogTitle>
 
