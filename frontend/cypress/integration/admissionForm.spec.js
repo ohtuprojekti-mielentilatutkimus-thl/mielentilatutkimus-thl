@@ -41,7 +41,7 @@ describe('Send Admission Form', function() {
 
                     var whichboolean = 0
                     for (const i in helper.admission_form_input) {
-                        if (['basicInformationId', 'formSender', 'sendersEmail', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
+                        if (['basicInformationId', 'formSender', 'sendersEmail', 'statement', 'statement_draft', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
                         i.includes('Ready')) {
                             continue
                         }

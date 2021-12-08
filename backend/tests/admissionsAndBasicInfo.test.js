@@ -99,7 +99,9 @@ describe('when db is initialized with data', () => {
             // +2 for createdAt and updatedAt
             // +1 for attachments
             // +1 for thlRequestId
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
+            // +1 for statement
+
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 7
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -336,7 +338,8 @@ describe('when db is empty', () => {
             // +2 for createdAt and updatedAt
             //+1 for attachments
             // +1 for thlRequestId
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
+            // +1 for statement
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 7
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)

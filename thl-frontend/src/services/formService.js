@@ -32,9 +32,6 @@ const getByResearchUnit = (researchUnit) => {
 }
 
 const addStatement = (id, statement) => {
-
-    console.log('1:', statement)
-
     return axios.put(`${baseUrl}/thl/${id}/add_statement`, statement, { headers: utils.getAccessToken() })
 }
 
