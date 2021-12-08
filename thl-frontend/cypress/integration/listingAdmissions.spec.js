@@ -297,7 +297,7 @@ describe('Attachments', () => {
         cy.get('#uploadFiles').click()
         cy.contains('Liitteet lisätty')
         cy.wait(1000*7)
-        cy.get('.MuiButton-label').contains('rikosrekisteriote')
+        cy.get('.MuiButton-root').contains('rikosrekisteriote')
 
     })
 }
@@ -334,7 +334,7 @@ describe('Event history can be viewed when role is "THL"', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
         cy.contains('Tapahtuma-aika')
 
@@ -346,7 +346,7 @@ describe('Event history can be viewed when role is "THL"', () => {
 
         cy.visit('http://localhost:3002/thl/thl-admissions')
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.get('#eventListRow').contains('Tutkimuspyyntö tallennettu')
         cy.get('#sortEventTime').click()
         cy.wait(1000)
@@ -364,7 +364,7 @@ describe('Reseach unit role', () => {
         cy.wait(1000)
 
         cy.get('a').last().click()
-        cy.get('.MuiTab-wrapper').last().click()
+        cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
 
         cy.contains('Mielentilalausunto:')
