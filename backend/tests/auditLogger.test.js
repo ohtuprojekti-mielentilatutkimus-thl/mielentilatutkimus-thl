@@ -19,6 +19,7 @@ const api = supertest(app)
 const admissionService = require('../services/admissionService')
 
 const AdmissionForm = require('../models/admissionForm.model.js')
+const AttachmentForm = require('../models/attachmentForm.model')
 const Log = require('../models/log.model')
 
 const { getDiff } = require('../utils/logger')
@@ -50,6 +51,7 @@ describe('Save Admission', () => {
     beforeAll(async () => {
         await AdmissionForm.deleteMany({})
         await Log.deleteMany({})
+        await AttachmentForm.deleteMany({})
 
         await admissionService.saveAdmission({ ...helper.admissionFormTestData })
         await new Promise((r) => setTimeout(r, 500))
