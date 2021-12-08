@@ -28,6 +28,8 @@ before(function() {
 
     cy.sendBasicInformation()
 
+    login('THL')
+
     cy.wait(1000)
 
     cy.sendAdmissionForm({

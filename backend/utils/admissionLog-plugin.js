@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-//const _ = require('lodash')
 const LogSchema = require('../models/log.model')
-const { getDiff } = require('../utils/logger')
+const { getDiff } = require('./logger')
 
 const plugin = function (schema) {
     
@@ -9,6 +8,7 @@ const plugin = function (schema) {
         doc._original = doc.toObject({transform: false})
     })
     schema.pre('save', function (next) {
+
         if (this.isNew) {
             next()
         } else {
@@ -31,10 +31,11 @@ const plugin = function (schema) {
             original: this._original,
             changed: this._diff
         }
-        data.form_id = this.id
+        data.formId = this.id
 
         return LogSchema.create(data)
     }
+    
 }
 
 module.exports = plugin
