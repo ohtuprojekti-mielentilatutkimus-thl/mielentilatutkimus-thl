@@ -43,7 +43,21 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         formState: req.body.formState
     }
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    if (updatedForm.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
+
+    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
+        return res.sendStatus(403)
+    }
+    res.json(updatedForm.toJSON()) 
+})
+
+//PUT STATEMENT
+admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
+
+    const data = {
+        statement: req.body
+    }
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
     }
     res.json(updatedForm.toJSON()) 
