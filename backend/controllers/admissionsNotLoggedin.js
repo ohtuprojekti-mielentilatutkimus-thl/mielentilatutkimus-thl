@@ -18,7 +18,7 @@ sendAdmissionsRouter.post('/admission_form', async (req, res) => {
         const savedForm = await admissionService.saveAdmission(data)
         Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
 
-        res.json({message: 'ok'})
+        res.json(savedForm)
     }
 })
 
