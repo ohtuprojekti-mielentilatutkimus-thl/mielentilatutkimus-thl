@@ -1,6 +1,6 @@
 import React from 'react'
-import { Chip } from '@material-ui/core'
-import { styled } from '@material-ui/core'
+import { Chip } from '@mui/material'
+import { styled } from '@mui/material'
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(1),

@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from 'react'
 import eventService from '../services/eventService'
-import { Table, TableCell, TableRow, TableContainer, TableHead, TableBody } from '@material-ui/core'
+import { Table, TableCell, TableRow, TableContainer, TableHead, TableBody } from '@mui/material'
 import dayjs from 'dayjs'
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import IconButton from '@material-ui/core/IconButton'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import IconButton from '@mui/material/IconButton'
 
 const EventHistory = ({ form }) => {
     const [eventsById, setEventsById] = useState([])
@@ -42,7 +42,11 @@ const EventHistory = ({ form }) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align="left">Tapahtuma-aika
-                                    <IconButton id="sortEventTime" onClick={sortEventsByDate} color="primary">
+                                    <IconButton
+                                        id="sortEventTime"
+                                        onClick={sortEventsByDate}
+                                        color="primary"
+                                        size="large">
                                         <ArrowDropDownIcon />
                                     </IconButton>
                                 </TableCell>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, DialogTitle, DialogActions, Button, TextField, } from '@material-ui/core'
+import { Grid, DialogTitle, DialogActions, Button, TextField, } from '@mui/material'
 import formService from '../services/formService'
 import useMessage from '../utils/messageHook'
 import Messages from './Messages'
@@ -46,7 +46,7 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
     }
 
     return (
-        <DialogTitle disableTypography>
+        <DialogTitle>
             <h4>{form.thlRequestId}</h4>
             <Grid>
                 <TextField

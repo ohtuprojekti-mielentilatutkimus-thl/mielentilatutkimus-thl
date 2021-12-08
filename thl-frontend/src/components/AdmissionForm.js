@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import attachmentService from '../services/attachmentService'
-import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Box, Tab } from '@material-ui/core'
-import { TabPanel, TabContext, TabList } from '@material-ui/lab'
+import { Grid, Dialog, DialogContent, DialogTitle, DialogActions, Button, Typography, Box, Tab } from '@mui/material'
+import { TabPanel, TabContext, TabList } from '@mui/lab'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 import PdfViewer from './PdfViewer'
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import SendToResearchUnit from './SendToResearchUnit'
 import AddAttachment from './AddAttachment'
 import AdditionalInfo from './AdditionalInfo'
@@ -121,7 +121,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     </Box>
 
                     <TabPanel value="1">
-                        <DialogTitle disableTypography>
+                        <DialogTitle>
                             <h1>{form.thlRequestId}</h1>
 
                             <Grid
@@ -342,7 +342,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         </DialogActions>
                     </TabPanel>
                     <TabPanel value="2">
-                        <DialogTitle disableTypography>
+                        <DialogTitle>
                             <h2>
                             Tapahtumahistoria
                             </h2>
