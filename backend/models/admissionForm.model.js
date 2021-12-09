@@ -39,6 +39,8 @@ var admissionSchema = mongoose.Schema({
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
     imprisonmentRequirementReady: { type: Boolean },
+    statement: { type: String },
+    statement_draft: [],
     attachments: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -61,5 +63,8 @@ admissionSchema.set('toJSON', {
         delete returnedObject.__v
     }
 })
+
+
+admissionSchema.plugin(require('../utils/admissionLog-plugin'))
 
 module.exports = mongoose.model('admissionForm', admissionSchema)

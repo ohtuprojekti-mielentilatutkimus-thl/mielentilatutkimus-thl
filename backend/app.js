@@ -7,7 +7,7 @@ const path = require('path')
 require('express-async-errors')
 
 const mongoose = require('mongoose')
-mongoose.plugin(require('./utils/diff-plugin'))
+//mongoose.plugin(require('./utils/diff-plugin'))
 
 const admissionsNotLoggedInRouter = require('./controllers/admissionsNotLoggedin')
 const attachmentsNotLoggedInRouter = require('./controllers/attachmentsNotLoggedIn')
@@ -27,13 +27,13 @@ app.use('*/api/admissions', attachmentsNotLoggedInRouter)
 app.use('*/api/admissions', basicInformationsRouter)
 
 //must be here, before rest of the admission routers
-app.use('*/api/admissions', middleware.authJwt.verifyToken)
+app.use('*/api/thl/admissions', middleware.authJwt.verifyToken)
 
-app.use('*/api/admissions', admissionsRouter)
-app.use('*/api/admissions', attachmentsRouter)
+app.use('*/api/thl/admissions', admissionsRouter)
+app.use('*/api/thl/admissions', attachmentsRouter)
 
-app.use('*/api/auth', authRouter)
-app.use('*/api/log', logRouter)
+app.use('*/api/thl/auth', authRouter)
+app.use('*/api/thl/log', logRouter)
 
 app.use('/thl', express.static('builds/thl/build'))
 app.use('/mielentilatutkimus', express.static('builds/mielentilatutkimus/build'))

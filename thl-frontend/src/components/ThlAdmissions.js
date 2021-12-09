@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import AdmissionForm from './AdmissionForm'
 import formService from '../services/formService'
 import loginUserService from '../services/loginUserService'
 import { useStyles } from '../styles'
 import dayjs from 'dayjs'
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import IconButton from '@material-ui/core/IconButton'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import IconButton from '@mui/material/IconButton'
 
 const ThlAdmissions = () => {
     const [formHeaders, setFormHeaders] = useState([])
@@ -88,7 +88,7 @@ const ThlAdmissions = () => {
                             <TableRow>
                                 <TableCell>Pyynnön tunniste</TableCell>
                                 <TableCell align="left">Luotu
-                                    <IconButton id="sortTime" onClick={sortFormsByDate} color="primary">
+                                    <IconButton id="sortTime" onClick={sortFormsByDate} color="primary" size="large">
                                         <ArrowDropDownIcon />
                                     </IconButton>
 
@@ -96,7 +96,7 @@ const ThlAdmissions = () => {
                                 <TableCell align="left">Päivitetty
                                 </TableCell>
                                 <TableCell align="left">Tila
-                                    <IconButton id="sortState" onClick={sortFormsByState} color="primary">
+                                    <IconButton id="sortState" onClick={sortFormsByState} color="primary" size="large">
                                         <ArrowDropDownIcon fontSize="small"/>
                                     </IconButton>
 

@@ -43,7 +43,36 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
         formState: req.body.formState
     }
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    if (updatedForm.researchUnit !== users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
+
+    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req)) && !users.isFromTHL(req)) {
+        return res.sendStatus(403)
+    }
+    res.json(updatedForm.toJSON()) 
+})
+
+//PUT STATEMENT
+admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
+
+    const data = {
+        statement: req.body.statement
+    }
+    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
+        return res.sendStatus(403)
+    }
+    res.json(updatedForm.toJSON()) 
+})
+
+//PUT STATEMENT DRAFT
+admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
+
+    const data = {
+        statement_draft: req.body
+    }
+    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
     }
     res.json(updatedForm.toJSON()) 

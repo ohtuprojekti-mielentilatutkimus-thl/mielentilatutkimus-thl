@@ -97,9 +97,7 @@ const updateAdmission = async (id, data, username, role) => {
         createdByRole: role ? role : 'undefined',
         message: 'Tutkimuspyyntö päivitetty',
     })
-
     return form
-
 }
 
 module.exports = { getAllAdmissions, getAdmission, getAdmissionForEdit, saveAdmission, updateAdmission, getAdmissionsByResearchUnit }

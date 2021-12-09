@@ -8,7 +8,7 @@ describe('From posting basic informations to police adding attachments', functio
 
     it('adding admission', function(){
 
-        cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+        cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
         })
 
@@ -21,7 +21,7 @@ describe('From posting basic informations to police adding attachments', functio
         }).then(() => {
 
             cy.wait(1000)
-            cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+            cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                 const parts = emails.body[0].text.split('/')
                 const id_from_email = parts[parts.length-1].replace('\n','')
                 localStorage.setItem('sender_id', JSON.stringify(id_from_email))
@@ -53,7 +53,7 @@ describe('From posting basic informations to police adding attachments', functio
 
         var admissionId = ''
 
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+        cy.request('GET', 'http://localhost:1080/email').then((emails) => {
 
             const parts = emails.body[1].text.split('/')
             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
@@ -69,7 +69,7 @@ describe('From posting basic informations to police adding attachments', functio
 
                 cy.wait(2000)
 
-                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                cy.request('GET', 'http://localhost:1080/email').then((emails) => {
 
                     assert.equal(emails.body[2].headers.to, 'pasi.polliisi@poliisi.fi')
                     assert.equal(emails.body[2].subject, 'Liitteiden lisäämisen linkki')
@@ -79,7 +79,7 @@ describe('From posting basic informations to police adding attachments', functio
                     expect(emails.body[2].text.includes('voit lähettää liitteitä koskien tapausta ( THL-id: ', admissionId, ')'))
                     const email_id = emails.body[1].id
 
-                    cy.request('DELETE', `http://127.0.0.1:1080/email/${email_id}`).then((res) => {
+                    cy.request('DELETE', `http://localhost:1080/email/${email_id}`).then((res) => {
                         expect(res.status).equal(200)
                     })
                 })
@@ -92,7 +92,7 @@ describe('From posting basic informations to police adding attachments', functio
 
         var admissionId = ''
 
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+        cy.request('GET', 'http://localhost:1080/email').then((emails) => {
             const parts = emails.body[1].text.split('/')
             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
             localStorage.setItem('admission_id', JSON.stringify(id_from_email))
@@ -121,13 +121,14 @@ describe('From posting basic informations to police adding attachments', functio
     it('police will not receive email if the THL-id  does not exist', function(){
 
 
-        cy.request('POST', 'http://localhost:3000/api/admissions/upload_form', {
+        cy.request({ failOnStatusCode: false, method: 'POST', url: 'http://localhost:3000/api/admissions/upload_form' }, {
             email: 'pasi.polliisi@poliisi.fi',
             value: 'ABCDE 123'
-        }).then(() => {
+        }).then((res) => {
+            expect(res.status).equal(500)
             cy.wait(1000)
 
-            cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+            cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                 expect(emails.body[2]).to.be.undefined
             })
         })
@@ -137,14 +138,14 @@ describe('From posting basic informations to police adding attachments', functio
 
         var admissionId = ''
 
-        cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+        cy.request('GET', 'http://localhost:1080/email').then((emails) => {
             const parts = emails.body[1].text.split('/')
             const id_from_email = parts[parts.length-1].replace('\n','').replace('123thl_id:','').replace(/['"]+/g,'').trim()
             localStorage.setItem('admission_id', JSON.stringify(id_from_email))
             admissionId = localStorage.admission_id.replace(/['"]+/g,'')
         }).then(() => {
 
-            cy.request('DELETE', 'http://127.0.0.1:1080/email/all').then((res) => {
+            cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
                 expect(res.status).equal(200)
 
                 cy.visit('http://localhost:3000/mielentilatutkimus/upload_form')
@@ -155,7 +156,7 @@ describe('From posting basic informations to police adding attachments', functio
 
                 cy.wait(1000)
 
-                cy.request('GET', 'http://127.0.0.1:1080/email').then((emails) => {
+                cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                     expect(emails.body[0]).to.be.undefined
                 })
             })

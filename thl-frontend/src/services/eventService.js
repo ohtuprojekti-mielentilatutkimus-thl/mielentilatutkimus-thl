@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/log' : process.env.PUBLIC_URL + '/api/log'
+const baseUrl = process.env.REACT_APP_LOCAL_RUN ? '/api/thl/log' : process.env.PUBLIC_URL + '/api/thl/log'
 
 const getEventsById = (id) => {
     const request = axios.get(`${baseUrl}/form_event/${id}` )

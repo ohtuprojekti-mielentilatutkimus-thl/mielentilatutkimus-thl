@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import formService from '../services/formService'
-import { Button, Select, FormControl } from '@material-ui/core'
-import MenuItem from '@material-ui/core/MenuItem'
+import { Button, Select, FormControl } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 
 const FormState = ( { form, updateForms } ) => {
 

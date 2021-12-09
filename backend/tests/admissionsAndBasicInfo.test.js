@@ -4,6 +4,7 @@ const app = require('../app')
 const helper = require('./test_helper')
 
 const baseUrl = '/api/admissions'
+const thlBaseUrl = '/api/thl/admissions'
 
 const api = supertest(app)
 
@@ -38,7 +39,7 @@ const invalid_emails = [
 let token = ''
 
 beforeAll(async () => {
-    const res = await api.post('/api/auth/login').send({username: 'thluser', role: 'THL'}).then()
+    const res = await api.post('/api/thl/auth/login').send({username: 'thluser', role: 'THL'}).then()
     token = res.body.accessToken
 })
 
@@ -99,6 +100,8 @@ describe('when db is initialized with data', () => {
             // +2 for createdAt and updatedAt
             // +1 for attachments
             // +1 for thlRequestId
+            // +1 for statement
+
             const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
@@ -107,7 +110,7 @@ describe('when db is initialized with data', () => {
 
         test('can be retrieved with GET', async () => {
             const admissionsInDb = await helper.admissionsInDb()
-            const response = await api.get(baseUrl+'/').set('X-Access-Token', token)
+            const response = await api.get(thlBaseUrl+'/').set('X-Access-Token', token)
         
             const lengthOfItems = admissionsInDb.length 
             expect(response.body).toHaveLength(lengthOfItems)
@@ -118,14 +121,14 @@ describe('when db is initialized with data', () => {
 
             const reseachUnit = 'Niuvanniemen sairaala'
 
-            const responseWhenReseachUnitIsNotSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            const responseWhenReseachUnitIsNotSet = await api.get(thlBaseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
             expect(responseWhenReseachUnitIsNotSet.body).toHaveLength(0)
 
             const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData2)
             newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
             await newAdmissionForm.save()
             
-            const responseWhenReseachUnitIsSet = await api.get(baseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
+            const responseWhenReseachUnitIsSet = await api.get(thlBaseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
             expect(responseWhenReseachUnitIsSet.body).toHaveLength(1)
         }) 
 
@@ -137,11 +140,54 @@ describe('when db is initialized with data', () => {
                 formState: 'muutettu prosessin tila'}
 
             await api
-                .put(baseUrl+'/thl/'+idOfItemInDb)
+                .put(thlBaseUrl+'/thl/'+idOfItemInDb)
                 .send(changedAdmissionForm).set('X-Access-Token', token)
 
             const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
             expect(updatedAdmissionForm.formState).toBe('muutettu prosessin tila')
+        })
+
+        test('field ´statement_draft´ can be changed with PUT', async () => {
+            let admissionsInDb = await helper.admissionsInDb()
+            const idOfItemInDb = admissionsInDb[0].id
+
+            const statementDraft = []
+            statementDraft.push('S46.1')
+            statementDraft.push('Asiakirjatieto 1, Asiakirjatieto 2')
+            statementDraft.push('Näpistys')
+
+            const changedAdmissionForm = { ...helper.admissionFormTestData, 
+                statement_draft: statementDraft}
+            
+            await api
+                .put(thlBaseUrl+'/thl/'+idOfItemInDb+'/add_statement_draft')
+                .send(changedAdmissionForm).set('X-Access-Token', token)
+
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
+            const updatedAdmissionFormStatement = updatedAdmissionForm.statement_draft
+
+            expect(updatedAdmissionFormStatement[0].statement_draft).toMatchObject(statementDraft)
+            expect(updatedAdmissionFormStatement[0].statement_draft[0]).toBe('S46.1')
+            expect(updatedAdmissionFormStatement[0].statement_draft[1]).toBe('Asiakirjatieto 1, Asiakirjatieto 2')
+            expect(updatedAdmissionFormStatement[0].statement_draft[2]).toBe('Näpistys')
+        })
+
+        test('field ´statement´ can be changed with PUT', async () => {
+            let admissionsInDb = await helper.admissionsInDb()
+            const idOfItemInDb = admissionsInDb[0].id
+
+            const added_statement = 'Diagnoosikoodi: S46.1, Oikeuden asiakirjatiedot: Asiakirjatieto 1, Asiakirjatieto 2, Syytteenalainen teko: Näpistys'
+
+            const changedAdmissionForm = { ...helper.admissionFormTestData, 
+                statement: added_statement}
+            
+            await api
+                .put(thlBaseUrl+'/thl/'+idOfItemInDb+'/add_statement')
+                .send(changedAdmissionForm).set('X-Access-Token', token)
+
+            const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
+
+            expect(updatedAdmissionForm.statement).toBe(added_statement)
         })
 
         test('field ´thlRequestId´ is incremented for new admission request', async () => {
@@ -220,7 +266,7 @@ describe('when db is initialized with data', () => {
             const ItemInDb = admissionsInDb[0]
 
             await api 
-                .put(baseUrl+'/thl/'+ItemInDb.id+'/research_unit')
+                .put(thlBaseUrl+'/thl/'+ItemInDb.id+'/research_unit')
                 .send(researchUnitData).set('X-Access-Token', token)
 
             const updatedAdmission = await helper.admissionInDb(ItemInDb.id)
@@ -336,12 +382,17 @@ describe('when db is empty', () => {
             // +2 for createdAt and updatedAt
             //+1 for attachments
             // +1 for thlRequestId
+            // +1 for statement
             const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
 
             for (k in admission_form) {
+
+                if (k.includes('statement_draft') || k.includes('statement')) {
+                    continue
+                }
                 expect(admission_form[k]).not.toBeNull()
                 expect(admission_form[k]).not.toBeUndefined()
                 expect(admission_form[k]).toEqual(admissionsInDb[0][k])

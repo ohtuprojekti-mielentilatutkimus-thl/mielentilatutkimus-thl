@@ -13,7 +13,12 @@ const LogSchema = new Schema({
 
     message: { type: String, required: true },
     diff: { type: Schema.Types.Mixed },
-    form_id: {type: String}
+    formId: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'admissionForm' },
+    attachmentId: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'attachmentForm' }
 },{
     timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 })

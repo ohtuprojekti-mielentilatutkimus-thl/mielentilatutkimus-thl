@@ -79,6 +79,8 @@ Cypress.Commands.add('sendAdmissionForm', ( data ) => {
 })
 
 Cypress.Commands.add('form_request', (url, formData) => {
+    const user = JSON.parse(localStorage.user)
+
     return cy
         .server()
         .route('POST', url)
@@ -87,6 +89,7 @@ Cypress.Commands.add('form_request', (url, formData) => {
         .then(win => {
             var xhr = new win.XMLHttpRequest()
             xhr.open('POST', url)
+            xhr.setRequestHeader('x-access-token', user.accessToken)
             xhr.send(formData)
         })
         .wait('@formRequest')
@@ -108,7 +111,7 @@ Cypress.Commands.add('sendAttachment', ( { id, whichFile } ) => {
             formData.append('files', blob, fileName)
 
             // Perform the request
-            cy.form_request('http://localhost:3001/api/admissions/admission_form_attachment/'+id, formData)
+            cy.form_request('http://localhost:3001/api/thl/admissions/admission_form_attachment/'+id, formData)
         })
 
 
@@ -119,7 +122,7 @@ Cypress.Commands.add('loginAsThlRole', () => {
     const loggedInUser = { username: 'Tero Testaaja', role: 'THL' }
 
     return cy.request({
-        url: 'http://localhost:3001/api/auth/login',
+        url: 'http://localhost:3001/api/thl/auth/login',
         method: 'POST',
         body: { ...loggedInUser },
     }).then(res => {
@@ -137,7 +140,7 @@ Cypress.Commands.add('loginAsReseachUnitRole', () => {
     const loggedInUser = { username: 'Tiina Testaaja', role: 'Niuvanniemen sairaala' }
 
     return cy.request({
-        url: 'http://localhost:3001/api/auth/login',
+        url: 'http://localhost:3001/api/thl/auth/login',
         method: 'POST',
         body: { ...loggedInUser },
     }).then(res => {

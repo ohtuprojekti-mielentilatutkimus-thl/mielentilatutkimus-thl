@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { Grid, DialogTitle, List, Button, Paper, DialogActions } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, DialogTitle, List, Button, Paper, DialogActions } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import attachmentService from '../services/attachmentService'
 import FileChip from './FileChip'
 import { Divider, Stack } from '@mui/material'
@@ -89,7 +89,7 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
     }
 
     return (
-        <DialogTitle disableTypography>
+        <DialogTitle>
             <h4>{form.thlRequestId}</h4>
             <div>
                 <div style={{

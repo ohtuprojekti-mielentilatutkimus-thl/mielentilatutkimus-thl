@@ -58,7 +58,9 @@
             "decisionOnDetentionIsReady": false,
             "imprisonmentRequirementReady": false,
             "researchUnit": "",
-            "researchUnitInformation": ""
+            "researchUnitInformation": "",
+            "statement": "",
+            "statement_draft": []
         },
         {
             "formSender": "yrjo_ylituomari@example.com",
