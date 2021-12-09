@@ -145,7 +145,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                     </Grid>
                                 ) : ('')}
 
-                                {thlUser ? (
+                                {(thlUser || (user.role === form.researchUnit)) ? (
                                     <Grid>
                                         <Button color='primary' id='handleAdditionalInfo' variant='outlined' onClick={() => setShowAdditionalInfo(true)}>
                                             Pyydä lisätietoja

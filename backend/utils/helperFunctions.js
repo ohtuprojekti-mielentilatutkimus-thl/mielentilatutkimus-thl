@@ -11,11 +11,11 @@ const validateEmailAddress = (email) => {
 }
 
 const validateBasicInformationData = (basicInformationForm) => {
-    return validateEmailAddress(basicInformationForm.sendersEmail)
+    return validateEmailAddress(basicInformationForm.email)
 }
 
 const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.formSender)
+    return emailValidator.validate(admissionForm.basicInformation.email)
 }
 
 const validateAssistantsEmail = (admissionForm) => {

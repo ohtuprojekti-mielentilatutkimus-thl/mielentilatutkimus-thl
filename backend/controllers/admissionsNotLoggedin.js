@@ -8,18 +8,21 @@ sendAdmissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
     if (!HelperFunctions.validateAdmissionFormData(data)) {
-        res.sendStatus(500)
-    } 
-    if (data.assistantsEmail.length>0 && !HelperFunctions.validateAssistantsEmail(data) || 
+        console.log('err1-----------------')
+        return res.sendStatus(500)
+    }
+    if (data.assistantsEmail.length>0 
+        && !HelperFunctions.validateAssistantsEmail(data) ||
     (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {
-        res.sendStatus(500)
+        console.log('err2-----------------')
+        return res.sendStatus(500)
 
     } else {
         const savedForm = await admissionService.saveAdmission(data)
-        Mailer.sendConfirmation(savedForm.formSender, savedForm.diaariNumber, savedForm.id)
+        Mailer.sendConfirmation(savedForm.basicInformation.email, savedForm.diaariNumber, savedForm.id)
 
         //Tarviiko lähettää takaisin tallennettua lomaketta?
-        res.json(savedForm)
+        res.send(savedForm)
     }
 })
 

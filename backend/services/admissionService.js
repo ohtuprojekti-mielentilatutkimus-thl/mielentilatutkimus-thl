@@ -1,4 +1,5 @@
 const AdmissionForm = require('../models/admissionForm.model.js')
+const BasicInformationForm = require('../models/basicInformationForm.model')
 const IdSerializer = require('./idSerializer')
 
 const getAllAdmissions = async () => {
@@ -29,25 +30,25 @@ const getAdmissionsByResearchUnit = async (researchUnit) => {
 
 const saveAdmission = async (data) => {
     const form = new AdmissionForm(
-        { ...data }
+        { ...data, basicInformation: data.basicInformation.id }
     )
     const prevAdmission = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
     const prevId = prevAdmission == null ? -1 : prevAdmission.thlRequestId
 
     form.thlRequestId = IdSerializer.getNextThlRequestId(prevId)
 
-    await form.save()
-
+    const savedForm = await form.save()
+    await savedForm.populate('basicInformation')
     
-    form.log({
+    savedForm.log({
         action: 'save_admission_form',
         category: 'admission_form',
-        createdBy: data.formSender ? data.formSender : 'undefined',
-        createdByRole: data.admissionNoteSenderOrganization ? data.admissionNoteSenderOrganization : 'undefined',
+        createdBy: data.basicInformation.sender ? data.basicInformation.sender : 'undefined',
+        createdByRole: data.basicInformation.organization ? data.basicInformation.organization : 'undefined',
         message: 'Tutkimuspyyntö tallennettu',
     })
 
-    return form
+    return form.toJSON()
 }
 
 const getAdmission = async (id, username, role) => {
