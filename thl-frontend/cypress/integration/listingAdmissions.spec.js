@@ -329,6 +329,7 @@ describe('Send to research unit', () => {
 }
 )
 
+
 describe('Event history can be viewed when role is "THL"', () => {
     it('Event history can be viewed', function() {
 
@@ -402,5 +403,124 @@ describe('Reseach unit role', () => {
         cy.get('a').last().click()
         cy.contains('Tutkimuspaikka:')
         cy.contains('Niuvanniemen sairaala')
+    })
+
+    it('Statement draft can be saved', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-root').last().click()
+        cy.wait(1000)
+
+        const content = ['Teksti1', 'Teksti2', 'Teksti3', 'Teksti4', 'Teksti5', 'Teksti6', 'Teksti7', 'Teksti8', 'Teksti9',
+            'Teksti10', 'Teksti11', 'Teksti12', 'Teksti13', 'Teksti14']
+
+        cy.get('#1').type(content[0])
+        cy.get('#2').type(content[1])
+        cy.get('#3').type(content[2])
+        cy.get('#4').type(content[3])
+        cy.get('#5').type(content[4])
+        cy.get('#6').type(content[5])
+        cy.get('#7').type(content[6])
+        cy.get('#8').type(content[7])
+        cy.get('#9').type(content[8])
+        cy.get('#10').type(content[9])
+        cy.get('#11').type(content[10])
+        cy.get('#12').type(content[11])
+        cy.get('#13').type(content[12])
+        cy.get('#14').type(content[13])
+
+        cy.get('#saveDraft').click()
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-root').last().click()
+        cy.wait(1000)
+
+        cy.contains('Teksti1')
+        cy.contains('Teksti2')
+        cy.contains('Teksti3')
+        cy.contains('Teksti4')
+        cy.contains('Teksti5')
+        cy.contains('Teksti6')
+        cy.contains('Teksti7')
+        cy.contains('Teksti8')
+        cy.contains('Teksti9')
+        cy.contains('Teksti10')
+        cy.contains('Teksti11')
+        cy.contains('Teksti12')
+        cy.contains('Teksti13')
+        cy.contains('Teksti14')
+    })
+
+    it('Statement can be previewed', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-root').last().click()
+        cy.wait(1000)
+
+        cy.get('#preview').click()
+        cy.wait(1000)
+
+        cy.contains('Teksti1')
+        cy.contains('Teksti2')
+        cy.contains('Teksti3')
+        cy.contains('Teksti4')
+        cy.contains('Teksti5')
+        cy.contains('Teksti6')
+        cy.contains('Teksti7')
+        cy.contains('Teksti8')
+        cy.contains('Teksti9')
+        cy.contains('Teksti10')
+        cy.contains('Teksti11')
+        cy.contains('Teksti12')
+        cy.contains('Teksti13')
+        cy.contains('Teksti14')
+    })
+    it('Statement is not submitted if user do not confirm sending', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-root').last().click()
+        cy.wait(1000)
+
+        cy.get('#sendStatement').click()
+        cy.get('#abortSending').click()
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').should('exist')
+
+    })
+    it('Statement can be submitted after confirming sending', function() {
+
+        login('Toimintayksikkö')
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.wait(1000)
+
+        cy.get('a').last().click()
+        cy.get('.MuiTab-root').last().click()
+        cy.wait(1000)
+
+        cy.get('#sendStatement').click()
+        cy.get('#confirmSending').click()
+
+        cy.visit('http://localhost:3002/thl/thl-admissions')
+        cy.get('a').should('not.exist')
     })
 })

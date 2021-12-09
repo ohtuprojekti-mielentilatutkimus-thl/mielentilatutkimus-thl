@@ -47,6 +47,8 @@ var admissionSchema = mongoose.Schema({
     preliminaryInvestigationsAttachmentsAreReady: { type: Boolean },
     decisionOnDetentionIsReady: { type: Boolean },
     imprisonmentRequirementReady: { type: Boolean },
+    statement: { type: String },
+    statement_draft: [],
     attachments: [
         {
             type: mongoose.Schema.Types.ObjectId,
