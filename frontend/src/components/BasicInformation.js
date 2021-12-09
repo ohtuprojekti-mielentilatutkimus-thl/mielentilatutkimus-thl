@@ -7,9 +7,6 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 
 const BasicInformation = ( { basicInformation } ) => {
-
-    console.log('basicInfo BasicInformationissa ', basicInformation)
-
     return (
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
