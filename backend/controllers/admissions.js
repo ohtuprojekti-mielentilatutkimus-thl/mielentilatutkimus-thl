@@ -62,7 +62,11 @@ admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
     }
 
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    res.json(updatedForm.toJSON()) 
+    if (updatedForm !== undefined && updatedForm !== null){
+        return res.sendStatus(200)
+    } else {
+        return res.sendStatus(403)
+    }
 })
 
 //PUT STATEMENT DRAFT
@@ -72,12 +76,16 @@ admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
         statement_draft: req.body
     }
     const formUnit = await admissionService.getAdmission(req.params.id, req.username, req.role)
-    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
+
     if (!users.isFromResearchUnit(req, formUnit.researchUnit) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
     const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    res.json(updatedForm.toJSON()) 
+    if (updatedForm !== undefined && updatedForm !== null){
+        return res.sendStatus(200)
+    } else {
+        return res.sendStatus(403)
+    }
 })
 
 //PUT RESEARCH_UNIT, RESEARCH_INFO, FORMSTATE

@@ -56,10 +56,8 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
                     fullWidth label='Pyydä lisätietoja...'
                 />
             </Grid>
-            <Grid>
-                <Button variant='outlined' color='primary' type='submit' onClick={requestAdditionalInfo} id='sendAdditionalInfo'>Lähetä</Button>
-            </Grid>
             <DialogActions>
+                <Button variant='outlined' color='primary' type='submit' onClick={requestAdditionalInfo} id='sendAdditionalInfo'>Lähetä</Button>
                 <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
             </DialogActions>
 

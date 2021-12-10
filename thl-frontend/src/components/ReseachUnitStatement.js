@@ -1,8 +1,10 @@
 import { React, useState } from 'react'
 import { Grid, TextField, Button, Typography, Dialog, DialogContentText, DialogActions, DialogTitle, DialogContent } from '@mui/material'
 import formService from '../services/formService'
+import Messages from './Messages'
+import useMessage from '../utils/messageHook'
 
-const ReseachUnitStatement = ({ form, formState, updateForms }) => {
+const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo }) => {
 
     const [field1, setField1] = useState(form.statement_draft[0])
     const [field2, setField2] = useState(form.statement_draft[1])
@@ -21,6 +23,8 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
     const [openConfirm, setConfirmOpen] = useState(false)
     const [previewWindow, setPreviewWindowOpen] = useState(false)
+
+    const msg = useMessage()
 
     const handleField1Change = (event) => {
         setField1(event.target.value)
@@ -98,9 +102,15 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             statement_draft.push(field14)
 
             formService.addStatementDraft(form.id, statement_draft)
-                .then(response => {
-                    console.log(response.data)
+                .then(() => {
+                    console.log()
+                    msg.setMsg('Luonnos tallennettu onnistuneesti', 5, handleClose)
                 })
+                .catch(error => {
+                    console.log(error)
+                    msg.setErrorMsg('Luonnoksen tallentamisessa tapahtui virhe!', 5)
+                })
+
         } if(state.button === 2) {
             handleClickOpen()
         }
@@ -140,6 +150,10 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             .addStatement(updateFormState.id, updateFormState)
             .then(() => {
                 updateForms()
+            })
+            .catch(error => {
+                console.log(error)
+                msg.setErrorMsg('Lausunnon lähettämisessä tapahtui virhe!', 5)
             })
     }
 
@@ -215,12 +229,24 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <br></br>
-                <Grid item xs={10}>  &nbsp;
-                    <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
+                {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+                {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
+                <br></br>
+                <Grid item xs={10}>
+                    <DialogActions>
+
+                        <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
                     &nbsp;
-                    <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
+                        <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
                     &nbsp;
-                    <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
+                        <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
+                    &nbsp;
+
+                        <Button align="center" color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
+                                Sulje
+                        </Button>
+
+                    </DialogActions>
                 </Grid>
             </form>
             <div>
