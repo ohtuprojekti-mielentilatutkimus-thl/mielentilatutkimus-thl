@@ -32,7 +32,7 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
                     category: 'attachments',
                     createdBy: username ? username  : form.formSender,
                     createdByRole: role ? role : form.formSender,
-                    message: `Liitetiedosto '${attachmentForm.fileName}'' tallennettu`,
+                    message: `Liitetiedosto '${attachmentForm.fileName}' tallennettu`,
                 })
             })
         })
