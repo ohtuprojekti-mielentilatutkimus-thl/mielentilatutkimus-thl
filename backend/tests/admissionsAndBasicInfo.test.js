@@ -176,18 +176,18 @@ describe('when db is initialized with data', () => {
             let admissionsInDb = await helper.admissionsInDb()
             const idOfItemInDb = admissionsInDb[0].id
 
-            const added_statement = 'Diagnoosikoodi: S46.1, Oikeuden asiakirjatiedot: Asiakirjatieto 1, Asiakirjatieto 2, Syytteenalainen teko: Näpistys'
+            const added_statement = {statement: 'Diagnoosikoodi: S46.1, Oikeuden asiakirjatiedot: Asiakirjatieto 1, Asiakirjatieto 2, Syytteenalainen teko: Näpistys'}
 
             const changedAdmissionForm = { ...helper.admissionFormTestData, 
-                statement: added_statement}
+                statement: added_statement,
+                formState: 'Lausunto saapunut'}
             
             await api
                 .put(thlBaseUrl+'/thl/'+idOfItemInDb+'/add_statement')
                 .send(changedAdmissionForm).set('X-Access-Token', token)
 
             const updatedAdmissionForm = await helper.admissionInDb(idOfItemInDb)
-
-            expect(updatedAdmissionForm.statement).toBe(added_statement)
+            expect(updatedAdmissionForm.statement).toBe(added_statement.statement)
         })
 
         test('field ´thlRequestId´ is incremented for new admission request', async () => {
