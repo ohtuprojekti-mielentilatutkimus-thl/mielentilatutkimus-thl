@@ -15,7 +15,6 @@ const EventHistory = ({ form }) => {
     }, [])
 
     const getEvents = async () => {
-        console.log(form.id)
         const events = await eventService.getEventsById(form.id)
         setEventsById(events)
 
