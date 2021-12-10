@@ -138,8 +138,8 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
         formService
             .addStatement(updateFormState.id, updateFormState)
-            .then(response => {
-                updateForms(response.data)
+            .then(() => {
+                updateForms()
             })
     }
 
