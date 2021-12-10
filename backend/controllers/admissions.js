@@ -75,7 +75,7 @@ admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
     if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
         return res.sendStatus(403)
     }
-    res.json(updatedForm.toJSON()) 
+    return res.sendStatus(200)
 })
 
 //PUT RESEARCH_UNIT, RESEARCH_INFO, FORMSTATE

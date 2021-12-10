@@ -1,6 +1,8 @@
 import { React, useState } from 'react'
 import { Grid, TextField, Button, Typography, Dialog, DialogContentText, DialogActions, DialogTitle, DialogContent } from '@mui/material'
 import formService from '../services/formService'
+import Messages from './Messages'
+import useMessage from '../utils/messageHook'
 
 const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
@@ -21,6 +23,8 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
     const [openConfirm, setConfirmOpen] = useState(false)
     const [previewWindow, setPreviewWindowOpen] = useState(false)
+
+    const msg = useMessage()
 
     const handleField1Change = (event) => {
         setField1(event.target.value)
@@ -100,7 +104,13 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             formService.addStatementDraft(form.id, statement_draft)
                 .then(response => {
                     console.log(response.data)
+                    msg.setMsg('Luonnos lähetetty onnistuneesti', 5, handleClose)
                 })
+                .catch(error => {
+                    console.log(error)
+                    msg.setErrorMsg('Luonnoksen tallentamisessa tapahtui virhe!', 5)
+                })
+
         } if(state.button === 2) {
             handleClickOpen()
         }
@@ -217,6 +227,9 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                     <TextField id='14' fullWidth value={field14} multiline minRows={4}onChange={handleField14Change} label="Ponnet"
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
+                <br></br>
+                {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+                {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
                 <br></br>
                 <Grid item xs={10}>  &nbsp;
                     <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
