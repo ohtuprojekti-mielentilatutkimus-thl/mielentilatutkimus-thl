@@ -134,13 +134,10 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         Johtopäätökset: ${field13}\n\n
         Ponnet: ${field14}` }
 
-        const updateFormState = { ...form, formState: 'Lausunto saapunut' }
+        const updateFormState = { ...form, statement, formState: 'Lausunto saapunut' }
 
         formService
-            .addStatement(updateFormState.id, statement)
-
-        formService
-            .update(updateFormState.id, updateFormState)
+            .addStatement(updateFormState.id, updateFormState)
             .then(response => {
                 updateForms(response.data)
             })
