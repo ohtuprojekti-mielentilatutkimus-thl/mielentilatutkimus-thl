@@ -65,7 +65,7 @@ describe('Save Admission', () => {
         const latestLog = await helper.getLatestLog()
 
         expect(latestLog.action).toBe('save_admission_form')
-        expect(latestLog.message).toBe(`Tutkimuspyyntö tallennettu`)
+        expect(latestLog.message).toBe('Tutkimuspyyntö tallennettu')
         expect(latestLog.formId.toString()).toBe(admissionId)
 
     })
