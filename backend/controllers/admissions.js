@@ -52,16 +52,21 @@ admissionsRouter.put('/thl/:id', async (req, res) => {
 
 //PUT STATEMENT
 admissionsRouter.put('/thl/:id/add_statement', async (req, res) => {
-
     const data = {
-        statement: req.body.statement
+        statement: req.body.statement.statement,
+        formState: req.body.formState
     }
-    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
+    const formUnit = await admissionService.getAdmission(req.params.id, req.username, req.role)
+    if  (!users.isFromResearchUnit(req, formUnit.researchUnit) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
-    res.json(updatedForm.toJSON()) 
+
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+    if (updatedForm !== undefined && updatedForm !== null){
+        return res.sendStatus(200)
+    } else {
+        return res.sendStatus(403)
+    }
 })
 
 //PUT STATEMENT DRAFT
@@ -70,12 +75,17 @@ admissionsRouter.put('/thl/:id/add_statement_draft', async (req, res) => {
     const data = {
         statement_draft: req.body
     }
-    //tätä pitää vielä kattoa, ei pitäisi saada päivittää mitään jos rooli ei oo OK
-    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
-    if (updatedForm.researchUnit !== users.getRole(req) && !users.isFromResearchUnit(req, users.getRole(req))) {
+    const formUnit = await admissionService.getAdmission(req.params.id, req.username, req.role)
+
+    if (!users.isFromResearchUnit(req, formUnit.researchUnit) && !users.isFromTHL(req)) {
         return res.sendStatus(403)
     }
-    return res.sendStatus(200)
+    const updatedForm = await admissionService.updateAdmission(req.params.id, data, req.username, req.role)
+    if (updatedForm !== undefined && updatedForm !== null){
+        return res.sendStatus(200)
+    } else {
+        return res.sendStatus(403)
+    }
 })
 
 //PUT RESEARCH_UNIT, RESEARCH_INFO, FORMSTATE

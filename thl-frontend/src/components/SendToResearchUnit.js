@@ -19,11 +19,11 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             researchUnitInformation: researchUnitInformation,
             formState: 'Tutkimuspaikka pyydetty'
         }).then(
-            ( newForm ) => {
+            () => {
                 setResearchUnit('')
                 setResearchUnitInformation('')
                 msg.setMsg('Tutkimuspaikkapyyntö lähetetty onnistuneesti', 5, handleClose)
-                updateForms(newForm.data)
+                updateForms()
             })
             .catch(error => {
                 msg.setErrorMsg('Tutkimuspaikkapyynnön lähettämisessä tapahtui virhe!', 5)

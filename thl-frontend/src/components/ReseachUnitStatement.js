@@ -102,9 +102,9 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
             statement_draft.push(field14)
 
             formService.addStatementDraft(form.id, statement_draft)
-                .then(response => {
-                    console.log(response.data)
-                    msg.setMsg('Luonnos lähetetty onnistuneesti', 5, handleClose)
+                .then(() => {
+                    console.log()
+                    msg.setMsg('Luonnos tallennettu onnistuneesti', 5, handleClose)
                 })
                 .catch(error => {
                     console.log(error)
@@ -144,15 +144,16 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         Johtopäätökset: ${field13}\n\n
         Ponnet: ${field14}` }
 
-        const updateFormState = { ...form, formState: 'Lausunto saapunut' }
+        const updateFormState = { ...form, statement, formState: 'Lausunto saapunut' }
 
         formService
-            .addStatement(updateFormState.id, statement)
-
-        formService
-            .update(updateFormState.id, updateFormState)
-            .then(response => {
-                updateForms(response.data)
+            .addStatement(updateFormState.id, updateFormState)
+            .then(() => {
+                updateForms()
+            })
+            .catch(error => {
+                console.log(error)
+                msg.setErrorMsg('Lausunnon lähettämisessä tapahtui virhe!', 5)
             })
     }
 
