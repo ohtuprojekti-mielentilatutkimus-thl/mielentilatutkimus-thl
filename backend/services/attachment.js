@@ -15,9 +15,9 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
             fileData: file.buffer,
             whichFile: parsedFilesInfo.find(fileInfo => fileInfo.name === file.originalname).whichFile
         })
-        
+
         attachmentForm.save().then(savedFile => {
-            return AdmissionForm.findByIdAndUpdate(
+            AdmissionForm.findByIdAndUpdate(
                 admissionFormId,
                 {
                     $push: {
@@ -26,14 +26,15 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
                         }
                     }
                 }
-            )
-        })
-        attachmentForm.log({
-            action: 'save_attachment',
-            category: 'attachments',
-            createdBy: username ? username  : 'undefined',
-            createdByRole: role ? role : 'undefined',
-            message: 'Liitetiedosto tallennettu',
+            ).then(form => {
+                attachmentForm.log({
+                    action: 'save_attachment',
+                    category: 'attachments',
+                    createdBy: username ? username  : form.formSender,
+                    createdByRole: role ? role : form.formSender,
+                    message: `Liitetiedosto '${attachmentForm.fileName}'' tallennettu`,
+                })
+            })
         })
     })
 }
