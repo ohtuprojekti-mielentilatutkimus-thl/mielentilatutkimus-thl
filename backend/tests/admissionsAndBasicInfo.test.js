@@ -11,8 +11,6 @@ const api = supertest(app)
 const AdmissionForm = require('../models/admissionForm.model.js')
 const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
-const thisYearAsString = () => new Date().getFullYear().toString()
-
 //from https://gist.github.com/cjaoude/fd9910626629b53c4d25
 const invalid_emails = [
     'plainaddress',
@@ -60,7 +58,6 @@ describe('when db is initialized with data', () => {
 
         const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
         newAdmissionForm.basicInformation = basicFormFromDb.id
-        newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
 
         await newAdmissionForm.save()
 
@@ -79,7 +76,8 @@ describe('when db is initialized with data', () => {
         })
         test('can be retrieved from db', async () => {
             const basicsInDb = await helper.basicsInDb()
-        
+            
+            // REFACTOR
             // +1 for id field (not included in json)
             const lengthOfInputFields = Object.keys(helper.basicInfoFormTestData).length + 1
             const lengthOfFieldsInDbItem = Object.keys(basicsInDb[0])
@@ -101,14 +99,15 @@ describe('when db is initialized with data', () => {
         test('can be retrieved from db', async () => {
             const admissionsInDb = await helper.admissionsInDb()
         
+            // REFACTOR
+
             // + 1 for id, + 1 because formState has a default value
             // +2 for createdAt and updatedAt
             // +1 for attachments
             // +1 for thlRequestId
             // +1 for statement
-            // +1 for basicInformation
 
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 7
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
@@ -131,7 +130,6 @@ describe('when db is initialized with data', () => {
             expect(responseWhenReseachUnitIsNotSet.body).toHaveLength(0)
 
             const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData2)
-            newAdmissionForm.thlRequestId = 'THL_OIKPSYK_' + thisYearAsString() + '-1'
             await newAdmissionForm.save()
             
             const responseWhenReseachUnitIsSet = await api.get(thlBaseUrl+'/thl/research_unit/'+reseachUnit).set('X-Access-Token', token)
@@ -284,7 +282,7 @@ describe('when db is empty', () => {
 
             await api
                 .post(baseUrl+'/basic_information_form')
-                .send(basicInfo)        
+                .send(basicInfo)
       
             const basicsInDb = await helper.basicsInDb()
 
@@ -328,11 +326,10 @@ describe('when db is empty', () => {
             })
         })
 
-
         test('does not allow invalid email address', async () => {
-            const testData = basicInfo
+            const testData = { ...basicInfo }
             for (i in invalid_emails) {
-                testData.sendersEmail = invalid_emails[i]
+                testData.email = invalid_emails[i]
                 await api
                     .post(baseUrl+'/basic_information_form')
                     .send(testData).expect(400)
@@ -343,12 +340,17 @@ describe('when db is empty', () => {
     describe('admission form', () => {
     
         test('can be saved to database with POST', async () => {
-            const admission_form = helper.admissionFormTestData
+            const newBasicsForm = new BasicInformationForm(helper.basicInfoFormTestData)
+            const basicFormFromDb = await newBasicsForm.save()
+    
+            const admissionForm = helper.admissionFormTestData
+            admissionForm.basicInformation = { ...helper.basicInfoFormTestData, id: basicFormFromDb.id }
 
             await api
                 .post(baseUrl+'/admission_form')
-                .send(admission_form)        
-  
+                .send(admissionForm)
+                .expect(200)        
+
             const admissionsInDb = await helper.admissionsInDb()
 
             expect(admissionsInDb).toHaveLength(1)
@@ -361,26 +363,21 @@ describe('when db is empty', () => {
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
-
-            for (k in admission_form) {
-
-                if (k.includes('statement_draft') || k.includes('statement')) {
-                    continue
-                }
-                expect(admission_form[k]).not.toBeNull()
-                expect(admission_form[k]).not.toBeUndefined()
-                expect(admission_form[k]).toEqual(admissionsInDb[0][k])
-            }
         })
 
         test('does not allow invalid email address', async () => {
-            var testData = helper.admissionFormTestData
+            var testData = { ...helper.admissionFormTestData }
+            testData.basicInformation = { ...helper.basicInfoFormTestData }
+            console.log('testdata ', testData)
+            console.log('basicinfo ', testData.basicInformation)
+            console.log('email ', testData.basicInformation.email)
+
             for (i in invalid_emails) {
-                testData.formSender = invalid_emails[i]
+                testData.basicInformation.email = invalid_emails[i]
                 await api
                     .post(baseUrl+'/admission_form')
                     .send(testData).expect(500)
-                testData = helper.admissionFormTestData
+
                 testData.assistantsEmail = invalid_emails[i]
                 await api
                     .post(baseUrl+'/admission_form')
