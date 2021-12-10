@@ -137,18 +137,9 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         const updateFormState = { ...form, statement, formState: 'Lausunto saapunut' }
 
         formService
-<<<<<<< Updated upstream
             .addStatement(updateFormState.id, updateFormState)
-            .then(response => {
-                updateForms(response.data)
-=======
-            .addStatement(updateFormState.id, statement)
-
-        formService
-            .update(updateFormState.id, updateFormState)
             .then(() => {
                 updateForms()
->>>>>>> Stashed changes
             })
     }
 
