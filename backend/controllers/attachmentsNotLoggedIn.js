@@ -18,13 +18,8 @@ sendAttachmentsRouter.post('/upload_form', async (req, res) => {
         var formInfo = null
 
         var forms = await AdmissionForm.find({}).catch((err) => {console.log(err)})
-        var form_by_diaariNumber = forms.filter(d => d.diaariNumber === data.value)
         var form_by_thlId = forms.filter(d => d.id === data.value)
 
-        if(form_by_diaariNumber[0] !== undefined){
-            id = form_by_diaariNumber[0].id
-            formInfo = 'diaarinumero: '+ form_by_diaariNumber[0].diaariNumber
-        }
         if(form_by_thlId[0] !== undefined) {
             id = form_by_thlId[0].id
             formInfo = 'THL-id: '+ form_by_thlId[0].thlRequestId

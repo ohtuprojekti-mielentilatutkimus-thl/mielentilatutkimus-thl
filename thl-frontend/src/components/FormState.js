@@ -28,7 +28,7 @@ const FormState = ( { form, updateForms } ) => {
     return (
         <form onSubmit={changeFormState}>
             <div>
-                <FormControl>
+                <FormControl variant="standard">
                     <Select
                         onChange={handleChange}
                         defaultValue= {form.formState ? form.formState : ' ' }

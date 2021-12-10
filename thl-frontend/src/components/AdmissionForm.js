@@ -161,17 +161,17 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                         </DialogTitle>
 
                         <DialogContent>
-
                             <Grid>
-                                <p> </p>
-                                <Typography variant={'h4'}>Tutkittavan henkilön yleistiedot</Typography>
-                                <br></br>
-
                                 <Grid
                                     container
                                     spacing={1}
                                 >
                                     <br />
+                                    <div>
+                                        <br></br>
+                                        <Typography variant={'h4'}>Tutkittavan henkilön yleistiedot</Typography>
+                                        <br></br>
+                                    </div>
                                     <Grid
                                         container
                                         rowspacing={2}
@@ -313,7 +313,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                         </Grid>
                                         <br></br>
                                         <Grid item xs={12}>
-                                            <div className={classes.textLabel}> <h2> Liitteet </h2></div>
+                                            <div className={classes.textLabel}> <h1> Liitteet </h1></div>
                                             {form.attachments.map(attachment => {
                                                 return(
                                                     <div key={attachment.id} className={classes.text}>
@@ -366,14 +366,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     </TabPanel>
 
                     <TabPanel value="3">
-
-                        <ReseachUnitStatement form={form} formState={form.formState} updateForms={updateForm} />
-                        <DialogActions>
-                            <Button color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
-                                Sulje
-                            </Button>
-                        </DialogActions>
-
+                        <ReseachUnitStatement form={form} formState={form.formState} updateForms={updateForm} handleShowLessInfo={handleShowLessInfo}/>
                     </TabPanel>
                 </TabContext>
             </Dialog>

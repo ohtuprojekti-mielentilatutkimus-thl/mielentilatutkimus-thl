@@ -60,7 +60,7 @@ const LoginForm = () => {
         }
 
         if (researchUnitRole) {
-            return (<FormControl fullWidth>
+            return (<FormControl fullWidth variant="standard">
                 <Select
                     value={role}
                     onChange={handleRoleChange}>
