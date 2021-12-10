@@ -15,8 +15,8 @@ const FormState = ( { form, updateForms } ) => {
 
             const updateFormState = { ...form, formState: selectedOption }
             formService.update(updateFormState.id, updateFormState)
-                .then(response => {
-                    updateForms(response.data)
+                .then(() => {
+                    updateForms()
                 })
         }
     }

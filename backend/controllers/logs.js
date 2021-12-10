@@ -11,4 +11,6 @@ logRouter.get('/form_event/:id', async (req, res) => {
     res.json(log.map((log) => log.toJSON()))
 })
 
+
+
 module.exports = logRouter

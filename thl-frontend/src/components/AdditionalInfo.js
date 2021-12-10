@@ -39,8 +39,8 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
 
         if(!err) {
             formService.update(updateFormState.id, updateFormState)
-                .then(response => {
-                    updateForms(response.data)
+                .then(() => {
+                    updateForms()
                 })
         }
     }
