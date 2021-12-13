@@ -76,7 +76,7 @@ Frontendit kommunikoivat backendin kanssa REST-apin kautta. Backend on yhteydess
 Sovelluksen tietokantana toimii MongoDB, jonka käytön helpottamiseksi käytetään Mongoosea.
 
 | Skeema | Kuvaus | Referenssi |
-|---|---|
+|---|---|---|
 | admissionSchema | Mielentilatutkimuspyynnön tallennus | attachmentForm |
 | attachmentSchema | Liitetiedostojen tallennus | admissionForm |
 | basicInformationSchema | Tutkimuspyynnön lähettäjän tietojen tallennus | |
