@@ -86,9 +86,9 @@ Skeemat löytyvät [täältä](https://github.com/ohtuprojekti-mielentilatutkimu
 
 ### Testaus
 
-*Jest* - Backendin yksikkötestit
-*Supertest* - Backendin yksikkötesteihin HTTP-pyyntöjä varten
-*Cypress* - E2E testaus
+- *Jest* - Backendin yksikkötestit
+- *Supertest* - Backendin yksikkötesteihin HTTP-pyyntöjä varten
+- *Cypress* - E2E testaus
 
 ### Arkkitehtuuri
 
