@@ -96,9 +96,9 @@ TBD.
 
 ### Jatkokehitystä varten
 
--Toiminnallisuus, jolla THL-käyttäjä voi ehdottaa tutkimuksen ajankohtaa tutkimusyksikölle ja vahvistaa sen.
--Toiminnallisuus, jolla tutkimusyksikkökäyttäjä voi hyväksyä, hylätä tai ehdottaa uutta aikaa tutkimuksen ajankohdalle.
--Kun tutkimuksen ajankohta on vahvistettu, se tulisi lomakkeelle näkyviin, ja lomakkeita voisi listata tutkimuksen ajankohdan perusteella.
--Tutkimusyksikön tekemän lausunnon esittäminen THL-käyttäjän käyttöliittymässä.
--THL-käyttäjä (oikeuspsykiatrinen lautakunta) voi tehdä oman mielentilalausunnon tutkimusyksikkölausunnon perusteella.
--THL-käyttäjä voi lähettää mielentilalausunnon oikeuslaitokselle.
+- Toiminnallisuus, jolla THL-käyttäjä voi ehdottaa tutkimuksen ajankohtaa tutkimusyksikölle ja vahvistaa sen.
+- Toiminnallisuus, jolla tutkimusyksikkökäyttäjä voi hyväksyä, hylätä tai ehdottaa uutta aikaa tutkimuksen ajankohdalle.
+- Kun tutkimuksen ajankohta on vahvistettu, se tulisi lomakkeelle näkyviin, ja lomakkeita voisi listata tutkimuksen ajankohdan perusteella.
+- Tutkimusyksikön tekemän lausunnon esittäminen THL-käyttäjän käyttöliittymässä.
+- THL-käyttäjä (oikeuspsykiatrinen lautakunta) voi tehdä oman mielentilalausunnon tutkimusyksikkölausunnon perusteella.
+- THL-käyttäjä voi lähettää mielentilalausunnon oikeuslaitokselle.
