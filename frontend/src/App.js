@@ -4,22 +4,15 @@ import AdmissionForm from './components/AdmissionForm'
 import basicInformationForm from './components/BasicInformationForm'
 import UploadForm from './components/UploadForm'
 import PoliceForm from './components/PoliceForm'
-
 import './App.css'
-//import { useStyles } from './styles'
-
-
 import {
     Switch, Route
 } from 'react-router-dom'
 
-
 const App = () => {
 
-    /*const classes = useStyles()*/
-
     return (
-        <div /*className={classes.app}*/>
+        <div>
             <Switch>
                 <Route path='/basic_information_form'>
                     <div>

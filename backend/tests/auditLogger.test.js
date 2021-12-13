@@ -106,8 +106,6 @@ describe('Save Admission', () => {
             test('get attachment is logged with proper category, message, form id and attachment id', async () => {
                 const latestLog = await helper.getLatestLog()
 
-
-
                 expect(latestLog.action).toBe('get_attachment')
                 expect(latestLog.message).toBe(`Liitetiedosto '${attachment.fileName}' avattu`)
                 expect(latestLog.formId.toString()).toBe(admissionId)

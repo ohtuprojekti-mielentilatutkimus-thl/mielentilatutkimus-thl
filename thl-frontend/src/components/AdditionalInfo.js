@@ -21,23 +21,21 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
 
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
 
-        var err = false
+        var error = false
 
         formService
             .askForInfo(infoObject)
-            .then(response => {
-                console.log(response.data)
+            .then(() => {
                 setAdditionalInfo('')
                 msg.setMsg('Muokkauspyyntö lähetetty', 7, handleClose)
             }
             )
-            .catch(error => {
-                err = true
-                console.log(error)
+            .catch(() => {
+                error = true
                 msg.setErrorMsg('Muokkauspyynnön lähettämisessä tapahtui virhe!', 7)
             })
 
-        if(!err) {
+        if(!error) {
             formService.update(updateFormState.id, updateFormState)
                 .then(() => {
                     updateForms()

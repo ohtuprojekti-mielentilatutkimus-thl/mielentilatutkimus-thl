@@ -76,7 +76,7 @@ Frontendit kommunikoivat backendin kanssa REST-apin kautta. Backend on yhteydess
 Sovelluksen tietokantana toimii MongoDB, jonka käytön helpottamiseksi käytetään Mongoosea.
 
 | Skeema | Kuvaus | Referenssi |
-|---|---|
+|---|---|---|
 | admissionSchema | Mielentilatutkimuspyynnön tallennus | attachmentForm |
 | attachmentSchema | Liitetiedostojen tallennus | admissionForm |
 | basicInformationSchema | Tutkimuspyynnön lähettäjän tietojen tallennus | |
@@ -86,9 +86,9 @@ Skeemat löytyvät [täältä](https://github.com/ohtuprojekti-mielentilatutkimu
 
 ### Testaus
 
-*Jest* - Backendin yksikkötestit
-*Supertest* - Backendin yksikkötesteihin HTTP-pyyntöjä varten
-*Cypress* - E2E testaus
+- *Jest* - Backendin yksikkötestit
+- *Supertest* - Backendin yksikkötesteihin HTTP-pyyntöjä varten
+- *Cypress* - E2E testaus
 
 ### Arkkitehtuuri
 
@@ -96,9 +96,9 @@ TBD.
 
 ### Jatkokehitystä varten
 
--Toiminnallisuus, jolla THL-käyttäjä voi ehdottaa tutkimuksen ajankohtaa tutkimusyksikölle ja vahvistaa sen.
--Toiminnallisuus, jolla tutkimusyksikkökäyttäjä voi hyväksyä, hylätä tai ehdottaa uutta aikaa tutkimuksen ajankohdalle.
--Kun tutkimuksen ajankohta on vahvistettu, se tulisi lomakkeelle näkyviin, ja lomakkeita voisi listata tutkimuksen ajankohdan perusteella.
--Tutkimusyksikön tekemän lausunnon esittäminen THL-käyttäjän käyttöliittymässä.
--THL-käyttäjä (oikeuspsykiatrinen lautakunta) voi tehdä oman mielentilalausunnon tutkimusyksikkölausunnon perusteella.
--THL-käyttäjä voi lähettää mielentilalausunnon oikeuslaitokselle.
+- Toiminnallisuus, jolla THL-käyttäjä voi ehdottaa tutkimuksen ajankohtaa tutkimusyksikölle ja vahvistaa sen.
+- Toiminnallisuus, jolla tutkimusyksikkökäyttäjä voi hyväksyä, hylätä tai ehdottaa uutta aikaa tutkimuksen ajankohdalle.
+- Kun tutkimuksen ajankohta on vahvistettu, se tulisi lomakkeelle näkyviin, ja lomakkeita voisi listata tutkimuksen ajankohdan perusteella.
+- Tutkimusyksikön tekemän lausunnon esittäminen THL-käyttäjän käyttöliittymässä.
+- THL-käyttäjä (oikeuspsykiatrinen lautakunta) voi tehdä oman mielentilalausunnon tutkimusyksikkölausunnon perusteella.
+- THL-käyttäjä voi lähettää mielentilalausunnon oikeuslaitokselle.
