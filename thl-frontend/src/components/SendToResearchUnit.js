@@ -36,7 +36,7 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
 
     return (
         <DialogTitle>
-            <h4>{form.thlRequestId}</h4>
+            {form.thlRequestId}
             <form onSubmit = {handleSend}>
                 <Grid>
                     <FormControl fullWidth label='Tutkimuspaikkayksikkö'>

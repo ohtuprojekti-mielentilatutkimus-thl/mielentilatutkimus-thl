@@ -103,7 +103,6 @@ const LoginForm = () => {
                 <Paper
                     className={classes.form}
                     variant='outlined'
-                    elevation={3}
                     square={false}
                     align='center'
                     justify='center'

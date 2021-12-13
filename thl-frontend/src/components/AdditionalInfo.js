@@ -47,7 +47,7 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
 
     return (
         <DialogTitle>
-            <h4>{form.thlRequestId}</h4>
+            {form.thlRequestId}
             <Grid>
                 <TextField
                     id='inputForAdditionalInfo'
