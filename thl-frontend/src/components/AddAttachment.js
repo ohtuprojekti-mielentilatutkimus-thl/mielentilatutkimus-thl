@@ -75,7 +75,6 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
 
         await attachmentService.upload(selectedFiles, AdmissionFormId, filesInfoDisabledPropRemoved)
             .then(response => {
-                console.log(response.data)
                 fetchForm(AdmissionFormId)
                 msg.setMsg('Liitteet lisätty', 5, handleClose)
             }

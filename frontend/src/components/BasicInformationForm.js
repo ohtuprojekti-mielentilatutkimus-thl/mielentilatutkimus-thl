@@ -31,7 +31,6 @@ const BasicInformationForm = () => {
 
     const validateSendersEmail = () => {
         if (!validator.isEmail(sendersEmail)) {
-            console.log('virheellinen email')
             msg.setErrorMsg('Virheellinen sähköpostiosoite!', 7)
             return false
         }
@@ -63,12 +62,10 @@ const BasicInformationForm = () => {
         if (!msg.errorMessagesNotEmpty()) {
             basicInformationService
                 .create(basicInformations)
-                .then(response => {
-                    console.log(response.data)
+                .then(() => {
                     msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`, 7)
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     msg.setErrorMsg('Perustietojen lähettämisessä tapahtui virhe!', 7)
                 })
         }

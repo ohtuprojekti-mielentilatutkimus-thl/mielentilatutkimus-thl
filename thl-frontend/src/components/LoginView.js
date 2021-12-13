@@ -38,9 +38,6 @@ const LoginForm = () => {
                 }
 
             })
-            .catch(error => {
-                console.log('Kirjautuminen epäonnistui: ',error)
-            })
     }
 
     const setResearchUnit = () => {

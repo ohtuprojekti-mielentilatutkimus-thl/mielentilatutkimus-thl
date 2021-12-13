@@ -99,7 +99,6 @@ test('Confirmation is sent after POST request', async () => {
         expect(emails.length).toBe(1)
         email = emails[0]
         expect(email.to).toStrictEqual([{ address: admission_form.formSender, name: '' }])
-        console.log(email, email.text)
         expect(email.text.includes(admissionsInDb[0].diaariNumber)).toBe(true)
         expect(email.text.includes(admissionsInDb[0].id)).toBe(true)
     })

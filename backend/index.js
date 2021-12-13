@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== 'production') {
 
     maildev.listen()
 
-    // Handle new emails as they come in
     maildev.on('new', (email) => {
         logger.info(`Received new email with subject: ${email.subject}`)
     })

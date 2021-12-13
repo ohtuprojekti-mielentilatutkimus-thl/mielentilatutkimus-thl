@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 var admissionSchema = mongoose.Schema({
-    //basic information
     formState: {type: String, default: 'Pyyntö saapunut'},
     basicInformationId: { type: String },
     thlRequestId: { type: String },
@@ -15,12 +14,10 @@ var admissionSchema = mongoose.Schema({
     processAddress: { type: String },
     trustee: { type: String },
     citizenship: { type: String },
-    //oldId: { type: String },
     admissionNoteSenderOrganization: { type: String },
     admissionNoteSender: { type: String },
     sendersEmail: { type: String },
     sendersPhoneNumber: { type: String },
-    // THL more information
     hazardAssesment: { type: Boolean },
     diaariNumber: { type: String },
     datePrescribedForPsychiatricAssesment: { type: String },
@@ -67,7 +64,6 @@ admissionSchema.set('toJSON', {
         delete returnedObject.__v
     }
 })
-
 
 admissionSchema.plugin(require('../utils/admissionLog-plugin'))
 

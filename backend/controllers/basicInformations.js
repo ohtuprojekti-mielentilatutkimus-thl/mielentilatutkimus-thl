@@ -13,7 +13,6 @@ basinInformationsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
 
     const basicInformationForm = new BasicInformationForm({
-        //basic information
         admissionNoteSenderOrganization: data.admissionNoteSenderOrganization,
         admissionNoteSender: data.admissionNoteSender,
         sendersEmail: data.sendersEmail,
