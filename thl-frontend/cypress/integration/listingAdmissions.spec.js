@@ -4,20 +4,12 @@ var created_at = ''
 const login = (role) => {
 
     if(role === 'THL') {
-
         cy.loginAsThlRole()
-            .then((res) => {
-                console.log(res)
-            })
         cy.wait(1000)
     }
 
     if(role === 'Toimintayksikkö') {
-
         cy.loginAsReseachUnitRole()
-            .then((res) => {
-                console.log(res)
-            })
         cy.wait(1000)
     }
 }
@@ -71,7 +63,6 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
 
-        //Tässä pitäisi varmaan testata kaikki kentät
         cy.contains('Tutkittavan henkilön yleistiedot')
         cy.contains('Reijo')
 

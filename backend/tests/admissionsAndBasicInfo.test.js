@@ -43,12 +43,6 @@ beforeAll(async () => {
     token = res.body.accessToken
 })
 
-/*
-const loginAsReseachUnitUser = async () => {
-    const res = await api.post('/api/auth/login').send({username: 'reseachUnitUser', role: 'Niuvanniemen sairaala'}).then()
-    token = res.body.accessToken
-}   */
-
 describe('when db is initialized with data', () => {
 
     beforeEach(async () => {
@@ -221,20 +215,6 @@ describe('when db is initialized with data', () => {
 
             expect(latestAdmissionFromDb.thlRequestId).toBe(expectedThlRequestId)
         })
-
-        //this test does not actually do anything.
-        //Result of api.get is status 404, expect not.toBeNull works because value is undefined
-        /*
-        test('admissionform contains information about the suspect', async () => {
-            let admissionsInDb = await helper.admissionsInDb()
-            const idOfItemInDb = admissionsInDb[0].id
-
-            const admission = await api.get(baseUrl+'/thl/'+idOfItemInDb)
-            expect(admission.name).not.toBeNull()
-            expect(admission.lastName).not.toBeNull()
-            expect(admission.identificationNumber).not.toBeNull()
-            expect(admission.address).not.toBeNull()
-        })*/
 
         test('fields can be changed with PUT', async () => {
             let admissionsInDb = await helper.admissionsInDb()

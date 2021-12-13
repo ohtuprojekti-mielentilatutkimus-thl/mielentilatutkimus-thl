@@ -103,11 +103,9 @@ const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo
 
             formService.addStatementDraft(form.id, statement_draft)
                 .then(() => {
-                    console.log()
                     msg.setMsg('Luonnos tallennettu onnistuneesti', 5, handleClose)
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     msg.setErrorMsg('Luonnoksen tallentamisessa tapahtui virhe!', 5)
                 })
 
@@ -151,8 +149,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo
             .then(() => {
                 updateForms()
             })
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
                 msg.setErrorMsg('Lausunnon lähettämisessä tapahtui virhe!', 5)
             })
     }
@@ -166,9 +163,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo
 
     return (
         <div>
-            <h1>
-           Mielentilalausunto:
-            </h1>
+            <h1> Mielentilalausunto: </h1>
             {getStatus()}
             <p></p>
             <form onSubmit={save}>
@@ -234,18 +229,10 @@ const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo
                 <br></br>
                 <Grid item xs={10}>
                     <DialogActions>
-
-                        <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
-                    &nbsp;
-                        <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
-                    &nbsp;
-                        <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
-                    &nbsp;
-
-                        <Button align="center" color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}>
-                                Sulje
-                        </Button>
-
+                        <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button> &nbsp;
+                        <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button> &nbsp;
+                        <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button> &nbsp;
+                        <Button align="center" color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}> Sulje </Button>
                     </DialogActions>
                 </Grid>
             </form>

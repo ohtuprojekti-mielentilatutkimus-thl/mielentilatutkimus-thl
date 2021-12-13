@@ -99,7 +99,6 @@ const UploadForm = () => {
         }
 
         disableSentChips()
-        // disableSentChips() sets disabled = true so these two need to be called in this order
         updateSessionStorage()
         setSelectedFiles([])
     }

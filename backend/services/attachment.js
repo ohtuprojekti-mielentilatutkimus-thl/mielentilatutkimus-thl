@@ -1,9 +1,6 @@
 const AttachmentForm = require('../models/attachmentForm.model.js')
 const AdmissionForm = require('../models/admissionForm.model.js')
-
 const FileHandler = require('../services/fileHandler')
-//const path = require('path')
-
 
 async function attachFile(admissionFormId, files, filesInfo, username, role) {
     const parsedFilesInfo = JSON.parse(filesInfo)

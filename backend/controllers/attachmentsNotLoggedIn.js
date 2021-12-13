@@ -44,7 +44,6 @@ sendAttachmentsRouter.post('/admission_form_attachment/:id', async (req, res) =>
             message: 'ok'
         })   
     } catch (err) {
-        console.log(err)
         res.status(500).send({ message: err })
     }
 })

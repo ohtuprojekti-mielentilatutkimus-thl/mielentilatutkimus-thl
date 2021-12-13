@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 
 var basicInformationSchema = mongoose.Schema({
-    //basic information
-    //oldId: { type: String },
 
     admissionNoteSenderOrganization: {
         type: String,

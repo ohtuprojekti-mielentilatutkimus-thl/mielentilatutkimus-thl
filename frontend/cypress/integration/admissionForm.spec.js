@@ -36,9 +36,6 @@ describe('Send Admission Form', function() {
                     cy.get('#deadlineDate')
                         .type('\'11/11/2021\'')
 
-
-
-
                     var whichboolean = 0
                     for (const i in helper.admission_form_input) {
                         if (['basicInformationId', 'formSender', 'sendersEmail', 'statement', 'statement_draft', 'datePrescribedForPsychiatricAssesment', 'deadlineForProsecution', 'researchUnit', 'researchUnitInformation'].includes(i) ||
