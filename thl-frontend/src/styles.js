@@ -1,5 +1,5 @@
 
-import { createTheme, adaptV4Theme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 
 import makeStyles from '@mui/styles/makeStyles'
 
@@ -7,7 +7,7 @@ const bg_color = '#F8F8F8'
 const primary_color = '#24242E'
 const secondary_color = '#595050'
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme(({
     typography: {
         h4: {
             color: primary_color,

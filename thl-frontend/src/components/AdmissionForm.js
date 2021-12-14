@@ -122,7 +122,7 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
 
                     <TabPanel value="1">
                         <DialogTitle>
-                            <h1>{form.thlRequestId}</h1>
+                            {form.thlRequestId}
 
                             <Grid
                                 container
@@ -146,14 +146,14 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                 ) : ('')}
 
                                 {thlUser ? (
-                                    <Grid xs={4}>
+                                    <Grid item xs={4}>
                                         <Button color='primary' id='handleAdditionalInfo' variant='outlined' onClick={() => setShowAdditionalInfo(true)}>
                                             Pyydä lisätietoja
                                         </Button>
                                     </Grid>
                                 ) : ('')}
 
-                                <Grid xs={4}>
+                                <Grid item xs={4}>
                                     <div className={classes.textLabel}>Tutkimuspaikka:</div>
                                     <div className={classes.text}>{form.researchUnit ? form.researchUnit : 'Ei määrätty'}</div>
                                 </Grid>
@@ -350,9 +350,9 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                     </TabPanel>
                     <TabPanel value="2">
                         <DialogTitle>
-                            <h2>
+
                             Tapahtumahistoria
-                            </h2>
+
                         </DialogTitle>
                         <DialogContent>
                             <EventHistory form={form}/>
