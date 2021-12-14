@@ -91,6 +91,10 @@ Skeemat löytyvät [täältä](https://github.com/ohtuprojekti-mielentilatutkimu
 - *Supertest* - Backendin yksikkötesteihin HTTP-pyyntöjä varten
 - *Cypress* - E2E testaus
 
+### Audit log / Tapahtumaloki
+
+Audit lokin toiminta on toteutettu mongoosen plugineiden avulla. Toistaiseksi pluginit on eritelty kahteen osaan: sekä [mielentilatutkimuspyyntölomakkeille](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/backend/utils/admissionLog-plugin.js) että [niiden liitteille](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/backend/utils/attachmentLog-plugin.js). Syy jakoon on siinä, että eri skeemojen kohdalla saatetaan haluta tallentaa erilaisia tietoja. Jatkokehitystä ajatellen luontevaa olisi saada jokaiselle eri skeemalle lokia ylläpitävä plugini. 
+
 ### Arkkitehtuuri
 
 TBD.
