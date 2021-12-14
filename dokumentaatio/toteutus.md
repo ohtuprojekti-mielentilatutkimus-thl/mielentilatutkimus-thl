@@ -1,6 +1,6 @@
 ## Mielentilatutkimusprosessia ohjaava, tukeva ja mittaava järjestelmä
 
-Sovellus on toteutettu Reactilla ja Node.js:llä. Tietokantana toimii MongoBD. Sovellus koostuu kolmesta eri osaprojektista. Kaksi projektia ovat Reactilla toteutut frontendit eri käyttäjäryhmille.  Node.js:llä toteuttu Backend on oma projektinsa.
+Sovellus on toteutettu Reactilla ja Node.js:llä. Tietokantana toimii MongoBD. Sovellus koostuu kolmesta eri osaprojektista. Kaksi projektia ovat Reactilla toteutut frontendit eri käyttäjäryhmille.  Node.js:llä toteutettu Backend on oma projektinsa.
 
 ### Ulkoiset riippuvuudet
 
