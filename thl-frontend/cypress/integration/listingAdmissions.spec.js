@@ -407,8 +407,20 @@ describe('Reseach unit role', () => {
         cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
 
-        const content = ['Teksti1', 'Teksti2', 'Teksti3', 'Teksti4', 'Teksti5', 'Teksti6', 'Teksti7', 'Teksti8', 'Teksti9',
-            'Teksti10', 'Teksti11', 'Teksti12', 'Teksti13', 'Teksti14']
+        cy.contains('Teksti1')
+        cy.contains('Teksti2')
+        cy.contains('Teksti3')
+        cy.contains('Teksti4')
+        cy.contains('Teksti5')
+        cy.contains('Teksti6')
+        cy.contains('Teksti7')
+        cy.contains('Teksti8')
+        cy.contains('Teksti9')
+        cy.contains('Teksti10')
+        cy.contains('Teksti11')
+        cy.contains('Teksti12')
+        cy.contains('Teksti13')
+        cy.contains('Teksti14')
 
         cy.get('#1').type(content[0])
         cy.get('#2').type(content[1])
@@ -452,9 +464,20 @@ describe('Reseach unit role', () => {
         cy.get('#preview').click()
         cy.wait(1000)
 
-        cy.contains('Teksti1', 'Teksti2', 'Teksti3', 'Teksti4','Teksti5', 'Teksti6', 'Teksti7', 'Teksti8',
-            'Teksti9', 'Teksti10', 'Teksti11', 'Teksti12', 'Teksti13', 'Teksti14')
-
+        cy.contains('Teksti1')
+        cy.contains('Teksti2')
+        cy.contains('Teksti3')
+        cy.contains('Teksti4')
+        cy.contains('Teksti5')
+        cy.contains('Teksti6')
+        cy.contains('Teksti7')
+        cy.contains('Teksti8')
+        cy.contains('Teksti9')
+        cy.contains('Teksti10')
+        cy.contains('Teksti11')
+        cy.contains('Teksti12')
+        cy.contains('Teksti13')
+        cy.contains('Teksti14')
     })
     it('Statement is not submitted if user do not confirm sending', function() {
 
