@@ -15,7 +15,7 @@ Sovellus on toteutettu Reactilla ja Node.js:llä. Tietokantana toimii MongoBD. S
 | react | Käyttöliittymän luominen |
 | testing-library | Testien kirjoittamisen apuväline |
 | validator | Kirjautumistietojen validointi |
-| web-vitals | Käyttäjämetriikka |
+| web-vitals | Käyttäjämetriikka |
 | cypress | Työkalu E2E-testaukseen |
 | eslint | Koodin tyylistandardit |
 | maildev | Kehityksen aikainen työkalu jolla voi testata sähköpostin vastaanottoa |
@@ -39,6 +39,7 @@ Sovellus on toteutettu Reactilla ja Node.js:llä. Tietokantana toimii MongoBD. S
 | jest | Työkalu backendin yksikkötesteihin |
 | maildev | Kehityksen aikainen työkalu jolla voi testata sähköpostin vastaanottoa |
 | supertest | Työkalu backendin yksikkötestien HTTP-pyyntöihin |
+| express-async-errors | async-funktioiden await -kohdissa syntyvät poikkeudet siirtyvät automattisesti middlewareen, jossa virheilmoitukset voidaan käsitellä. (Tällä hetkellä käytössä vain validointiin liittyvissä asioissa) |
 
 
 
