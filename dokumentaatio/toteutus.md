@@ -97,7 +97,7 @@ Audit lokin toiminta on toteutettu mongoosen plugineiden avulla. Toistaiseksi pl
 
 ### Arkkitehtuuri
 
-TBD.
+<img src="https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/arcitech.drawio.png"/>
 
 ### Jatkokehitystä varten
 
