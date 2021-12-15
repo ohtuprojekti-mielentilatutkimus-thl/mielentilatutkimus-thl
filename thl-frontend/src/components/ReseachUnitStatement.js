@@ -86,20 +86,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo
         if(state.button === 1) {
 
             const statement_draft = []
-            statement_draft.push(field1)
-            statement_draft.push(field2)
-            statement_draft.push(field3)
-            statement_draft.push(field4)
-            statement_draft.push(field5)
-            statement_draft.push(field6)
-            statement_draft.push(field7)
-            statement_draft.push(field8)
-            statement_draft.push(field9)
-            statement_draft.push(field10)
-            statement_draft.push(field11)
-            statement_draft.push(field12)
-            statement_draft.push(field13)
-            statement_draft.push(field14)
+            statement_draft.push(field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13, field14)
 
             formService.addStatementDraft(form.id, statement_draft)
                 .then(() => {
