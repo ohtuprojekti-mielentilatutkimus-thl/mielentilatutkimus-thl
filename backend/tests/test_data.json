@@ -25,6 +25,13 @@
             "lastname": "Rikollinen",
             "identificationNumber": "101010-0000",
             "address": "Mielikuvituskatu 5c 10, Helsinki",
+            "basicInformation": {
+                "id": "507f1f77bcf86cd799439010",
+                "organization": "Helsingin hovioikeus",
+                "sender": "Tomi Tuomari",
+                "email": "tomi.tuomari@example.com",
+                "phoneNumber": "9991234567"
+            },
             "location": "Vantaan vankila",
             "processAddress": "Arton asianajotoimisto",
             "trustee": "Ilkka Isä",
@@ -65,6 +72,13 @@
             "lastname": "Syytetty",
             "identificationNumber": "111111-1000",
             "address": "Eiolemassa 2b Espoo",
+            "basicInformation": {
+                "id": "507f1f77bcf86cd799439011",
+                "organization": "Kotkan käräjäoikeus",
+                "sender": "Yrjö Ylituomari",
+                "email": "yrjo_ylituomari@example.com",
+                "phoneNumber": "9991234568"
+            },
             "location": "Helsingin seudun yliopistollinen keskussairaala",
             "processAddress": "",
             "trustee": "",
@@ -104,6 +118,13 @@
             "lastname": "Ruotsista",
             "identificationNumber": "000000-9999",
             "address": "Turunkatu 99c 12 Turku",
+            "basicInformation": {
+                "id": "507f1f77bcf86cd799439012",
+                "organization": "Kouvolan korkein oikeus",
+                "sender": "Ville Viranomainen",
+                "email": "ville@example.com",
+                "phoneNumber": "9991234569"
+            },
             "location": "",
             "processAddress": "Aapo Asianajaja, lakipalvelut Oy",
             "trustee": "",

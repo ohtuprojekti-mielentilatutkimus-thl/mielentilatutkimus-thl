@@ -1,57 +1,56 @@
 module.exports = {
-    "env": {
-        "node": true,
-        "browser": true,
-        "es6": true,
-        "jest/globals": true 
+    'env': {
+        'node': true,
+        'browser': true,
+        'es6': true,
+        'jest/globals': true
     },
-    "extends": [ 
-        "eslint:recommended",
-        "plugin:react/recommended"
+    'extends': [
+        'eslint:recommended',
+        'plugin:react/recommended'
     ],
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
+    'parser': 'babel-eslint',
+    'parserOptions': {
+        'ecmaFeatures': {
+            'jsx': true
         },
-        "ecmaVersion": 2018,
-        "sourceType": "module",
-        "allowImportExportEverywhere": true,
+        'ecmaVersion': 2018,
+        'sourceType': 'module',
+        'allowImportExportEverywhere': true,
     },
-    "plugins": [
-        "react", "jest"
+    'plugins': [
+        'react', 'jest'
     ],
-    "rules": {
-        "indent": [
-            "error",
-            4  
+    'rules': {
+        'indent': [
+            'error',
+            4
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
+        'linebreak-style': [
+            'error', process.platform === 'win32' ? 'windows' : 'unix'
         ],
-        "quotes": [
-            "error",
-            "single"
+        'quotes': [
+            'error',
+            'single'
         ],
-        "semi": [
-            "error",
-            "never"
+        'semi': [
+            'error',
+            'never'
         ],
-        "eqeqeq": "error",
-        "no-trailing-spaces": "error",
-        "object-curly-spacing": [
-            "error", "always"
+        'eqeqeq': 'error',
+        'no-trailing-spaces': 'error',
+        'object-curly-spacing': [
+            'error', 'always'
         ],
-        "arrow-spacing": [
-            "error", { "before": true, "after": true }
+        'arrow-spacing': [
+            'error', { 'before': true, 'after': true }
         ],
-        "no-console": 0,
-        "react/prop-types": 0
+        'no-console': 0,
+        'react/prop-types': 0
     },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
+    'settings': {
+        'react': {
+            'version': 'detect'
+        }
     }
-  }
+}

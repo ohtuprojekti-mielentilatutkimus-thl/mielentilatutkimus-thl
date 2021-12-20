@@ -332,9 +332,7 @@ const Form = () => {
                 legalGuardianAddress: legalGuardianAddress,
                 legalGuardianInstitute: legalGuardianInstitute,
                 appealedDecision: appealedDecision,
-                basicInformation: {
-                    ...senderInfo
-                }
+                basicInformation: senderInfo.id
             }
 
             //console.log('Createadmission olio on:', createAdmission)

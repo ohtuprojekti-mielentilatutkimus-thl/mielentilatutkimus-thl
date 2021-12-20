@@ -30,7 +30,7 @@ const getAdmissionsByResearchUnit = async (researchUnit) => {
 
 const saveAdmission = async (data) => {
     const form = new AdmissionForm(
-        { ...data, basicInformation: data.basicInformation.id }
+        { ...data }
     )
     const prevAdmission = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
     const prevId = prevAdmission == null ? -1 : prevAdmission.thlRequestId

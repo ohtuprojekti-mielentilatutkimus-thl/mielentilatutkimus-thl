@@ -7,10 +7,6 @@ const admissionService = require('../services/admissionService')
 sendAdmissionsRouter.post('/admission_form', async (req, res) => {
     const data = req.body
 
-    if (!HelperFunctions.validateAdmissionFormData(data)) {
-        console.log('err1-----------------')
-        return res.sendStatus(500)
-    }
     if (data.assistantsEmail.length>0 
         && !HelperFunctions.validateAssistantsEmail(data) ||
     (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {

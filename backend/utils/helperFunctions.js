@@ -14,10 +14,6 @@ const validateBasicInformationData = (basicInformationForm) => {
     return validateEmailAddress(basicInformationForm.email)
 }
 
-const validateAdmissionFormData = (admissionForm) => {
-    return emailValidator.validate(admissionForm.basicInformation.email)
-}
-
 const validateAssistantsEmail = (admissionForm) => {
     return emailValidator.validate(admissionForm.assistantsEmail) 
 }
@@ -37,7 +33,6 @@ const validatePoliceEmailAddress = (email) => {
 
 module.exports = {
     validateBasicInformationData,
-    validateAdmissionFormData,
     validatePoliceEmailAddress,
     validateAssistantsEmail,
     validateLegalGuardianEmailEmail
