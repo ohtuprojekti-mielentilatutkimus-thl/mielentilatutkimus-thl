@@ -26,7 +26,15 @@ const admissionInDb = async (id) => {
     return admis.toJSON()
         
 }
-const findLatestAdmissionFromDb = async () => await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+const findLatestAdmissionFromDb = async () => {
+    const admis = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+    return admis
+}
+
+const findBasicInformationFromDb = async () => {
+    const basicInfo = await BasicInformationForm.findOne()
+    return basicInfo.toJSON()
+}
 
 const basicsInDb = async () => {
     const basics = await BasicInformationForm.find({})
@@ -68,6 +76,6 @@ const postTestPdf = async (api, admissionId) => {
 
 module.exports = {
     admissionFormTestData, admissionFormTestData2, basicInfoFormTestData, sendToResearchUnitData, allBasicInfoJsons, allAdmissionJsons,
-    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
+    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, findBasicInformationFromDb,
     admissionInDb, omit, getLog, getLatestLog, postTestPdf
 }
