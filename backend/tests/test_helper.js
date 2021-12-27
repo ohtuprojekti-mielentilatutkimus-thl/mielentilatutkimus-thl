@@ -56,6 +56,12 @@ const getLatestLog = async () => {
     return log.toJSON()
 }
 
+const saveTestBasicInfoFormAndReturnId = async () => {
+    let formToSave = new BasicInformationForm(basicInfoFormTestData)
+    let savedBasicInfo = await formToSave.save(formToSave)
+    return savedBasicInfo.id
+}
+
 //https://dev.to/nas5w/how-to-select-or-omit-properties-from-an-object-in-javascript-3ina
 function omit(obj, ...props) {
     const result = { ...obj }
@@ -76,6 +82,6 @@ const postTestPdf = async (api, admissionId) => {
 
 module.exports = {
     admissionFormTestData, admissionFormTestData2, basicInfoFormTestData, sendToResearchUnitData, allBasicInfoJsons, allAdmissionJsons,
-    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, findBasicInformationFromDb,
+    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, findBasicInformationFromDb, saveTestBasicInfoFormAndReturnId,
     admissionInDb, omit, getLog, getLatestLog, postTestPdf
 }
