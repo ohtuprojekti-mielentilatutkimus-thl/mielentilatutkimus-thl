@@ -26,8 +26,6 @@ module.exports =  async () => {
             basicInformation: { ...basicInfoFromDb }
         }
 
-        console.log('admis ', admis)
-
         await api
             .post('/api/admissions/admission_form')
             .send(admis)
