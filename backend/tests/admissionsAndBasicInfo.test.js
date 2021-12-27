@@ -101,7 +101,7 @@ describe('when db is initialized with data', () => {
             // +1 for thlRequestId
             // +1 for statement
 
-            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 5
+            const lengthOfInputFields = Object.keys(helper.admissionFormTestData).length + 6
             const lengthOfFieldsInDbItem = Object.keys(admissionsInDb[0])
 
             expect(lengthOfFieldsInDbItem).toHaveLength(lengthOfInputFields)
