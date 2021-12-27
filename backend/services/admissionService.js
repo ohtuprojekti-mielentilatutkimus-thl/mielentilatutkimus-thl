@@ -41,7 +41,7 @@ const getAdmission = async (id, username, role) => {
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: username ? username : form.formSender,
+        createdBy: username ? username : form.sender,
         createdByRole: role ? role : 'undefined',
         message: 'Tutkimuspyyntö avattu'
     })
@@ -55,8 +55,8 @@ const getAdmissionForEdit = async (id) => {
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: form ? form.admissionNoteSender : 'user not found',
-        createdByRole: form ? form.admissionNoteSenderOrganization : 'undefined',
+        createdBy: form ? form.sender : 'user not found',
+        createdByRole: form ? form.organization : 'undefined',
         message: 'Tutkimuspyynnön lähettäjän tiedot haettu lisätietojen täydennystä varten'
     })
 

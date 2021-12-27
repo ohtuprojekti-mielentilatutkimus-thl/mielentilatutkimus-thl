@@ -293,10 +293,10 @@ describe('when db is empty', () => {
         describe('cant be saved to database when', () => {
             
             const basicInfoEmpty = {
-                'admissionNoteSenderOrganization': '',
-                'admissionNoteSender': '',
-                'sendersEmail': '',
-                'sendersPhoneNumber': ''
+                'organization': '',
+                'sender': '',
+                'email': '',
+                'phoneNumber': ''
             }
 
             test('all input fields are empty', async () => {

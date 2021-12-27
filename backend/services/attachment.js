@@ -5,7 +5,7 @@ const FileHandler = require('../services/fileHandler')
 async function attachFile(admissionFormId, files, filesInfo, username, role) {
     const parsedFilesInfo = JSON.parse(filesInfo)
 
-    files.forEach(file => {
+    files.forEach(async file => {
         const attachmentForm = new AttachmentForm({
             admissionFormId: admissionFormId,
             fileName: file.originalname,
@@ -13,6 +13,28 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
             whichFile: parsedFilesInfo.find(fileInfo => fileInfo.name === file.originalname).whichFile
         })
 
+        let savedFile = await attachmentForm.save()
+        let updatedAdmission = await AdmissionForm.findByIdAndUpdate(
+            admissionFormId,
+            {
+                $push: {
+                    attachments: {
+                        _id: savedFile._id
+                    }
+                }
+            }
+        )
+
+        await updatedAdmission.populate('basicInformation')
+
+        attachmentForm.log({
+            action: 'save_attachment',
+            category: 'attachments',
+            createdBy: username ? username : updatedAdmission.basicInformation.sender,
+            createdByRole: role ? role : updatedAdmission.basicInformation.sender,
+            message: `Liitetiedosto '${attachmentForm.fileName}' tallennettu`,            
+        })
+        /*
         attachmentForm.save().then(savedFile => {
             AdmissionForm.findByIdAndUpdate(
                 admissionFormId,
@@ -24,15 +46,18 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
                     }
                 }
             ).then(form => {
+                form.populate('basicInformation')
+
                 attachmentForm.log({
                     action: 'save_attachment',
                     category: 'attachments',
-                    createdBy: username ? username  : form.formSender,
-                    createdByRole: role ? role : form.formSender,
+                    createdBy: username ? username : form.basicInformation.sender,
+                    createdByRole: role ? role : form.basicInformation.sender,
                     message: `Liitetiedosto '${attachmentForm.fileName}' tallennettu`,
                 })
             })
         })
+        */
     })
 }
 
