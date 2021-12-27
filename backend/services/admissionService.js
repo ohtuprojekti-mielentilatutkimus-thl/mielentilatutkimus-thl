@@ -1,5 +1,4 @@
 const AdmissionForm = require('../models/admissionForm.model.js')
-const BasicInformationForm = require('../models/basicInformationForm.model')
 const IdSerializer = require('./idSerializer')
 
 const getAllAdmissions = async () => {

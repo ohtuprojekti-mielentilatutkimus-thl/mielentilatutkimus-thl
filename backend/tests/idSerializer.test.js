@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const idSerializer = require('../services/idSerializer')
 
 const idStart = 'THL_OIKPSYK_'
