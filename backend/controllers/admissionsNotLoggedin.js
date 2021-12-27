@@ -10,7 +10,6 @@ sendAdmissionsRouter.post('/admission_form', async (req, res) => {
     if (data.assistantsEmail.length>0 
         && !HelperFunctions.validateAssistantsEmail(data) ||
     (data.legalGuardianEmail.length>0 && !HelperFunctions.validateLegalGuardianEmailEmail(data))) {
-        console.log('err2-----------------')
         return res.sendStatus(500)
 
     } else {
