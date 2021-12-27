@@ -13,10 +13,18 @@ basinInformationsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
 
     const basicInformationForm = new BasicInformationForm({
+<<<<<<< HEAD
         organization: data.organization,
         sender: data.sender,
         email: data.email,
         phoneNumber: data.phoneNumber,
+=======
+        admissionNoteSenderOrganization: data.admissionNoteSenderOrganization,
+        admissionNoteSender: data.admissionNoteSender,
+        sendersEmail: data.sendersEmail,
+        sendersPhoneNumber: data.sendersPhoneNumber,
+        attachments: []
+>>>>>>> master
     })
 
     if (!HelperFunctions.validateBasicInformationData(basicInformationForm)) {

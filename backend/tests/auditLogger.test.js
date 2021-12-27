@@ -73,12 +73,15 @@ describe('Save Admission', () => {
     describe('Save Attachment', () => {
 
         let attachmentId
+        let attachment
 
         beforeAll(async () => {
             await helper.postTestPdf(api, admissionId)
         
             const attachments = await helper.attachmentsInDb()
             attachmentId = attachments[0].id
+            attachment = attachments[0]
+
             await new Promise((r) => setTimeout(r, 500))
         
         })
@@ -87,28 +90,21 @@ describe('Save Admission', () => {
             const latestLog = await helper.getLatestLog()
 
             expect(latestLog.action).toBe('save_attachment')
-            expect(latestLog.message).toBe('Liitetiedosto tallennettu')
+            expect(latestLog.message).toBe(`Liitetiedosto '${attachment.fileName}' tallennettu`)
             expect(latestLog.formId.toString()).toBe(admissionId)
             expect(latestLog.attachmentId.toString()).toBe(attachmentId)
         })
 
         describe('Get Attachment', () => {
-            let attachment
 
             beforeAll(async () => {
                 Attachment.getFile(attachmentId, testUsername, testRole)
-
-                const attachments = await helper.attachmentsInDb()
-                attachment = attachments[0]
-                attachmentId = attachments[0].id
                 await new Promise((r) => setTimeout(r, 500))
         
             })
 
             test('get attachment is logged with proper category, message, form id and attachment id', async () => {
                 const latestLog = await helper.getLatestLog()
-
-
 
                 expect(latestLog.action).toBe('get_attachment')
                 expect(latestLog.message).toBe(`Liitetiedosto '${attachment.fileName}' avattu`)

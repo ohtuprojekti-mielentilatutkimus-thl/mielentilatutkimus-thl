@@ -46,8 +46,8 @@ const ThlAdmissions = () => {
         setForm(form)
     }
 
-    const updateForm = async ( updateFormState ) => {
-        setForm(updateFormState)
+    const updateForm = async () => {
+        fetchForm(form.id)
         fetchFormHeaders()
     }
 

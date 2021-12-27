@@ -57,7 +57,6 @@ if (process.env.NODE_ENV !== 'test') {
     app.use(morgan(':method :url :status :response-time ms :body'))
 }
 
-// Nämä pitää määritellä routereiden jälkeen
 app.get('/thl/*', (req, res) => res.sendFile(path.resolve('builds', 'thl', 'build', 'index.html')))
 app.get('/mielentilatutkimus/*', (req, res) => res.sendFile(path.resolve('builds', 'mielentilatutkimus', 'build', 'index.html')))
 

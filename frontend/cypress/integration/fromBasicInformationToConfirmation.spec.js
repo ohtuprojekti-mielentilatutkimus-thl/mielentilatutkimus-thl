@@ -45,31 +45,6 @@ describe('From posting basic information to confirmation email', function() {
                     }
                     cy.get('#' + i).type(helper.admission_form_input[i])
                 }
-                /*
-                cy.intercept({
-                    method: 'POST',
-                    url: `/api/admissions/admission_form_attachment/${senders_id}`,
-                }).as('uploadApi')
-
-                cy.get('#name').type(helper.admission_form_input.name)
-                cy.get('#diaariNumber').type(helper.admission_form_input.diaariNumber)
-
-
-                const testFile = 'testfile.pdf'
-                const filePath = 'testfiles/' + testFile
-
-                const attachments = ['valituomio', 'poytakirja', 'haastehakemus', 'rikosrekisteriote', 'esitutkintapoytakirja', 'vangitsemispaatos']
-
-                for (const i in attachments) {
-                    cy.get(`input[name="${attachments[i]}"]`).attachFile(filePath)
-                    cy.contains('Lataa valittu tiedosto').click()
-                    cy.wait('@uploadApi').then((interception) => {
-                        assert.equal(testFile, interception.response.body.originalname)
-                        assert.equal(attachments[i], interception.response.body.whichFile)
-                        assert.equal('ok', interception.response.body.message)
-                    })
-                }
-*/
                 cy.get('#createPersonButton').click()
                 cy.contains('Pyyntö lähetettiin onnistuneesti')
             })

@@ -4,20 +4,12 @@ var created_at = ''
 const login = (role) => {
 
     if(role === 'THL') {
-
         cy.loginAsThlRole()
-            .then((res) => {
-                console.log(res)
-            })
         cy.wait(1000)
     }
 
     if(role === 'Toimintayksikkö') {
-
         cy.loginAsReseachUnitRole()
-            .then((res) => {
-                console.log(res)
-            })
         cy.wait(1000)
     }
 }
@@ -71,7 +63,6 @@ describe('All admissions can be viewed', () => {
 
         cy.get('a').last().click()
 
-        //Tässä pitäisi varmaan testata kaikki kentät
         cy.contains('Tutkittavan henkilön yleistiedot')
         cy.contains('Reijo')
 
@@ -443,20 +434,9 @@ describe('Reseach unit role', () => {
         cy.get('.MuiTab-root').last().click()
         cy.wait(1000)
 
-        cy.contains('Teksti1')
-        cy.contains('Teksti2')
-        cy.contains('Teksti3')
-        cy.contains('Teksti4')
-        cy.contains('Teksti5')
-        cy.contains('Teksti6')
-        cy.contains('Teksti7')
-        cy.contains('Teksti8')
-        cy.contains('Teksti9')
-        cy.contains('Teksti10')
-        cy.contains('Teksti11')
-        cy.contains('Teksti12')
-        cy.contains('Teksti13')
-        cy.contains('Teksti14')
+        content.forEach(function (value) {
+            cy.contains(value)
+        })
     })
 
     it('Statement can be previewed', function() {
@@ -473,20 +453,13 @@ describe('Reseach unit role', () => {
         cy.get('#preview').click()
         cy.wait(1000)
 
-        cy.contains('Teksti1')
-        cy.contains('Teksti2')
-        cy.contains('Teksti3')
-        cy.contains('Teksti4')
-        cy.contains('Teksti5')
-        cy.contains('Teksti6')
-        cy.contains('Teksti7')
-        cy.contains('Teksti8')
-        cy.contains('Teksti9')
-        cy.contains('Teksti10')
-        cy.contains('Teksti11')
-        cy.contains('Teksti12')
-        cy.contains('Teksti13')
-        cy.contains('Teksti14')
+        const content = ['Teksti1', 'Teksti2', 'Teksti3', 'Teksti4', 'Teksti5', 'Teksti6', 'Teksti7', 'Teksti8', 'Teksti9',
+            'Teksti10', 'Teksti11', 'Teksti12', 'Teksti13', 'Teksti14']
+
+        content.forEach(function (value) {
+            cy.contains(value)
+        })
+
     })
     it('Statement is not submitted if user do not confirm sending', function() {
 

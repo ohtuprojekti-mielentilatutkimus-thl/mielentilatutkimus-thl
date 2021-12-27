@@ -1,31 +1,18 @@
 # Continuous Integration
 
-Kuva / alkuselitys
+<img src="https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/ci.png"/>
 
-## Pull Request
+Pull requestin tekeminen mainiin käynnistää github workflow-tiedoston [cd.yml](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/.github/workflows/cd.yml) suorituksen. 
 
-Pull requestin tekeminen mainiin käynnistää github workflow-tiedoston [cd.yml-suorituksen](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/.github/workflows/cd.yml) ajamisen, jossa tapahtuu:
+Koodin syntaksi tarkastetaan eslint-työkalulla, minkä säännöt on määritelty frontend-, thl-frontend ja backend-kansioiden juurissa sijaitsevilla .eslintrc.js-tiedostoilla. Lisäksi suoritetaan frontendien cypress-testit, backendin testit ja uusi testikattavuus lähettyy CodeCoviin. 
 
-### linttaus
-Mergettävän koodin syntaksi tarkistetaan eslint-työkalulla. Noudatettavat säännöt on määritelty frontend-, thl-frontend- ja backend-kansioiden juurissa sijaitsevilla .eslintrc.js-tiedostoilla.
+Lopuksi jos Pull Request mergetään, niin edellä mainitut toiminnot suorittuvat uudestaan mainissa.
 
-### Cypress-testit
-Ajetaan cypress-testit. Lisätietoa täällä (tähän linkki testaus-dokumenttiin?)
+# Continuous Deployment
+<img src="https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/cd.png" />
 
-### Backendin yksikkötestit
-Linkki testaus-dokumenttiin(?). Coverage codecoviin
+Pull requestin hyväksymisen jälkeen käynnistyy myös [staging.yml-tiedoston](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/.github/workflows/staging.yml) suoritus.
 
-## Pull Request hyväksytään
-cd.yml-tiedoston workflow suoritetaan uudestaan.
+Workflowssa määritelty github action luo juuren [Dockerfilellä](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/Dockerfile) mainin koodista uuden imagen, joka automaattisesti puskeutuu [Dockerhubiin](https://hub.docker.com/), repositorion asetuksissa määriteltyyn tiliin. Dockerhubista image päätyy tuotantopalvelimelle, kun siellä pyörivä [watchtower](https://github.com/containrrr/watchtower) havaitsee version päivittyneen parin minuutin sisällä.
 
-# Continuous Development
-Pull requestin hyväksymisen jälkeen käynnistyy myös [staging.yml-tiedoston](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/.github/workflows/staging.yml), josta käynnistyy seuraava tapahtumaketju:
-
-## Image dockerhubiin
-Workflowssa määritelty github action luo juuren [Dockerfilellä](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/Dockerfile) mainin koodista uuden imagen, joka automaattisesti puskeutuu Dockerhubiin, repositorion asetuksissa määriteltyyn tiliin.
-
-## Image tuotantopalvelimelle
-Tuotantopalvelimella pyörii [watchtower](https://github.com/containrrr/watchtower), jonka avulla Docker-kontissa pyörivä sovellus päivittyy uuteen versioon.
-
-## Palvelimen tilan tarkistus
-Uuden imagen puskemisen jälkeen workflow-tiedosto pysähtyi viideksi minuutiksi, jonka aikana <sub>(toivottavasti, ei ole vielä epäonnistunut)</sub> uusi sovelluksen versio päätyi staging-palvelimelle. Tauon jälkeen workflow:n seuraava action tekee http-pyynnön palvelimen osoitteisiin, joissa frontend eli /mielentilatutkimus ja thl-frontend eli /thl pyörivät.
+Dockerhubiin puskemisen jälkeen workflow on pysähtynyt hetkeksi, jotta uusi image ehtii päätyä tuotantopalvelimelle. Lopuksi palvelimen tila tarkistetaan http-pyynnöillä frontendien osoitteisiin.

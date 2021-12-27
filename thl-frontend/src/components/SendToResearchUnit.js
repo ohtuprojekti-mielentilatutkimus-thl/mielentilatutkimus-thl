@@ -19,11 +19,11 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
             researchUnitInformation: researchUnitInformation,
             formState: 'Tutkimuspaikka pyydetty'
         }).then(
-            ( newForm ) => {
+            () => {
                 setResearchUnit('')
                 setResearchUnitInformation('')
                 msg.setMsg('Tutkimuspaikkapyyntö lähetetty onnistuneesti', 5, handleClose)
-                updateForms(newForm.data)
+                updateForms()
             })
             .catch(error => {
                 msg.setErrorMsg('Tutkimuspaikkapyynnön lähettämisessä tapahtui virhe!', 5)
@@ -36,7 +36,7 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
 
     return (
         <DialogTitle>
-            <h4>{form.thlRequestId}</h4>
+            {form.thlRequestId}
             <form onSubmit = {handleSend}>
                 <Grid>
                     <FormControl fullWidth label='Tutkimuspaikkayksikkö'>
@@ -57,19 +57,20 @@ const SendToResearchUnit = ({ form, handleClose, updateForms }) => {
                     </FormControl>
                 </Grid>
                 <Grid>
+                    <br></br>
                     <TextField id= 'inputForInfoForResearchUnit'value={researchUnitInformation} onChange= {(event) => setResearchUnitInformation(event.target.value)}
                         multiline rows={10} fullWidth label='Lisätietoja...'/>
                 </Grid>
-                <Grid>
-                    <Button id= 'buttonSendToResearchUnit'variant='outlined' color='primary' type='submit'>Lähetä</Button>
-                </Grid>
-
+                <p></p>
                 {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
                 {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
 
-                <DialogActions>
-                    <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
-                </DialogActions>
+                <Grid>
+                    <DialogActions>
+                        <Button id= 'buttonSendToResearchUnit'variant='outlined' color='primary' type='submit'>Lähetä</Button>
+                        <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
+                    </DialogActions>
+                </Grid>
 
             </form>
         </DialogTitle>

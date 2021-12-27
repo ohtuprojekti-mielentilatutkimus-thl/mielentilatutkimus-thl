@@ -63,12 +63,16 @@ const BasicInformationForm = () => {
         if (!msg.errorMessagesNotEmpty()) {
             basicInformationService
                 .create(basicInformations)
+<<<<<<< HEAD
                 .then(response => {
                     console.log(response.data)
                     msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.email}`, 7)
+=======
+                .then(() => {
+                    msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`, 7)
+>>>>>>> master
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     msg.setErrorMsg('Perustietojen lähettämisessä tapahtui virhe!', 7)
                 })
         }

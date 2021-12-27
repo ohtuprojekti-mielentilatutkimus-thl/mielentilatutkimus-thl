@@ -12,7 +12,6 @@ const plugin = function (schema) {
         if (this.isNew) {
             next()
         } else {
-            // toJSON ei toiminut joten tässä käytetty rumempaa tapaa
             const originalToJson = JSON.parse(JSON.stringify(this._original))
             originalToJson.id = originalToJson._id.toString()
             delete originalToJson._id

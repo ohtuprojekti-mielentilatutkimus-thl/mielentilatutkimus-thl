@@ -38,9 +38,6 @@ const LoginForm = () => {
                 }
 
             })
-            .catch(error => {
-                console.log('Kirjautuminen epäonnistui: ',error)
-            })
     }
 
     const setResearchUnit = () => {
@@ -60,7 +57,7 @@ const LoginForm = () => {
         }
 
         if (researchUnitRole) {
-            return (<FormControl fullWidth>
+            return (<FormControl fullWidth variant="standard">
                 <Select
                     value={role}
                     onChange={handleRoleChange}>
@@ -103,7 +100,6 @@ const LoginForm = () => {
                 <Paper
                     className={classes.form}
                     variant='outlined'
-                    elevation={3}
                     square={false}
                     align='center'
                     justify='center'

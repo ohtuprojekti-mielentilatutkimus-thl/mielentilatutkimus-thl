@@ -74,8 +74,7 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
         const filesInfoDisabledPropRemoved = filesInfoToSend.map(({ disabled, ...fileInfo }) => fileInfo)
 
         await attachmentService.upload(selectedFiles, AdmissionFormId, filesInfoDisabledPropRemoved)
-            .then(response => {
-                console.log(response.data)
+            .then(() => {
                 fetchForm(AdmissionFormId)
                 msg.setMsg('Liitteet lisätty', 5, handleClose)
             }
@@ -90,7 +89,7 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
 
     return (
         <DialogTitle>
-            <h4>{form.thlRequestId}</h4>
+            {form.thlRequestId}
             <div>
                 <div style={{
                     display: 'flex',
@@ -100,7 +99,6 @@ const addAttachment = ({ form, fetchForm, handleClose }) => {
                     <Paper
                         className={classes.form}
                         variant='outlined'
-                        elevation={3}
                         square={false}
                         align='center'
                         justify='center'

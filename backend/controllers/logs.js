@@ -7,8 +7,10 @@ logRouter.get('/', async (req,res) => {
 })
 
 logRouter.get('/form_event/:id', async (req, res) => {
-    const log = await Log.find({'form_id': req.params.id})
+    const log = await Log.find({'formId': req.params.id})
     res.json(log.map((log) => log.toJSON()))
 })
+
+
 
 module.exports = logRouter

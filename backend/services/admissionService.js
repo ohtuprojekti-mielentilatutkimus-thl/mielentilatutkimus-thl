@@ -3,27 +3,12 @@ const IdSerializer = require('./idSerializer')
 
 const getAllAdmissions = async () => {
     const admissionForms = await AdmissionForm.find({}).select('thlRequestId formState createdAt updatedAt')
-    /* tarvitseeko tähän lokitusta? 
-    admissionForms.log({
-        action: 'get_admission_form',
-        category: 'admission_form',
-        createdBy: 'userWouldGoHere',
-        message: '(all) admission forms were requested'
-    })
-    */
     return admissionForms.map((admissionform) => admissionform.toJSON())
 }
 
 const getAdmissionsByResearchUnit = async (researchUnit) => {
 
     const admissionForms = await AdmissionForm.find({researchUnit: (researchUnit), formState: ('Tutkimuspaikka pyydetty')}).select('thlRequestId formState createdAt updatedAt')
-    /* tarvitseeko tähänkään lokitusta? 
-    admissionForms.log({
-        action: 'get_admission_form',
-        category: 'admission_form',
-        createdBy: 'userWouldGoHere',
-        message: `admissions where research unit is '${researchUnit}' was requested`
-    }) */
     return admissionForms.map((admissionform) => admissionform.toJSON())
 }
 

@@ -13,8 +13,8 @@ const FileChip = ({ fileInfo, removeFile }) => (
             label={fileInfo.name}
             variant='outlined'
             onDelete={() => removeFile(fileInfo.name)}
-            fileName={fileInfo.name}
-            attachmentType={fileInfo.whichFile}
+            filename={fileInfo.name}
+            attachmenttype={fileInfo.whichFile}
         />
     </ListItem>
 )

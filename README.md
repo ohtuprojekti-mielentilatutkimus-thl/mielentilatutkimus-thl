@@ -15,11 +15,14 @@ Linkit dokumentteihin:
 * [Sprint backlog](https://docs.google.com/spreadsheets/d/1kkBy4tXDKeBQ4vNx6RjYenB6CSsVMmcFq5vtddrigGc/edit#gid=2080422479)
 * [Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1p0x6vLt4iKnx1ox4t_BIjJfagC9palWiz4syX8-ceUE/edit#gid=0)
 
+## Demovideo
+[![demovideo](https://img.youtube.com/vi/GNzB9eid5cI/0.jpg)](https://www.youtube.com/watch?v=GNzB9eid5cI)
+
 ## Dokumentaatio
 
 
 * [Tekninen toteutus](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/toteutus.md)
-* [Sovelluksen tämänhetkisen toiminnallisuuden kuvaus](https://docs.google.com/document/d/1eri57ZCDeMbGBXXQlGoBN3HUaykOZMgz1Ea3049YLCo/edit?usp=sharing)
+* [Sovelluksen toiminnallisuuksien kuvaukset](https://docs.google.com/document/d/1eri57ZCDeMbGBXXQlGoBN3HUaykOZMgz1Ea3049YLCo/edit?usp=sharing)
 
 ## Asennusohje
 

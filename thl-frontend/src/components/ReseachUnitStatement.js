@@ -1,8 +1,10 @@
 import { React, useState } from 'react'
 import { Grid, TextField, Button, Typography, Dialog, DialogContentText, DialogActions, DialogTitle, DialogContent } from '@mui/material'
 import formService from '../services/formService'
+import Messages from './Messages'
+import useMessage from '../utils/messageHook'
 
-const ReseachUnitStatement = ({ form, formState, updateForms }) => {
+const ReseachUnitStatement = ({ form, formState, updateForms, handleShowLessInfo }) => {
 
     const [field1, setField1] = useState(form.statement_draft[0])
     const [field2, setField2] = useState(form.statement_draft[1])
@@ -21,6 +23,8 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
     const [openConfirm, setConfirmOpen] = useState(false)
     const [previewWindow, setPreviewWindowOpen] = useState(false)
+
+    const msg = useMessage()
 
     const handleField1Change = (event) => {
         setField1(event.target.value)
@@ -82,25 +86,16 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         if(state.button === 1) {
 
             const statement_draft = []
-            statement_draft.push(field1)
-            statement_draft.push(field2)
-            statement_draft.push(field3)
-            statement_draft.push(field4)
-            statement_draft.push(field5)
-            statement_draft.push(field6)
-            statement_draft.push(field7)
-            statement_draft.push(field8)
-            statement_draft.push(field9)
-            statement_draft.push(field10)
-            statement_draft.push(field11)
-            statement_draft.push(field12)
-            statement_draft.push(field13)
-            statement_draft.push(field14)
+            statement_draft.push(field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13, field14)
 
             formService.addStatementDraft(form.id, statement_draft)
-                .then(response => {
-                    console.log(response.data)
+                .then(() => {
+                    msg.setMsg('Luonnos tallennettu onnistuneesti', 5, handleClose)
                 })
+                .catch(() => {
+                    msg.setErrorMsg('Luonnoksen tallentamisessa tapahtui virhe!', 5)
+                })
+
         } if(state.button === 2) {
             handleClickOpen()
         }
@@ -134,15 +129,15 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
         Johtopäätökset: ${field13}\n\n
         Ponnet: ${field14}` }
 
-        const updateFormState = { ...form, formState: 'Lausunto saapunut' }
+        const updateFormState = { ...form, statement, formState: 'Lausunto saapunut' }
 
         formService
-            .addStatement(updateFormState.id, statement)
-
-        formService
-            .update(updateFormState.id, updateFormState)
-            .then(response => {
-                updateForms(response.data)
+            .addStatement(updateFormState.id, updateFormState)
+            .then(() => {
+                updateForms()
+            })
+            .catch(() => {
+                msg.setErrorMsg('Lausunnon lähettämisessä tapahtui virhe!', 5)
             })
     }
 
@@ -155,9 +150,7 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
 
     return (
         <div>
-            <h1>
-           Mielentilalausunto:
-            </h1>
+            <h1> Mielentilalausunto: </h1>
             {getStatus()}
             <p></p>
             <form onSubmit={save}>
@@ -218,12 +211,16 @@ const ReseachUnitStatement = ({ form, formState, updateForms }) => {
                         variant='outlined' margin='normal'></TextField>
                 </Grid>
                 <br></br>
-                <Grid item xs={10}>  &nbsp;
-                    <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button>
-                    &nbsp;
-                    <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button>
-                    &nbsp;
-                    <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button>
+                {(msg.messagesNotEmpty && <Messages msgArray={msg.messages} severity='success' />)}
+                {(msg.errorMessagesNotEmpty && <Messages msgArray={msg.errorMessages} severity='error' />)}
+                <br></br>
+                <Grid item xs={10}>
+                    <DialogActions>
+                        <Button variant='outlined' id='preview' color='primary' onClick={() => (state.button = 3)} type="submit">Esikatsele</Button> &nbsp;
+                        <Button variant='outlined' id='saveDraft' color='primary' onClick={() => (state.button = 1)} type="submit">Tallenna luonnos</Button> &nbsp;
+                        <Button variant='contained' id='sendStatement' color='primary' onClick={() => (state.button = 2)} type="submit">Lähetä lausunto</Button> &nbsp;
+                        <Button align="center" color="primary" id='handleShowLessInfo' variant="contained" onClick={handleShowLessInfo}> Sulje </Button>
+                    </DialogActions>
                 </Grid>
             </form>
             <div>

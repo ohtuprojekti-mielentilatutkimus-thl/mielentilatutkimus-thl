@@ -19,8 +19,6 @@ describe('Basic Information View', function() {
         cy.get('#createBasicInformationsButton').click()
 
         cy.contains('Perustietojen lähettäminen onnistui!')
-
-
     })
 
     it('Basic information form validates email address', function () {

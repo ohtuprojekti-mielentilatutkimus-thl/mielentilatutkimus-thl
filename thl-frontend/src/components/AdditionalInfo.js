@@ -21,33 +21,31 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
 
         const updateFormState = { ...form, formState: 'Pyydetty lisätietoja' }
 
-        var err = false
+        var error = false
 
         formService
             .askForInfo(infoObject)
-            .then(response => {
-                console.log(response.data)
+            .then(() => {
                 setAdditionalInfo('')
                 msg.setMsg('Muokkauspyyntö lähetetty', 7, handleClose)
             }
             )
-            .catch(error => {
-                err = true
-                console.log(error)
+            .catch(() => {
+                error = true
                 msg.setErrorMsg('Muokkauspyynnön lähettämisessä tapahtui virhe!', 7)
             })
 
-        if(!err) {
+        if(!error) {
             formService.update(updateFormState.id, updateFormState)
-                .then(response => {
-                    updateForms(response.data)
+                .then(() => {
+                    updateForms()
                 })
         }
     }
 
     return (
         <DialogTitle>
-            <h4>{form.thlRequestId}</h4>
+            {form.thlRequestId}
             <Grid>
                 <TextField
                     id='inputForAdditionalInfo'
@@ -56,10 +54,8 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
                     fullWidth label='Pyydä lisätietoja...'
                 />
             </Grid>
-            <Grid>
-                <Button variant='outlined' color='primary' type='submit' onClick={requestAdditionalInfo} id='sendAdditionalInfo'>Lähetä</Button>
-            </Grid>
             <DialogActions>
+                <Button variant='outlined' color='primary' type='submit' onClick={requestAdditionalInfo} id='sendAdditionalInfo'>Lähetä</Button>
                 <Button variant='contained' color='primary' align='right' onClick={handleClose}>Sulje</Button>
             </DialogActions>
 

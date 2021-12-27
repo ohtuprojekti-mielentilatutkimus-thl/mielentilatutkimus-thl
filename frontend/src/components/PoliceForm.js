@@ -24,14 +24,12 @@ const PoliceViewForm = () => {
         }
         policeInformationService
             .askForAddingAttachmentLink(infoObject)
-            .then(response => {
-                console.log(response.data)
+            .then(() => {
                 setEmail('')
                 setValue('')
             }
             )
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
                 setEmail('')
                 setValue('')
             })

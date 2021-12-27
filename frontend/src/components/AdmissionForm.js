@@ -201,7 +201,6 @@ const Form = () => {
 
     const validateAssistantsEmail = () => {
         if (!validator.isEmail(assistantsEmail) && assistantsEmail.length>0) {
-            console.log('virheellinen email')
             msg.setErrorMsg('Avustajan sähköpostiosoite on virheellinen!', 7)
             return true
         } else {
@@ -211,7 +210,6 @@ const Form = () => {
 
     const validateLegalGuardianEmail = () => {
         if (!validator.isEmail(legalGuardianEmail) && legalGuardianEmail.length>0) {
-            console.log('virheellinen email')
             msg.setErrorMsg('Alaikäisen huoltajan/sosiaalitoimen sähköpostiosoite on virheellinen!', 7)
             return true
         } else {
@@ -276,12 +274,10 @@ const Form = () => {
                 admissionService
                     .update(paramFormId, updateAdmission)
                     .then(response => {
-                        console.log(response.data)
                         setFormId(response.data.id)
                         toggleVisibility()
                     })
-                    .catch(error => {
-                        console.log(error)
+                    .catch(() => {
                         msg.setErrorMsg('Mielentilatutkimuspyynnön muokkaamisessa tapahtui virhe!', 7)
                     })
             }
@@ -290,10 +286,7 @@ const Form = () => {
         }
     }
 
-
-
     const addPerson = (event) => {
-
 
         if (window.location.toString().includes('edit')){
             updatePerson(event)
@@ -303,7 +296,6 @@ const Form = () => {
             event.preventDefault()
 
             const createAdmission = {
-                //  oldId: old_id,
                 formState : 'Odottaa tarkistusta',
                 name: name,
                 lastname: lastname,
@@ -335,9 +327,6 @@ const Form = () => {
                 basicInformation: senderInfo.id
             }
 
-            //console.log('Createadmission olio on:', createAdmission)
-
-
             const assistantError = validateAssistantsEmail()
             const guardianError = validateLegalGuardianEmail()
 
@@ -345,7 +334,6 @@ const Form = () => {
                 admissionService
                     .create(createAdmission)
                     .then(response => {
-                        console.log(response.data)
                         setFormId(response.data.id)
                         toggleVisibility()
 
@@ -377,14 +365,12 @@ const Form = () => {
                         setLegalGuardianInstitute('')
                         setAppealedDecision('')
                     })
-                    .catch(error => {
-                        console.log(error)
+                    .catch(() => {
                         msg.setErrorMsg('Mielentilatutkimuspyynnön lähettämisessä tapahtui virhe!', 7)
                     })
             }
         }
     }
-
 
     const getSubmittedMessage = () => {
 

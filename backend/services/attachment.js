@@ -1,9 +1,6 @@
 const AttachmentForm = require('../models/attachmentForm.model.js')
 const AdmissionForm = require('../models/admissionForm.model.js')
-
 const FileHandler = require('../services/fileHandler')
-//const path = require('path')
-
 
 async function attachFile(admissionFormId, files, filesInfo, username, role) {
     const parsedFilesInfo = JSON.parse(filesInfo)
@@ -15,9 +12,9 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
             fileData: file.buffer,
             whichFile: parsedFilesInfo.find(fileInfo => fileInfo.name === file.originalname).whichFile
         })
-        
+
         attachmentForm.save().then(savedFile => {
-            return AdmissionForm.findByIdAndUpdate(
+            AdmissionForm.findByIdAndUpdate(
                 admissionFormId,
                 {
                     $push: {
@@ -26,14 +23,15 @@ async function attachFile(admissionFormId, files, filesInfo, username, role) {
                         }
                     }
                 }
-            )
-        })
-        attachmentForm.log({
-            action: 'save_attachment',
-            category: 'attachments',
-            createdBy: username ? username  : 'undefined',
-            createdByRole: role ? role : 'undefined',
-            message: 'Liitetiedosto tallennettu',
+            ).then(form => {
+                attachmentForm.log({
+                    action: 'save_attachment',
+                    category: 'attachments',
+                    createdBy: username ? username  : form.formSender,
+                    createdByRole: role ? role : form.formSender,
+                    message: `Liitetiedosto '${attachmentForm.fileName}' tallennettu`,
+                })
+            })
         })
     })
 }
