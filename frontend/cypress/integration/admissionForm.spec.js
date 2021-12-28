@@ -6,10 +6,10 @@ describe('Send Admission Form', function() {
         cy.request('DELETE', 'http://localhost:1080/email/all').then((res) => {
             expect(res.status).equal(200)
             cy.request('POST', 'http://localhost:3000/api/admissions/basic_information_form', {
-                admissionNoteSender: helper.basic_information_input.admissionNoteSender,
-                admissionNoteSenderOrganization: helper.basic_information_input.admissionNoteSenderOrganization,
-                sendersEmail: helper.basic_information_input.sendersEmail,
-                sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber
+                sender: helper.basic_information_input.sender,
+                organization: helper.basic_information_input.organization,
+                email: helper.basic_information_input.email,
+                phoneNumber: helper.basic_information_input.phoneNumber
             }).then(() => {
                 cy.wait(1000)
                 cy.request('GET', 'http://localhost:1080/email').then((emails) => {
