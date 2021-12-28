@@ -53,7 +53,8 @@ describe('Save Admission', () => {
         await Log.deleteMany({})
         await AttachmentForm.deleteMany({})
 
-        await admissionService.saveAdmission({ ...helper.admissionFormTestData })
+        let testBasicInfoId = await helper.saveTestBasicInfoFormAndReturnId()
+        await admissionService.saveAdmission({ ...helper.admissionFormTestData, basicInformation: testBasicInfoId })
         await new Promise((r) => setTimeout(r, 500))
         
         const admissions = await helper.admissionsInDb()
