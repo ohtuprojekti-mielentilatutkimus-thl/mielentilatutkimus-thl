@@ -11,10 +11,10 @@ describe('Basic Information View', function() {
     })
 
     it('Basic information page has fillable forms', function() {
-        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.admissionNoteSender)
-        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.admissionNoteSenderOrganization)
-        cy.get('#setSendersEmail').type(helper.basic_information_input.sendersEmail)
-        cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.sendersPhoneNumber)
+        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.sender)
+        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.organization)
+        cy.get('#setSendersEmail').type(helper.basic_information_input.email)
+        cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.phoneNumber)
 
         cy.get('#createBasicInformationsButton').click()
 
@@ -22,10 +22,10 @@ describe('Basic Information View', function() {
     })
 
     it('Basic information form validates email address', function () {
-        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.admissionNoteSender)
-        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.admissionNoteSenderOrganization)
+        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.sender)
+        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.organization)
         cy.get('#setSendersEmail').type('tomi.tuomari@vaaramuoto.fi')
-        cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.sendersPhoneNumber)
+        cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.phoneNumber)
 
         cy.get('#createBasicInformationsButton').click()
 
@@ -33,9 +33,9 @@ describe('Basic Information View', function() {
     })
 
     it('Basic information form cannot be send if a field is empty', function () {
-        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.admissionNoteSender)
-        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.admissionNoteSenderOrganization)
-        cy.get('#setSendersEmail').type(helper.basic_information_input.sendersEmail)
+        cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.sender)
+        cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.organization)
+        cy.get('#setSendersEmail').type(helper.basic_information_input.email)
 
         cy.get('#createBasicInformationsButton').click()
         cy.get('input:invalid').should('have.length',1)
