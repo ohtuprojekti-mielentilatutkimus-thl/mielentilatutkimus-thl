@@ -6,6 +6,8 @@ Tarvitset:
  - Tämän repositorion forkattuna. (Huom! [workflow-tiedostossa](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/.github/workflows/cd.yml) oletetaan, että repositorion päähaaran nimi on main.)
  - Palvelimen docker-konteille
 
+Lisäksi tässä ohjeistuksessa ja muussakin dokumentaatiossa oletetaan, että lukija ymmärtää ja osaa käyttää Dockeria.
+
 ### Backendin ympäristömuuttujat
 Selityksiä jne. tää vois ehkä olla kans viimeisenä
 
@@ -18,10 +20,44 @@ Nyt uuden imagen pitäisi päätyä docker-repositorioosi, kun githubissa mainii
 
 ### 2. Docker tuotantopalvelimella
 
-Projektiryhmällä oli käytössään yliopiston ylläpitämä [Caddy-palvelin](https://hub.docker.com/_/caddy). Ryhmän tarvitsi kuitenkin vain asettaa /mielentilatutkimus- ja /thl-sivuille lähetetyt pyynnöt välittymään mielentilatutkimus-sovelluksen kontille, joten palvelimen konfigurointi on forkkaajan selvitettävissä.
+Projektiryhmällä oli käytössään yliopiston ylläpitämä [Caddy-palvelin](https://hub.docker.com/_/caddy). Ryhmän tarvitsi kuitenkin vain asettaa /mielentilatutkimus- ja /thl-sivuille lähetetyt pyynnöt välittymään mielentilatutkimus-sovelluksen kontille: 
+```
+handle /mielentilatutkimus* {
+  reverse_proxy mielentila_backend:3001
+}
+handle /thl* {
+  reverse_proxy mielentila_backend:3001
+}
+```
+
+Palvelimen muu konfigurointi on forkkaajan selvitettävissä.
 
 Mielentilatutkimus-sovelluksen docker-compose.yml-tiedosto:
 ```
+version: '3.7' 
+
+services: 
+
+    mielentila_backend:
+      image: ohtuprothl/mielentila-app
+      restart: unless-stopped
+      container_name: mielentila_backend
+      depends_on:
+        - mielentila_db
+
+    mielentila_db:
+      image: mongo:bionic
+      restart: unless-stopped
+      container_name: mielentila_db
+      volumes:
+        - ./data:/data/db
+
+networks:
+  default:
+    external:
+      name: network
 
 ```
+
+Portteja ei siis erikseen tarvinnut asettaa. Backendin Dockerfilessä sisäiseksi portiksi on asetettu 3001 ja mongo-kontti käyttää oletuksena porttia 27017.
 
