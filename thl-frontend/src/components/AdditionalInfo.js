@@ -12,7 +12,7 @@ const AdditionalInfo = ({ form, updateForms, handleClose }) => {
 
     const requestAdditionalInfo = () => {
         const infoObject= {
-            sender: form.sendersEmail,
+            sender: form.basicInformation.email,
             id: form.id,
             additional_info : additionalInfo
         }

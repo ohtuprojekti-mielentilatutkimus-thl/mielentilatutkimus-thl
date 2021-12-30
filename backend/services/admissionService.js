@@ -32,11 +32,11 @@ const saveAdmission = async (data) => {
         message: 'Tutkimuspyyntö tallennettu',
     })
 
-    return form.toJSON()
+    return savedForm.toJSON()
 }
 
 const getAdmission = async (id, username, role) => {
-    const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
+    const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 }).populate('basicInformation')
 
     form.log({
         action: 'get_admission_form',
