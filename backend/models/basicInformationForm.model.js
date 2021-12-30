@@ -2,19 +2,19 @@ const mongoose = require('mongoose')
 
 var basicInformationSchema = mongoose.Schema({
 
-    admissionNoteSenderOrganization: {
+    organization: {
         type: String,
         required: true
     },
-    admissionNoteSender: {
+    sender: {
         type: String,
         required: true
     },
-    sendersEmail: {
+    email: {
         type: String,
         required: true
     },
-    sendersPhoneNumber: {
+    phoneNumber: {
         type: String,
         required: true
     }

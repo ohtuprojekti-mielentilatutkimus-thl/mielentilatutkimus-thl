@@ -13,14 +13,17 @@ module.exports =  async () => {
     console.log('teardown - clearing test database and initializing it with some data')
     await mongoose.connection.dropDatabase()
 
+    await api
+        .post('/api/admissions/basic_information_form')
+        .send(helper.basicInfoFormTestData)
+
+    const basicInfoFromDb = await helper.findBasicInformationFromDb()
+
     for (let i = 0; i < helper.allBasicInfoJsons.length; i++) {
-        await api
-            .post('/api/admissions/basic_information_form')
-            .send(helper.allBasicInfoJsons[i])
 
         let admis = {
             ...helper.allAdmissionJsons[i],
-            ...helper.allBasicInfoJsons[i]
+            basicInformation: { ...basicInfoFromDb }
         }
 
         await api

@@ -26,7 +26,15 @@ const admissionInDb = async (id) => {
     return admis.toJSON()
         
 }
-const findLatestAdmissionFromDb = async () => await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+const findLatestAdmissionFromDb = async () => {
+    const admis = await AdmissionForm.findOne().sort({ createdAt: 'descending' })
+    return admis
+}
+
+const findBasicInformationFromDb = async () => {
+    const basicInfo = await BasicInformationForm.findOne()
+    return basicInfo.toJSON()
+}
 
 const basicsInDb = async () => {
     const basics = await BasicInformationForm.find({})
@@ -46,6 +54,12 @@ const getLog = async () => {
 const getLatestLog = async () => {
     const log = await Log.findOne().sort({ createdAt: 'descending' })
     return log.toJSON()
+}
+
+const saveTestBasicInfoFormAndReturnId = async () => {
+    let formToSave = new BasicInformationForm(basicInfoFormTestData)
+    let savedBasicInfo = await formToSave.save(formToSave)
+    return savedBasicInfo.id
 }
 
 //https://dev.to/nas5w/how-to-select-or-omit-properties-from-an-object-in-javascript-3ina
@@ -68,6 +82,6 @@ const postTestPdf = async (api, admissionId) => {
 
 module.exports = {
     admissionFormTestData, admissionFormTestData2, basicInfoFormTestData, sendToResearchUnitData, allBasicInfoJsons, allAdmissionJsons,
-    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, 
+    admissionsInDb, basicsInDb, attachmentsInDb, findLatestAdmissionFromDb, findBasicInformationFromDb, saveTestBasicInfoFormAndReturnId,
     admissionInDb, omit, getLog, getLatestLog, postTestPdf
 }

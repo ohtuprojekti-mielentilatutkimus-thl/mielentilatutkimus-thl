@@ -9,10 +9,10 @@ describe('From posting basic information to confirmation email', function() {
             expect(res.status).equal(200)
             cy.visit('http://localhost:3000/mielentilatutkimus/basic_information_form')
 
-            cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.admissionNoteSender)
-            cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.admissionNoteSenderOrganization)
-            cy.get('#setSendersEmail').type(helper.basic_information_input.sendersEmail)
-            cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.sendersPhoneNumber)
+            cy.get('#setAdmissionNoteSender').type(helper.basic_information_input.sender)
+            cy.get('#setadmissionNoteSendingOrganization').type(helper.basic_information_input.organization)
+            cy.get('#setSendersEmail').type(helper.basic_information_input.email)
+            cy.get('#setSendersPhoneNumber').type(helper.basic_information_input.phoneNumber)
 
             cy.get('#createBasicInformationsButton').click()
 
@@ -52,7 +52,7 @@ describe('From posting basic information to confirmation email', function() {
             cy.wait(1000)
             cy.request('GET', 'http://localhost:1080/email').then((emails) => {
                 expect(emails.status).equal(200)
-                assert.equal(emails.body[0].headers.to, helper.basic_information_input.sendersEmail)
+                assert.equal(emails.body[0].headers.to, helper.basic_information_input.email)
                 assert.equal(emails.body[0].subject, 'Vahvistus')
                 expect(emails.body[0].text.includes('Tutkimuspyyntö vastaanotettu'))
                 expect(emails.body[0].text.includes(helper.admission_form_input.diaariNumber))

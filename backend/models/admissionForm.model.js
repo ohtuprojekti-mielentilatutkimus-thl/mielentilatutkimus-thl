@@ -2,10 +2,8 @@ const mongoose = require('mongoose')
 
 var admissionSchema = mongoose.Schema({
     formState: {type: String, default: 'Pyyntö saapunut'},
-    basicInformationId: { type: String },
     thlRequestId: { type: String },
     admissionNoteDate: { type: Date },
-    formSender: {type: String},
     name: { type: String },
     lastname: { type: String },
     identificationNumber: { type: String },
@@ -14,10 +12,7 @@ var admissionSchema = mongoose.Schema({
     processAddress: { type: String },
     trustee: { type: String },
     citizenship: { type: String },
-    admissionNoteSenderOrganization: { type: String },
-    admissionNoteSender: { type: String },
-    sendersEmail: { type: String },
-    sendersPhoneNumber: { type: String },
+    // THL more information
     hazardAssesment: { type: Boolean },
     diaariNumber: { type: String },
     datePrescribedForPsychiatricAssesment: { type: String },
@@ -52,6 +47,10 @@ var admissionSchema = mongoose.Schema({
             ref:'attachmentForm'
         }
     ],
+    basicInformation: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'basicInformationForm'
+    },
     researchUnit: { type: String },
     researchUnitInformation: { type: String }
 },

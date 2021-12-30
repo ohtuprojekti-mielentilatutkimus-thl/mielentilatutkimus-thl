@@ -50,7 +50,7 @@ Cypress.Commands.add('emptyDatabase', () => {
 
 Cypress.Commands.add('sendBasicInformation', () => {
     cy.request({
-        url: 'http://localhost:3001/api/admissions/basic_information_form',
+        url: 'http://localhost:3001/tests/basic_information_form',
         method: 'POST',
         body: {
             ...basicInfoFormTestData
@@ -60,15 +60,18 @@ Cypress.Commands.add('sendBasicInformation', () => {
         localStorage.setItem('sender_id', JSON.stringify(response.body.id))
         const sender_id = localStorage.sender_id
         senders_id = sender_id.replace(/['"]+/g,'')
-        console.log(senders_id)}
-    )
+    })
 })
 
 Cypress.Commands.add('sendAdmissionForm', ( data ) => {
+    if (senders_id === '') {
+        console.log('POST-request of admission form not valid before basic-information has been sent for basicInformation id')
+        return
+    }
     return cy.request({
         url: 'http://localhost:3001/api/admissions/admission_form',
         method: 'POST',
-        body: { ...admissionFormData, formState: data.formState }
+        body: { ...admissionFormData, formState: data.formState, basicInformation: senders_id }
     }).then(response => {
         localStorage.setItem('createdAt', dayjs(response.body.createdAt).format('DD.MM.YYYY HH:mm:ss'))
         const createdAt = localStorage.createdAt
