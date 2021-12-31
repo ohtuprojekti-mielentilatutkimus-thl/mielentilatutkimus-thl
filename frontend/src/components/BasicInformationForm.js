@@ -16,6 +16,8 @@ const BasicInformationForm = () => {
 
     const msg = useMessage()
 
+    document.title = 'Perustietolomake'
+
     const handleOrganizationChange = (event) => {
         setOrganization(event.target.value)
     }

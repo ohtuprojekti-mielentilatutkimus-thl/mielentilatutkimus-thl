@@ -116,6 +116,8 @@ const Form = () => {
 
     const msg = useMessage()
 
+    document.title = 'Mielentilatutkimuspyyntö'
+
     const handleNameChange = (event) => {
         setName(event.target.value)
     }
