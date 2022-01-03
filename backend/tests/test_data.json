@@ -1,28 +1,26 @@
 {
     "basic_info_forms": [
         {
-            "admissionNoteSenderOrganization": "Helsingin hovioikeus",
-            "admissionNoteSender": "Tomi Tuomari",
-            "sendersEmail": "tomi.tuomari@example.com",
-            "sendersPhoneNumber": "9991234567"
+            "organization": "Helsingin hovioikeus",
+            "sender": "Tomi Tuomari",
+            "email": "tomi.tuomari@example.com",
+            "phoneNumber": "9991234567"
         },
         {
-            "admissionNoteSenderOrganization": "Kotkan käräjäoikeus",
-            "admissionNoteSender": "Yrjö Ylituomari",
-            "sendersEmail": "yrjo_ylituomari@example.com",
-            "sendersPhoneNumber": "9991234568"
+            "organization": "Kotkan käräjäoikeus",
+            "sender": "Yrjö Ylituomari",
+            "email": "yrjo_ylituomari@example.com",
+            "phoneNumber": "9991234568"
         },
         {
-            "admissionNoteSenderOrganization": "Kouvolan korkein oikeus",
-            "admissionNoteSender": "Ville Viranomainen",
-            "sendersEmail": "ville@example.com",
-            "sendersPhoneNumber": "9991234569"
+            "organization": "Kouvolan korkein oikeus",
+            "sender": "Ville Viranomainen",
+            "email": "ville@example.com",
+            "phoneNumber": "9991234569"
         }
     ],
     "admission_forms": [
         {
-            "formSender": "tomi.tuomari@example.com",
-            "sendersEmail": "tomi.tuomari@example.com",
             "name": "Reijo",
             "lastname": "Rikollinen",
             "identificationNumber": "101010-0000",
@@ -63,7 +61,6 @@
             "statement_draft": []
         },
         {
-            "formSender": "yrjo_ylituomari@example.com",
             "name": "Saara",
             "lastname": "Syytetty",
             "identificationNumber": "111111-1000",
@@ -103,7 +100,6 @@
             "researchUnitInformation": ""
         },
         {
-            "formSender": "ville@example.com",
             "name": "Ronja",
             "lastname": "Ruotsista",
             "identificationNumber": "000000-9999",

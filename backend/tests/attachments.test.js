@@ -21,6 +21,7 @@ beforeAll(async () => {
     await AdmissionForm.deleteMany({})
 
     const newAdmissionForm = new AdmissionForm(helper.admissionFormTestData)
+    newAdmissionForm.basicInformation = await helper.saveTestBasicInfoFormAndReturnId()
     await newAdmissionForm.save()
 
     const admissionsInDb = await helper.admissionsInDb()

@@ -2,7 +2,7 @@ require ('dotenv').config()
 
 let env = process.env.NODE_ENV
 
-let MONGODB_URI = env === 'production' ? 'mongodb://mielentila_db:27017/mielentila' : 'mongodb://localhost:27017/TESTmielentila'
+let MONGODB_URI = env === 'production' ? 'mongodb://mielentila_db:27017/mielentila' : 'mongodb://127.0.0.1/TESTmielentila'
 
 let EMAIL_FROM = process.env.EMAIL_FROM || 'noreply@helsinki.fi'
 let EMAIL_SMTP = env === 'production' ? 'smtp.helsinki.fi' : '127.0.0.1'

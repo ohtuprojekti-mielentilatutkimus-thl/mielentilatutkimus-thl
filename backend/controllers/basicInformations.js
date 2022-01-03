@@ -5,19 +5,18 @@ const BasicInformationForm = require('../models/basicInformationForm.model.js')
 
 
 basinInformationsRouter.get('/basic_information/:id', async (req, res) => {
-    const data = await BasicInformationForm.find({}).catch((err) => {console.log(err)})
-    res.json(data.filter(d => d.id === req.params.id).map(data => data.toJSON()))
+    const basicInfo = await BasicInformationForm.findById(req.params.id)
+    res.json(basicInfo)
 })
 
 basinInformationsRouter.post('/basic_information_form', async (req, res) => {
     const data = req.body
 
     const basicInformationForm = new BasicInformationForm({
-        admissionNoteSenderOrganization: data.admissionNoteSenderOrganization,
-        admissionNoteSender: data.admissionNoteSender,
-        sendersEmail: data.sendersEmail,
-        sendersPhoneNumber: data.sendersPhoneNumber,
-        attachments: []
+        organization: data.organization,
+        sender: data.sender,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
     })
 
     if (!HelperFunctions.validateBasicInformationData(basicInformationForm)) {
@@ -25,13 +24,13 @@ basinInformationsRouter.post('/basic_information_form', async (req, res) => {
     } else {
         const savedForm = await basicInformationForm.save()
         const response = [
-            savedForm.admissionNoteSenderOrganization,
-            savedForm.admissionNoteSender,
-            savedForm.sendersEmail,
-            savedForm.sendersPhoneNumber
+            savedForm.organization,
+            savedForm.sender,
+            savedForm.email,
+            savedForm.phoneNumber
         ]
         res.json(response)
-        Mailer.sendLinkToAdmissionForm(savedForm.sendersEmail, savedForm.id)
+        Mailer.sendLinkToAdmissionForm(savedForm.email, savedForm.id)
     }
 })
 

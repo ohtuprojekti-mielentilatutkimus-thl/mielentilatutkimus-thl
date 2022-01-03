@@ -211,19 +211,19 @@ const AdmissionForm = ({ form, updateForm, fetchForm, handleShowLessInfo, showIn
                                         </Grid>
                                         <Grid item xs={6}>
                                             <div className={classes.textLabel}>Tutkimuspyynnön lähettävä taho:</div>
-                                            <div className={classes.text}>{form.admissionNoteSenderOrganization}</div>
+                                            <div className={classes.text}>{form.basicInformation.organization}</div>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <div className={classes.textLabel}>Tutkimuspyynnön lähettävä henkilö:</div>
-                                            <div className={classes.text}>{form.admissionNoteSender}</div>
+                                            <div className={classes.text}>{form.basicInformation.sender}</div>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <div className={classes.textLabel}>Tutkimuspyynnön lähettäjän sähköposti:</div>
-                                            <div className={classes.text}>{form.sendersEmail}</div>
+                                            <div className={classes.text}>{form.basicInformation.email}</div>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <div className={classes.textLabel}>Tutkimuspyynnön lähettäjän puhelinnumero:</div>
-                                            <div className={classes.text}>{form.sendersPhoneNumber}</div>
+                                            <div className={classes.text}>{form.basicInformation.phoneNumber}</div>
                                         </Grid>
                                         <br></br>
                                     </Grid>

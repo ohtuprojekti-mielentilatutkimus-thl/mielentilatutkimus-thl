@@ -9,28 +9,31 @@ import Messages from './Messages'
 
 const BasicInformationForm = () => {
 
-    const [admissionNoteSenderOrganization, setAdmissionNoteSenderOrganization] = useState('')
-    const [admissionNoteSender, setAdmissionNoteSender] = useState('')
-    const [sendersEmail, setSendersEmail] = useState('')
-    const [sendersPhoneNumber, setSendersPhoneNumber] = useState('')
+    const [organization, setOrganization] = useState('')
+    const [sender, setSender] = useState('')
+    const [email, setEmail] = useState('')
+    const [phoneNumber, setSendersPhoneNumber] = useState('')
 
     const msg = useMessage()
 
-    const handleAdmissionNoteSenderOrganizationChange = (event) => {
-        setAdmissionNoteSenderOrganization(event.target.value)
+    document.title = 'Perustietolomake'
+
+    const handleOrganizationChange = (event) => {
+        setOrganization(event.target.value)
     }
-    const handleAdmissionNoteSenderChange = (event) => {
-        setAdmissionNoteSender(event.target.value)
+    const handleSenderChange = (event) => {
+        setSender(event.target.value)
     }
-    const handleSendersEmailChange = (event) => {
-        setSendersEmail(event.target.value)
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value)
     }
-    const handleSendersPhoneNumberChange = (event) => {
+    const handlePhoneNumberChange = (event) => {
         setSendersPhoneNumber(event.target.value)
     }
 
     const validateSendersEmail = () => {
-        if (!validator.isEmail(sendersEmail)) {
+        if (!validator.isEmail(email)) {
+            console.log('virheellinen email')
             msg.setErrorMsg('Virheellinen sähköpostiosoite!', 7)
             return false
         }
@@ -49,10 +52,10 @@ const BasicInformationForm = () => {
         event.preventDefault()
 
         const basicInformations = {
-            admissionNoteSenderOrganization: admissionNoteSenderOrganization,
-            admissionNoteSender: admissionNoteSender,
-            sendersEmail: sendersEmail,
-            sendersPhoneNumber: sendersPhoneNumber,
+            organization: organization,
+            sender: sender,
+            email: email,
+            phoneNumber: phoneNumber,
         }
 
         if (!validateSendersEmail()) {
@@ -62,16 +65,17 @@ const BasicInformationForm = () => {
         if (!msg.errorMessagesNotEmpty()) {
             basicInformationService
                 .create(basicInformations)
-                .then(() => {
-                    msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.sendersEmail}`, 7)
+                .then(response => {
+                    console.log(response.data)
+                    msg.setMsg(`Perustietojen lähettäminen onnistui! Linkki mielentilatutkimuspyynnön luomiseen lähetetty osoitteeseen: ${basicInformations.email}`, 7)
                 })
                 .catch(() => {
                     msg.setErrorMsg('Perustietojen lähettämisessä tapahtui virhe!', 7)
                 })
         }
-        setAdmissionNoteSenderOrganization('')
-        setAdmissionNoteSender('')
-        setSendersEmail('')
+        setOrganization('')
+        setSender('')
+        setEmail('')
         setSendersPhoneNumber('')
     }
 
@@ -112,27 +116,27 @@ const BasicInformationForm = () => {
                             container spacing={1}
                         >
                             <Grid item xs={6}>
-                                <TextField id='setAdmissionNoteSender' value={admissionNoteSender} onChange={handleAdmissionNoteSenderChange}
+                                <TextField id='setAdmissionNoteSender' value={sender} onChange={handleSenderChange}
                                     label='Nimi' variant='standard' margin='normal'
-                                    required error={validateField(admissionNoteSender)}
+                                    required error={validateField(sender)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField id='setadmissionNoteSendingOrganization' value={admissionNoteSenderOrganization} onChange={handleAdmissionNoteSenderOrganizationChange}
+                                <TextField id='setadmissionNoteSendingOrganization' value={organization} onChange={handleOrganizationChange}
                                     label='Taho' variant='standard' margin='normal'
-                                    required error={validateField(admissionNoteSenderOrganization)}
+                                    required error={validateField(organization)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField id='setSendersEmail' value={sendersEmail} onChange={handleSendersEmailChange}
+                                <TextField id='setSendersEmail' value={email} onChange={handleEmailChange}
                                     label='Sähköposti' variant='standard' margin='normal'
-                                    required error={validateEmail(sendersEmail)}
+                                    required error={validateEmail(email)}
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField id='setSendersPhoneNumber' value={sendersPhoneNumber} onChange={handleSendersPhoneNumberChange}
+                                <TextField id='setSendersPhoneNumber' value={phoneNumber} onChange={handlePhoneNumberChange}
                                     label='Puhelinnumero' variant='standard' margin='normal'
-                                    required error={validateField(sendersPhoneNumber)}
+                                    required error={validateField(phoneNumber)}
                                 />
                             </Grid>
                             <Grid item xs={12}>

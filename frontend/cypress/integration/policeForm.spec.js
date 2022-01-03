@@ -13,10 +13,10 @@ describe('From posting basic informations to police adding attachments', functio
         })
 
         cy.request('POST', 'http://localhost:3000/api/admissions/basic_information_form', {
-            admissionNoteSender: helper.basic_information_input.admissionNoteSender,
-            admissionNoteSenderOrganization: helper.basic_information_input.admissionNoteSenderOrganization,
-            sendersEmail: 'leo.lahettaja@helsinki.fi',
-            sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber
+            sender: helper.basic_information_input.sender,
+            organization: helper.basic_information_input.organization,
+            email: 'leo.lahettaja@helsinki.fi',
+            phoneNumber: helper.basic_information_input.phoneNumber
 
         }).then(() => {
 
@@ -35,14 +35,9 @@ describe('From posting basic informations to police adding attachments', functio
                     name: helper.admission_form_input.name,
                     lastname: helper.admission_form_input.lastname,
                     diaariNumber: helper.admission_form_input.diaariNumber,
-                    sendersEmail: 'leo.lahettaja@helsinki.fi',
-                    basicInformationId: senders_id,
-                    admissionNoteSenderOrganization: helper.basic_information_input.admissionNoteSenderOrganization,
-                    admissionNoteSender: helper.basic_information_input.admissionNoteSender,
-                    sendersPhoneNumber: helper.basic_information_input.sendersPhoneNumber,
+                    basicInformation: senders_id,
                     assistantsEmail: helper.admission_form_input.assistantsEmail,
-                    legalGuardianEmail: helper.admission_form_input.legalGuardianEmail,
-                    formSender: 'leo.lahettaja@helsinki.fi',
+                    legalGuardianEmail: helper.admission_form_input.legalGuardianEmail
                 })
             })
         })

@@ -21,27 +21,27 @@ const saveAdmission = async (data) => {
 
     form.thlRequestId = IdSerializer.getNextThlRequestId(prevId)
 
-    await form.save()
-
+    const savedForm = await form.save()
+    await savedForm.populate('basicInformation')
     
-    form.log({
+    savedForm.log({
         action: 'save_admission_form',
         category: 'admission_form',
-        createdBy: data.formSender ? data.formSender : 'undefined',
-        createdByRole: data.admissionNoteSenderOrganization ? data.admissionNoteSenderOrganization : 'undefined',
+        createdBy: data.basicInformation.sender ? data.basicInformation.sender : 'undefined',
+        createdByRole: data.basicInformation.organization ? data.basicInformation.organization : 'undefined',
         message: 'Tutkimuspyyntö tallennettu',
     })
 
-    return form
+    return savedForm.toJSON()
 }
 
 const getAdmission = async (id, username, role) => {
-    const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 })
+    const form = await AdmissionForm.findById(id).populate('attachments', { fileName: 1, whichFile: 1 }).populate('basicInformation')
 
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: username ? username : form.formSender,
+        createdBy: username ? username : form.sender,
         createdByRole: role ? role : 'undefined',
         message: 'Tutkimuspyyntö avattu'
     })
@@ -55,8 +55,8 @@ const getAdmissionForEdit = async (id) => {
     form.log({
         action: 'get_admission_form',
         category: 'admission_form',
-        createdBy: form ? form.admissionNoteSender : 'user not found',
-        createdByRole: form ? form.admissionNoteSenderOrganization : 'undefined',
+        createdBy: form ? form.sender : 'user not found',
+        createdByRole: form ? form.organization : 'undefined',
         message: 'Tutkimuspyynnön lähettäjän tiedot haettu lisätietojen täydennystä varten'
     })
 

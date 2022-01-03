@@ -18,8 +18,8 @@ beforeEach(async () => {
     maildev.deleteAllEmail(function(err) {
         expect(err).toBeNull()
     })
-    await AdmissionForm.deleteMany({})
     await BasicInformationForm.deleteMany({})
+    await AdmissionForm.deleteMany({})
 })
 
 afterAll(async () => {
@@ -29,6 +29,7 @@ afterAll(async () => {
 test('Link for police to adding attachments is sent after POST request', async () => {
 
     const admission_form = helper.admissionFormTestData
+    admission_form.basicInformation = await helper.saveTestBasicInfoFormAndReturnId()
 
     await api
         .post(baseUrl+'/admission_form')
@@ -77,13 +78,14 @@ test('Link to admission form is sent after POST request', async () => {
         expect(err).toBeNull()
         expect(emails.length).toBe(1)
         email = emails[0]
-        expect(email.to).toStrictEqual([{ address: basicInfo.sendersEmail, name: '' }])
+        expect(email.to).toStrictEqual([{ address: basicInfo.email, name: '' }])
         expect(email.text.includes(basicsInDb[0].id)).toBe(true)
     })
 })
 
 test('Confirmation is sent after POST request', async () => {
     const admission_form = helper.admissionFormTestData
+    admission_form.basicInformation = await helper.saveTestBasicInfoFormAndReturnId()
 
     await api
         .post(baseUrl+'/admission_form')
@@ -98,7 +100,6 @@ test('Confirmation is sent after POST request', async () => {
         expect(err).toBeNull()
         expect(emails.length).toBe(1)
         email = emails[0]
-        expect(email.to).toStrictEqual([{ address: admission_form.formSender, name: '' }])
         expect(email.text.includes(admissionsInDb[0].diaariNumber)).toBe(true)
         expect(email.text.includes(admissionsInDb[0].id)).toBe(true)
     })
