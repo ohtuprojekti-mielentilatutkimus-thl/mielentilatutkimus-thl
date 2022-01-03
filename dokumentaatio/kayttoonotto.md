@@ -10,10 +10,10 @@ Lisäksi tässä ohjeistuksessa ja muussakin dokumentaatiossa oletetaan, että l
 
 ### Pipeline: github-repositorio -> Dockerhub-repositorio
 
-Aseta Dockerhub-tunnuksesi salaisuuksiksi repositoriosi asetuksissa [(kuva)](https://github.com/ktatu/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/github_secrets.png):
+Aseta Dockerhub-tunnuksesi salaisuuksiksi repositoriosi asetuksissa [(kuva)](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/github_secrets.png):
 käyttäjänimi salaisuuteen DOCKER_USERNAME ja vastaavasti salasanalle DOCKER_PASSWORD.
 
-Nyt uuden imagen pitäisi päätyä docker-repositorioosi, kun githubissa mainiin ilmestyy uutta koodia. Voit testata tätä pushaamalla mainiin tai käynnistämällä workflow:n suorituksen repositorion [Actions-sivulla](https://github.com/ktatu/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/github_actions.png).
+Nyt uuden imagen pitäisi päätyä docker-repositorioosi, kun githubissa mainiin ilmestyy uutta koodia. Voit testata tätä pushaamalla mainiin tai käynnistämällä workflow:n suorituksen repositorion [Actions-sivulla](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kuvat/github_actions.png).
 
 ### Docker tuotantopalvelimella
 
