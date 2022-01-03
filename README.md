@@ -23,6 +23,8 @@ Linkit dokumentteihin:
 
 * [Tekninen toteutus](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/tree/main/dokumentaatio/toteutus.md)
 * [Sovelluksen toiminnallisuuksien kuvaukset](https://docs.google.com/document/d/1eri57ZCDeMbGBXXQlGoBN3HUaykOZMgz1Ea3049YLCo/edit?usp=sharing)
+* [Ci- / Cd-pipeline](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/cicd.md)
+* [Kehitysympäristön käyttöönotto](https://github.com/ohtuprojekti-mielentilatutkimus-thl/mielentilatutkimus-thl/blob/main/dokumentaatio/kayttoonotto.md)
 
 ## Asennusohje
 
